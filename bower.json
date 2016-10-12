@@ -1,0 +1,24 @@
+{
+  "name": "vue-starter",
+  "description": "A Vue.js project",
+  "main": "",
+  "authors": [
+    "Tony Chiang <chiangloveslynn@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/wushan/vue-starter-2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bourbon": "^4.2.7",
+    "susy": "^2.2.12",
+    "breakpoint-sass": "^2.7.0",
+    "weyproui": "^0.4.2",
+    "normalize-css": "^5.0.0"
+  }
+}

@@ -1,0 +1,134 @@
+//BUTTONS
+.call-action {
+  padding: .5em 0;
+  border-top: 1px solid $lightgray;
+}
+.btn {
+  transition: .2s all ease-out;
+  display: inline-block;
+  vertical-align: middle;
+  padding: .9em .4em;
+  box-sizing: border-box;
+  outline: none;
+  background-color: $lightgray;
+  color: $black;
+  border-radius: 3px;
+  border: 0;
+  margin: 0 .1em;
+  border: 1px solid $gray;
+  letter-spacing: .05em;
+  font-weight: 300;
+  &:hover {
+    background-color: $darkgray;
+    color: $white;
+  }
+  &.disabled {
+    background-color: $gray !important;
+    box-shadow: inset 1px 1px 1px rgba(darken($gray,10%), 1) !important;
+    text-shadow: -1px -1px 1px darken($gray,10%) !important;
+    color: lighten($gray,15%) !important;
+  }
+  &.circle {
+
+  }
+  &.basic {
+    background-color: $blue;
+    color: $white;
+    border: 0;
+    
+    &.bordered {
+      border: 1px solid $blue;
+      background-color: transparent;
+      color: $blue;
+      &:hover {
+        color: $white;
+      }
+    }
+    &:hover {
+      background-color: darken($blue, 10%);
+      box-shadow: inset 0 0 6px darken($blue, 10%);
+    }
+    &:active {
+      background-color: darken($blue, 20%);
+    }
+  }
+  
+  &.cancel {
+    background-color: $gray;
+    color: #666;
+    border: 0;
+    &.bordered {
+      border: 1px solid $gray;
+      background-color: transparent;
+      color: $gray;
+      &:hover {
+        color: $white;
+      }
+    }
+    &:hover {
+      background-color: darken(#dcdcdc, 10%);
+      box-shadow: inset 0 0 6px darken(#dcdcdc, 10%);
+    }
+    &:active {
+      background-color: darken(#dcdcdc, 20%);
+    }
+  }
+  &.delete {
+    background-color: $red;
+    color: $white;
+    border: 0;
+    &.bordered {
+      border: 1px solid $red;
+      background-color: transparent;
+      color: $red;
+      &:hover {
+        color: $white;
+      }
+    }
+    &:hover {
+      background-color: darken($red, 10%);
+      box-shadow: inset 0 0 6px darken($red, 10%);
+    }
+    &:active {
+      background-color: darken($red, 20%);
+    }
+  }
+  &.edit {
+    background-color: $green;
+    color: $white;
+    border: 0;
+    &.bordered {
+      border: 1px solid $green;
+      background-color: transparent;
+      color: $green;
+      &:hover {
+        color: $white;
+      }
+    }
+    &:hover {
+      background-color: darken($green, 10%);
+      box-shadow: inset 0 0 6px darken($green, 10%);
+    }
+    &:active {
+      background-color: darken($green, 20%);
+    }
+  }
+  //Full
+  &.full {
+    display: block;
+    margin: .5em 0;
+    text-align: center;
+    width: 100%;
+  }
+  //Size
+  &.btn-small {
+    padding: .2em .5em;
+  }
+}
+
+.button-group {
+  margin: .5em 0;
+  .btn {
+    
+  }
+}

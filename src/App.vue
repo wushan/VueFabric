@@ -1,64 +1,70 @@
-<template>
-  <div id="app">
-    <img class="logo" src="./assets/logo.png">
-    <hello></hello>
-    <p>
-      Welcome to your Vue.js app!
-    </p>
-    <p>
-      To get a better understanding of how this boilerplate works, check out
-      <a href="http://vuejs-templates.github.io/webpack" target="_blank">its documentation</a>.
-      It is also recommended to go through the docs for
-      <a href="http://webpack.github.io/" target="_blank">Webpack</a> and
-      <a href="http://vuejs.github.io/vue-loader/" target="_blank">vue-loader</a>.
-      If you have any issues with the setup, please file an issue at this boilerplate's
-      <a href="https://github.com/vuejs-templates/webpack" target="_blank">repository</a>.
-    </p>
-    <p>
-      You may also want to checkout
-      <a href="https://github.com/vuejs/vue-router/" target="_blank">vue-router</a> for routing and
-      <a href="https://github.com/vuejs/vuex/" target="_blank">vuex</a> for state management.
-    </p>
-  </div>
+<template lang="pug">
+  #canvaseditor
+    main
+      toolbar
+      artboard
+      attributes
+    contextmenu
+    programlist
 </template>
 
 <script>
-import Hello from './components/Hello'
-
+import Artboard from './components/Artboard'
+import Toolbar from './components/Toolbar'
+import Attributes from './components/Attributes'
+import Contextmenu from './components/Contextmenu'
+import Programlist from './components/Programlist'
 export default {
+  name: 'CanvasEditor',
   components: {
-    Hello
+    Artboard,
+    Toolbar,
+    Attributes,
+    Contextmenu,
+    Programlist
   }
 }
 </script>
 
-<style>
-html {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
-
-#app {
-  color: #2c3e50;
-  margin-top: -100px;
-  max-width: 600px;
-  font-family: Source Sans Pro, Helvetica, sans-serif;
-  text-align: center;
-}
-
-#app a {
-  color: #42b983;
+<style lang="scss">
+@import "./node_modules/font-awesome/scss/font-awesome";
+@import "./bower_components/susy/sass/susy";
+@import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
+@import "./bower_components/normalize-css/normalize";
+@import "./assets/scss/var";
+@import "./assets/scss/helpers";
+@import "./assets/scss/forms";
+// Basic Style
+a {
+  color: $white;
   text-decoration: none;
 }
-
-.logo {
-  width: 100px;
-  height: 100px
+// Layouts
+#canvaseditor {
+  height: 100vh; 
+  background-color: $black;
+  color: $white;
+  main {
+    height: 100%; 
+    display: flex; 
+    #toolbar {
+      box-sizing: border-box;
+      padding: 1em;
+      flex: initial;
+      width: 90px;
+  // min-width: 60px;
+    }
+    #artboard {
+      flex: 1;
+      background-color: $black;
+      box-shadow: inset 0px 0px 12px $pureblack;
+    }
+    #attributes {
+      box-sizing: border-box;
+      padding: 1em;
+      flex: none;
+      width: 260px;
+    }
+  }
 }
 </style>

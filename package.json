@@ -13,10 +13,12 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "fs": "0.0.1-security",
-    "jsdom": "^9.6.0",
-    "vue": "^2.0.1",
-    "xmldom": "^0.1.22"
+    "font-awesome": "^4.6.3",
+    "node-sass": "^3.10.0",
+    "pug": "^2.0.0-beta6",
+    "sass-loader": "^4.0.2",
+    "superagent": "^2.3.0",
+    "vue": "^2.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

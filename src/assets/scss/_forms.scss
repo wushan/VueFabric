@@ -1,0 +1,246 @@
+//ControlGroup
+.controlgroup {
+  margin-bottom: .5em;
+  @extend .clr;
+  label {
+    display: block;
+    float: left;
+    line-height: $input-height;
+    width: $label-size;
+  }
+  .controls {
+    margin-left: $label-size +5;
+    &.check-group {
+      label, input {
+        width: auto;
+        display: inline-block;
+        vertical-align: middle;
+        float: none;
+      }
+      input {
+        margin-right: .3em;
+      }
+      .check-item {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 1em;
+      }
+    }
+    .row {
+      display: inline-block;
+      vertical-align: middle;
+      width:100%;
+    }
+    span {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: $input-height;
+    }
+    .captcha-image {
+      display: inline-block;
+      vertical-align: middle;
+      border-radius: 6px;
+      &+input {
+        // display: inline-block;
+        // vertical-align: middle;
+      }
+    }
+  }
+}
+textarea {
+  // width: 100%;
+  border: 1px solid $gray;
+  box-sizing: border-box;
+  height: 44px;
+  background-color: $white;
+  border-radius: 6px;
+  padding: 1em;
+  outline: none;
+  min-height: 200px;
+  &:focus {
+    border: 1px solid $gray;
+    background-color: $smokygray;
+    color: $black;
+  }
+}
+
+input[type=color], input[type=time],input[type=datetime],input[type=time],input[type=date],input[type=tel],input[type=url],input[type=week],input[type=text],input[type=email],input[type=password],input[type=search], input[type=number] {
+  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  border: 1px solid $gray;
+  box-sizing: border-box;
+  height: $input-height;
+  background-color: $white;
+  padding: 0 .4em;
+  outline: none;
+  border-radius: 6px;
+  &:focus {
+    border: 1px solid $gray;
+    background-color: $smokygray;
+    color: $black;
+  }
+  &.calc {
+    display: inline-block;
+    vertical-align: middle;
+    width: calc( 100% - 60px );
+  }
+  &#CAPTCHA {
+    display: inline-block;
+    vertical-align: middle;
+    width: calc( 100% - 94px );
+  }
+  &:read-only {
+    color: darken($gray, 15%);
+    background-color: $smokygray;
+  }
+}
+//Date
+input.pick-date, input.pick-time {
+  cursor: pointer;
+}
+//Color
+input[type=color] {
+  
+}
+//File
+input[type=file] {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+  &:focus {
+    &+label {
+      span {
+        background-color: $text-hover;
+      }
+    }
+  }
+  &+label {
+    cursor: pointer;
+    position: relative;
+    display: block;
+    float: none;
+    width: 100%;
+    line-height: inherit;
+    &:hover {
+      span {
+        background-color: $text-hover;
+      }
+    }
+    & * {
+      pointer-events: none;
+    }
+    span {
+      border-radius: 0 6px 6px 0;
+      color: white;
+      background-color: $main;
+      height: $input-height;
+      line-height: $input-height;
+      padding: 0 1em;
+      display: inline-block;
+      vertical-align: middle;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+    .filename {
+      width: 100%;
+      display: inline-block;
+      vertical-align: middle;
+      border: 1px solid $gray;
+      box-sizing: border-box;
+      height: $input-height;
+      line-height: $input-height;
+      background-color: $white;
+      padding: 0 .4em;
+      outline: none;
+      border-radius: 6px;
+    }
+  }
+}
+input[type=checkbox] {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+//Disabled
+input[disabled] {
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    color: #666;
+    text-shadow: 1px 1px 1px white;
+    padding: 0 1em;
+}
+//Select
+.controlgroup {
+  select {
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: window;
+    color: $black;
+  }
+  select::-ms-expand {
+    display: none;
+  }
+  @-moz-document url-prefix() {
+    .select-wrapper {
+      //background-color: #ffffff;
+      background-image: url("assets/images/select-arrow.png");
+      background-position: calc(100% - 10px) center;
+      background-repeat: no-repeat;
+      background-color: $white;
+      select {
+        width: 110%;
+        background-image: url("assets/images/select-arrow.png");
+        background-position: 88% center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+  select {
+    background-color: transparent;
+    background-image: url("assets/images/select-arrow.png");
+    background-position: calc(100% - 10px) center;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    border: 1px solid $gray;
+    border-radius: 6px;
+    height: $input-height;
+    padding: .3em 3em .3em .3em;
+    background-color: $white;
+    &:focus {
+      outline: none;
+    }
+  }
+  .select-wrapper {
+    box-sizing: border-box;
+    width: 100%;
+    outline: none;
+    background-color: $white;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    &:focus {
+
+    }
+  }
+}
+//Placehoder
+::-webkit-input-placeholder { /* WebKit browsers */ color: $gray; }
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ color: $gray; opacity: 1; }
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */ color: $gray; opacity: 1; }
+
+:-ms-input-placeholder { /* Internet Explorer 10+ */ color: $gray; }
+
+
+input, textarea, .select-wrapper {
+  &.full {
+    width: 100%;
+  }
+}

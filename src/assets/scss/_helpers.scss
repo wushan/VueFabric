@@ -1,0 +1,10 @@
+.transition {
+  transition: .3s all ease;
+}
+.clr {
+	&:before, &:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+}

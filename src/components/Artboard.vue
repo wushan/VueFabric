@@ -13,13 +13,17 @@
               span 800
           .tag.height
               span 600
+    attributes(v-bind:currentObject="currentObject")
 </template>
 
 <script>
+import Attributes from '../components/Attributes'
 export default {
   name: 'Artboard',
   components: {
-  }
+    Attributes
+  },
+  props: ['currentObject']
 }
 </script>
 

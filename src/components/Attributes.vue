@@ -1,5 +1,5 @@
 <template lang="pug">
-  #attributes
+  #attributes(v-if="currentObject")
     .panels
       .attributes-wrapper.panel
         .attributes-inner
@@ -9,40 +9,40 @@
               .controlgroup.type
                 label 類型
                 .controls
-                  input(type='text' readonly)
+                  input(type='text' v-bind:value="currentObject.type" readonly)
               .width.controlgroup
                 label 寬度
                 .controls
-                  input.objectSize#objectWidth(type='number')
+                  input.objectSize#objectWidth(v-bind:value="currentObject.width", type='number')
               .height.controlgroup
                 label 高度
                 .controls
-                  input.objectSize#objectHeight(type='number')
-              .radius.controlgroup
+                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height")
+              .radius.controlgroup(v-if="currentObject.radius")
                 label 半徑
                 .controls
-                  input#objectRadius(type='number' readonly)
+                  input#objectRadius(type='number', v-bind:value="currentObject.radius", readonly)
               
               .position.controlgroup
                 label Y 軸
                 .controls
-                  input#objectTop(type='number')
+                  input#objectTop(type='number', v-bind:value="currentObject.top")
               .position.controlgroup
                 label X 軸
                 .controls
-                  input#objectLeft(type='number')
+                  input#objectLeft(type='number', v-bind:value="currentObject.left")
               .angle.controlgroup
                 label 角度
                 .controls
-                  input#objectAngle(type='text')
+                  input#objectAngle(type='text', v-bind:value="currentObject.angle")
               .scalex.controlgroup
                 label X 延展
                 .controls
-                  input#objectScaleX(type='text')
+                  input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
               .scaley.controlgroup
                 label Y 延展
                 .controls
-                  input#objectScaleY(type='text')
+                  input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
               .color.controlgroup
                 label 背景色
                 .controls
@@ -257,9 +257,20 @@
 </template>
 
 <script>
+// Expose Jquery Globally.
+import $ from 'jquery'
+window.jQuery = window.$ = $
+require('imports?$=jquery!../assets/vendor/jquery.mousewheel.js')
+require('imports?$=jquery!../assets/vendor/jquery.mCustomScrollbar.js')
 export default {
   name: 'Attributes',
   components: {
+  },
+  props: ['currentObject'],
+  mounted () {
+    $('#attributes').mCustomScrollbar({
+      theme: 'light'
+    })
   }
 }
 </script>

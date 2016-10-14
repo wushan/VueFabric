@@ -2,8 +2,7 @@
   #canvaseditor
     main
       toolbar
-      artboard
-      attributes
+      artboard(v-bind:currentObject="currentObject")
     contextmenu
     programlist
 </template>
@@ -11,17 +10,78 @@
 <script>
 import Artboard from './components/Artboard'
 import Toolbar from './components/Toolbar'
-import Attributes from './components/Attributes'
 import Contextmenu from './components/Contextmenu'
 import Programlist from './components/Programlist'
+var fabric = window['fabric']
 export default {
   name: 'CanvasEditor',
   components: {
     Artboard,
     Toolbar,
-    Attributes,
     Contextmenu,
     Programlist
+  },
+  data () {
+    return {
+      currentObject: null
+    }
+  },
+  mounted () {
+    this.initial()
+  },
+  methods: {
+    initial () {
+      var canvas = new fabric.CanvasEx('c', {
+        width: 500,
+        height: 500,
+        allowTouchScrolling: true
+      })
+      // Register to window.global
+      window.canvas = canvas
+      // MASK RECT
+      var rect = new fabric.Rect({
+        left: 0,
+        top: 0,
+        fill: '#ffcccc',
+        width: 400,
+        height: 400,
+        padding: 0,
+        strokeWidth: 0
+        // clipTo: function (ctx) {
+        //   // ctx.arc(0, 0, radius, 0, Math.PI * 2, true);
+        //   ctx.rect(-75,-50,300,100);
+        // }
+      })
+      rect.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            interaction: this.interaction
+          })
+        }
+      })(rect.toObject)
+      rect.perPixelTargetFind = true
+      canvas.add(rect)
+      canvas.renderAll()
+      this.bindEvents(rect)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(rect)
+      // //Refresh log
+    },
+    bindEvents (obj) {
+      var rootapp = this
+      obj.on('selected', function () {
+        console.log('selected')
+        console.log(this)
+        rootapp.currentObject = obj.toObject()
+        console.log(rootapp)
+      })
+      obj.on('moved', function () {
+        console.log('selected')
+        console.log(this)
+        rootapp.currentObject = obj.toObject()
+        console.log(rootapp)
+      })
+    }
   }
 }
 </script>
@@ -32,8 +92,11 @@ export default {
 @import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "./bower_components/normalize-css/normalize";
 @import "./assets/scss/var";
+@import "./assets/scss/base";
 @import "./assets/scss/helpers";
 @import "./assets/scss/forms";
+@import "./assets/scss/typography";
+@import "./assets/scss/dependencies/jquery.mCustomScrollbar";
 // Basic Style
 a {
   color: $white;
@@ -56,14 +119,18 @@ a {
     }
     #artboard {
       flex: 1;
-      background-color: $black;
-      box-shadow: inset 0px 0px 12px $pureblack;
-    }
-    #attributes {
-      box-sizing: border-box;
-      padding: 1em;
-      flex: none;
-      width: 260px;
+      display: flex;
+      .canvas-wrapper {
+        flex: 1;
+        background-color: $darkestgray;
+        box-shadow: inset 0px 0px 12px $pureblack;
+      }
+      #attributes {
+        box-sizing: border-box;
+        padding: 1em;
+        flex: none;
+        width: 260px;
+      }
     }
   }
 }

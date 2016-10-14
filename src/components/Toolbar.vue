@@ -23,40 +23,40 @@
         //- include clock-presets
       li
         a.full.btn.basic.js-add-clock(href="javascript:;" title="新增時間", data-action='addTime') 時間
-        #timesettings.floating-menu
-          .timeconfig-wrapper
-            .timeconfig-inner
-              .row
-                // moment().format('YYYY-MM-DD HH:mm:ss')
-                a.format(href='javascript:;', data-format="YYYY-MM-DD HH:mm:ss") 2016-09-01 12:01:42
-                // moment().format('YYYY-MMM-DD HH:mm:ss')
-                a.format(href='javascript:;', data-format="YYYY-MMM-DD HH:mm:ss") 2016-Sep-01 12:02:26
+        //- #timesettings.floating-menu
+        //-   .timeconfig-wrapper
+        //-     .timeconfig-inner
+        //-       .row
+        //-         // moment().format('YYYY-MM-DD HH:mm:ss')
+        //-         a.format(href='javascript:;', data-format="YYYY-MM-DD HH:mm:ss") 2016-09-01 12:01:42
+        //-         // moment().format('YYYY-MMM-DD HH:mm:ss')
+        //-         a.format(href='javascript:;', data-format="YYYY-MMM-DD HH:mm:ss") 2016-Sep-01 12:02:26
       li
         a.full.btn.basic(href="javascript:;" title="新增天氣", data-action='addWeather')
           i.fa.fa-cloud.fa-lg
-        #weatherSettings.floating-menu
-          .canvasconfig-wrapper
-            .canvasconfig-inner
-              .row
-                .controlgroup
-                  label 群組
-                  .controls
-                    .select-wrappper
-                      select#weatherGroup
-                        option(value='1') 共用群組
-                        option(value='0') 使用者群組
-                .controlgroup
-                  label 分類：
-                  .controls
-                    .select-wrapper
-                      select#weatherCate(data-selected='9999')
-                .controlgroup
-                  label 城市：
-                  .controls
-                    .select-wrapper
-                      select#weatherCity
-                .call-action
-                  a.btn.basic.full(href='javascript:;') 置入
+        //- #weatherSettings.floating-menu
+        //-   .canvasconfig-wrapper
+        //-     .canvasconfig-inner
+        //-       .row
+        //-         .controlgroup
+        //-           label 群組
+        //-           .controls
+        //-             .select-wrappper
+        //-               select#weatherGroup
+        //-                 option(value='1') 共用群組
+        //-                 option(value='0') 使用者群組
+        //-         .controlgroup
+        //-           label 分類：
+        //-           .controls
+        //-             .select-wrapper
+        //-               select#weatherCate(data-selected='9999')
+        //-         .controlgroup
+        //-           label 城市：
+        //-           .controls
+        //-             .select-wrapper
+        //-               select#weatherCity
+        //-         .call-action
+        //-           a.btn.basic.full(href='javascript:;') 置入
       li
         a.full.btn.basic(href="javascript:;" title="USB", data-action='addUsb') USB
       li
@@ -75,12 +75,12 @@
       li
         a.full.btn.edit.js-save(href="javascript:;" title="儲存", data-action='saveState')
           i.fa.fa-floppy-o.fa-lg
-        .floating-menu
-          .canvasconfig-wrapper
-            .canvasconfig-inner
-              .row
-                a.btn.edit.full.js-save-svg(href='javascript:;', data-action='saveAsPreset') 儲存為版型
-                a.btn.edit.full.js-save-png(href='javascript:;', data-action='saveAsProgram') 儲存為節目
+        //- .floating-menu
+        //-   .canvasconfig-wrapper
+        //-     .canvasconfig-inner
+        //-       .row
+        //-         a.btn.edit.full.js-save-svg(href='javascript:;', data-action='saveAsPreset') 儲存為版型
+        //-         a.btn.edit.full.js-save-png(href='javascript:;', data-action='saveAsProgram') 儲存為節目
 </template>
 
 <script>

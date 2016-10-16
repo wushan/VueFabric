@@ -1,5 +1,5 @@
 <template lang="pug">
-  #context-menu.context-menu
+  #context-menu.context-menu(v-if="triggered")
     ul.context-menu__items
       li.context-menu__item
         a.context-menu__link(href='#', data-action='layertop')
@@ -35,6 +35,11 @@
 export default {
   name: 'Contextmenu',
   components: {
+  },
+  data () {
+    return {
+      triggered: false
+    }
   }
 }
 </script>

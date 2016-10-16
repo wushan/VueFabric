@@ -13,7 +13,8 @@
               span 800
           .tag.height
               span 600
-    attributes(v-bind:currentObject="currentObject")
+    transition(name="fade", mode="out-in")
+      attributes(v-show="currentObject" v-bind:currentObject="currentObject")
 </template>
 
 <script>
@@ -30,12 +31,21 @@ export default {
 <style lang="scss">
 @import "../assets/scss/var";
 @import "../assets/scss/helpers";
+// Transitions
+.fade-enter-active, .fade-leave-active {
+  transition: 3s all ease;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0;
+  transform: translateX(40%);
+}
 .canvas-wrapper {
   height: 100%;
   text-align: center;
   display: flex;
   align-items:center;
   justify-content:center;
+  transition: 3s all ease;
   // &:before {
   //  content: '';
   //  width: 0;

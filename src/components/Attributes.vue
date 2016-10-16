@@ -1,8 +1,8 @@
 <template lang="pug">
-  #attributes(v-if="currentObject")
+  #attributes
     .panels
       .attributes-wrapper.panel
-        .attributes-inner
+        .attributes-inner(v-if="currentObject")
           .attribution-group.basics
             p Basics
             .row
@@ -268,8 +268,10 @@ export default {
   },
   props: ['currentObject'],
   mounted () {
-    $('#attributes').mCustomScrollbar({
-      theme: 'light'
+    this.$nextTick(function () {
+      $('#attributes').mCustomScrollbar({
+        theme: 'light'
+      })
     })
   }
 }

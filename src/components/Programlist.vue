@@ -1,5 +1,5 @@
 <template lang="pug">
-  #inboundlist
+  #inboundlist(v-if="triggered")
     .inboundlist-inner
       a.close-btn.js-close(href="javascript:;")
         i.fa.fa-times.fa-lg
@@ -19,6 +19,11 @@
 export default {
   name: 'Programlist',
   components: {
+  },
+  data () {
+    return {
+      triggered: false
+    }
   }
 }
 </script>

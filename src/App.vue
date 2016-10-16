@@ -31,6 +31,8 @@ export default {
   },
   methods: {
     initial () {
+      // refer root component
+      var rootapp = this
       var canvas = new fabric.CanvasEx('c', {
         width: 500,
         height: 500,
@@ -38,6 +40,11 @@ export default {
       })
       // Register to window.global
       window.canvas = canvas
+
+      // Canvas Events
+      canvas.on('before:selection:cleared', function () {
+        rootapp.currentObject = null
+      })
       // MASK RECT
       var rect = new fabric.Rect({
         left: 0,
@@ -63,9 +70,6 @@ export default {
       canvas.add(rect)
       canvas.renderAll()
       this.bindEvents(rect)
-      // Programmatically Select Newly Added Object
-      canvas.setActiveObject(rect)
-      // //Refresh log
     },
     bindEvents (obj) {
       var rootapp = this
@@ -120,6 +124,7 @@ a {
     #artboard {
       flex: 1;
       display: flex;
+      height: 100%; 
       .canvas-wrapper {
         flex: 1;
         background-color: $darkestgray;
@@ -130,6 +135,8 @@ a {
         padding: 1em;
         flex: none;
         width: 260px;
+        height: 100%;
+        transition: 3s all ease;
       }
     }
   }

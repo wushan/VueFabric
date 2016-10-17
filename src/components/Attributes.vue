@@ -190,7 +190,7 @@
                   i.fa.fa-cloud-upload.fa-2x
                 input#mediaValue(type='text' readonly)
               .mediaPreview
-          .attribution-group.webview
+          .attribution-group.webview(v-if="webview")
             p Webview Url
             .controlgroup.webview
               label 網址
@@ -204,7 +204,7 @@
                   i.fa.fa-cloud-upload.fa-2x
                 input#webviewPlaceholder(type='text' readonly)
 
-          .attribution-group.clock
+          .attribution-group.clock(v-if="clock")
             p Clock Specific
             .controlgroup.clock
               label 時區
@@ -248,7 +248,7 @@
             form#updateSlider
               ul#slidesOrder
               button.btn.edit.full(type="submit") 確定變更
-          .attribution-group.rtsp
+          .attribution-group.rtsp(v-if="rtsp")
             p RTSP 資源
             .controlgroup.rtsp
               label 網址
@@ -269,7 +269,28 @@ export default {
   props: ['currentObject', 'initialRadius'],
   computed: {
     typography () {
-      if (this.currentObject === 'text') {
+      if (this.currentObject.type === 'textbox' || this.currentObject.type === 'weather') {
+        return true
+      } else {
+        return false
+      }
+    },
+    clock () {
+      if (this.currentObject.type === 'eclock' || this.currentObject.type === 'clock') {
+        return true
+      } else {
+        return false
+      }
+    },
+    webview () {
+      if (this.currentObject.type === 'webview') {
+        return true
+      } else {
+        return false
+      }
+    },
+    rtsp () {
+      if (this.currentObject.type === 'rtspframe') {
         return true
       } else {
         return false

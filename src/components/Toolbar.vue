@@ -8,7 +8,7 @@
         a.full.btn.basic.js-add-circle(href="javascript:;" title="新增圓形", @click="addCircle")
           i.fa.fa-circle-thin.fa-lg
       li
-        a.full.btn.basic.js-add-text(href="javascript:;" title="新增文字", data-action='addText')
+        a.full.btn.basic.js-add-text(href="javascript:;" title="新增文字", @click="addText")
           i.fa.fa-font.fa-lg
       li
         a.full.btn.basic.js-library(href="javascript:;" title="新增圖片或輪播圖", data-action='addMedia')
@@ -148,6 +148,33 @@ export default {
       // Programmatically Select Newly Added Object
       canvas.setActiveObject(circle)
       // Refresh log
+    },
+    addText: function () {
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var text = new fabric.Textbox('Default Text', {
+        // options
+        left: 200,
+        top: 200,
+        width: 300,
+        height: 300,
+        fontSize: 24,
+        fontFamily: 'Open Sans'
+      })
+      text.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            interaction: this.interaction
+          })
+        }
+      })(text.toObject)
+      canvas.add(text)
+      text.center()
+      text.setCoords()
+      // Bind
+      this.bindEvents(text)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(text)
     },
     bindEvents (object) {
       Events.bindEvents(this.$parent, object)

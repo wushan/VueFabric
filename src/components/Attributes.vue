@@ -47,7 +47,7 @@
                 label 背景色
                 .controls
                   input#objectColor(type='text')
-          .attribution-group.fonts
+          .attribution-group.fonts(v-if="typography")
             p Fonts Specific
             .controlgroup.text.text-attr
               label 文字
@@ -266,7 +266,16 @@ export default {
   name: 'Attributes',
   components: {
   },
-  props: ['currentObject'],
+  props: ['currentObject', 'initialRadius'],
+  computed: {
+    typography () {
+      if (this.currentObject === 'text') {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   mounted () {
     this.$nextTick(function () {
       $('#attributes').mCustomScrollbar({
@@ -277,5 +286,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+// Transitions
+#attributes {
+  &.fade-enter-active, &.fade-leave-active {
+  transition: .6s all ease;
+}
+  &.fade-enter, &.fade-leave-active {
+    opacity: 0;
+    width: 0;
+    padding: 0;
+    // transform: translateX(40%);
+  } 
+}
 </style>

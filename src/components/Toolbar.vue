@@ -2,10 +2,10 @@
   #toolbar
     ul.tools
       li
-        a.full.btn.basic.js-add-rect(href="javascript:;" title="新增矩形", data-action='addRect')
+        a.full.btn.basic.js-add-rect(href="javascript:;" title="新增矩形" @click="addRect")
           i.fa.fa-object-group.fa-lg
       li
-        a.full.btn.basic.js-add-circle(href="javascript:;" title="新增圓形", data-action='addCircle')
+        a.full.btn.basic.js-add-circle(href="javascript:;" title="新增圓形", @click="addCircle")
           i.fa.fa-circle-thin.fa-lg
       li
         a.full.btn.basic.js-add-text(href="javascript:;" title="新增文字", data-action='addText')
@@ -84,9 +84,75 @@
 </template>
 
 <script>
+import Events from '../assets/cc.objectEvents'
 export default {
   name: 'Toolbar',
   components: {
+  },
+  created () {
+  },
+  mounted () {
+  },
+  props: ['currentObject', 'initialRadius'],
+  methods: {
+    addRect () {
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var rect = new fabric.Rect({
+        left: canvas.getWidth() / 2 - 100 / 2,
+        top: canvas.getHeight() / 2 - 100 / 2,
+        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
+        width: this.initialRadius,
+        height: this.initialRadius,
+        padding: 0,
+        strokeWidth: 0
+      })
+      rect.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            interaction: this.interaction
+          })
+        }
+      })(rect.toObject)
+      rect.perPixelTargetFind = true
+      canvas.add(rect)
+      // CanvasComposer.History.Update()
+      canvas.renderAll()
+      // Bind
+      this.bindEvents(rect)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(rect)
+    },
+    addCircle: function () {
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var circle = new fabric.Circle({
+        left: canvas.getWidth() / 2 - this.initialRadius / 2,
+        top: canvas.getHeight() / 2 - this.initialRadius / 2,
+        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
+        radius: this.initialRadius / 2
+      })
+      circle.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            interaction: this.interaction
+          })
+        }
+      })(circle.toObject)
+      circle.perPixelTargetFind = true
+      canvas.add(circle)
+      canvas.renderAll()
+      // CanvasComposer.History.Update()
+      // Bind
+      this.bindEvents(circle)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(circle)
+      // Refresh log
+    },
+    bindEvents (object) {
+      Events.bindEvents(this.$parent, object)
+      this.$parent.$emit('updateHistory')
+    }
   }
 }
 </script>

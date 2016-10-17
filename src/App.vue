@@ -1,8 +1,8 @@
 <template lang="pug">
   #canvaseditor
     main
-      toolbar
-      artboard(v-bind:currentObject="currentObject")
+      toolbar(v-bind:initialRadius="initialRadius")
+      artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius")
     contextmenu
     programlist
 </template>
@@ -12,7 +12,7 @@ import Artboard from './components/Artboard'
 import Toolbar from './components/Toolbar'
 import Contextmenu from './components/Contextmenu'
 import Programlist from './components/Programlist'
-var fabric = window['fabric']
+import Events from './assets/cc.objectEvents'
 export default {
   name: 'CanvasEditor',
   components: {
@@ -23,67 +23,68 @@ export default {
   },
   data () {
     return {
-      currentObject: null
+      currentObject: null,
+      initialRadius: 100,
+      history: {
+        redo: [],
+        undo: [],
+        state: null
+      }
     }
   },
+  created () {
+    this.$on('updateHistory', function (res) {
+      this.updateHistory()
+    })
+  },
   mounted () {
+    console.log('APP')
     this.initial()
   },
   methods: {
     initial () {
-      // refer root component
-      var rootapp = this
-      var canvas = new fabric.CanvasEx('c', {
-        width: 500,
-        height: 500,
-        allowTouchScrolling: true
-      })
-      // Register to window.global
-      window.canvas = canvas
-
+      var canvas = window['canvas']
+      var rootApp = this
       // Canvas Events
       canvas.on('before:selection:cleared', function () {
-        rootapp.currentObject = null
+        rootApp.currentObject = null
       })
-      // MASK RECT
-      var rect = new fabric.Rect({
-        left: 0,
-        top: 0,
-        fill: '#ffcccc',
-        width: 400,
-        height: 400,
-        padding: 0,
-        strokeWidth: 0
-        // clipTo: function (ctx) {
-        //   // ctx.arc(0, 0, radius, 0, Math.PI * 2, true);
-        //   ctx.rect(-75,-50,300,100);
-        // }
-      })
-      rect.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction
-          })
-        }
-      })(rect.toObject)
-      rect.perPixelTargetFind = true
-      canvas.add(rect)
-      canvas.renderAll()
-      this.bindEvents(rect)
     },
-    bindEvents (obj) {
-      var rootapp = this
-      obj.on('selected', function () {
-        console.log('selected')
-        console.log(this)
-        rootapp.currentObject = obj.toObject()
-        console.log(rootapp)
-      })
-      obj.on('moved', function () {
-        console.log('selected')
-        console.log(this)
-        rootapp.currentObject = obj.toObject()
-        console.log(rootapp)
+    updateHistory () {
+      var canvas = window['canvas']
+      // clear the redo stack
+      this.history.redo = []
+      // $('#redo').addClass('disabled')
+      // initial call won't have a state
+      // console.log(state);
+      if (this.history.state) {
+        this.history.undo.push(this.history.state)
+      }
+      this.history.state = JSON.stringify(canvas)
+    },
+    rePlayHistory (playStack, saveStack) {
+      if (this.history.state) {
+        this.history.redo.push(this.history.state)
+      }
+      this.history.state = this.history.undo.pop()
+      // var on = $(buttonsOn);
+      // var off = $(buttonsOff);
+      // turn both buttons off for the moment to prevent rapid clicking
+      // on.addClass('disabled');
+      // off.addClass('disabled');
+      // canvas.clear();
+      if (this.history.state) {
+        this.loadFromJSON(this.history.state)
+      } else {
+        console.log('Reach Limit')
+      }
+    },
+    loadFromJSON (data) {
+      var canvas = window['canvas']
+      var component = this
+      canvas.loadFromJSON(data, canvas.renderAll.bind(canvas), function (o, object) {
+        canvas.renderAll()
+        Events.bindEvents(component, object)
       })
     }
   }
@@ -125,20 +126,19 @@ a {
       flex: 1;
       display: flex;
       height: 100%; 
-      .canvas-wrapper {
-        flex: 1;
-        background-color: $darkestgray;
-        box-shadow: inset 0px 0px 12px $pureblack;
-      }
-      #attributes {
-        box-sizing: border-box;
-        padding: 1em;
-        flex: none;
-        width: 260px;
-        height: 100%;
-        transition: 3s all ease;
-      }
     }
   }
+}
+.canvas-wrapper {
+  flex: 1;
+  background-color: $darkestgray;
+  box-shadow: inset 0px 0px 12px $pureblack;
+}
+#attributes {
+  box-sizing: border-box;
+  padding: 1em;
+  flex: none;
+  width: 260px;
+  height: 100%;
 }
 </style>

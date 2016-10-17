@@ -14,45 +14,44 @@
           .tag.height
               span 600
     transition(name="fade", mode="out-in")
-      attributes(v-show="currentObject" v-bind:currentObject="currentObject")
+      attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius")
 </template>
 
 <script>
+var fabric = window['fabric']
 import Attributes from '../components/Attributes'
 export default {
   name: 'Artboard',
   components: {
     Attributes
   },
-  props: ['currentObject']
+  props: ['currentObject', 'initialRadius'],
+  mounted () {
+    console.log('ARTBOARD')
+    // Register Canvas Globally
+    var canvas = new fabric.CanvasEx('c', {
+      width: 500,
+      height: 500,
+      allowTouchScrolling: true
+    })
+    // Register to window.global
+    window.canvas = canvas
+  }
 }
 </script>
 
 <style lang="scss">
 @import "../assets/scss/var";
 @import "../assets/scss/helpers";
-// Transitions
-.fade-enter-active, .fade-leave-active {
-  transition: 3s all ease;
-}
-.fade-enter, .fade-leave-active {
-  opacity: 0;
-  transform: translateX(40%);
-}
+
 .canvas-wrapper {
   height: 100%;
   text-align: center;
+  flex: 1;
   display: flex;
   align-items:center;
   justify-content:center;
   transition: 3s all ease;
-  // &:before {
-  //  content: '';
-  //  width: 0;
-  //  height: 100%;
-  //  display: inline-block;
-  //  vertical-align: middle;
-  // }
   #canvas {
     display: inline-block;
     vertical-align: middle;

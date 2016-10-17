@@ -3,7 +3,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import Event from './assets/cc.objectEvents'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

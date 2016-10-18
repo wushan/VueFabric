@@ -18,7 +18,7 @@
 </template>
 
 <script>
-var fabric = window['fabric']
+// var fabric = window['fabric']
 import Attributes from '../components/Attributes'
 export default {
   name: 'Artboard',
@@ -28,14 +28,6 @@ export default {
   props: ['currentObject', 'initialRadius'],
   mounted () {
     console.log('ARTBOARD')
-    // Register Canvas Globally
-    var canvas = new fabric.CanvasEx('c', {
-      width: 500,
-      height: 500,
-      allowTouchScrolling: true
-    })
-    // Register to window.global
-    window.canvas = canvas
   }
 }
 </script>

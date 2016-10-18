@@ -43,12 +43,6 @@ export default {
   },
   methods: {
     initial () {
-      var canvas = window['canvas']
-      var rootApp = this
-      // Canvas Events
-      canvas.on('before:selection:cleared', function () {
-        rootApp.currentObject = null
-      })
     },
     updateHistory () {
       var canvas = window['canvas']

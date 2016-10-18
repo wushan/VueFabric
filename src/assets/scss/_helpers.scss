@@ -8,3 +8,7 @@
 		clear: both;
 	}
 }
+
+.row {
+  @extend .clr;
+}

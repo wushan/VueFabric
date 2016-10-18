@@ -112,9 +112,8 @@
                       option(value='168') 168
                       option(value='192') 192
           .attribution-group.specials
-            p Interactive
             .controlgroup
-              label 互動類型
+              label 互動
               .controls.rich-control
                 .select-wrapper
                   select#interactives
@@ -125,71 +124,71 @@
                     option(value='previous') 上一節目
                     option(value='escape') 退出互動
                     option(value='interactive') 互動節目
-            .controlgroup.link(style="display: none;")
-              label 連結
-              .controls.rich-control
-                input#linkValue(type='text')
-                a.js-inbounds(href="javascript:;")
-                  i.fa.fa-link.fa-2x
-            .application(style="display: none;")
-              .controlgroup
-                label 套件名稱
-                .controls.rich-control
-                  input#appName(type='text')
-              .controlgroup
-                label 退出方式
-                .controls.rich-control
-                  .select-wrapper
-                    select#appEscape
-                      option(value="Manual") 手動退出
-                      option(value="Force") 強制關閉
-              .controlgroup
-                .controls.rich-control
-                  .row
-                    .grid.g-6-12
-                      input#appEscapeTime(type='number', value="30")
-                    .grid.g-6-12
-                      label 秒強制關閉
-              .controlgroup
-                label 懸浮按鈕
-                .controls.rich-control
-                  .select-wrapper
-                    select#appEscapeButton
-                      option(value="ON") 啟用
-                      option(value="OFF") 不啟用
-              .controlgroup
-                label 按鈕位置
-                .controls.rich-control
-                  .select-wrapper
-                    select#appEscapeButtonPos
-                      option(value="lefttop") 左上
-                      option(value="leftcenter") 左中
-                      option(value="leftbottom") 左下
-                      option(value="righttop") 右上
-                      option(value="rightcenter") 右中
-                      option(value="rightbottom") 右下
-                      option(value="centertop") 中上
-                      option(value="centercenter") 中中
-                      option(value="centerbottom") 中下
-              .controlgroup
-                label 按鈕尺寸
-                .controls.rich-control
-                  .select-wrapper
-                    select#appEscapeButtonSize
-                      option(value="L") 大
-                      option(value="M") 中
-                      option(value="S") 小
-              .controlgroup
-                button#appSave.btn.basic.full(type="button") 儲存 APP 設定
-          .attribution-group.media
-            p Medias
-            .controlgroup.media
-              label 素材
-              .controls.rich-control
-                a.js-library(href="javascript:;")
-                  i.fa.fa-cloud-upload.fa-2x
-                input#mediaValue(type='text' readonly)
-              .mediaPreview
+            //- .controlgroup.link
+            //-   label 連結
+            //-   .controls.rich-control
+            //-     input#linkValue(type='text')
+            //-     a.js-inbounds(href="javascript:;")
+            //-       i.fa.fa-link.fa-2x
+            //- .application
+            //-   .controlgroup
+            //-     label 套件名稱
+            //-     .controls.rich-control
+            //-       input#appName(type='text')
+            //-   .controlgroup
+            //-     label 退出方式
+            //-     .controls.rich-control
+            //-       .select-wrapper
+            //-         select#appEscape
+            //-           option(value="Manual") 手動退出
+            //-           option(value="Force") 強制關閉
+            //-   .controlgroup
+            //-     .controls.rich-control
+            //-       .row
+            //-         .grid.g-6-12
+            //-           input#appEscapeTime(type='number', value="30")
+            //-         .grid.g-6-12
+            //-           label 秒強制關閉
+            //-   .controlgroup
+            //-     label 懸浮按鈕
+            //-     .controls.rich-control
+            //-       .select-wrapper
+            //-         select#appEscapeButton
+            //-           option(value="ON") 啟用
+            //-           option(value="OFF") 不啟用
+            //-   .controlgroup
+            //-     label 按鈕位置
+            //-     .controls.rich-control
+            //-       .select-wrapper
+            //-         select#appEscapeButtonPos
+            //-           option(value="lefttop") 左上
+            //-           option(value="leftcenter") 左中
+            //-           option(value="leftbottom") 左下
+            //-           option(value="righttop") 右上
+            //-           option(value="rightcenter") 右中
+            //-           option(value="rightbottom") 右下
+            //-           option(value="centertop") 中上
+            //-           option(value="centercenter") 中中
+            //-           option(value="centerbottom") 中下
+            //-   .controlgroup
+            //-     label 按鈕尺寸
+            //-     .controls.rich-control
+            //-       .select-wrapper
+            //-         select#appEscapeButtonSize
+            //-           option(value="L") 大
+            //-           option(value="M") 中
+            //-           option(value="S") 小
+            //-   .controlgroup
+            //-     button#appSave.btn.basic.full(type="button") 儲存 APP 設定
+          //- .attribution-group.media
+          //-   p Medias
+          //-   .controlgroup.media
+          //-     label 素材
+          //-     .controls.rich-control
+          //-       a.js-library(href="javascript:;")
+          //-         i.fa.fa-cloud-upload.fa-2x
+          //-       input#mediaValue(type='text' readonly)
+          //-     .mediaPreview
           .attribution-group.webview(v-if="webview")
             p Webview Url
             .controlgroup.webview
@@ -238,7 +237,7 @@
                     option(data-tz='Asia/Anadyr', value='12') [+12:00] Asia/Anadyr
                     option(data-tz='Pacific/Enderbury', value='13') [+13:00] Pacific/Enderbury
                     option(data-tz='Pacific/Kiritimati', value='14') [+14:00] Pacific/Kiritimati
-          .attribution-group.sliders
+          .attribution-group.sliders(v-if="slider")
             .row
               .grid.g-6-12
                 p Sliders
@@ -254,9 +253,11 @@
               label 網址
               .controls
                 input#rtspUrl(type="text", placeholder="rtsp://000.000.000.00")
+          library
 </template>
 
 <script>
+import Library from './Library'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
@@ -265,6 +266,7 @@ require('imports?$=jquery!../assets/vendor/jquery.mCustomScrollbar.js')
 export default {
   name: 'Attributes',
   components: {
+    Library
   },
   props: ['currentObject', 'initialRadius'],
   computed: {
@@ -295,6 +297,13 @@ export default {
       } else {
         return false
       }
+    },
+    slider () {
+      if (this.currentObject.type === 'slider') {
+        return true
+      } else {
+        return false
+      }
     }
   },
   mounted () {
@@ -308,10 +317,20 @@ export default {
 </script>
 
 <style lang="scss">
+@import "./bower_components/susy/sass/susy";
+@import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
 // Transitions
 #attributes {
+  font-size: 13px;
   &.fade-enter-active, &.fade-leave-active {
   transition: .6s all ease;
+}
+.attribution-group {
+  .row {
+    .controlgroup {
+      @include gallery(6 of 12 1);
+    } 
+  }
 }
   &.fade-enter, &.fade-leave-active {
     opacity: 0;

@@ -96,6 +96,15 @@ export default {
 @import "./assets/scss/forms";
 @import "./assets/scss/typography";
 @import "./assets/scss/dependencies/jquery.mCustomScrollbar";
+.fade-enter-active, .fade-leave-active {
+  transition: .6s all ease;
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0;
+  width: 0;
+  padding: 0;
+  // transform: translateX(40%);
+}
 // Basic Style
 a {
   color: $white;

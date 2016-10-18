@@ -12,22 +12,20 @@
             label(for="user") 使用者
         .select-wrapper
           select(v-model="selectedCategory", @change="changed")
-            option(v-for="category in computedCategory", :value="category.cateId", :key="category.cateId") {{ category.public==1 ? '[共用]-' : '[使用者]-' }}{{ category.name }} / {{category.cateId}}
+            option(v-for="(category, index) in computedCategory", :value="category", :key="category.cateId") {{ category.public==1 ? '[共用]-' : '[使用者]-' }}{{ category.name }}
     transition(name="fade", mode="out-in")
       .controlgroup(v-if="subCategory")
-        .select-wrapper(v-if="subCategory.length > 0")
+        .select-wrapper(v-if="subCategory.length")
           select(@change="changed")
-            option(v-for="sub in subCategory", :value="{sub}", :key="sub.cateId") {{ sub.name }}
-
+            option(v-for="sub in subCategory") {{ sub.name }} / {{ sub.cateId }}
+    #loading(v-if="loading")
+      img(src="../assets/images/loader-s.gif")
+      p 素材讀取中
     transition(name="fade", mode="out-in")
       .materials-wrapper
         .materials-list
           .material(v-for="item in items")
             img(:src="baseURL + item.thumbnail")
-
-    #loading(v-if="loading")
-      img(src="../assets/images/loader-s.gif")
-      p 素材讀取中
 </template>
 
 <script>
@@ -35,7 +33,7 @@ import Api from '../assets/canvascomposer/Api'
 export default {
   data () {
     return {
-      selectedCategory: '9999',
+      selectedCategory: {},
       baseURL: 'http://radi.4webdemo.com/',
       loading: true,
       defaultCateId: 9999,
@@ -44,7 +42,7 @@ export default {
       num: 0,
       limit: 10,
       isUser: false,
-      isPublic: false
+      isPublic: true
     }
   },
   beforeCreate () {
@@ -55,15 +53,17 @@ export default {
   computed: {
     computedCategory () {
       var combinedArray = []
-      if (this.isPublic && !this.isUser) {
-        combinedArray = this.categories.public
-        return combinedArray
-      } else if (!this.isPublic && this.isUser) {
-        combinedArray = this.categories.user
-        return combinedArray
-      } else if (this.isPublic && this.isUser) {
-        combinedArray = this.categories.public.concat(this.categories.user)
-        return combinedArray
+      if (this.categories) {
+        if (this.isPublic && !this.isUser) {
+          combinedArray = this.categories.public
+          return combinedArray
+        } else if (!this.isPublic && this.isUser) {
+          combinedArray = this.categories.user
+          return combinedArray
+        } else if (this.isPublic && this.isUser) {
+          combinedArray = this.categories.public.concat(this.categories.user)
+          return combinedArray
+        }
       }
     },
     selectedCategoryObj () {
@@ -79,28 +79,34 @@ export default {
       }
     },
     subCategory () {
-      if (this.computedCategory) {
+      if (this.computedCategory && this.selectedCategory) {
         let selected = this.selectedCategory
-        return this.computedCategory.filter(function (item) {
-          if (item.cateId === selected && item.hasOwnProperty('sub')) {
-            return item
+        var passed = this.computedCategory.filter(function (item) {
+          if (item.cateId === selected.cateId && item.public === selected.public && item.hasOwnProperty('sub')) {
+            return true
           } else {
             return false
           }
         })
+        if (passed.length > 0) {
+          return passed[0].sub
+        }
       }
     }
   },
   methods: {
     changed (obj) {
-      console.log(obj)
-      if (this.subCategory.length > 0) {
-        this.fetchData(this.selectedCategory, this.subCategory[0].cateId, this.num, this.limit, this.subCategory[0].public)
-      } else {
-        this.fetchData(this.selectedCategory, null, this.num, this.limit, this.selectedCategoryObj[0].public)
+      // console.log(obj)
+      if (this.selectedCategory) {
+        if (this.subCategory) {
+          this.fetchData(this.selectedCategory.cateId, this.subCategory[0].cateId, this.num, this.limit, this.subCategory[0].public)
+        } else {
+          this.fetchData(this.selectedCategory.cateId, null, this.num, this.limit, this.selectedCategory.public)
+        }
       }
     },
     fetchData (cateId, subId, num, limit, isPublic) {
+      this.loading = true
       Api.getLibCategory(cateId, subId, num, limit, isPublic, (err, data) => {
         this.loading = false
         if (err) {
@@ -134,6 +140,7 @@ export default {
         @extend .clr;
         .material {
           @include gallery(6 of 12);
+          margin-bottom: .3em;
         }
       }
     }

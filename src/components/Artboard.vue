@@ -1,6 +1,6 @@
 <template lang="pug">
   #artboard
-    .canvas-wrapper
+    .canvas-wrapper(v-bind:class="{ pushed: currentObject}")
       #canvas.task
         canvas#c
         .objectControl
@@ -13,13 +13,14 @@
               span 800
           .tag.height
               span 600
-    transition(name="fade", mode="out-in")
+    transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
       attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius")
 </template>
 
 <script>
 // var fabric = window['fabric']
 import Attributes from '../components/Attributes'
+import initCanvas from '../assets/canvascomposer/Initial'
 export default {
   name: 'Artboard',
   components: {
@@ -28,6 +29,12 @@ export default {
   props: ['currentObject', 'initialRadius'],
   mounted () {
     console.log('ARTBOARD')
+  },
+  methods: {
+    fitWindow () {
+      console.log('triggered')
+      initCanvas.fit()
+    }
   }
 }
 </script>
@@ -43,7 +50,13 @@ export default {
   display: flex;
   align-items:center;
   justify-content:center;
-  transition: 3s all ease;
+  transition: .3s all ease;
+  background-color: $darkestgray;
+  box-shadow: inset 0px 0px 12px $pureblack;
+  max-width: calc( 100vw - 90px );
+  &.pushed {
+    max-width: calc( 100vw - 350px );
+  }
   #canvas {
     display: inline-block;
     vertical-align: middle;
@@ -52,7 +65,7 @@ export default {
 #canvas {
   position: relative;
   transform-origin: center center;
-  @extend .transition;
+  transition: .3s all ease;
   .objectControl {
     @extend .transition;
     opacity: 0;

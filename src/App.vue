@@ -119,14 +119,9 @@ a {
     #artboard {
       flex: 1;
       display: flex;
-      height: 100%; 
+      height: 100%;
     }
   }
-}
-.canvas-wrapper {
-  flex: 1;
-  background-color: $darkestgray;
-  box-shadow: inset 0px 0px 12px $pureblack;
 }
 #attributes {
   box-sizing: border-box;

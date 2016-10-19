@@ -131,13 +131,13 @@ export default {
     ;(function () {
       // var aspectRatio = canvas.width / canvas.height
       // Ratio = Canvas 寬(實際px) 與 artboard 寬的比值
-      console.log(canvas.width)
-      console.log(container)
-      console.log(container.clientWidth)
+      // console.log(canvas.width)
+      // console.log(container)
+      // console.log(container.clientWidth)
       var ratioW = canvas.width / container.clientWidth
       var ratioH = canvas.height / container.clientHeight
-      console.log('Canvas 實際寬度是視窗寬度的: ' + ratioW + ' 倍')
-      console.log('Canvas 實際高度是視窗寬度的: ' + ratioH + ' 倍')
+      // console.log('Canvas 實際寬度是視窗寬度的: ' + ratioW + ' 倍')
+      // console.log('Canvas 實際高度是視窗寬度的: ' + ratioH + ' 倍')
       var motive
       // 若寬度比值大於或等於高度比值 (代表此矩形為橫式或正方形)
       if (ratioW >= ratioH) {

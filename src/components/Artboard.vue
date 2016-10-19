@@ -14,7 +14,7 @@
           .tag.height
               span 600
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
-      attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius")
+      attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
 </template>
 
 <script>
@@ -26,13 +26,13 @@ export default {
   components: {
     Attributes
   },
-  props: ['currentObject', 'initialRadius'],
+  props: ['currentObject', 'initialRadius', 'baseUrl'],
   mounted () {
-    console.log('ARTBOARD')
+    // console.log('ARTBOARD')
   },
   methods: {
     fitWindow () {
-      console.log('triggered')
+      console.log('Fitting the Artboard.')
       initCanvas.fit()
     }
   }
@@ -51,8 +51,9 @@ export default {
   align-items:center;
   justify-content:center;
   transition: .3s all ease;
-  background-color: $darkestgray;
-  box-shadow: inset 0px 0px 12px $pureblack;
+  background-color: $darkgray;
+  border-right: 4px solid $pureblack;
+  border-left: 4px solid $pureblack;
   max-width: calc( 100vw - 90px );
   &.pushed {
     max-width: calc( 100vw - 350px );

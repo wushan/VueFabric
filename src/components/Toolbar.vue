@@ -18,45 +18,13 @@
           i.fa.fa-text-width.fa-lg
         //- include marquee-settings
       li
-        a.full.btn.basic.js-add-clock(href="javascript:;" title="新增時鐘", data-action='addClock')
+        a.full.btn.basic.js-add-clock(href="javascript:;" title="新增時鐘", @click="updateSub('clockpanel')", :class="{ active: currentView=='clockpanel' }")
           i.fa.fa-clock-o.fa-lg
-        //- include clock-presets
       li
-        a.full.btn.basic.js-add-clock(href="javascript:;" title="新增時間", data-action='addTime') 時間
-        //- #timesettings.floating-menu
-        //-   .timeconfig-wrapper
-        //-     .timeconfig-inner
-        //-       .row
-        //-         // moment().format('YYYY-MM-DD HH:mm:ss')
-        //-         a.format(href='javascript:;', data-format="YYYY-MM-DD HH:mm:ss") 2016-09-01 12:01:42
-        //-         // moment().format('YYYY-MMM-DD HH:mm:ss')
-        //-         a.format(href='javascript:;', data-format="YYYY-MMM-DD HH:mm:ss") 2016-Sep-01 12:02:26
+        a.full.btn.basic.js-add-clock(href="javascript:;" title="新增時間", @click="updateSub('timepanel')", :class="{ active: currentView=='timepanel' }") 時間
       li
-        a.full.btn.basic(href="javascript:;" title="新增天氣", data-action='addWeather')
+        a.full.btn.basic(href="javascript:;" title="新增天氣", @click="updateSub('weatherpanel')", :class="{ active: currentView=='weatherpanel' }")
           i.fa.fa-cloud.fa-lg
-        //- #weatherSettings.floating-menu
-        //-   .canvasconfig-wrapper
-        //-     .canvasconfig-inner
-        //-       .row
-        //-         .controlgroup
-        //-           label 群組
-        //-           .controls
-        //-             .select-wrappper
-        //-               select#weatherGroup
-        //-                 option(value='1') 共用群組
-        //-                 option(value='0') 使用者群組
-        //-         .controlgroup
-        //-           label 分類：
-        //-           .controls
-        //-             .select-wrapper
-        //-               select#weatherCate(data-selected='9999')
-        //-         .controlgroup
-        //-           label 城市：
-        //-           .controls
-        //-             .select-wrapper
-        //-               select#weatherCity
-        //-         .call-action
-        //-           a.btn.basic.full(href='javascript:;') 置入
       li
         a.full.btn.basic(href="javascript:;" title="USB", data-action='addUsb') USB
       li
@@ -81,19 +49,31 @@
         //-       .row
         //-         a.btn.edit.full.js-save-svg(href='javascript:;', data-action='saveAsPreset') 儲存為版型
         //-         a.btn.edit.full.js-save-png(href='javascript:;', data-action='saveAsProgram') 儲存為節目
+    transition(name="fly", mode="out-in")
+      component(v-bind:is="currentView", v-bind:baseUrl="baseUrl")
 </template>
 
 <script>
 import Events from '../assets/cc.objectEvents'
+import Clockpanel from './panels/ClockPanel'
+import Timepanel from './panels/TimePanel'
+import Weatherpanel from './panels/WeatherPanel'
 export default {
   name: 'Toolbar',
   components: {
+    Clockpanel,
+    Timepanel,
+    Weatherpanel
+  },
+  data () {
+    return {
+    }
   },
   created () {
   },
   mounted () {
   },
-  props: ['currentObject', 'initialRadius'],
+  props: ['currentObject', 'initialRadius', 'baseUrl', 'currentView'],
   methods: {
     addRect () {
       var fabric = window['fabric']
@@ -176,6 +156,9 @@ export default {
       // Programmatically Select Newly Added Object
       canvas.setActiveObject(text)
     },
+    updateSub (subname) {
+      this.$parent.$emit('updateSubmenu', subname)
+    },
     bindEvents (object) {
       Events.bindEvents(this.$parent, object)
       this.$parent.$emit('updateHistory')
@@ -196,17 +179,19 @@ export default {
     list-style-type: none;
     li {
       margin: 5px 0;
-      // a {
-      //   padding: .9em .4em;
-      //   display: block;
-      //   &.btn {
-      //     border-radius: 3px;
-      //   }
-      //   &.basic {
-      //     background-color: $blue;
-      //   }
-      // }
     }
-  }  
+  }
+}
+.floating-menu {
+  position: absolute;
+  left: 90px;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  box-sizing: border-box;
+  padding: 1em;
+  background-color: $darkblue;
+  box-shadow: 3px 0 3px $black;
+  z-index: 1;
 }
 </style>

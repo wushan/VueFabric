@@ -25,7 +25,7 @@ var vue = new Vue({
 //   vue.$children[0].currentObject = null
 // })
 
-console.log(CanvasComposer)
+// console.log(CanvasComposer)
 
 CanvasComposer.init('new', {
   width: 1000,
@@ -36,4 +36,4 @@ canvas.on('before:selection:cleared', function () {
   vue.$children[0].currentObject = null
 })
 
-console.log(window.canvas)
+// console.log(window.canvas)

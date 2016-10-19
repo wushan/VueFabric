@@ -18,24 +18,31 @@
         .select-wrapper(v-if="subCategory.length")
           select(@change="changed")
             option(v-for="sub in subCategory") {{ sub.name }} / {{ sub.cateId }}
-    #loading(v-if="loading")
-      img(src="../assets/images/loader-s.gif")
-      p 素材讀取中
+    loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
     transition(name="fade", mode="out-in")
       .materials-wrapper
         .materials-list
           .material(v-for="item in items")
-            img(:src="baseURL + item.thumbnail")
+            img(:src="baseUrl + item.thumbnail")
 </template>
 
 <script>
 import Api from '../assets/canvascomposer/Api'
+import Loader from './Loader'
+// Expose Jquery Globally.
+import $ from 'jquery'
+window.jQuery = window.$ = $
+require('imports?$=jquery!../assets/vendor/jquery.mousewheel.js')
+require('imports?$=jquery!../assets/vendor/jquery.mCustomScrollbar.js')
 export default {
+  components: {
+    Loader
+  },
   data () {
     return {
       selectedCategory: {},
-      baseURL: 'http://radi.4webdemo.com/',
       loading: true,
+      loadingtext: '素材讀取中',
       defaultCateId: 9999,
       categories: null,
       items: null,
@@ -45,10 +52,18 @@ export default {
       isPublic: true
     }
   },
+  props: ['baseUrl'],
   beforeCreate () {
   },
   created () {
-    this.fetchData(this.defaultCateId, null, this.num, this.limit, 1)
+    this.fetchData(this.defaultCateId, null, this.num, this.limit, 1, true)
+  },
+  mounted () {
+    this.$nextTick(function () {
+      $('.materials-wrapper').mCustomScrollbar({
+        theme: 'light'
+      })
+    })
   },
   computed: {
     computedCategory () {
@@ -64,18 +79,6 @@ export default {
           combinedArray = this.categories.public.concat(this.categories.user)
           return combinedArray
         }
-      }
-    },
-    selectedCategoryObj () {
-      if (this.computedCategory) {
-        let selected = this.selectedCategory
-        return this.computedCategory.filter(function (item) {
-          if (item.cateId === selected) {
-            return item
-          } else {
-            return false
-          }
-        })
       }
     },
     subCategory () {
@@ -99,13 +102,13 @@ export default {
       // console.log(obj)
       if (this.selectedCategory) {
         if (this.subCategory) {
-          this.fetchData(this.selectedCategory.cateId, this.subCategory[0].cateId, this.num, this.limit, this.subCategory[0].public)
+          this.fetchData(this.selectedCategory.cateId, this.subCategory[0].cateId, this.num, this.limit, this.subCategory[0].public, null)
         } else {
-          this.fetchData(this.selectedCategory.cateId, null, this.num, this.limit, this.selectedCategory.public)
+          this.fetchData(this.selectedCategory.cateId, null, this.num, this.limit, this.selectedCategory.public, null)
         }
       }
     },
-    fetchData (cateId, subId, num, limit, isPublic) {
+    fetchData (cateId, subId, num, limit, isPublic, initial) {
       this.loading = true
       Api.getLibCategory(cateId, subId, num, limit, isPublic, (err, data) => {
         this.loading = false
@@ -116,6 +119,11 @@ export default {
           console.log(data)
           this.categories = data.category
           this.items = data.library
+          this.$nextTick(function () {
+            if (initial) {
+              this.selectedCategory = this.computedCategory[0]
+            }
+          })
         }
       })
     }
@@ -131,11 +139,12 @@ export default {
   @import "../assets/scss/var";
   #library {
     text-align: center;
-    background-color: $pureblack;
+    background-color: $black;
     border-radius: 6px;
-    padding: .5em;
     margin: 1em 0;
     .materials-wrapper {
+      height: 12em;
+      overflow: hidden;
       .materials-list {
         @extend .clr;
         .material {

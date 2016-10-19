@@ -1,8 +1,8 @@
 <template lang="pug">
   #canvaseditor
     main
-      toolbar(v-bind:initialRadius="initialRadius")
-      artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius")
+      toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView")
+      artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
     contextmenu
     programlist
 </template>
@@ -25,20 +25,26 @@ export default {
     return {
       currentObject: null,
       initialRadius: 100,
+      baseUrl: 'http://radi.4webdemo.com/',
       history: {
         redo: [],
         undo: [],
         state: null
-      }
+      },
+      currentView: ''
     }
   },
   created () {
     this.$on('updateHistory', function (res) {
       this.updateHistory()
+      console.info('Canvas States Updated.')
+    })
+    this.$on('updateSubmenu', function (res) {
+      this.currentView = res
     })
   },
   mounted () {
-    console.log('APP')
+    // console.log('APP')
     this.initial()
   },
   methods: {
@@ -104,6 +110,18 @@ export default {
   width: 0;
   padding: 0;
   // transform: translateX(40%);
+}
+.floating-menu {
+  &.fly-enter-active, &.fly-leave-active {
+  transition: .6s all ease;
+}
+  &.fly-enter, &.fly-leave-active {
+    opacity: 0;
+    padding: 0;
+    width: 0;
+    font-size: 0;
+    // transform: translateX(-100%);
+  } 
 }
 // Basic Style
 a {

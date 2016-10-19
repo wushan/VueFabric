@@ -52,12 +52,12 @@
             .controlgroup.text.text-attr
               label 文字
               .controls
-                input#objectInput(type='text')
+                input#objectInput(type='text', v-bind:value="currentObject.text")
             .controlgroup.fontfamily
               label 字體
               .controls
                 .select-wrapper
-                  select#objectFontFamily
+                  select#objectFontFamily(v-model="currentObject.fontFamily", @change="changeFontFamily")
                     option(value="Open Sans") 預設 (Open Sans)
                     option(value="DFYa-W3-WIN-BF") 華康雅風體
                     option(value="DFHuaZong-W5-WIN-BF") 華綜體體
@@ -93,7 +93,7 @@
                 label 尺寸
                 .controls
                   .select-wrapper
-                    select#objectFontSize
+                    select#objectFontSize(v-model="currentObject.fontSize", @change="changeFontSize")
                       option(value='14') 14
                       option(value='18') 18
                       option(value='24') 24
@@ -253,7 +253,7 @@
               label 網址
               .controls
                 input#rtspUrl(type="text", placeholder="rtsp://000.000.000.00")
-          library
+          library(v-bind:baseUrl="baseUrl")
 </template>
 
 <script>
@@ -268,7 +268,7 @@ export default {
   components: {
     Library
   },
-  props: ['currentObject', 'initialRadius'],
+  props: ['currentObject', 'initialRadius', 'baseUrl'],
   computed: {
     typography () {
       if (this.currentObject.type === 'textbox' || this.currentObject.type === 'weather') {
@@ -312,6 +312,26 @@ export default {
         theme: 'light'
       })
     })
+  },
+  methods: {
+    changeFontFamily () {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      if (obj) {
+        obj.setFontFamily(this.currentObject.fontFamily)
+        obj.setCoords()
+        canvas.renderAll()
+      }
+    },
+    changeFontSize () {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      if (obj) {
+        obj.setFontSize(this.currentObject.fontSize)
+        obj.setCoords()
+        canvas.renderAll()
+      }
+    }
   }
 }
 </script>

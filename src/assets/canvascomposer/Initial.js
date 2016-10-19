@@ -1,5 +1,6 @@
 var fabric = window.fabric
 var canvas = window.canvas
+import Load from './Load'
 export default {
   init: function (options) {
     // *Setting Up Canvas
@@ -78,7 +79,10 @@ export default {
     canvas.uniScaleTransform = true
     canvas.preserveObjectStacking = true
     canvas.on('object:moving', snapMoveToGrid)
-    // LOADFROMJSON HERE
+    Load.fromJSON(data, function (res) {
+      console.log(res.loaded)
+    })
+    this.fit()
     function roundToGrid (value) {
       return Math.round(value / grid) * grid
     }
@@ -123,12 +127,15 @@ export default {
     }
   },
   fit: function () {
+    // Reference Canvas Again
+    var canvas = window.canvas
     // Scale Canvas to fit viewport
     // var container = document.getElementById('artboard')
     var container = document.querySelector('.canvas-wrapper')
     var paintArea = document.getElementById('canvas')
     // canvas.wrapperEl.style.transform = "scale(.8)"
     ;(function () {
+      console.log(canvas)
       // var aspectRatio = canvas.width / canvas.height
       // Ratio = Canvas 寬(實際px) 與 artboard 寬的比值
       // console.log(canvas.width)

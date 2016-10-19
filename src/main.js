@@ -3,6 +3,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+// import Extend from './assets/canvascomposer/Extend'
 import CanvasComposer from './assets/canvascomposer/CanvasComposer.js'
 /* eslint-disable no-new */
 var vue = new Vue({
@@ -27,10 +28,18 @@ var vue = new Vue({
 
 // console.log(CanvasComposer)
 
-CanvasComposer.init('new', {
-  width: 1000,
-  height: 500
-})
+// CanvasComposer.init('new', {
+//   width: 1000,
+//   height: 500
+// })
+if (CanvasInitData && CanvasInitOption) {
+  CanvasComposer.init(CanvasInitData, CanvasInitOption)
+} else {
+  CanvasComposer.init('new', {
+    width: 1000,
+    height: 500
+  })
+}
 
 canvas.on('before:selection:cleared', function () {
   vue.$children[0].currentObject = null

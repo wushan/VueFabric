@@ -3,7 +3,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-// import Extend from './assets/canvascomposer/Extend'
+import Extend from './assets/canvascomposer/Extend'
 import CanvasComposer from './assets/canvascomposer/CanvasComposer.js'
 /* eslint-disable no-new */
 var vue = new Vue({

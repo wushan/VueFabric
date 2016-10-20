@@ -19,6 +19,7 @@
     "jquery-mousewheel": "^3.1.13",
     "malihu-custom-scrollbar-plugin": "^3.1.5",
     "moment": "^2.15.1",
+    "moment-timezone": "^0.5.6",
     "node-sass": "^3.10.0",
     "pug": "^2.0.0-beta6",
     "sass-loader": "^4.0.2",

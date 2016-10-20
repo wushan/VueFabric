@@ -6,7 +6,7 @@
         transition(name="fade", mode="out-in")
           .row.componentpresets(v-if="clockpresets")
             .block(v-for="clock in clockpresets")
-              a(@click="addClock")
+              a(@click="addClock(clock.ClockID)")
                 .thumbnail
                   img(:src="baseUrl + clock.image")
                 .name {{ clock.name }}
@@ -52,10 +52,19 @@ export default {
       Events.bindEvents(this.$parent.$parent, object)
       this.$parent.$parent.$emit('updateHistory')
     },
-    addClock (options) {
+    addClock (id) {
       var fabric = window['fabric']
       var canvas = window['canvas']
       var instance = this
+      var options
+      if (id) {
+        options = {
+          'frame': './static/assets/images/clock/style-' + id + '/frame.svg',
+          'hour': './static/assets/images/clock/style-' + id + '/hour.svg',
+          'min': './static/assets/images/clock/style-' + id + '/min.svg',
+          'sec': './static/assets/images/clock/style-' + id + '/sec.svg'
+        }
+      }
       var _defaultSettings = {
         'frame': './static/assets/images/clock/style-6/frame.svg',
         'hour': './static/assets/images/clock/style-6/hour.svg',
@@ -64,6 +73,7 @@ export default {
         'gmt': 'Asia/Taipei'
       }
       var _settings = $.extend(_defaultSettings, options)
+      console.log(_settings)
       // Var
       var canvasClock
       var canvasClockFrame
@@ -102,7 +112,8 @@ export default {
               // Clock Group
               canvasClock = new fabric.Clock([canvasClockFrame, canvasClockHour, canvasClockMin, canvasClockSec], {
                 left: 0,
-                top: 0
+                top: 0,
+                gmt: _settings.gmt
               })
               canvasClock.toObject = (function (toObject) {
                 return function () {

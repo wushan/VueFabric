@@ -1,10 +1,10 @@
 // var fabric = window['fabric']
 export default{
   bindEvents (instance, obj) {
-    console.log(instance)
-    var canvas = window['canvas']
-    console.log(obj)
-    console.log(canvas)
+    // console.log(instance)
+    // var canvas = window['canvas']
+    // console.log(obj)
+    // console.log(canvas)
     obj.on('selected', function () {
       instance.currentObject = obj.toObject()
       // console.log(rootapp)

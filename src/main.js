@@ -11,6 +11,7 @@ var vue = new Vue({
   render: h => h(App)
 })
 
+window.vue = vue
 // // Register Canvas Globally
 // var canvas = new fabric.CanvasEx('c', {
 //   width: 500,
@@ -40,6 +41,7 @@ if (CanvasInitData && CanvasInitOption) {
     height: 500
   })
 }
+console.log(vue.$children)
 
 canvas.on('before:selection:cleared', function () {
   vue.$children[0].currentObject = null

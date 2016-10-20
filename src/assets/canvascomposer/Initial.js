@@ -64,7 +64,7 @@ export default {
       })
     }
   },
-  initWithData: function (data, options) {
+  initWithData: function (data, options, cb) {
     // *Setting Up Canvas
     var canvas = new fabric.CanvasEx('c', {
       width: options.width,
@@ -80,7 +80,6 @@ export default {
     canvas.preserveObjectStacking = true
     canvas.on('object:moving', snapMoveToGrid)
     Load.fromJSON(data, function (res) {
-      console.log(res.loaded)
     })
     this.fit()
     function roundToGrid (value) {
@@ -135,7 +134,7 @@ export default {
     var paintArea = document.getElementById('canvas')
     // canvas.wrapperEl.style.transform = "scale(.8)"
     ;(function () {
-      console.log(canvas)
+      // console.log(canvas)
       // var aspectRatio = canvas.width / canvas.height
       // Ratio = Canvas 寬(實際px) 與 artboard 寬的比值
       // console.log(canvas.width)

@@ -3,7 +3,9 @@ import initCanvas from './Initial'
 export default {
   init: function (data, options) {
     if (typeof data === 'object') {
-      initCanvas.initWithData(data, options)
+      initCanvas.initWithData(data, options, function (res) {
+        window.vue.$children[0].updateHistory()
+      })
       // 讀取
     } else if (data === 'new') {
       initCanvas.init(options)

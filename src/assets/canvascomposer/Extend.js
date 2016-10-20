@@ -1,6 +1,5 @@
 var fabric = window.fabric
 var canvas = window.canvas
-import moment from 'moment'
 fabric.Object.prototype.interaction = ''
 fabric.Object.prototype.toObject = (function (toObject) {
   return function () {
@@ -247,10 +246,9 @@ fabric.Eclock = fabric.util.createClass(fabric.Text, {
     console.log(instance)
       // Init Now
     eclockSimulate(instance)
-
     function eclockSimulate (instance) {
-      instance.set('text', moment().tz(options.gmt).format(options.format))
-      canvas.renderAll()
+      instance.set('text', window.moment().tz(options.gmt).format(options.format))
+      window.canvas.renderAll()
       setTimeout(function () {
         eclockSimulate(instance)
       }, 1000)

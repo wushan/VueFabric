@@ -8,7 +8,7 @@ export default {
       this.loading = false
       if (err) {
         this.error = err.toString()
-        console.log(err)
+        callback && callback(err.toString())
       } else {
         var conditionText = conditionTextDic[data.query.results.channel.item.condition.code.toString()]
         var conditionImg = conditionImgDic[data.query.results.channel.item.condition.code.toString()]

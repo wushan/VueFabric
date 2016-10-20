@@ -4,12 +4,15 @@
 import Vue from 'vue'
 import App from './App'
 import Extend from './assets/canvascomposer/Extend'
+import VueSweetAlert from 'vue-sweetalert'
 import CanvasComposer from './assets/canvascomposer/CanvasComposer.js'
 /* eslint-disable no-new */
+Vue.use(VueSweetAlert)
 var vue = new Vue({
   el: '#app',
   render: h => h(App)
 })
+
 
 window.vue = vue
 // // Register Canvas Globally

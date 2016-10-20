@@ -25,6 +25,7 @@
     "sass-loader": "^4.0.2",
     "superagent": "^2.3.0",
     "vue": "^2.0.1",
+    "vue-sweetalert": "^0.1.15",
     "vuex": "^2.0.0"
   },
   "devDependencies": {

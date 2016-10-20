@@ -64,7 +64,6 @@ export default {
         this.loading = false
         if (err) {
           this.error = err.toString()
-          console.log(err)
         } else {
           console.log(data)
           this.weathercategories = data.category
@@ -91,7 +90,11 @@ export default {
       var location = this.selectedWeather.city_code
       var locationText = this.selectedWeather.name
       var instance = this
-      Weather.translate(location, function (res) {
+      Weather.translate(location, function (err, res) {
+        if (err) {
+          console.log(err)
+          instance.$parent.$parent.$emit('globalError', err)
+        }
         var conditionText = res.conditionText
         var conditionImg = res.conditionImg
         var temp = res.temp

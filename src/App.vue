@@ -5,6 +5,17 @@
       artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
     contextmenu
     programlist
+    transition(name="fade", mode="out-in")
+      #globalLoader(v-if="globalLoader")
+        .content
+          img(src="./assets/images/globalloader.gif")
+          span loading
+    transition(name="fade", mode="out-in")
+      #globalError(v-if="globalError")
+        .content
+          .icon
+            .fa.fa-exclamation.fa-lg
+          span {{globalError}}
 </template>
 
 <script>
@@ -32,7 +43,9 @@ export default {
         undo: [],
         state: null
       },
-      currentView: ''
+      currentView: '',
+      globalLoader: false,
+      globalError: null
     }
   },
   created () {
@@ -42,6 +55,18 @@ export default {
     })
     this.$on('updateSubmenu', function (res) {
       this.currentView = res
+    })
+    this.$on('globalLoad', function (res) {
+      this.globalLoader = res
+    })
+    this.$on('globalError', function (res) {
+      this.globalError = res
+      setTimeout(() => (this.globalError = null), 3000)
+    })
+    // Global Close SubMenu
+    var instance = this
+    window.addEventListener('mousedown', function () {
+      instance.currentView = null
     })
   },
   mounted () {
@@ -66,6 +91,8 @@ export default {
       this.history.state = JSON.stringify(canvas)
     },
     rePlayHistory (playStack, saveStack) {
+      console.log(playStack)
+      console.log(Array.isArray(saveStack))
       if (this.history.state) {
         this.history.redo.push(this.history.state)
       }
@@ -91,6 +118,7 @@ export default {
       })
     },
     keyBoardControl () {
+      var instance = this
       var map = {8: false, 91: false, 187: false, 189: false, 40: false, 38: false, 68: false, 16: false, 17: false, 76: false, 90: false}
       window.addEventListener('keydown', function (e) {
         var canvas = window['canvas']
@@ -100,18 +128,41 @@ export default {
           if (map[16] && map[90] && map[91]) {
             // Redo
             e.preventDefault(); e.stopPropagation()
-            // CanvasComposer.History.rePlay(redo, undo, '#undo', this)
+            instance.rePlayHistory(instance.history.redo, instance.history.undo)
             map[90] = false
           } else if (map[90] && map[91] && !map[16]) {
             // Undo
             e.preventDefault(); e.stopPropagation()
+            console.log(instance.history.undo)
+            console.log(instance.history.redo)
+            instance.rePlayHistory(instance.history.undo, instance.history.redo)
             // CanvasComposer.History.rePlay(undo, redo, '#redo', this)
             map[90] = false
           } else if (map[8] && map[17] || map[46] && map[17]) {
             // Delete
             e.preventDefault(); e.stopPropagation()
-            // CanvasComposer.Artboard.removeObject()
-            Utils.removeObject()
+            instance.$swal({
+              title: '確定刪除？',
+              text: '刪除後可使用 Ctrl + Z 組合鍵回復',
+              type: 'warning',
+              showCancelButton: true,
+              cancelButtonText: '取消',
+              confirmButtonText: '確定刪除'
+            }).then(function () {
+              Utils.removeObject(function () {
+                instance.updateHistory()
+              })
+              instance.$swal(
+                '已刪除',
+                '所選項目已刪除',
+                'success'
+              )
+            })
+            // console.log(this)
+            // var checkYourMind = window.confirm('確定刪除？')
+            // if (checkYourMind === true) {
+            //   Utils.removeObject()
+            // }
             map[8] = false
             map[46] = false
             map[17] = false
@@ -173,6 +224,48 @@ export default {
 @import "./assets/scss/forms";
 @import "./assets/scss/typography";
 @import "./assets/scss/dependencies/jquery.mCustomScrollbar";
+#globalLoader {
+  position: absolute;
+  top: 0;
+  right: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .content {
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 12px;
+    span {
+      display: block;
+    }
+  }
+}
+#globalError {
+  position: absolute;
+  bottom: 2em;
+  width: 100%; 
+  text-align: center;
+  .content {
+    display: inline-block;
+    vertical-align: middle;
+    box-shadow: 0 1px 3px $pureblack;
+    .icon {
+      background-color: $red;
+      color: $white;
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0.8em 1em;
+    }
+    span {
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0.8em 1em;
+      background-color: $white;
+      color: $black;
+    }
+  }
+}
 .fade-enter-active, .fade-leave-active {
   transition: .6s all ease;
 }

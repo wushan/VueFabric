@@ -124,6 +124,7 @@ export default {
         left: snap.left
       })
     }
+    cb && cb()
   },
   fit: function () {
     // Reference Canvas Again

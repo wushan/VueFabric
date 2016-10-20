@@ -209,34 +209,34 @@
               label 時區
               .controls
                 .select-wrapper
-                  select#gmt-time
-                    option(data-tz='Etc/GMT+12', value='-12') [-01:00] Etc/GMT+12
-                    option(data-tz='Pacific/Midway', value='-11') [-11:00] Pacific/Midway
-                    option(data-tz='Pacific/Honolulu', value='-10') [-10:00] Pacific/Honolulu
-                    option(data-tz='Pacific/Gambier', value='-9') [-09:00] Pacific/Gambier
-                    option(data-tz='Pacific/Pitcairn', value='-8') [-08:00] Pacific/Pitcairn
-                    option(data-tz='America/Creston', value='-7') [-07:00] America/Creston
-                    option(data-tz='America/Belize', value='-6') [-06:00] America/Belize
-                    option(data-tz='America/Atikokan', value='-5') [-05:00] America/Atikokan
-                    option(data-tz='America/Anguilla', value='-4') [-04:00] America/Anguilla
-                    option(data-tz='America/Araguaina', value='-3') [-03:00] America/Araguaina
-                    option(data-tz='America/Noronha', value='-2') [-02:00] America/Noronha
-                    option(data-tz='America/Scoresbysund', value='-1') [-01:00] America/Scoresbysund
-                    option(data-tz='Africa/Abidjan', value='0') [+00:00] Africa/Abidjan
-                    option(data-tz='Africa/Algiers', value='1') [+01:00] Africa/Algiers
-                    option(data-tz='Africa/Blantyre', value='2') [+02:00] Africa/Blantyre
-                    option(data-tz='Africa/Asmara', value='3') [+03:00] Africa/Asmara
-                    option(data-tz='Asia/Dubai', value='4') [+04:00] Asia/Dubai
-                    option(data-tz='Antarctica/Mawson', value='5') [+05:00] Antarctica/Mawson
-                    option(data-tz='Antarctica/Vostok', value='6') [+06:00] Antarctica/Vostok
-                    option(data-tz='Asia/Bangkok', value='7') [+07:00] Asia/Bangkok
-                    option(data-tz='Asia/Taipei', value='8') [+08:00] Asia/Taipei
-                    option(data-tz='Asia/Seoul', value='9') [+09:00] Asia/Seoul
-                    option(data-tz='Australia/Brisbane', value='10') [+10:00] Australia/Brisbane
-                    option(data-tz='Asia/Magadan', value='11') [+11:00] Asia/Magadan
-                    option(data-tz='Asia/Anadyr', value='12') [+12:00] Asia/Anadyr
-                    option(data-tz='Pacific/Enderbury', value='13') [+13:00] Pacific/Enderbury
-                    option(data-tz='Pacific/Kiritimati', value='14') [+14:00] Pacific/Kiritimati
+                  select#gmt-time(v-model="currentObject.gmt", @change="changeTimeZone()")
+                    option(value='Etc/GMT+12') [-01:00] Etc/GMT+12
+                    option(value='Pacific/Midway') [-11:00] Pacific/Midway
+                    option(value='Pacific/Honolulu') [-10:00] Pacific/Honolulu
+                    option(value='Pacific/Gambier') [-09:00] Pacific/Gambier
+                    option(value='Pacific/Pitcairn') [-08:00] Pacific/Pitcairn
+                    option(value='America/Creston') [-07:00] America/Creston
+                    option(value='America/Belize') [-06:00] America/Belize
+                    option(value='America/Atikokan') [-05:00] America/Atikokan
+                    option(value='America/Anguilla') [-04:00] America/Anguilla
+                    option(value='America/Araguaina') [-03:00] America/Araguaina
+                    option(value='America/Noronha') [-02:00] America/Noronha
+                    option(value='America/Scoresbysund') [-01:00] America/Scoresbysund
+                    option(value='Africa/Abidjan') [+00:00] Africa/Abidjan
+                    option(value='Africa/Algiers') [+01:00] Africa/Algiers
+                    option(value='Africa/Blantyre') [+02:00] Africa/Blantyre
+                    option(value='Africa/Asmara') [+03:00] Africa/Asmara
+                    option(value='Asia/Dubai') [+04:00] Asia/Dubai
+                    option(value='Antarctica/Mawson') [+05:00] Antarctica/Mawson
+                    option(value='Antarctica/Vostok') [+06:00] Antarctica/Vostok
+                    option(value='Asia/Bangkok') [+07:00] Asia/Bangkok
+                    option(value='Asia/Taipei') [+08:00] Asia/Taipei
+                    option(value='Asia/Seoul') [+09:00] Asia/Seoul
+                    option(value='Australia/Brisbane') [+10:00] Australia/Brisbane
+                    option(value='Asia/Magadan') [+11:00] Asia/Magadan
+                    option(value='Asia/Anadyr') [+12:00] Asia/Anadyr
+                    option(value='Pacific/Enderbury') [+13:00] Pacific/Enderbury
+                    option(value='Pacific/Kiritimati') [+14:00] Pacific/Kiritimati
           .attribution-group.sliders(v-if="slider")
             .row
               .grid.g-6-12
@@ -258,6 +258,7 @@
 
 <script>
 import Library from './Library'
+import Events from '../assets/cc.objectEvents'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
@@ -271,7 +272,7 @@ export default {
   props: ['currentObject', 'initialRadius', 'baseUrl'],
   computed: {
     typography () {
-      if (this.currentObject.type === 'textbox' || this.currentObject.type === 'weather') {
+      if (this.currentObject.type === 'eclock' || this.currentObject.type === 'textbox' || this.currentObject.type === 'weather') {
         return true
       } else {
         return false
@@ -329,6 +330,21 @@ export default {
       if (obj) {
         obj.setFontSize(this.currentObject.fontSize)
         obj.setCoords()
+        canvas.renderAll()
+      }
+    },
+    changeTimeZone () {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      if (obj) {
+        var newVal = this.currentObject.gmt
+        obj.set('gmt', newVal)
+        var newObj = obj.clone()
+        canvas.add(newObj)
+        Events.bindEvents(this.$parent.$parent, newObj)
+        canvas.remove(obj)
+        // Programmatically Select Newly Added Object
+        canvas.setActiveObject(newObj)
         canvas.renderAll()
       }
     }

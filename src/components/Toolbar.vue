@@ -26,18 +26,18 @@
         a.full.btn.basic(href="javascript:;" title="新增天氣", @click="updateSub('weatherpanel')", :class="{ active: currentView=='weatherpanel' }")
           i.fa.fa-cloud.fa-lg
       li
-        a.full.btn.basic(href="javascript:;" title="USB", data-action='addUsb') USB
+        a.full.btn.basic(href="javascript:;" title="USB", @click="addUsb") USB
       li
-        a.full.btn.basic(href="javascript:;" title="WWW", data-action='addWeb') WWW
+        a.full.btn.basic(href="javascript:;" title="WWW", @click="addWeb") WWW
       li
-        a.full.btn.basic(href="javascript:;" title="RTSP", data-action='addRtsp') RTSP
+        a.full.btn.basic(href="javascript:;" title="RTSP", @click="addRtsp") RTSP
       li
-        a.full.btn.delete.js-dispose(href="javascript:;" title="清除所有物件", data-action='disposeAll')
+        a.full.btn.delete.js-dispose(href="javascript:;" title="清除所有物件", @click="disposeAll")
           i.fa.fa-eraser.fa-lg
     
     ul.tools
       li
-        a.full.btn.edit.js-setting(href="javascript:;" title="版面設定", data-action='artboardSettings')
+        a.full.btn.edit.js-setting(href="javascript:;" title="版面設定", @click="updateSub('presetpanel')", :class="{ active: currentView=='presetpanel' }")
           i.fa.fa-cogs.fa-lg
         //- include canvassettings
       li
@@ -50,7 +50,7 @@
         //-         a.btn.edit.full.js-save-svg(href='javascript:;', data-action='saveAsPreset') 儲存為版型
         //-         a.btn.edit.full.js-save-png(href='javascript:;', data-action='saveAsProgram') 儲存為節目
     transition(name="fly", mode="out-in")
-      component(v-bind:is="currentView", v-bind:baseUrl="baseUrl")
+      component(v-bind:is="currentView", v-bind:baseUrl="baseUrl", v-bind:width="width", v-bind:height="height")
 </template>
 
 <script>
@@ -58,12 +58,14 @@ import Events from '../assets/cc.objectEvents'
 import Clockpanel from './panels/ClockPanel'
 import Timepanel from './panels/TimePanel'
 import Weatherpanel from './panels/WeatherPanel'
+import Presetpanel from './panels/PresetPanel'
 export default {
   name: 'Toolbar',
   components: {
     Clockpanel,
     Timepanel,
-    Weatherpanel
+    Weatherpanel,
+    Presetpanel
   },
   data () {
     return {
@@ -73,7 +75,7 @@ export default {
   },
   mounted () {
   },
-  props: ['currentObject', 'initialRadius', 'baseUrl', 'currentView'],
+  props: ['currentObject', 'initialRadius', 'baseUrl', 'currentView', 'width', 'height'],
   methods: {
     addRect () {
       var fabric = window['fabric']
@@ -159,6 +161,147 @@ export default {
     updateSub (subname) {
       this.$parent.$emit('updateSubmenu', subname)
     },
+    addUsb () {
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var bg = new fabric.Rect({
+        fill: '#333333',
+        width: 200,
+        height: 200,
+        left: 0,
+        top: 0,
+        padding: 0,
+        strokeWidth: 0,
+        originX: 'center',
+        originY: 'center'
+      })
+      var text = new fabric.Text('<USB Frame>', {
+        left: 0,
+        top: 0,
+        fontSize: '14',
+        fontFamily: 'Open sans',
+        textAlign: 'center',
+        fill: '#cccccc',
+        originX: 'center',
+        originY: 'center'
+      })
+      var group = new fabric.Usbframe([bg, text], {
+        left: canvas.getWidth() / 2 - 100,
+        top: canvas.getHeight() / 2 - 100,
+        padding: 0,
+        strokeWidth: 0
+      })
+      group.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            interaction: this.interaction
+          })
+        }
+      })(group.toObject)
+      group.perPixelTargetFind = true
+      canvas.add(group)
+      canvas.renderAll()
+      // CanvasComposer.History.Update()
+      // Bind
+      this.bindEvents(group)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(group)
+      // Refresh log
+    },
+    addWeb () {
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var bg = new fabric.Rect({
+        width: 200,
+        height: 200,
+        left: 0,
+        top: 0,
+        padding: 0,
+        strokeWidth: 0,
+        fill: '#cccccc',
+        originX: 'center',
+        originY: 'center'
+      })
+      var text = new fabric.Text('<WebView>', {
+        left: 0,
+        top: 0,
+        fontSize: '14',
+        fontFamily: 'Open sans',
+        textAlign: 'center',
+        originX: 'center',
+        originY: 'center'
+      })
+      var group = new fabric.Webview([bg, text], {
+        left: 0,
+        top: 0
+      })
+      group.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            webview: this.webview,
+            interaction: this.interaction,
+            placeholder: this.placeholder
+          })
+        }
+      })(group.toObject)
+      group.perPixelTargetFind = true
+      canvas.add(group)
+      // Bind
+      this.bindEvents(group)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(group)
+      // Refresh log
+    },
+    addRtsp () {
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var bg = new fabric.Rect({
+        fill: '#1a1a1a',
+        width: 200,
+        height: 200,
+        left: 0,
+        top: 0,
+        padding: 0,
+        strokeWidth: 0,
+        originX: 'center',
+        originY: 'center'
+      })
+      var text = new fabric.Text('<RTSP Frame>', {
+        left: 0,
+        top: 0,
+        fontSize: '14',
+        fontFamily: 'Open sans',
+        textAlign: 'center',
+        fill: '#cccccc',
+        originX: 'center',
+        originY: 'center'
+      })
+      var group = new fabric.Rtspframe([bg, text], {
+        left: canvas.getWidth() / 2 - 100,
+        top: canvas.getHeight() / 2 - 100,
+        padding: 0,
+        strokeWidth: 0
+      })
+      group.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            interaction: this.interaction,
+            rtsp: this.rtsp
+          })
+        }
+      })(group.toObject)
+      group.perPixelTargetFind = true
+      canvas.add(group)
+      canvas.renderAll()
+      // Bind
+      this.bindEvents(group)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(group)
+      // Refresh log
+    },
+    disposeAll () {
+      this.$parent.$emit('disposeAll')
+    },
     bindEvents (object) {
       Events.bindEvents(this.$parent, object)
       this.$parent.$emit('updateHistory')
@@ -173,6 +316,7 @@ export default {
 @import "../assets/scss/buttons";
 #toolbar {
   text-align: center;
+  border-top: 2px solid $pureblack;
   ul {
     margin: 0;
     padding: 0;
@@ -191,6 +335,7 @@ export default {
   box-sizing: border-box;
   padding: 1em;
   background-color: $darkblue;
+  border-left: 2px solid $pureblack;
   box-shadow: 3px 0 3px $black;
   z-index: 1;
 }

@@ -8,7 +8,9 @@ export default {
       })
       // 讀取
     } else if (data === 'new') {
-      initCanvas.init(options)
+      initCanvas.init(options, function (res) {
+        window.vue.$children[0].updateCanvasSize()
+      })
     }
   },
   Save: {

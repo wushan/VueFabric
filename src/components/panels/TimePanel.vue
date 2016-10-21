@@ -1,6 +1,7 @@
 <template lang="jade">
   #timesettings.floating-menu
     .timeconfig-wrapper
+      h3 Time Format
       .timeconfig-inner
         .row
           a.format(href='javascript:;', @click="addTime('YYYY-MM-DD HH:mm:ss')") 2016-09-01 12:01:42

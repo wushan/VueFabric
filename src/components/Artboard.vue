@@ -44,6 +44,7 @@ export default {
 @import "../assets/scss/helpers";
 
 .canvas-wrapper {
+  box-sizing: border-box;
   height: 100%;
   text-align: center;
   flex: 1;
@@ -51,9 +52,10 @@ export default {
   align-items:center;
   justify-content:center;
   transition: .3s all ease;
-  background-color: $darkgray;
-  border-right: 4px solid $pureblack;
-  border-left: 4px solid $pureblack;
+  background-color: $darkestgray;
+  border-right: 2px solid $pureblack;
+  border-top: 2px solid $pureblack;
+  border-left: 2px solid $pureblack;
   max-width: calc( 100vw - 90px );
   &.pushed {
     max-width: calc( 100vw - 350px );

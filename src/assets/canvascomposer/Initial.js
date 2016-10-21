@@ -2,7 +2,7 @@ var fabric = window.fabric
 var canvas = window.canvas
 import Load from './Load'
 export default {
-  init: function (options) {
+  init: function (options, cb) {
     // *Setting Up Canvas
     canvas = new fabric.CanvasEx('c', {
       width: options.width,
@@ -63,6 +63,7 @@ export default {
         left: snap.left
       })
     }
+    cb && cb()
   },
   initWithData: function (data, options, cb) {
     // *Setting Up Canvas

@@ -1,6 +1,7 @@
 <template lang="jade">
   #weatherSettings.floating-menu
     .canvasconfig-wrapper
+      h3 Select Place
       .canvasconfig-inner
         transition(name="fade", mode="out-in")
           loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")

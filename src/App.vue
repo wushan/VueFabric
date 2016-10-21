@@ -1,7 +1,8 @@
 <template lang="pug">
   #canvaseditor
+    globalmis
     main
-      toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView")
+      toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
       artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
     contextmenu
     programlist
@@ -23,7 +24,9 @@ import Artboard from './components/Artboard'
 import Toolbar from './components/Toolbar'
 import Contextmenu from './components/Contextmenu'
 import Programlist from './components/Programlist'
+import Globalmis from './components/globalMis'
 import Events from './assets/cc.objectEvents'
+import Load from './assets/canvascomposer/Load'
 import Utils from './assets/canvascomposer/Utils'
 export default {
   name: 'CanvasEditor',
@@ -31,12 +34,15 @@ export default {
     Artboard,
     Toolbar,
     Contextmenu,
-    Programlist
+    Programlist,
+    Globalmis
   },
   data () {
     return {
       currentObject: null,
       initialRadius: 100,
+      width: null,
+      height: null,
       baseUrl: 'http://radi.4webdemo.com/',
       history: {
         redo: [],
@@ -56,6 +62,9 @@ export default {
     this.$on('updateSubmenu', function (res) {
       this.currentView = res
     })
+    this.$on('disposeAll', function (res) {
+      this.dispose()
+    })
     this.$on('globalLoad', function (res) {
       this.globalLoader = res
     })
@@ -63,9 +72,11 @@ export default {
       this.globalError = res
       setTimeout(() => (this.globalError = null), 3000)
     })
+    this.$on('loadPreset', function (res) {
+      this.loadFromPreset(res)
+    })
   },
   mounted () {
-    // console.log('APP')
     this.initial()
     // Global Close SubMenu
     var instance = this
@@ -76,8 +87,12 @@ export default {
   },
   methods: {
     initial () {
-      console.log('initial')
       this.keyBoardControl()
+    },
+    updateCanvasSize () {
+      var canvas = window['canvas']
+      this.width = canvas.width
+      this.height = canvas.height
     },
     updateHistory () {
       var canvas = window['canvas']
@@ -110,12 +125,45 @@ export default {
         console.log('Reach Limit')
       }
     },
+    loadFromPreset (data) {
+      var component = this
+      this.globalLoader = true
+      Load.fromJSON(data, function (res) {
+        component.globalLoader = false
+      })
+    },
     loadFromJSON (data) {
       var canvas = window['canvas']
       var component = this
       canvas.loadFromJSON(data, canvas.renderAll.bind(canvas), function (o, object) {
         canvas.renderAll()
         Events.bindEvents(component, object)
+      })
+    },
+    dispose () {
+      var instance = this
+      var canvas = window['canvas']
+      instance.$swal({
+        title: '確定刪除？',
+        text: '這個動作會清除畫面中所有物件',
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonText: '取消',
+        confirmButtonText: '確定刪除'
+      }).then(function () {
+        for (var i = 0; i < canvas._objects.length; i++) {
+          // obj = canvas._objects[i];
+          if (canvas._objects[i]._element !== undefined && canvas._objects[i]._element.localName === 'video') {
+            canvas._objects[i].getElement().pause()
+          }
+        }
+        canvas.clear()
+        instance.updateHistory()
+        instance.$swal(
+          '已刪除',
+          '畫面已清空',
+          'success'
+        )
       })
     },
     keyBoardControl () {
@@ -228,11 +276,15 @@ export default {
 #globalLoader {
   position: absolute;
   top: 0;
-  right: 1em;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: $darkestgray;
+  box-shadow: 0 3px 3px $pureblack;
   .content {
+    padding: .5em 0 1em 0;
     text-align: center;
     display: inline-block;
     vertical-align: middle;
@@ -299,7 +351,7 @@ a {
   background-color: $black;
   color: $white;
   main {
-    height: 100%;
+    height: calc( 100% - 50px );
     display: flex;
     #toolbar {
       box-sizing: border-box;

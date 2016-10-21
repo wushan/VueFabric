@@ -1,6 +1,7 @@
 <template lang="jade">
   #clocksettings.floating-menu
     .canvasconfig-wrapper
+      h3 Clock Type
       .canvasconfig-inner
         loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
         transition(name="fade", mode="out-in")

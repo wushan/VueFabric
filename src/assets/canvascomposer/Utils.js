@@ -35,6 +35,7 @@ export default {
       } else {
         var instance = klass.fromObject(objects[i])
         canvas.add(instance)
+        canvas.setActiveObject(instance)
         cb && cb(instance)
       }
     }

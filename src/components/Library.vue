@@ -16,14 +16,17 @@
     transition(name="fade", mode="out-in")
       .controlgroup(v-if="subCategory")
         .select-wrapper(v-if="subCategory.length")
-          select(@change="changed")
-            option(v-for="sub in subCategory") {{ sub.name }} / {{ sub.cateId }}
-    loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
+          select(v-model="selectedSubCategory", @change="subChanged")
+            option(v-for="sub in subCategory", :value="sub") {{ sub.name }} / {{ sub.cateId }}
     transition(name="fade", mode="out-in")
       .materials-wrapper
-        .materials-list
-          .material(v-for="item in items")
+        transition-group.materials-list(name="list-complete", tag="div")
+          .material(v-for="item in items", :key="item.LId")
             img(:src="baseUrl + item.thumbnail")
+            .type(v-if="item.video_image")
+              .fa.fa-play-circle.fa-lg
+    loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
+
 </template>
 
 <script>
@@ -41,6 +44,7 @@ export default {
   data () {
     return {
       selectedCategory: {},
+      selectedSubCategory: {},
       loading: true,
       loadingtext: '素材讀取中',
       defaultCateId: 9999,
@@ -59,9 +63,15 @@ export default {
     this.fetchData(this.defaultCateId, null, this.num, this.limit, 1, true)
   },
   mounted () {
+    var instance = this
     this.$nextTick(function () {
       $('.materials-wrapper').mCustomScrollbar({
-        theme: 'light'
+        theme: 'light',
+        callbacks: {
+          onTotalScroll: function () {
+            instance.fetchMoreData(instance.selectedCategory.cateId, instance.selectedSubCategory.cateId, instance.num, instance.limit, instance.selectedSubCategory.public)
+          }
+        }
       })
     })
   },
@@ -100,13 +110,19 @@ export default {
   methods: {
     changed (obj) {
       // console.log(obj)
+      this.num = 0
       if (this.selectedCategory) {
         if (this.subCategory) {
-          this.fetchData(this.selectedCategory.cateId, this.subCategory[0].cateId, this.num, this.limit, this.subCategory[0].public, null)
+          this.selectedSubCategory = this.subCategory[0]
+          this.fetchData(this.selectedCategory.cateId, this.selectedSubCategory.cateId, this.num, this.limit, this.selectedSubCategory.public, null)
         } else {
           this.fetchData(this.selectedCategory.cateId, null, this.num, this.limit, this.selectedCategory.public, null)
         }
       }
+    },
+    subChanged () {
+      this.num = 0
+      this.fetchData(this.selectedCategory.cateId, this.selectedSubCategory.cateId, this.num, this.limit, this.selectedSubCategory.public, null)
     },
     fetchData (cateId, subId, num, limit, isPublic, initial) {
       this.loading = true
@@ -126,6 +142,25 @@ export default {
           })
         }
       })
+    },
+    fetchMoreData (cateId, subId, num, limit, isPublic) {
+      this.loading = true
+      this.num = this.num + this.limit
+      Api.getLibCategory(cateId, subId, this.num, limit, isPublic, (err, data) => {
+        this.loading = false
+        if (err) {
+          this.error = err.toString()
+          console.log(err)
+        } else {
+          if (data.library) {
+            for (var i = 0; i < data.library.length; i++) {
+              this.items.push(data.library[i])
+            }
+          } else {
+            this.$parent.$parent.$parent.$emit('globalError', '該分類已經沒有更多資料')
+          }
+        }
+      })
     }
   }
 }
@@ -137,19 +172,58 @@ export default {
   @import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
   @import "../assets/scss/helpers";
   @import "../assets/scss/var";
+  .list-complete-item {
+    transition: all 1s;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .list-complete-enter, .list-complete-leave-active {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .list-complete-leave-active {
+    position: absolute;
+  }
   #library {
     text-align: center;
     background-color: $black;
     border-radius: 6px;
     margin: 1em 0;
     .materials-wrapper {
-      height: 12em;
+      height: 18em;
+      background-color: lighten($darkestgray, 5%);
+      padding: 1em;
+      margin-bottom: 2em;
+      border-radius: 6px;
       overflow: hidden;
       .materials-list {
+        margin-right: .5em;
         @extend .clr;
         .material {
-          @include gallery(6 of 12);
-          margin-bottom: .3em;
+          cursor: pointer;
+          transition: .3s all ease;
+          @include gallery(6 of 12 2);
+          margin-bottom: 1em;
+          box-shadow: 0 3px 3px rgba($pureblack, .33);
+          position: relative;
+          img {
+            width: 100%; 
+          }
+          &:hover {
+            box-shadow: 2px 3px 3px $pureblack;
+          }
+          .type {
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            color: $white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
         }
       }
     }

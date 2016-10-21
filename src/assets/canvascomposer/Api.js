@@ -63,5 +63,20 @@ export default {
         cb(null, res.body)
       }
     })
+  },
+  getPresets (num, limit, width, height, cb) {
+    request.post('http://radi.4webdemo.com/index.php/framesapi/get_frames')
+    .type('form')
+    .send({num})
+    .send({limit})
+    .send({width})
+    .send({height})
+    .end(function (err, res) {
+      if (err) {
+        console.log(err)
+      } else {
+        cb(null, res.body)
+      }
+    })
   }
 }

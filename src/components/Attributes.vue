@@ -272,7 +272,7 @@ export default {
   props: ['currentObject', 'initialRadius', 'baseUrl'],
   computed: {
     typography () {
-      if (this.currentObject.type === 'eclock' || this.currentObject.type === 'textbox' || this.currentObject.type === 'weather') {
+      if (this.currentObject.type === 'eclock' || this.currentObject.type === 'textbox' || this.currentObject.type === 'weather' || this.currentObject.type === 'location' || this.currentObject.type === 'temperature') {
         return true
       } else {
         return false
@@ -353,11 +353,13 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../assets/scss/var";
 @import "./bower_components/susy/sass/susy";
 @import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
 // Transitions
 #attributes {
   font-size: 13px;
+  border-top: 2px solid $pureblack;
   &.fade-enter-active, &.fade-leave-active {
   transition: .6s all ease;
 }

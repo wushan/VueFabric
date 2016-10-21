@@ -8,14 +8,14 @@ export default {
       this.loading = false
       if (err) {
         this.error = err.toString()
-        callback && callback(err.toString())
+        callback && callback(err, null)
       } else {
         var conditionText = conditionTextDic[data.query.results.channel.item.condition.code.toString()]
         var conditionImg = conditionImgDic[data.query.results.channel.item.condition.code.toString()]
         var temp = Math.round((data.query.results.channel.item.condition.temp - 32) * 5 / 9) + '°C'
         var city = data.query.results.channel.location.city
         var country = data.query.results.channel.location.country
-        callback && callback({conditionText, conditionImg, temp, city, country})
+        callback && callback(null, {conditionText, conditionImg, temp, city, country})
       }
     })
     // $.ajax({

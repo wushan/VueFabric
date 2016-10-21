@@ -63,15 +63,16 @@ export default {
       this.globalError = res
       setTimeout(() => (this.globalError = null), 3000)
     })
-    // Global Close SubMenu
-    var instance = this
-    window.addEventListener('mousedown', function () {
-      instance.currentView = null
-    })
   },
   mounted () {
     // console.log('APP')
     this.initial()
+    // Global Close SubMenu
+    var instance = this
+    var artBoard = document.getElementById('artboard')
+    artBoard.addEventListener('mousedown', function () {
+      instance.currentView = null
+    })
   },
   methods: {
     initial () {

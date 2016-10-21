@@ -92,76 +92,76 @@ export default {
       var instance = this
       Weather.translate(location, function (err, res) {
         if (err) {
-          console.log(err)
-          instance.$parent.$parent.$emit('globalError', err)
+          instance.$parent.$parent.$emit('globalError', err.response.statusCode + ':' + err.response.body.error.description)
+        } else {
+          var conditionText = res.conditionText
+          var conditionImg = res.conditionImg
+          var temp = res.temp
+          var city = locationText
+          // var country = res.country
+          console.log(conditionText)
+          fabric.Weatherimg.fromURL('static/assets/images/conditions/svg/' + conditionImg, function (oImg) {
+            oImg.scaleToWidth(60)
+            oImg.set({
+              left: canvas.getWidth() / 2,
+              top: canvas.getHeight() / 2
+            })
+            // 加入圖片
+            canvas.add(oImg)
+            // Bind
+            instance.bindEvents(oImg)
+            oImg.toObject = (function (toObject) {
+              return function () {
+                return fabric.util.object.extend(toObject.call(this), {
+                  location: location,
+                  interaction: this.interaction
+                })
+              }
+            })(oImg.toObject)
+            // 加入天氣
+            var fTemp = new fabric.Temperature(temp, {
+              left: canvas.getWidth() / 2,
+              top: canvas.getHeight() / 2,
+              fontSize: '60',
+              fontFamily: 'Open sans',
+              fontWeight: 300
+            })
+            canvas.add(fTemp)
+            // Bind
+            instance.bindEvents(fTemp)
+            fTemp.toObject = (function (toObject) {
+              return function () {
+                return fabric.util.object.extend(toObject.call(this), {
+                  location: location,
+                  interaction: this.interaction
+                })
+              }
+            })(fTemp.toObject)
+
+            // 加入城市
+            var fLocation = new fabric.Location(city, {
+              left: canvas.getWidth() / 2,
+              top: canvas.getHeight() / 2,
+              fontSize: '18',
+              fontFamily: 'Open sans'
+            })
+            canvas.add(fLocation)
+            // Bind
+            instance.bindEvents(fLocation)
+
+            fLocation.toObject = (function (toObject) {
+              return function () {
+                return fabric.util.object.extend(toObject.call(this), {
+                  location: location,
+                  interaction: this.interaction
+                })
+              }
+            })(fLocation.toObject)
+            canvas.renderAll()
+            // Programmatically Select Newly Added Object
+            canvas.setActiveObject(fTemp)
+          })
         }
-        var conditionText = res.conditionText
-        var conditionImg = res.conditionImg
-        var temp = res.temp
-        var city = locationText
-        // var country = res.country
-        console.log(conditionText)
-        fabric.Weatherimg.fromURL('static/assets/images/conditions/svg/' + conditionImg, function (oImg) {
-          oImg.scaleToWidth(60)
-          oImg.set({
-            left: canvas.getWidth() / 2,
-            top: canvas.getHeight() / 2
-          })
-          // 加入圖片
-          canvas.add(oImg)
-          // Bind
-          instance.bindEvents(oImg)
-          oImg.toObject = (function (toObject) {
-            return function () {
-              return fabric.util.object.extend(toObject.call(this), {
-                location: location,
-                interaction: this.interaction
-              })
-            }
-          })(oImg.toObject)
-          // 加入天氣
-          var fTemp = new fabric.Temperature(temp, {
-            left: canvas.getWidth() / 2,
-            top: canvas.getHeight() / 2,
-            fontSize: '60',
-            fontFamily: 'Open sans',
-            fontWeight: 300
-          })
-          canvas.add(fTemp)
-          // Bind
-          instance.bindEvents(fTemp)
-          fTemp.toObject = (function (toObject) {
-            return function () {
-              return fabric.util.object.extend(toObject.call(this), {
-                location: location,
-                interaction: this.interaction
-              })
-            }
-          })(fTemp.toObject)
-
-          // 加入城市
-          var fLocation = new fabric.Location(city, {
-            left: canvas.getWidth() / 2,
-            top: canvas.getHeight() / 2,
-            fontSize: '18',
-            fontFamily: 'Open sans'
-          })
-          canvas.add(fLocation)
-          // Bind
-          instance.bindEvents(fLocation)
-
-          fLocation.toObject = (function (toObject) {
-            return function () {
-              return fabric.util.object.extend(toObject.call(this), {
-                location: location,
-                interaction: this.interaction
-              })
-            }
-          })(fLocation.toObject)
-          canvas.renderAll()
-          // Programmatically Select Newly Added Object
-          canvas.setActiveObject(fTemp)
-        })
       })
     }
   },

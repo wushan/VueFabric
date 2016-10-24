@@ -39,9 +39,8 @@
       li
         a.full.btn.edit.js-setting(href="javascript:;" title="版面設定", @click="updateSub('presetpanel')", :class="{ active: currentView=='presetpanel' }")
           i.fa.fa-cogs.fa-lg
-        //- include canvassettings
       li
-        a.full.btn.edit.js-save(href="javascript:;" title="儲存", data-action='saveState')
+        a.full.btn.edit.js-save(href="javascript:;" title="儲存", @click="updateSub('savepanel')", :class="{ active: currentView=='savepanel' }")
           i.fa.fa-floppy-o.fa-lg
         //- .floating-menu
         //-   .canvasconfig-wrapper
@@ -59,13 +58,15 @@ import Clockpanel from './panels/ClockPanel'
 import Timepanel from './panels/TimePanel'
 import Weatherpanel from './panels/WeatherPanel'
 import Presetpanel from './panels/PresetPanel'
+import Savepanel from './panels/SavePanel'
 export default {
   name: 'Toolbar',
   components: {
     Clockpanel,
     Timepanel,
     Weatherpanel,
-    Presetpanel
+    Presetpanel,
+    Savepanel
   },
   data () {
     return {

@@ -78,5 +78,18 @@ export default {
         cb(null, res.body)
       }
     })
+  },
+  saveProgram (data, cb) {
+    request.post('http://radi.4webdemo.com/index.php/framesapi/save')
+    .type('form')
+    .send({obj: data})
+    .end(function (err, res) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log(res)
+        cb(null, res.body)
+      }
+    })
   }
 }

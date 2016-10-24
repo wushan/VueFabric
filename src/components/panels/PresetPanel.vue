@@ -70,6 +70,11 @@ export default {
     .block {
       .thumbnail {
         background-color: $white;
+        box-shadow: 0 3px 3px rgba($pureblack, .33);
+        transition: .3s all ease;
+        &:hover {
+          box-shadow: 2px 3px 3px $pureblack;
+        }
       }
     }
   }

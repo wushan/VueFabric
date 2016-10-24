@@ -1,17 +1,22 @@
 <template lang="jade">
   #globalMis
-    button.btn.edit A
-    button.btn.edit B
-    button.btn.edit C
+    .globalMis-wrapper
+      .globalMis-inner
+        .block
+          a(href="javascript:;") 放棄編輯
+        .block
+          .resolution Resolution: {{width}} x {{height}}
+        .block
+          .programname Program Name: 'some php string'
 </template>
 
 <script>
 export default {
   data () {
     return {
-      msg: 'Hello Vue!'
     }
-  }
+  },
+  props: ['width', 'height']
 }
 </script>
 
@@ -25,5 +30,15 @@ export default {
   line-height: 50px;
   padding: 0 1em;
   background-color: $black;
+}
+.globalMis-inner {
+  &:before, &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  .block {
+    @include gallery(4 of 12);
+  }
 }
 </style>

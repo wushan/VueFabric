@@ -40,8 +40,8 @@ if (CanvasInitData && CanvasInitOption) {
   CanvasComposer.init(CanvasInitData, CanvasInitOption)
 } else {
   CanvasComposer.init('new', {
-    width: 1000,
-    height: 500
+    width: 1024,
+    height: 768
   })
 }
 console.log(vue.$children)

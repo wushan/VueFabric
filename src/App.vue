@@ -1,6 +1,6 @@
 <template lang="pug">
   #canvaseditor
-    globalmis
+    globalmis(v-bind:width="width", v-bind:height="height")
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
       artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
@@ -10,7 +10,7 @@
       #globalLoader(v-if="globalLoader")
         .content
           img(src="./assets/images/globalloader.gif")
-          span loading
+          span Progressing
     transition(name="fade", mode="out-in")
       #globalError(v-if="globalError")
         .content
@@ -273,6 +273,7 @@ export default {
 @import "./assets/scss/forms";
 @import "./assets/scss/typography";
 @import "./assets/scss/dependencies/jquery.mCustomScrollbar";
+@import "./assets/scss/dependencies/spectrum";
 #globalLoader {
   position: absolute;
   top: 0;
@@ -281,7 +282,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: $darkestgray;
+  background-color: darken($darkestgray, 10%);
   box-shadow: 0 3px 3px $pureblack;
   .content {
     padding: .5em 0 1em 0;

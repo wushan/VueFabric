@@ -85,7 +85,7 @@ export default {
     .send({obj: data})
     .end(function (err, res) {
       if (err) {
-        console.log(err)
+        cb(err, null)
       } else {
         console.log(res)
         cb(null, res.body)

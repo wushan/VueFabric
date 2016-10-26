@@ -1,6 +1,6 @@
 <template lang="pug">
   #artboard
-    .canvas-wrapper(v-bind:class="{ pushed: currentObject}")
+    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement}")
       #canvas.task
         canvas#c
         .objectControl
@@ -14,19 +14,23 @@
           .tag.height
               span 600
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
+      arrangement(v-if="arrangement", v-bind:arrangement="arrangement")
+    transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
       attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
 </template>
 
 <script>
 // var fabric = window['fabric']
 import Attributes from '../components/Attributes'
+import Arrangement from './Arrangement'
 import initCanvas from '../assets/canvascomposer/Initial'
 export default {
   name: 'Artboard',
   components: {
-    Attributes
+    Attributes,
+    Arrangement
   },
-  props: ['currentObject', 'initialRadius', 'baseUrl'],
+  props: ['currentObject', 'initialRadius', 'baseUrl', 'arrangement'],
   mounted () {
     // console.log('ARTBOARD')
   },
@@ -58,7 +62,7 @@ export default {
   border-left: 2px solid $pureblack;
   max-width: calc( 100vw - 90px );
   &.pushed {
-    max-width: calc( 100vw - 350px );
+    max-width: calc( 100vw - 380px );
   }
   #canvas {
     display: inline-block;

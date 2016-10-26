@@ -3,7 +3,7 @@
     globalmis(v-bind:width="width", v-bind:height="height")
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
-      artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
+      artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement")
     contextmenu
     programlist
     transition(name="fade", mode="out-in")
@@ -39,6 +39,7 @@ export default {
   },
   data () {
     return {
+      arrangement: false,
       currentObject: null,
       initialRadius: 100,
       width: null,
@@ -75,6 +76,13 @@ export default {
     this.$on('loadPreset', function (res) {
       this.loadFromPreset(res)
     })
+    this.$on('triggerArrangement', function (res) {
+      this.arrangement = res
+      // DeselectAll
+      var canvas = window['canvas']
+      canvas.deactivateAllWithDispatch()
+      canvas.renderAll()
+    })
   },
   mounted () {
     this.initial()
@@ -85,9 +93,17 @@ export default {
       instance.currentView = null
     })
   },
+  watch: {
+    'currentObject': 'arrangementControl'
+  },
   methods: {
     initial () {
       this.keyBoardControl()
+    },
+    arrangementControl () {
+      if (this.currentObject) {
+        this.arrangement = false
+      }
     },
     updateCanvasSize () {
       var canvas = window['canvas']
@@ -368,11 +384,5 @@ a {
     }
   }
 }
-#attributes {
-  box-sizing: border-box;
-  padding: 1em;
-  flex: none;
-  width: 260px;
-  height: 100%;
-}
+
 </style>

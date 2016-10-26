@@ -116,79 +116,65 @@
               label 互動
               .controls.rich-control
                 .select-wrapper
-                  select#interactives
-                    option(value='none' selected) 無互動
-                    option(value='apps') 啟動 APP
-                    option(value='slide') 滑動
-                    option(value='slidewitharrow') 滑動 (有箭頭)
-                    option(value='previous') 上一節目
-                    option(value='escape') 退出互動
-                    option(value='interactive') 互動節目
+                  select#interactives(v-model="selectedType", @change="updateInteractive")
+                    option(v-for="interactive in interactives", :value="interactive.type") {{interactive.name}}
             //- .controlgroup.link
             //-   label 連結
             //-   .controls.rich-control
             //-     input#linkValue(type='text')
             //-     a.js-inbounds(href="javascript:;")
             //-       i.fa.fa-link.fa-2x
-            //- .application
-            //-   .controlgroup
-            //-     label 套件名稱
-            //-     .controls.rich-control
-            //-       input#appName(type='text')
-            //-   .controlgroup
-            //-     label 退出方式
-            //-     .controls.rich-control
-            //-       .select-wrapper
-            //-         select#appEscape
-            //-           option(value="Manual") 手動退出
-            //-           option(value="Force") 強制關閉
-            //-   .controlgroup
-            //-     .controls.rich-control
-            //-       .row
-            //-         .grid.g-6-12
-            //-           input#appEscapeTime(type='number', value="30")
-            //-         .grid.g-6-12
-            //-           label 秒強制關閉
-            //-   .controlgroup
-            //-     label 懸浮按鈕
-            //-     .controls.rich-control
-            //-       .select-wrapper
-            //-         select#appEscapeButton
-            //-           option(value="ON") 啟用
-            //-           option(value="OFF") 不啟用
-            //-   .controlgroup
-            //-     label 按鈕位置
-            //-     .controls.rich-control
-            //-       .select-wrapper
-            //-         select#appEscapeButtonPos
-            //-           option(value="lefttop") 左上
-            //-           option(value="leftcenter") 左中
-            //-           option(value="leftbottom") 左下
-            //-           option(value="righttop") 右上
-            //-           option(value="rightcenter") 右中
-            //-           option(value="rightbottom") 右下
-            //-           option(value="centertop") 中上
-            //-           option(value="centercenter") 中中
-            //-           option(value="centerbottom") 中下
-            //-   .controlgroup
-            //-     label 按鈕尺寸
-            //-     .controls.rich-control
-            //-       .select-wrapper
-            //-         select#appEscapeButtonSize
-            //-           option(value="L") 大
-            //-           option(value="M") 中
-            //-           option(value="S") 小
-            //-   .controlgroup
-            //-     button#appSave.btn.basic.full(type="button") 儲存 APP 設定
-          //- .attribution-group.media
-          //-   p Medias
-          //-   .controlgroup.media
-          //-     label 素材
-          //-     .controls.rich-control
-          //-       a.js-library(href="javascript:;")
-          //-         i.fa.fa-cloud-upload.fa-2x
-          //-       input#mediaValue(type='text' readonly)
-          //-     .mediaPreview
+            .application(v-if="currentObject.interaction.type === 'apps'")
+              .controlgroup
+                label 套件名稱
+                .controls.rich-control
+                  input#appName(v-model="currentObject.interaction.app.appName", type='text')
+              .controlgroup
+                label 退出方式
+                .controls.rich-control
+                  .select-wrapper
+                    select#appEscape(v-model="currentObject.interaction.app.appEscape")
+                      option(value="Manual") 手動退出
+                      option(value="Force") 強制關閉
+              .controlgroup
+                .controls.rich-control
+                  .row
+                    .grid.g-6-12
+                      input#appEscapeTime(type='number', v-model="currentObject.interaction.app.appEscapeTime")
+                    .grid.g-6-12
+                      label 秒強制關閉
+              .controlgroup
+                label 懸浮按鈕
+                .controls.rich-control
+                  .select-wrapper
+                    select#appEscapeButton(v-model="currentObject.interaction.app.appEscapeButton")
+                      option(value="ON") 啟用
+                      option(value="OFF") 不啟用
+              .controlgroup
+                label 按鈕位置
+                .controls.rich-control
+                  .select-wrapper
+                    select#appEscapeButtonPos(v-model="currentObject.interaction.app.appEscapeButtonPost")
+                      option(value="lefttop") 左上
+                      option(value="leftcenter") 左中
+                      option(value="leftbottom") 左下
+                      option(value="righttop") 右上
+                      option(value="rightcenter") 右中
+                      option(value="rightbottom") 右下
+                      option(value="centertop") 中上
+                      option(value="centercenter") 中中
+                      option(value="centerbottom") 中下
+              .controlgroup
+                label 按鈕尺寸
+                .controls.rich-control
+                  .select-wrapper
+                    select#appEscapeButtonSize(v-model="currentObject.interaction.app.appEscapeButtonSize")
+                      option(value="L") 大
+                      option(value="M") 中
+                      option(value="S") 小
+              .controlgroup
+                button#appSave.btn.basic.full(type="button", @click="updateAppInteraction") 儲存 APP 設定
+
           .attribution-group.webview(v-if="webview")
             p Webview Url
             .controlgroup.webview
@@ -253,6 +239,27 @@
               label 網址
               .controls
                 input#rtspUrl(type="text", placeholder="rtsp://000.000.000.00")
+          .attribution-group.layers
+            p 內容
+            .layers-wrapper
+              .layers-inner
+                .layer
+                  .thumbnail(style="background-image: url('http://radi.4webdemo.com/assets/uploads/A9999/8888/library/8/thumb_580652a0e23d4.jpg');")
+                  .description
+                    span 3/sec, fadeIn(1/sec)
+                    .configure
+                      .fa.fa-sliders.fa-lg
+                    .delete
+                      .fa.fa-trash.fa-lg
+                .layer.active
+                  .thumbnail(style="background-image: url('http://radi.4webdemo.com/assets/uploads/A9999/8888/library/8/thumb_580652a0e23d4.jpg');")
+                  .description
+                    span 3/sec, Random(1/sec)
+                    .configure
+                      .fa.fa-sliders.fa-lg
+                    .delete
+                      .fa.fa-trash.fa-lg
+
           library(v-bind:baseUrl="baseUrl")
 </template>
 
@@ -270,10 +277,102 @@ export default {
   components: {
     Library
   },
+  data () {
+    return {
+      selectedType: null,
+      interactives: [
+        { value: 'none',
+          name: '無互動',
+          type: 'none',
+          app: {
+            appName: '',
+            appEscape: '',
+            appEscapeTime: '',
+            appEscapeButton: '',
+            appEscapeButtonPost: '',
+            appEscapeButtonSize: ''
+          }
+        },
+        { value: 'apps',
+          name: '啟動APP',
+          type: 'apps',
+          app: {
+            appName: '',
+            appEscape: '',
+            appEscapeTime: '',
+            appEscapeButton: '',
+            appEscapeButtonPost: '',
+            appEscapeButtonSize: ''
+          }
+        },
+        { value: 'slide',
+          name: '滑動',
+          type: 'slide',
+          app: {
+            appName: '',
+            appEscape: '',
+            appEscapeTime: '',
+            appEscapeButton: '',
+            appEscapeButtonPost: '',
+            appEscapeButtonSize: ''
+          }
+        },
+        { value: 'slidewitharrow',
+          name: '滑動 (有箭頭)',
+          type: 'slidewitharrow',
+          app: {
+            appName: '',
+            appEscape: '',
+            appEscapeTime: '',
+            appEscapeButton: '',
+            appEscapeButtonPost: '',
+            appEscapeButtonSize: ''
+          }
+        },
+        { value: 'previous',
+          name: '上一節目',
+          type: 'previous',
+          app: {
+            appName: '',
+            appEscape: '',
+            appEscapeTime: '',
+            appEscapeButton: '',
+            appEscapeButtonPost: '',
+            appEscapeButtonSize: ''
+          }
+        },
+        { value: 'escape',
+          name: '退出互動',
+          type: 'escape',
+          app: {
+            appName: '',
+            appEscape: '',
+            appEscapeTime: '',
+            appEscapeButton: '',
+            appEscapeButtonPost: '',
+            appEscapeButtonSize: ''
+          }
+        },
+        { value: 'interactive',
+          name: '互動節目',
+          type: 'interactive',
+          app: {
+            appName: '',
+            appEscape: '',
+            appEscapeTime: '',
+            appEscapeButton: '',
+            appEscapeButtonPost: '',
+            appEscapeButtonSize: ''
+          }
+        }
+      ]
+    }
+  },
   props: ['currentObject', 'initialRadius', 'baseUrl'],
   computed: {
     typography () {
       if (this.currentObject.type === 'eclock' || this.currentObject.type === 'textbox' || this.currentObject.type === 'weather' || this.currentObject.type === 'location' || this.currentObject.type === 'temperature') {
+        this.initialSpectrum()
         return true
       } else {
         return false
@@ -317,7 +416,7 @@ export default {
         showInput: false,
         className: 'full-spectrum',
         showInitial: true,
-        // showPalette: true,
+        showPalette: true,
         showAlpha: true,
         showSelectionPalette: true,
         maxSelectionSize: 10,
@@ -334,7 +433,7 @@ export default {
           var canvas = window['canvas']
           var obj = canvas.getActiveObject()
           color = color.toRgbString()
-          if (obj.type === 'textbox' || obj.type === 'i-text' || obj.type === 'marquee') {
+          if (obj.type === 'eclock' || obj.type === 'textbox' || obj.type === 'weather' || obj.type === 'location' || obj.type === 'temperature') {
             obj.setTextBackgroundColor(color)
             console.log(color)
           } else {
@@ -360,9 +459,66 @@ export default {
             'rgb(12, 52, 61)', 'rgb(28, 69, 135)', 'rgb(7, 55, 99)', 'rgb(32, 18, 77)', 'rgb(76, 17, 48)']
         ]
       })
+      $('#objectColor').spectrum('set', this.currentObject.textBackgroundColor)
     })
   },
+  watch: {
+    'currentObject': 'updateSpectrum'
+  },
   methods: {
+    // updateAppInteraction () {
+    //   var appObj = {
+    //     appName: $('#appName').val(),
+    //     appEscape: $('#appEscape').val(),
+    //     appEscapeTime: $('#appEscapeTime').val(),
+    //     appEscapeButton: $('#appEscapeButton').val(),
+    //     appEscapeButtonPost: $('#appEscapeButtonPos').val(),
+    //     appEscapeButtonSize: $('#appEscapeButtonSize').val()
+    //   }
+    //   console.log(appObj)
+    //   var canvas = window['canvas']
+    //   var obj = canvas.getActiveObject()
+    //   // obj.set('interaction', {type: 'apps', app: this.appSetting})
+    //   obj.set('interaction.app', appObj)
+    // },
+    // updateInteraction (type) {
+    //   var canvas = window['canvas']
+    //   var obj = canvas.getActiveObject()
+    //   console.log(this.interaction.type)
+    //   obj.set('interaction', this.interaction)
+    // },
+    updateAppInteraction () {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var appObj = {
+        appName: this.currentObject.interaction.app.appName,
+        appEscape: this.currentObject.interaction.app.appEscape,
+        appEscapeTime: this.currentObject.interaction.app.appEscapeTime,
+        appEscapeButton: this.currentObject.interaction.app.appEscapeButton,
+        appEscapeButtonPost: this.currentObject.interaction.app.appEscapeButtonPost,
+        appEscapeButtonSize: this.currentObject.interaction.app.appEscapeButtonSize
+      }
+      var exchanger = obj.get('interaction')
+      exchanger.app = appObj
+      obj.set('interaction', exchanger)
+      canvas.renderAll()
+      // console.log(obj.get('interaction.app'))
+    },
+    updateInteractive () {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var typeSetting
+      for (var i = 0; i < this.interactives.length; i++) {
+        if (this.interactives[i].type === this.selectedType) {
+          typeSetting = this.interactives[i]
+        }
+      }
+      obj.set('interaction', typeSetting)
+    },
+    updateSpectrum () {
+      $('#objectColor').spectrum('set', this.currentObject.textBackgroundColor)
+      $('#objectTextColor').spectrum('set', this.currentObject.fill)
+    },
     changeFontFamily () {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
@@ -395,6 +551,59 @@ export default {
         canvas.setActiveObject(newObj)
         canvas.renderAll()
       }
+    },
+    initialSpectrum () {
+      this.$nextTick(function () {
+        // TEXT Color
+        $('#objectTextColor').spectrum({
+          showInput: false,
+          className: 'full-spectrum',
+          showInitial: true,
+          showPalette: true,
+          showAlpha: true,
+          showSelectionPalette: true,
+          maxSelectionSize: 10,
+          localStorageKey: 'spectrum.demo',
+          move: function (color) {
+          },
+          show: function () {
+          },
+          beforeShow: function () {
+          },
+          hide: function () {
+          },
+          change: function (color) {
+            var canvas = window['canvas']
+            var obj = canvas.getActiveObject()
+            // Turn the Spectrum Object to Hex String
+            color = color.toRgbString()
+            if (obj.type === 'eclock' || obj.type === 'textbox' || obj.type === 'weather' || obj.type === 'location' || obj.type === 'temperature') {
+              obj.setColor(color)
+            } else {
+              //
+            }
+            // obj.backgroundColor(color);
+            canvas.renderAll()
+            $('#objectTextColor').spectrum('hide')
+          },
+          palette: [
+              ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
+              'rgb(204, 204, 204)', 'rgb(217, 217, 217)', 'rgb(255, 255, 255)'],
+              ['rgb(152, 0, 0)', 'rgb(255, 0, 0)', 'rgb(255, 153, 0)', 'rgb(255, 255, 0)', 'rgb(0, 255, 0)',
+              'rgb(0, 255, 255)', 'rgb(74, 134, 232)', 'rgb(0, 0, 255)', 'rgb(153, 0, 255)', 'rgb(255, 0, 255)'],
+              ['rgb(230, 184, 175)', 'rgb(244, 204, 204)', 'rgb(252, 229, 205)', 'rgb(255, 242, 204)', 'rgb(217,234, 211)',
+              'rgb(208, 224, 227)', 'rgb(201, 218, 248)', 'rgb(207, 226, 243)', 'rgb(217, 210, 233)', 'rgb(234, 209, 220)',
+              'rgb(221, 126, 107)', 'rgb(234, 153, 153)', 'rgb(249, 203, 156)', 'rgb(255, 229, 153)', 'rgb(182, 215, 168)',
+              'rgb(162, 196, 201)', 'rgb(164, 194, 244)', 'rgb(159, 197, 232)', 'rgb(180, 167, 214)', 'rgb(213, 166, 189)',
+              'rgb(204, 65, 37)', 'rgb(224, 102, 102)', 'rgb(246, 178, 107)', 'rgb(255, 217, 102)', 'rgb(147, 196, 125)',
+              'rgb(118, 165, 175)', 'rgb(109, 158, 235)', 'rgb(111, 168, 220)', 'rgb(142, 124, 195)', 'rgb(194, 123, 160)',
+              'rgb(166, 28, 0)', 'rgb(204, 0, 0)', 'rgb(230, 145, 56)', 'rgb(241, 194, 50)', 'rgb(106, 168, 79)',
+              'rgb(69, 129, 142)', 'rgb(60, 120, 216)', 'rgb(61, 133, 198)', 'rgb(103, 78, 167)', 'rgb(166, 77, 121)',
+              'rgb(91, 15, 0)', 'rgb(102, 0, 0)', 'rgb(120, 63, 4)', 'rgb(127, 96, 0)', 'rgb(39, 78, 19)',
+              'rgb(12, 52, 61)', 'rgb(28, 69, 135)', 'rgb(7, 55, 99)', 'rgb(32, 18, 77)', 'rgb(76, 17, 48)']
+          ]
+        })
+      })
     }
   }
 }
@@ -402,14 +611,29 @@ export default {
 
 <style lang="scss">
 @import "../assets/scss/var";
+@import "../assets/scss/helpers";
 @import "./bower_components/susy/sass/susy";
 @import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
 // Transitions
 #attributes {
+  box-sizing: border-box;
+  padding: 1em;
+  flex: none;
+  width: 290px;
+  height: 100%;
+}
+#attributes {
   font-size: 13px;
   border-top: 2px solid $pureblack;
   &.fade-enter-active, &.fade-leave-active {
-  transition: .6s all ease;
+    transition: .6s all ease;
+  }
+  &.fade-enter, &.fade-leave-active {
+    opacity: 0;
+    width: 0;
+    padding: 0;
+    // transform: translateX(40%);
+  } 
 }
 .attribution-group {
   .row {
@@ -418,11 +642,76 @@ export default {
     } 
   }
 }
-  &.fade-enter, &.fade-leave-active {
-    opacity: 0;
-    width: 0;
-    padding: 0;
-    // transform: translateX(40%);
-  } 
+.layers-wrapper {
+  .layers-inner {
+    background-color: darken($darkestgray, 5%);
+    padding: 1em;
+    box-shadow: inset 3px 3px 3px $pureblack;
+    border-radius: 6px;
+    .layer {
+      @extend .clr;
+      margin-bottom: .5em;
+      border: 1px dashed $darkestgray;
+      cursor: pointer;
+      color: $darkgray;
+      position: relative;
+      transition: .3s all ease;
+      &:hover, &.active {
+        // background-color: $pureblack;
+        color: $white;
+        border: 1px dashed $white;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+      .thumbnail {
+        float: left;
+        width: 30px;
+        height: 30px;
+        overflow: hidden;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+      }
+      .description {
+        margin-left: 40px;
+        padding: .5em;
+        span {
+          display: inline-block;
+          vertical-align: middle;
+          width: 100px;
+          height: 1em; 
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      .configure {
+        position: absolute;
+        right: 3em;
+        top: 0;
+        bottom: 0;
+        line-height: 30px;
+        color: $white;
+        transition: .3s all ease;
+        &:hover {
+          color: $green;
+        }
+      }
+      .delete {
+        position: absolute;
+        right: 1em;
+        top: 0;
+        bottom: 0;
+        line-height: 30px;
+        color: $white;
+        transition: .3s all ease;
+        &:hover {
+          color: $red;
+        }
+      }
+    }
+  }
 }
+
 </style>

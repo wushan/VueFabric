@@ -42,7 +42,8 @@ export default {
         this.loading = false
         if (err) {
           this.error = err.toString()
-          console.log(err)
+          console.table(err)
+          this.$parent.$parent.$emit('globalError', 'Save Failed ! ' + err.message)
         } else {
           console.log(data)
         }

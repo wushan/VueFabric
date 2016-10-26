@@ -9,6 +9,15 @@ fabric.Object.prototype.toObject = (function (toObject) {
   }
 })(fabric.Object.prototype.toObject)
 
+fabric.Object.prototype.set({
+  borderColor: 'orange',
+  cornerColor: 'red',
+  cornerSize: 14,
+  borderScaleFactor: 0.3,
+  cornerStyle: 'circle',
+  transparentCorners: false
+})
+
 // Video Class
 fabric.Video = fabric.util.createClass(fabric.Image, {
   type: 'video',

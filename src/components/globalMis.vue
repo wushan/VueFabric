@@ -3,11 +3,13 @@
     .globalMis-wrapper
       .globalMis-inner
         .block
-          a(href="javascript:;") 放棄編輯
+          button.basic.btn.delete 放棄編輯
         .block
-          .resolution Resolution: {{width}} x {{height}}
+          .resolution Program Name / Resolution: {{width}} x {{height}} / etc.
         .block
-          .programname Program Name: 'some php string'
+          //- .programname Program Name: 'some php string'
+          //- button.basic.btn.edit 加入群組
+          button.basic.btn.basic(@click="triggerArrangement") 排程發佈
 </template>
 
 <script>
@@ -16,7 +18,12 @@ export default {
     return {
     }
   },
-  props: ['width', 'height']
+  props: ['width', 'height'],
+  methods: {
+    triggerArrangement () {
+      this.$parent.$emit('triggerArrangement', true)
+    }
+  }
 }
 </script>
 
@@ -39,6 +46,12 @@ export default {
   }
   .block {
     @include gallery(4 of 12);
+    &:last-child {
+      text-align: right;
+    }
+    .btn {
+      padding: .7em 1em;
+    }
   }
 }
 </style>

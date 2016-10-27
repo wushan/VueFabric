@@ -21,7 +21,7 @@
     transition(name="fade", mode="out-in")
       .materials-wrapper
         transition-group.materials-list(name="list-complete", tag="div")
-          .material(v-for="item in items", :key="item.LId")
+          .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail)")
             img(:src="baseUrl + item.thumbnail")
             .type(v-if="item.video_image")
               .fa.fa-play-circle.fa-lg
@@ -108,6 +108,137 @@ export default {
     }
   },
   methods: {
+    insertMedia (url) {
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var currentObject = canvas.getActiveObject()
+      url = this.baseUrl + url
+
+      fabric.Image.fromURL(url, function (img) {
+        img.scaleToWidth(currentObject.width)
+        // Make a Pattern
+        var patternSourceCanvas = new fabric.StaticCanvas()
+        patternSourceCanvas.add(img)
+        console.log('ImageCurrentWidth:' + img.getWidth())
+        var pattern = new fabric.Pattern({
+          source: function () {
+            patternSourceCanvas.setDimensions({
+              width: img.getWidth() * 2,
+              height: img.getHeight() * 2
+            })
+            return patternSourceCanvas.getElement()
+          },
+          repeat: 'no-repeat'
+        })
+        console.log('offsetX:' + pattern.offsetX)
+        console.log('offsetY:' + pattern.offsetY)
+        console.log('ImageCurrentWidth:' + img.getWidth()) // 縮小後 (*scale)
+        console.log('ImageOriginalWidth:' + img.width) // 原尺寸
+        console.log('patterSourceWidth:' + patternSourceCanvas.getWidth())
+        console.log('patterSourceHeight:' + patternSourceCanvas.getHeight())
+        console.log('patterWidth:' + pattern.width)
+        console.log('patterHeight:' + pattern.height)
+        console.log('SourceEl:' + patternSourceCanvas.getElement())
+        console.log(patternSourceCanvas.getElement())
+        console.log(pattern.toObject())
+        // Mask (can be any shape ex: Polygon, Circles....)
+        var mask = currentObject.clone()
+        canvas.remove(currentObject)
+        mask.set('fill', pattern)
+        // var rect = new fabric.Rect({
+        //   width: 200,
+        //   height: 200,
+        //   left: 150,
+        //   top: 100,
+        //   fill: pattern
+        // })
+        // Bind Double Click Event from fabric.ext
+        // https://github.com/mazong1123/fabric.ext
+        mask.on('object:dblclick', function (options) {
+          // Pass pattern out
+          enterEditMode(mask, img)
+        })
+        canvas.add(mask)
+        canvas.setActiveObject(mask)
+      })
+
+      function enterEditMode (mask, image) {
+        image.left = mask.left
+        image.top = mask.top
+        image.scaleToWidth(image.getWidth() * mask.scaleX)
+        // New Image
+        // Fake Crop Area (fixed)
+        var rect = new fabric.Rect({
+          width: mask.width * mask.scaleX,
+          height: mask.height * mask.scaleY,
+          left: mask.left,
+          top: mask.top,
+          fill: '#000000',
+          opacity: 0.8,
+          selectable: false
+        })
+        canvas.remove(mask)
+        canvas.add(image)
+        canvas.add(rect)
+        image.on('object:dblclick', function (options) {
+          // Flatten
+          flatten(rect, image)
+        })
+        canvas.renderAll()
+        // console.log(JSON.stringify(canvas));
+      }
+      function flatten (mask, image) {
+        console.log('Flattened')
+        // unbind
+        image.off('object:dblclick')
+        // Make a Pattern
+        var patternSourceCanvas = new fabric.StaticCanvas()
+        patternSourceCanvas.add(image)
+        console.log('ImageCurrentWidth:' + image.getWidth())
+        var pattern = new fabric.Pattern({
+          source: function () {
+            patternSourceCanvas.setDimensions({
+              width: image.getWidth() * 2,
+              height: image.getHeight() * 2
+            })
+            return patternSourceCanvas.getElement()
+          },
+          repeat: 'no-repeat',
+          offsetX: image.left - mask.left - image.left,
+          offsetY: image.top - mask.top - image.top
+        })
+        console.log('offsetX:' + pattern.offsetX)
+        console.log('offsetY:' + pattern.offsetY)
+        console.log('ImageCurrentWidth:' + image.getWidth()) // 縮小後 (*scale)
+        console.log('ImageOriginalWidth:' + image.width) // 原尺寸
+        console.log('patterSourceWidth:' + patternSourceCanvas.width)
+        console.log('patterSourceHeight:' + patternSourceCanvas.height)
+        console.log('patterWidth:' + pattern.width)
+        console.log('patterHeight:' + pattern.height)
+        console.log('SourceEl:' + patternSourceCanvas.getElement())
+        console.log(patternSourceCanvas.getElement())
+        console.log(pattern.toObject())
+
+        var rect = new fabric.Rect({
+          width: mask.width,
+          height: mask.height,
+          left: mask.left,
+          top: mask.top,
+          fill: pattern
+        })
+        // Bind Double Click Event from fabric.ext
+        // https://github.com/mazong1123/fabric.ext
+        rect.on('object:dblclick', function (options) {
+          // Pass pattern out
+          enterEditMode(rect, image)
+        })
+        canvas.remove(mask)
+        canvas.remove(image)
+        canvas.add(rect)
+        canvas.setActiveObject(rect)
+        canvas.renderAll()
+      }
+    },
     changed (obj) {
       // console.log(obj)
       this.num = 0

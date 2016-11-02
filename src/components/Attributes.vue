@@ -240,7 +240,32 @@
               .controls
                 input#rtspUrl(type="text", placeholder="rtsp://000.000.000.00")
           .attribution-group.layers
-            p 內容
+            .configureAll
+              .block
+                p 內容
+              .block
+                a(href="javascript:;", :class="{active: layerGroupSetting}", @click="triggerLayerGroupSetting")
+                  span 統一設定
+                  .fa.fa-sliders.fa-lg
+            transition(name="fade", mode="out-in")
+              .layers-setting(v-if="layerGroupSetting")
+                .controlgroup
+                  label 持續時間
+                  .controls
+                    input(type="text")
+                .controlgroup
+                  label 特效
+                  .controls
+                    .select-wrapper
+                      select
+                        option 隨機
+                .controlgroup
+                  label 特效時間
+                  .controls
+                    input(type="text")
+                .controlgroup
+                  button.btn.edit.full(type="buttn") 統一修改
+
             .layers-wrapper
               .layers-inner
                 .layer
@@ -279,6 +304,7 @@ export default {
   },
   data () {
     return {
+      layerGroupSetting: false,
       selectedType: null,
       interactives: [
         { value: 'none',
@@ -487,6 +513,13 @@ export default {
     //   console.log(this.interaction.type)
     //   obj.set('interaction', this.interaction)
     // },
+    triggerLayerGroupSetting () {
+      if (this.layerGroupSetting) {
+        this.layerGroupSetting = false
+      } else {
+        this.layerGroupSetting = true
+      }
+    },
     updateAppInteraction () {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
@@ -619,7 +652,7 @@ export default {
   box-sizing: border-box;
   padding: 1em;
   flex: none;
-  width: 290px;
+  width: 310px;
   height: 100%;
 }
 #attributes {
@@ -711,6 +744,33 @@ export default {
         }
       }
     }
+  }
+}
+.configureAll {
+  @extend .clr;
+  margin: 1em 0;
+  a {
+    display: block;
+    &:hover, &.active {
+      color: $lightgreen;
+    }
+  }
+  .block {
+    @include span(6 of 12);
+    &:last-child {
+      @include last;
+      text-align: right;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  p, span, .fa {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  span {
+    margin-right: 1em;
   }
 }
 

@@ -62,7 +62,7 @@ export default {
   border-left: 2px solid $pureblack;
   max-width: calc( 100vw - 90px );
   &.pushed {
-    max-width: calc( 100vw - 380px );
+    max-width: calc( 100vw - 400px );
   }
   #canvas {
     display: inline-block;

@@ -113,7 +113,7 @@ export default {
   box-sizing: border-box;
   padding: 1em;
   flex: none;
-  width: 290px;
+  width: 310px;
   height: 100%;
   .arrangement-block {
     border-top: 1px solid darken($darkgray, 10%);

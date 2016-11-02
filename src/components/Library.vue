@@ -113,11 +113,14 @@ export default {
       var fabric = window['fabric']
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
+      if (currentObject.type !== 'slider') {
+        return
+      }
       url = this.baseUrl + url
       var instance = this.$parent.$parent.$parent
 
       fabric.Image.fromURL(url, function (img) {
-        img.scaleToWidth(currentObject.width * 1.2)
+        img.scaleToWidth(currentObject.width)
         // Make a Pattern
         var patternSourceCanvas = new fabric.StaticCanvas()
         patternSourceCanvas.add(img)
@@ -134,18 +137,42 @@ export default {
         })
         console.log('offsetX:' + pattern.offsetX)
         console.log('offsetY:' + pattern.offsetY)
-        console.log('ImageCurrentWidth:' + img.getWidth()) // 縮小後 (*scale)
-        console.log('ImageOriginalWidth:' + img.width) // 原尺寸
-        console.log('patterSourceWidth:' + patternSourceCanvas.getWidth())
-        console.log('patterSourceHeight:' + patternSourceCanvas.getHeight())
-        console.log('patterWidth:' + pattern.width)
-        console.log('patterHeight:' + pattern.height)
-        console.log('SourceEl:' + patternSourceCanvas.getElement())
-        console.log(patternSourceCanvas.getElement())
-        console.log(pattern.toObject())
+        // console.log('ImageCurrentWidth:' + img.getWidth()) // 縮小後 (*scale)
+        // console.log('ImageOriginalWidth:' + img.width) // 原尺寸
+        // console.log('patterSourceWidth:' + patternSourceCanvas.getWidth())
+        // console.log('patterSourceHeight:' + patternSourceCanvas.getHeight())
+        // console.log('patterWidth:' + pattern.width)
+        // console.log('patterHeight:' + pattern.height)
+        // console.log('SourceEl:' + patternSourceCanvas.getElement())
+        // console.log(patternSourceCanvas.getElement())
+        // console.log(pattern.toObject())
         // Mask (can be any shape ex: Polygon, Circles....)
         var mask = currentObject.clone()
         canvas.remove(currentObject)
+        // First Slide
+        var slideObj = {
+          width: img.getWidth(),
+          height: img.getHeight(),
+          patternWidth: patternSourceCanvas.getWidth(),
+          patternHeight: patternSourceCanvas.getHeight(),
+          offsetX: pattern.offsetX,
+          offsetY: pattern.offsetY
+        }
+        if (!mask.slides) {
+          mask.slides = []
+        }
+        var slidesArray = mask.slides
+        slidesArray.push(slideObj)
+        // Attributes
+        mask.toObject = (function (toObject) {
+          return function () {
+            return fabric.util.object.extend(toObject.call(this), {
+              visibleslide: slideObj,
+              interaction: this.interaction,
+              slides: slidesArray
+            })
+          }
+        })(mask.toObject)
         mask.set('fill', pattern)
         mask.on('object:dblclick', function (options) {
           // Pass pattern out
@@ -207,6 +234,12 @@ export default {
         // unbind
         image.off('object:dblclick')
         image.set('opacity', 1)
+        // Transform Scaled Image Size back
+        image.set('width', image.width * image.scaleX)
+        image.set('height', image.height * image.scaleY)
+        image.set('scaleX', 1)
+        image.set('scaleY', 1)
+        console.log(image.scaleX)
         // Make a Pattern
         var patternSourceCanvas = new fabric.StaticCanvas()
         patternSourceCanvas.add(image)
@@ -247,17 +280,27 @@ export default {
         //   fill: pattern
         // })
         var newMask = mask.clone()
-        if (newMask.type === 'rect') {
+        // First Slide
+        // var slideObj = {
+        //   width: image.getWidth(),
+        //   height: image.getHeight(),
+        //   patternWidth: patternSourceCanvas.getWidth(),
+        //   patternHeight: patternSourceCanvas.getHeight(),
+        //   offsetX: pattern.offsetX,
+        //   offsetY: pattern.offsetY
+        // }
+        if (newMask.type === 'slider') {
           newMask.set('fill', pattern)
           newMask.set('strokeWidth', 0)
           newMask.set('scaleX', 1)
           newMask.set('scaleY', 1)
           newMask.set('width', mask.width * mask.scaleX)
           newMask.set('height', mask.height * mask.scaleY)
-        } else if (newMask.type === 'circle') {
-          newMask.set('fill', pattern)
-          newMask.set('strokeWidth', 0)
+          // Attributes
+          console.log(pattern.offsetX)
+          newMask.visibleslide.offsetX = pattern.offsetX
         }
+        // Circle Shape Will Encounter the Scale Issue
         // Bind Double Click Event from fabric.ext
         // https://github.com/mazong1123/fabric.ext
         newMask.on('object:dblclick', function (options) {

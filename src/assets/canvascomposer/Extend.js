@@ -1,5 +1,5 @@
 var fabric = window.fabric
-var canvas = window.canvas
+// var canvas = window.canvas
 fabric.Object.prototype.interaction = ''
 fabric.Object.prototype.toObject = (function (toObject) {
   return function () {
@@ -55,194 +55,26 @@ fabric.Video.fromObject = function (object, callback) {
 fabric.Slider = fabric.util.createClass(fabric.Rect, {
   type: 'slider',
   initialize: function (options) {
-    options || (options = {})
+    options = options || { }
     this.callSuper('initialize', options)
     console.log('inittt')
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
-      id: this.id,
-      fill: this.fill,
+      visibleslide: this.visibleslide,
       slides: this.slides,
-      interaction: this.interaction,
-      pattern: this.pattern,
-      patternSourceCanvas: this.patternSourceCanvas,
-      filename: this.filename
+      interaction: this.interaction
     })
   },
   _render: function (ctx) {
     this.callSuper('_render', ctx)
   }
 })
-// Slider
-fabric.Slider.fromArray = function (elements, callback, options) {
-  // Define if the first Object is Video
-  var firstObj
-  if (elements[0].thumbnail) {
-    firstObj = elements[0].thumbnail
-  } else {
-    firstObj = elements[0].src
-  }
-  var extension = firstObj.split('.').pop()
-  if (extension.match(/^(gif|png|jpg|jpeg|tiff|svg)$/)) {
-    fabric.Image.fromURL(firstObj, function (img) {
-      var patternSourceCanvas = new fabric.StaticCanvas()
-      console.log(img)
-      img.setHeight(patternSourceCanvas.height)
-      img.setWidth(patternSourceCanvas.width)
-      patternSourceCanvas.setBackgroundImage(img)
-      patternSourceCanvas.renderAll()
-      console.log(patternSourceCanvas.getElement())
-      var pattern = new fabric.Pattern({
-        source: patternSourceCanvas.getElement(),
-        repeat: 'no-repeat'
-      })
-      callback && callback(new fabric.Slider({
-        fill: pattern,
-        width: img.width,
-        height: img.height,
-        left: options.left,
-        top: options.top,
-        slides: elements,
-        interaction: options.interaction,
-        pattern: pattern,
-        patternSourceCanvas: patternSourceCanvas,
-        filename: elements[0].filename
-      }))
-    }, null, options && options.crossOrigin)
-  } else if (extension.match(/^(mp4|avi|ogg|ogv|webm|wmv)$/)) {
-    // Add Single Video
-    var patternSourceCanvas = new fabric.StaticCanvas()
-    // var vw, vh
-    var video = new fabric.Video(elements[0].src, {
-      media: {
-        video: elements[0].src
-      }
-    })
-    var videoEl = video.getElement()
-    var pattern = new fabric.Pattern({
-      source: patternSourceCanvas.getElement(),
-      repeat: 'no-repeat'
-    })
-    patternSourceCanvas.add(video)
-    patternSourceCanvas.renderAll()
-    videoEl.onloadeddata = function () {
-      // vw = this.videoWidth
-      // vh = this.videoHeight
-      video.setWidth(patternSourceCanvas.width)
-      video.setHeight(patternSourceCanvas.height)
-      video.center()
-      video.setCoords()
-      canvas.renderAll()
-    }
-    fabric.util.requestAnimFrame(function render () {
-      patternSourceCanvas.renderAll()
-      fabric.util.requestAnimFrame(render)
-    })
-    callback && callback(new fabric.Slider({
-      fill: pattern,
-      width: patternSourceCanvas.width,
-      height: patternSourceCanvas.height,
-      left: options.left,
-      top: options.top,
-      slides: elements,
-      interaction: options.interaction,
-      pattern: pattern,
-      patternSourceCanvas: patternSourceCanvas,
-      filename: elements[0].filename
-    }))
-  } else {
-    console.log('不支援此檔案格式，請重試')
-  }
+
+fabric.Slider.fromObject = function (options) {
+  return new fabric.Slider(options)
 }
-fabric.Slider.fromObject = function (objects, callback, options) {
-  // Define if the first Object is Video
-  // var firstObj = objects.slides[0].src
-  var firstObj
-  if (objects.slides[0].thumbnail) {
-    firstObj = objects.slides[0].thumbnail
-  } else {
-    firstObj = objects.slides[0].src
-  }
-  var extension = firstObj.split('.').pop()
-  if (extension.match(/^(gif|png|jpg|jpeg|tiff|svg)$/)) {
-    fabric.Image.fromURL(firstObj, function (img) {
-      var patternSourceCanvas = new fabric.StaticCanvas()
-      console.log(img)
-      img.setHeight(patternSourceCanvas.height)
-      img.setWidth(patternSourceCanvas.width)
-      patternSourceCanvas.setBackgroundImage(img)
-      patternSourceCanvas.renderAll()
-      console.log(patternSourceCanvas.getElement())
-      var pattern = new fabric.Pattern({
-        source: patternSourceCanvas.getElement(),
-        repeat: 'no-repeat'
-      })
-      callback && callback(new fabric.Slider({
-        width: objects.width,
-        height: objects.height,
-        scaleX: objects.scaleX,
-        scaleY: objects.scaleY,
-        top: objects.top,
-        left: objects.left,
-        slides: objects.slides,
-        interaction: objects.interaction,
-        fill: pattern,
-        id: objects.id,
-        pattern: pattern,
-        patternSourceCanvas: patternSourceCanvas,
-        filename: objects.slides[0].filename
-      }))
-    }, null, options && options.crossOrigin)
-  } else if (extension.match(/^(mp4|avi|ogg|ogv|webm)$/)) {
-    // Add Single Video
-    var patternSourceCanvas = new fabric.StaticCanvas()
-    // var vw, vh
-    var video = new fabric.Video(firstObj, {
-      media: {
-        video: firstObj
-      }
-    })
-    var videoEl = video.getElement()
-    var pattern = new fabric.Pattern({
-      source: patternSourceCanvas.getElement(),
-      repeat: 'no-repeat'
-    })
-    patternSourceCanvas.add(video)
-    patternSourceCanvas.renderAll()
-    videoEl.onloadeddata = function () {
-      // vw = this.videoWidth
-      // vh = this.videoHeight
-      video.setWidth(patternSourceCanvas.width)
-      video.setHeight(patternSourceCanvas.height)
-      video.center()
-      video.setCoords()
-      canvas.renderAll()
-    }
-    fabric.util.requestAnimFrame(function render () {
-      patternSourceCanvas.renderAll()
-      fabric.util.requestAnimFrame(render)
-    })
-    callback && callback(new fabric.Slider({
-      width: objects.width,
-      height: objects.height,
-      scaleX: objects.scaleX,
-      scaleY: objects.scaleY,
-      top: objects.top,
-      left: objects.left,
-      slides: objects.slides,
-      fill: pattern,
-      id: objects.id,
-      interaction: objects.interaction,
-      pattern: pattern,
-      patternSourceCanvas: patternSourceCanvas,
-      filename: objects.slides[0].filename
-    }))
-  } else {
-    console.log('不支援此檔案格式，請重試')
-  }
-}
-fabric.Slider.async = true
+// fabric.Slider.async = true
 
 // EClock Class
 fabric.Eclock = fabric.util.createClass(fabric.Text, {

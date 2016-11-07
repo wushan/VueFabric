@@ -33,6 +33,9 @@
 import Api from '../assets/canvascomposer/Api'
 import Loader from './Loader'
 import Events from '../assets/cc.objectEvents'
+import Slider from '../assets/canvascomposer/Slider'
+// UUID
+import uuid from 'node-uuid'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
@@ -146,13 +149,19 @@ export default {
         canvas.remove(currentObject)
         // First Slide
         var slideObj = {
+          // Generate an Unique Id for the slide
+          id: uuid.v1(),
           imgWidth: img.getWidth(),
           imgHeight: img.getHeight(),
           offsetX: pattern.offsetX,
           offsetY: pattern.offsetY,
           maskWidth: mask.width * mask.scaleX,
           maskHeight: mask.height * mask.scaleY,
-          url: url
+          url: url,
+          // Default Transition Settings
+          leastTime: 3,
+          transitionType: 'random',
+          transitionTime: 3
         }
         if (!mask.slides) {
           mask.slides = []
@@ -172,109 +181,13 @@ export default {
         mask.set('fill', pattern)
         mask.on('object:dblclick', function (options) {
           // Pass pattern out
-          enterEditMode(mask, img)
+          Slider.enterEditMode(mask, img)
         })
         // console.log(mask)
         Events.bindEvents(instance, mask)
         canvas.add(mask)
         canvas.setActiveObject(mask)
       })
-
-      function enterEditMode (mask, image) {
-        // console.log(image)
-        image.left = mask.left
-        image.top = mask.top
-        // if (mask.type === 'circle') {
-        //   image.scaleToWidth(mask.width * mask.scaleX)
-        // }
-        image.scaleToWidth(mask.width * mask.scaleX)
-        // Set Image Opacity
-        image.set('opacity', 0.8)
-        // Style Fixed Image Position
-        var newMask = mask.clone()
-        newMask.set('fill', 'rgba(0,0,0,0.25)')
-        newMask.set('selectable', false)
-        newMask.set('stroke', 'rgb(125,125,125)')
-        newMask.set('strokeDashArray', [2])
-        newMask.set('strokeWidth', 2)
-        canvas.remove(mask)
-        canvas.add(image)
-        canvas.add(newMask)
-        canvas.setActiveObject(image)
-        image.on('object:dblclick', function (options) {
-          // Flatten
-          flatten(newMask, image)
-        })
-        canvas.renderAll()
-        // console.log(JSON.stringify(canvas));
-      }
-      function flatten (mask, image) {
-        console.log('Flattened')
-        // Unbind Events
-        image.off('object:dblclick')
-        // Set Image Opacity
-        image.set('opacity', 1)
-        // Transform Scaled Image Size back
-        image.set('width', image.width * image.scaleX)
-        image.set('height', image.height * image.scaleY)
-        image.set('scaleX', 1)
-        image.set('scaleY', 1)
-        // Save Image Left/Image Top for Pattern Offset
-        var offsetXTranslate = image.left - mask.left
-        var offsetYTranslate = image.top - mask.top
-        // Set Image left/top to 0 (Matching the Mask left/top)
-        image.left = 0
-        image.top = 0
-        // Make a Pattern
-        var patternSourceCanvas = new fabric.StaticCanvas()
-        patternSourceCanvas.add(image)
-        // console.log('ImageCurrentWidth:' + image.getWidth())
-        var pattern = new fabric.Pattern({
-          source: function () {
-            patternSourceCanvas.setDimensions({
-              width: image.getWidth() + 500,
-              height: image.getHeight() + 500
-            })
-            return patternSourceCanvas.getElement()
-          },
-          repeat: 'no-repeat'
-        })
-        // Set Patter Offset From Saved Information
-        pattern.offsetX = offsetXTranslate
-        pattern.offsetY = offsetYTranslate
-
-        var newMask = mask.clone()
-
-        if (newMask.type === 'slider') {
-          // Style Mask style back
-          newMask.set('fill', pattern)
-          newMask.set('strokeWidth', 0)
-          newMask.set('scaleX', 1)
-          newMask.set('scaleY', 1)
-          newMask.set('width', mask.width * mask.scaleX)
-          newMask.set('height', mask.height * mask.scaleY)
-          // Update Attributes Back to 'visibleslide'
-          newMask.visibleslide.offsetX = pattern.offsetX
-          newMask.visibleslide.offsetY = pattern.offsetY
-          newMask.visibleslide.imgWidth = image.getWidth()
-          newMask.visibleslide.imgHeight = image.getHeight()
-        }
-        // Circle Shape Will Encounter the Scale Issue
-        // Rectagle Only
-
-        // Bind Double Click Event from fabric.ext
-        // https://github.com/mazong1123/fabric.ext
-        newMask.on('object:dblclick', function (options) {
-          // Pass pattern out
-          enterEditMode(newMask, image)
-        })
-        canvas.remove(mask)
-        canvas.remove(image)
-        Events.bindEvents(instance, newMask)
-        canvas.add(newMask)
-        canvas.setActiveObject(newMask)
-        canvas.renderAll()
-      }
     },
     changed (obj) {
       // console.log(obj)

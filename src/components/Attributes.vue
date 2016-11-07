@@ -259,29 +259,21 @@
 
             .layers-wrapper
               .layers-inner
-                .layer(v-for="slide in currentObject.slides")
-                  .thumbnail(style="background-image: url('http://radi.4webdemo.com/assets/uploads/A9999/8888/library/8/thumb_580652a0e23d4.jpg');")
+                .layer(v-for="slide in currentObject.slides", :key="slide.id", :class="{ active:slide.id === currentObject.visibleslide.id }", @click="selectLayer(slide.id)")
+                  .thumbnail(:style="'background-image: url(' + slide.url +');'")
                   .description
-                    span 3/sec, fadeIn(1/sec)
+                    span {{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
                     .configure
                       .fa.fa-sliders.fa-lg
                     .delete
                       .fa.fa-trash.fa-lg
-                //- .layer.active
-                //-   .thumbnail(style="background-image: url('http://radi.4webdemo.com/assets/uploads/A9999/8888/library/8/thumb_580652a0e23d4.jpg');")
-                //-   .description
-                //-     span 3/sec, Random(1/sec)
-                //-     .configure
-                //-       .fa.fa-sliders.fa-lg
-                //-     .delete
-                //-       .fa.fa-trash.fa-lg
-
           library(v-bind:baseUrl="baseUrl")
 </template>
 
 <script>
 import Library from './Library'
 import Events from '../assets/cc.objectEvents'
+import Slider from '../assets/canvascomposer/Slider'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
@@ -422,6 +414,9 @@ export default {
       } else {
         return false
       }
+    },
+    currentSlide () {
+      console.log(this)
     }
   },
   mounted () {
@@ -627,6 +622,83 @@ export default {
               'rgb(12, 52, 61)', 'rgb(28, 69, 135)', 'rgb(7, 55, 99)', 'rgb(32, 18, 77)', 'rgb(76, 17, 48)']
           ]
         })
+      })
+    },
+    selectLayer (id) {
+      console.log(id)
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var currentObject = canvas.getActiveObject()
+      var instance = this.$parent.$parent
+      if (currentObject.type !== 'slider') {
+        return
+      }
+      var targetSlide
+      for (var i = 0; i < currentObject.slides.length; i++) {
+        if (currentObject.slides[i].id === id) {
+          targetSlide = currentObject.slides[i]
+        }
+      }
+      // console.log(targetSlide)
+      // Rebuild slide from ID
+      // currentObject.
+      fabric.Image.fromURL(targetSlide.url, function (img) {
+        img.scaleToWidth(targetSlide.imgWidth)
+        // img.scaleToWidth(currentObject.width)
+        // Make a Pattern
+        var patternSourceCanvas = new fabric.StaticCanvas()
+        patternSourceCanvas.add(img)
+        // console.log('ImageCurrentWidth:' + img.getWidth())
+        var pattern = new fabric.Pattern({
+          source: function () {
+            patternSourceCanvas.setDimensions({
+              width: img.getWidth() + 500,
+              height: img.getHeight() + 500
+            })
+            return patternSourceCanvas.getElement()
+          },
+          repeat: 'no-repeat'
+        })
+        pattern.offsetX = targetSlide.offsetX
+        pattern.offsetY = targetSlide.offsetY
+        // Mask (can be any shape ex: Polygon, Circles....)
+        var mask = currentObject.clone()
+        canvas.remove(currentObject)
+        // First Slide
+        var slideObj = {
+          // Generate an Unique Id for the slide
+          id: id,
+          imgWidth: targetSlide.imgWidth,
+          imgHeight: targetSlide.imgHeight,
+          offsetX: targetSlide.offsetX,
+          offsetY: targetSlide.offsetY,
+          maskWidth: targetSlide.maskWidth,
+          maskHeight: targetSlide.maskHeight,
+          url: targetSlide.url,
+          // Default Transition Settings
+          leastTime: targetSlide.leastTime,
+          transitionType: targetSlide.transitionType,
+          transitionTime: targetSlide.transitionTime
+        }
+        // Attributes
+        mask.toObject = (function (toObject) {
+          return function () {
+            return fabric.util.object.extend(toObject.call(this), {
+              visibleslide: slideObj,
+              interaction: this.interaction
+            })
+          }
+        })(mask.toObject)
+        mask.set('fill', pattern)
+        mask.on('object:dblclick', function (options) {
+          // Pass pattern out
+          // enterEditMode(mask, img)
+          Slider.enterEditMode(mask, img)
+        })
+        // console.log(mask)
+        Events.bindEvents(instance, mask)
+        canvas.add(mask)
+        canvas.setActiveObject(mask)
       })
     }
   }

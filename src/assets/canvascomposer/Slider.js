@@ -3,6 +3,8 @@ export default {
   enterEditMode (mask, image) {
     // var fabric = window['fabric']
     var canvas = window['canvas']
+    var currentObject = canvas.getActiveObject()
+    var targetObj = currentObject.visibleslide
     // console.log(image)
     image.left = mask.left
     image.top = mask.top
@@ -24,21 +26,20 @@ export default {
     canvas.add(image)
     canvas.add(newMask)
     canvas.setActiveObject(image)
-    // image.on('object:dblclick', function (options) {
-    //   // Flatten
-    //   this.flatten(newMask, image)
-    // })
+    console.log(targetObj.id)
+    // Arrow function to get 'this'
     image.on('object:dblclick', (options) => {
       // Flatten
-      this.flatten(newMask, image)
+      this.flatten(newMask, image, targetObj)
     })
     canvas.renderAll()
     // console.log(JSON.stringify(canvas));
   },
-  flatten (mask, image) {
+  flatten (mask, image, targetObj) {
     var fabric = window['fabric']
     var canvas = window['canvas']
     console.log('Flattened')
+    console.log(targetObj.id)
     // Unbind Events
     image.off('object:dblclick')
     // Set Image Opacity
@@ -87,6 +88,17 @@ export default {
       newMask.visibleslide.offsetY = pattern.offsetY
       newMask.visibleslide.imgWidth = image.getWidth()
       newMask.visibleslide.imgHeight = image.getHeight()
+      newMask.visibleslide.id = targetObj.id
+      newMask.visibleslide.url = targetObj.url
+      console.log(newMask.visibleslide)
+      // Find slide in slides
+      if (newMask.slides) {
+        for (var i = 0; i < newMask.slides.length; i++) {
+          if (newMask.slides[i].id === targetObj.id) {
+            newMask.slides[i] = newMask.visibleslide
+          }
+        }
+      }
     }
     // Circle Shape Will Encounter the Scale Issue
     // Rectagle Only

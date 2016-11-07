@@ -262,7 +262,7 @@
                 .layer(v-for="slide in currentObject.slides", :key="slide.id", :class="{ active:slide.id === currentObject.visibleslide.id }", @click="selectLayer(slide.id)")
                   .thumbnail(:style="'background-image: url(' + slide.url +');'")
                   .description
-                    span {{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
+                    span {{slide.id}}{{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
                     .configure
                       .fa.fa-sliders.fa-lg
                     .delete
@@ -690,6 +690,7 @@ export default {
           }
         })(mask.toObject)
         mask.set('fill', pattern)
+        mask.visibleslide = slideObj
         mask.on('object:dblclick', function (options) {
           // Pass pattern out
           // enterEditMode(mask, img)

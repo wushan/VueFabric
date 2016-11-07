@@ -168,6 +168,7 @@ export default {
         }
         var slidesArray = mask.slides
         slidesArray.push(slideObj)
+        mask.visibleslide = slideObj
         // Attributes
         mask.toObject = (function (toObject) {
           return function () {

@@ -313,8 +313,8 @@ export default {
       var slider = new fabric.Slider({
         width: 200,
         height: 200,
-        left: 0,
-        top: 0,
+        left: 250,
+        top: 250,
         padding: 0,
         strokeWidth: 0,
         fill: '#cccccc'

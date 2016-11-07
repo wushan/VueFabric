@@ -35,14 +35,14 @@
                 label 角度
                 .controls
                   input#objectAngle(type='text', v-bind:value="currentObject.angle")
-              .scalex.controlgroup
-                label X 延展
-                .controls
-                  input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
-              .scaley.controlgroup
-                label Y 延展
-                .controls
-                  input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
+              //- .scalex.controlgroup
+              //-   label X 延展
+              //-   .controls
+              //-     input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
+              //- .scaley.controlgroup
+              //-   label Y 延展
+              //-   .controls
+              //-     input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
               .color.controlgroup
                 label 背景色
                 .controls

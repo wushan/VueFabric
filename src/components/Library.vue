@@ -120,11 +120,17 @@ export default {
       var instance = this.$parent.$parent.$parent
 
       fabric.Image.fromURL(url, function (img) {
-        img.scaleToWidth(currentObject.width)
+        // Default to Fit the Frame
+        if (currentObject.width - img.width >= currentObject.height - img.height) {
+          img.scaleToWidth(currentObject.width)
+        } else {
+          img.scaleToHeight(currentObject.height)
+        }
+        // img.scaleToWidth(currentObject.width)
         // Make a Pattern
         var patternSourceCanvas = new fabric.StaticCanvas()
         patternSourceCanvas.add(img)
-        console.log('ImageCurrentWidth:' + img.getWidth())
+        // console.log('ImageCurrentWidth:' + img.getWidth())
         var pattern = new fabric.Pattern({
           source: function () {
             patternSourceCanvas.setDimensions({
@@ -135,28 +141,17 @@ export default {
           },
           repeat: 'no-repeat'
         })
-        console.log('offsetX:' + pattern.offsetX)
-        console.log('offsetY:' + pattern.offsetY)
-        // console.log('ImageCurrentWidth:' + img.getWidth()) // 縮小後 (*scale)
-        // console.log('ImageOriginalWidth:' + img.width) // 原尺寸
-        // console.log('patterSourceWidth:' + patternSourceCanvas.getWidth())
-        // console.log('patterSourceHeight:' + patternSourceCanvas.getHeight())
-        // console.log('patterWidth:' + pattern.width)
-        // console.log('patterHeight:' + pattern.height)
-        // console.log('SourceEl:' + patternSourceCanvas.getElement())
-        // console.log(patternSourceCanvas.getElement())
-        // console.log(pattern.toObject())
         // Mask (can be any shape ex: Polygon, Circles....)
         var mask = currentObject.clone()
         canvas.remove(currentObject)
         // First Slide
         var slideObj = {
-          width: img.getWidth(),
-          height: img.getHeight(),
-          patternWidth: patternSourceCanvas.getWidth(),
-          patternHeight: patternSourceCanvas.getHeight(),
+          imgWidth: img.getWidth(),
+          imgHeight: img.getHeight(),
           offsetX: pattern.offsetX,
           offsetY: pattern.offsetY,
+          maskWidth: mask.width * mask.scaleX,
+          maskHeight: mask.height * mask.scaleY,
           url: url
         }
         if (!mask.slides) {
@@ -179,39 +174,24 @@ export default {
           // Pass pattern out
           enterEditMode(mask, img)
         })
-        console.log(mask)
+        // console.log(mask)
         Events.bindEvents(instance, mask)
         canvas.add(mask)
         canvas.setActiveObject(mask)
       })
 
       function enterEditMode (mask, image) {
+        // console.log(image)
         image.left = mask.left
         image.top = mask.top
         // if (mask.type === 'circle') {
         //   image.scaleToWidth(mask.width * mask.scaleX)
         // }
         image.scaleToWidth(mask.width * mask.scaleX)
-        // image.scaleToWidth(image.getWidth() * mask.scaleX)
-        // console.log('GETNEW', mask.scaleX)
-        // console.log('GETNEW', image.getWidth())
+        // Set Image Opacity
         image.set('opacity', 0.8)
-        // New Image
-        // Fake Crop Area (fixed)
-        // var rect = new fabric.Rect({
-        //   width: mask.width * mask.scaleX,
-        //   height: mask.height * mask.scaleY,
-        //   left: mask.left,
-        //   top: mask.top,
-        //   fill: 'rgba(0,0,0,0.25)',
-        //   selectable: false,
-        //   stroke: 'rgb(125,125,125)',
-        //   strokeDashArray: [2],
-        //   strokeWidth: 2
-        // })
+        // Style Fixed Image Position
         var newMask = mask.clone()
-        // newMask.set('width', mask.width * mask.scaleX)
-        // newMask.set('height', mask.height * mask.scaleY)
         newMask.set('fill', 'rgba(0,0,0,0.25)')
         newMask.set('selectable', false)
         newMask.set('stroke', 'rgb(125,125,125)')
@@ -230,21 +210,25 @@ export default {
       }
       function flatten (mask, image) {
         console.log('Flattened')
-        // img.scaleToWidth(currentObject.width * 1.2)
-        console.log(image.scaleX)
-        // unbind
+        // Unbind Events
         image.off('object:dblclick')
+        // Set Image Opacity
         image.set('opacity', 1)
         // Transform Scaled Image Size back
         image.set('width', image.width * image.scaleX)
         image.set('height', image.height * image.scaleY)
         image.set('scaleX', 1)
         image.set('scaleY', 1)
-        console.log(image.scaleX)
+        // Save Image Left/Image Top for Pattern Offset
+        var offsetXTranslate = image.left - mask.left
+        var offsetYTranslate = image.top - mask.top
+        // Set Image left/top to 0 (Matching the Mask left/top)
+        image.left = 0
+        image.top = 0
         // Make a Pattern
         var patternSourceCanvas = new fabric.StaticCanvas()
         patternSourceCanvas.add(image)
-        console.log('ImageCurrentWidth:' + image.getWidth())
+        // console.log('ImageCurrentWidth:' + image.getWidth())
         var pattern = new fabric.Pattern({
           source: function () {
             patternSourceCanvas.setDimensions({
@@ -255,53 +239,29 @@ export default {
           },
           repeat: 'no-repeat'
         })
-        pattern.offsetX = image.left - mask.left - image.left
-        pattern.offsetY = image.top - mask.top - image.top
-        // console.log('imageLeft:' + image.left)
-        // console.log('imageTop:' + image.top)
-        // console.log('MaskLeft:' + mask.left)
-        // console.log('MaskTop:' + mask.top)
-        // console.log('offsetX:' + pattern.offsetX)
-        // console.log('offsetY:' + pattern.offsetY)
-        // console.log('ImageCurrentWidth:' + image.getWidth()) // 縮小後 (*scale)
-        // console.log('ImageOriginalWidth:' + image.width) // 原尺寸
-        // console.log('patterSourceWidth:' + patternSourceCanvas.width)
-        // console.log('patterSourceHeight:' + patternSourceCanvas.height)
-        // console.log('patterWidth:' + pattern.width)
-        // console.log('patterHeight:' + pattern.height)
-        // console.log('SourceEl:' + patternSourceCanvas.getElement())
-        // console.log(patternSourceCanvas.getElement())
-        // console.log(pattern.toObject())
+        // Set Patter Offset From Saved Information
+        pattern.offsetX = offsetXTranslate
+        pattern.offsetY = offsetYTranslate
 
-        // var rect = new fabric.Rect({
-        //   width: mask.width * mask.scaleX,
-        //   height: mask.width * mask.scaleY,
-        //   left: mask.left,
-        //   top: mask.top,
-        //   fill: pattern
-        // })
         var newMask = mask.clone()
-        // First Slide
-        // var slideObj = {
-        //   width: image.getWidth(),
-        //   height: image.getHeight(),
-        //   patternWidth: patternSourceCanvas.getWidth(),
-        //   patternHeight: patternSourceCanvas.getHeight(),
-        //   offsetX: pattern.offsetX,
-        //   offsetY: pattern.offsetY
-        // }
+
         if (newMask.type === 'slider') {
+          // Style Mask style back
           newMask.set('fill', pattern)
           newMask.set('strokeWidth', 0)
           newMask.set('scaleX', 1)
           newMask.set('scaleY', 1)
           newMask.set('width', mask.width * mask.scaleX)
           newMask.set('height', mask.height * mask.scaleY)
-          // Attributes
-          console.log(pattern.offsetX)
+          // Update Attributes Back to 'visibleslide'
           newMask.visibleslide.offsetX = pattern.offsetX
+          newMask.visibleslide.offsetY = pattern.offsetY
+          newMask.visibleslide.imgWidth = image.getWidth()
+          newMask.visibleslide.imgHeight = image.getHeight()
         }
         // Circle Shape Will Encounter the Scale Issue
+        // Rectagle Only
+
         // Bind Double Click Event from fabric.ext
         // https://github.com/mazong1123/fabric.ext
         newMask.on('object:dblclick', function (options) {
@@ -340,7 +300,6 @@ export default {
           this.error = err.toString()
           console.log(err)
         } else {
-          console.log(data)
           this.categories = data.category
           this.items = data.library
           this.$nextTick(function () {

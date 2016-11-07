@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #loading(v-if="loading")
     img(src="../assets/images/loader-s.gif")
     p {{ loadingtext }}

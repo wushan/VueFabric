@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #globalMis
     .globalMis-wrapper
       .globalMis-inner

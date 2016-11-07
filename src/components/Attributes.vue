@@ -223,23 +223,14 @@
                     option(value='Asia/Anadyr') [+12:00] Asia/Anadyr
                     option(value='Pacific/Enderbury') [+13:00] Pacific/Enderbury
                     option(value='Pacific/Kiritimati') [+14:00] Pacific/Kiritimati
-          .attribution-group.sliders(v-if="slider")
-            .row
-              .grid.g-6-12
-                p Sliders
-              .grid.g-6-12.right
-                a.btn.basic.js-library(href="javascript:;") 增加
-            
-            form#updateSlider
-              ul#slidesOrder
-              button.btn.edit.full(type="submit") 確定變更
+          
           .attribution-group.rtsp(v-if="rtsp")
             p RTSP 資源
             .controlgroup.rtsp
               label 網址
               .controls
                 input#rtspUrl(type="text", placeholder="rtsp://000.000.000.00")
-          .attribution-group.layers
+          .attribution-group.layers(v-if="currentObject.slides")
             .configureAll
               .block
                 p 內容
@@ -268,7 +259,7 @@
 
             .layers-wrapper
               .layers-inner
-                .layer
+                .layer(v-for="slide in currentObject.slides")
                   .thumbnail(style="background-image: url('http://radi.4webdemo.com/assets/uploads/A9999/8888/library/8/thumb_580652a0e23d4.jpg');")
                   .description
                     span 3/sec, fadeIn(1/sec)
@@ -276,14 +267,14 @@
                       .fa.fa-sliders.fa-lg
                     .delete
                       .fa.fa-trash.fa-lg
-                .layer.active
-                  .thumbnail(style="background-image: url('http://radi.4webdemo.com/assets/uploads/A9999/8888/library/8/thumb_580652a0e23d4.jpg');")
-                  .description
-                    span 3/sec, Random(1/sec)
-                    .configure
-                      .fa.fa-sliders.fa-lg
-                    .delete
-                      .fa.fa-trash.fa-lg
+                //- .layer.active
+                //-   .thumbnail(style="background-image: url('http://radi.4webdemo.com/assets/uploads/A9999/8888/library/8/thumb_580652a0e23d4.jpg');")
+                //-   .description
+                //-     span 3/sec, Random(1/sec)
+                //-     .configure
+                //-       .fa.fa-sliders.fa-lg
+                //-     .delete
+                //-       .fa.fa-trash.fa-lg
 
           library(v-bind:baseUrl="baseUrl")
 </template>
@@ -469,11 +460,11 @@ export default {
           $('#objectColor').spectrum('hide')
         },
         palette: [
-            ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
+          ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
             'rgb(204, 204, 204)', 'rgb(217, 217, 217)', 'rgb(255, 255, 255)'],
-            ['rgb(152, 0, 0)', 'rgb(255, 0, 0)', 'rgb(255, 153, 0)', 'rgb(255, 255, 0)', 'rgb(0, 255, 0)',
+          ['rgb(152, 0, 0)', 'rgb(255, 0, 0)', 'rgb(255, 153, 0)', 'rgb(255, 255, 0)', 'rgb(0, 255, 0)',
             'rgb(0, 255, 255)', 'rgb(74, 134, 232)', 'rgb(0, 0, 255)', 'rgb(153, 0, 255)', 'rgb(255, 0, 255)'],
-            ['rgb(230, 184, 175)', 'rgb(244, 204, 204)', 'rgb(252, 229, 205)', 'rgb(255, 242, 204)', 'rgb(217, 234, 211)',
+          ['rgb(230, 184, 175)', 'rgb(244, 204, 204)', 'rgb(252, 229, 205)', 'rgb(255, 242, 204)', 'rgb(217, 234, 211)',
             'rgb(208, 224, 227)', 'rgb(201, 218, 248)', 'rgb(207, 226, 243)', 'rgb(217, 210, 233)', 'rgb(234, 209, 220)',
             'rgb(221, 126, 107)', 'rgb(234, 153, 153)', 'rgb(249, 203, 156)', 'rgb(255, 229, 153)', 'rgb(182, 215, 168)',
             'rgb(162, 196, 201)', 'rgb(164, 194, 244)', 'rgb(159, 197, 232)', 'rgb(180, 167, 214)', 'rgb(213, 166, 189)',
@@ -620,11 +611,11 @@ export default {
             $('#objectTextColor').spectrum('hide')
           },
           palette: [
-              ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
+            ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
               'rgb(204, 204, 204)', 'rgb(217, 217, 217)', 'rgb(255, 255, 255)'],
-              ['rgb(152, 0, 0)', 'rgb(255, 0, 0)', 'rgb(255, 153, 0)', 'rgb(255, 255, 0)', 'rgb(0, 255, 0)',
+            ['rgb(152, 0, 0)', 'rgb(255, 0, 0)', 'rgb(255, 153, 0)', 'rgb(255, 255, 0)', 'rgb(0, 255, 0)',
               'rgb(0, 255, 255)', 'rgb(74, 134, 232)', 'rgb(0, 0, 255)', 'rgb(153, 0, 255)', 'rgb(255, 0, 255)'],
-              ['rgb(230, 184, 175)', 'rgb(244, 204, 204)', 'rgb(252, 229, 205)', 'rgb(255, 242, 204)', 'rgb(217,234, 211)',
+            ['rgb(230, 184, 175)', 'rgb(244, 204, 204)', 'rgb(252, 229, 205)', 'rgb(255, 242, 204)', 'rgb(217,234, 211)',
               'rgb(208, 224, 227)', 'rgb(201, 218, 248)', 'rgb(207, 226, 243)', 'rgb(217, 210, 233)', 'rgb(234, 209, 220)',
               'rgb(221, 126, 107)', 'rgb(234, 153, 153)', 'rgb(249, 203, 156)', 'rgb(255, 229, 153)', 'rgb(182, 215, 168)',
               'rgb(162, 196, 201)', 'rgb(164, 194, 244)', 'rgb(159, 197, 232)', 'rgb(180, 167, 214)', 'rgb(213, 166, 189)',

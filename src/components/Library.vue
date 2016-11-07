@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #library
     transition(name="fade", mode="out-in")
       .controlgroup(v-if="categories")
@@ -156,7 +156,8 @@ export default {
           patternWidth: patternSourceCanvas.getWidth(),
           patternHeight: patternSourceCanvas.getHeight(),
           offsetX: pattern.offsetX,
-          offsetY: pattern.offsetY
+          offsetY: pattern.offsetY,
+          url: url
         }
         if (!mask.slides) {
           mask.slides = []

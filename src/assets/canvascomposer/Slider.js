@@ -21,7 +21,6 @@ export default {
     newMask.set('stroke', 'rgb(125,125,125)')
     newMask.set('strokeDashArray', [2])
     newMask.set('strokeWidth', 2)
-    console.log(canvas)
     canvas.remove(mask)
     canvas.add(image)
     canvas.add(newMask)

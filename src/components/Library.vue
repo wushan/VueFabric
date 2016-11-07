@@ -150,7 +150,7 @@ export default {
         // First Slide
         var slideObj = {
           // Generate an Unique Id for the slide
-          id: uuid.v1(),
+          id: uuid.v4(),
           imgWidth: img.getWidth(),
           imgHeight: img.getHeight(),
           offsetX: pattern.offsetX,

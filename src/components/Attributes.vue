@@ -243,30 +243,47 @@
                 .controlgroup
                   label 持續時間
                   .controls
-                    input(type="text")
+                    input(type="number", v-model="slideSettings.leastTime")
                 .controlgroup
                   label 特效
                   .controls
                     .select-wrapper
-                      select
-                        option 隨機
+                      select(v-model="slideSettings.transitionTypeSelected")
+                        option(v-for="type in slideSettings.transitionType", :value="type.value") {{type.text}}
                 .controlgroup
                   label 特效時間
                   .controls
-                    input(type="text")
+                    input(type="number", v-model="slideSettings.transitionTime")
                 .controlgroup
-                  button.btn.edit.full(type="buttn") 統一修改
+                  button.btn.edit.full(type="buttn", @click="slideSetting('all')") 統一修改
 
             .layers-wrapper
               .layers-inner
-                .layer(v-for="slide in currentObject.slides", :key="slide.id", :class="{ active:slide.id === currentObject.visibleslide.id }", @click="selectLayer(slide.id)")
+                .layer(v-for="slide in currentObject.slides", :key="slide.id", :class="{ active:slide.id === currentObject.visibleslide.id }", @click="selectLayer(slide.id)", :title="slide.leastTime + '/sec,' + slide.transitionType + '(' + slide.transitionTime + '/sec)'")
                   .thumbnail(:style="'background-image: url(' + slide.url +');'")
                   .description
-                    span {{slide.id}}{{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
+                    span {{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
                     .configure
                       .fa.fa-sliders.fa-lg
                     .delete
                       .fa.fa-trash.fa-lg
+                  .layers-setting(v-if="slide.id === currentObject.visibleslide.id")
+                    .controlgroup
+                      label 持續時間
+                      .controls
+                        input(type="number", v-model="slide.leastTime")
+                    .controlgroup
+                      label 特效
+                      .controls
+                        .select-wrapper
+                          select(v-model="slide.transitionType")
+                            option(v-for="type in slideSettings.transitionType", :value="type.value") {{type.text}}
+                    .controlgroup
+                      label 特效時間
+                      .controls
+                        input(type="number", v-model="slide.transitionTime")
+                    //- .controlgroup
+                    //-   button.btn.edit.full(type="buttn", @click="slideSetting(slide.id)") 修改
           library(v-bind:baseUrl="baseUrl")
 </template>
 
@@ -289,6 +306,19 @@ export default {
     return {
       layerGroupSetting: false,
       selectedType: null,
+      slideSettings: {
+        leastTime: '0',
+        transitionTypeSelected: 'random',
+        transitionType: [
+          {value: 'random', text: '隨機'},
+          {value: 'leftright', text: '由左至右'},
+          {value: 'rightleft', text: '由右至左'},
+          {value: 'bottomtop', text: '由下至上'},
+          {value: 'topbottom', text: '由上至下'},
+          {value: 'fade', text: '淡入淡出'}
+        ],
+        transitionTime: '0'
+      },
       interactives: [
         { value: 'none',
           name: '無互動',
@@ -701,6 +731,28 @@ export default {
         canvas.add(mask)
         canvas.setActiveObject(mask)
       })
+    },
+    slideSetting (ref) {
+      // var fabric = window['fabric']
+      var canvas = window['canvas']
+      var currentObject = canvas.getActiveObject()
+      if (ref === 'all') {
+        // Settings for all slide
+        if (currentObject.type !== 'slider') {
+          return
+        } else {
+          // Set Visible Slide
+          currentObject.visibleslide.transitionType = this.slideSettings.transitionTypeSelected
+          currentObject.visibleslide.transitionTime = this.slideSettings.transitionTime
+          currentObject.visibleslide.leastTime = this.slideSettings.leastTime
+          // Set slide array
+          for (var i = 0; i < currentObject.slides.length; i++) {
+            currentObject.slides[i].transitionType = this.slideSettings.transitionTypeSelected
+            currentObject.slides[i].transitionTime = this.slideSettings.transitionTime
+            currentObject.slides[i].leastTime = this.slideSettings.leastTime
+          }
+        }
+      }
     }
   }
 }
@@ -749,6 +801,8 @@ export default {
       @extend .clr;
       margin-bottom: .5em;
       border: 1px dashed $darkestgray;
+      box-sizing: border-box;
+      padding: 1em;
       cursor: pointer;
       color: $darkgray;
       position: relative;

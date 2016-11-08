@@ -1,3 +1,4 @@
+// import Slider from './Slider'
 var fabric = window.fabric
 // var canvas = window.canvas
 fabric.Object.prototype.interaction = ''
@@ -57,7 +58,6 @@ fabric.Slider = fabric.util.createClass(fabric.Rect, {
   initialize: function (options) {
     options = options || { }
     this.callSuper('initialize', options)
-    console.log('inittt')
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
@@ -70,10 +70,57 @@ fabric.Slider = fabric.util.createClass(fabric.Rect, {
     this.callSuper('_render', ctx)
   }
 })
-
+// https://gitlab.com/wushan/radi/blob/master/frontend-dev/app/scripts/CanvasComposer.js
+// fabric.Slider.fromObject = function(objects, callback, options) {
 fabric.Slider.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#cccccc'
   return new fabric.Slider(options)
 }
+
+// fabric.Slider.fromObject = function (objects, callback, options) {
+//   console.log(objects)
+//   // Construct Pattern from 'visibaleslide' sectopm
+//   fabric.Image.fromURL(objects.visibleslide.url, function (img) {
+//     img.scaleToWidth(objects.visibleslide.imgWidth)
+
+//     // Make a Pattern
+//     var patternSourceCanvas = new fabric.StaticCanvas()
+//     patternSourceCanvas.add(img)
+//     // console.log('ImageCurrentWidth:' + img.getWidth())
+//     var pattern = new fabric.Pattern({
+//       source: function () {
+//         patternSourceCanvas.setDimensions({
+//           width: img.getWidth() + 500,
+//           height: img.getHeight() + 500
+//         })
+//         return patternSourceCanvas.getElement()
+//       },
+//       repeat: 'no-repeat'
+//     })
+//     pattern.offsetX = objects.visibleslide.offsetX
+//     pattern.offsetY = objects.visibleslide.offsetY
+//     var enlivenSlider = new fabric.Slider({
+//       width: objects.width,
+//       height: objects.height,
+//       scaleX: objects.scaleX,
+//       scaleY: objects.scaleY,
+//       top: objects.top,
+//       left: objects.left,
+//       slides: objects.slides,
+//       interaction: objects.interaction,
+//       visibleslide: objects.visibleslide,
+//       fill: pattern
+//     })
+//     enlivenSlider.on('object:dblclick', function (options) {
+//       console.log(enlivenSlider)
+//       // Pass pattern out
+//       Slider.enterEditMode(enlivenSlider, img)
+//     })
+//     callback && callback(enlivenSlider)
+//   })
+// }
+
 // fabric.Slider.async = true
 
 // EClock Class

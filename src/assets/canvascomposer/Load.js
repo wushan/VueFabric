@@ -33,7 +33,7 @@ export default {
           pattern.offsetX = object.visibleslide.offsetX
           pattern.offsetY = object.visibleslide.offsetY
           canvas.renderAll()
-          canvas.setActiveObject(object)
+          // canvas.setActiveObject(object)
         })
       }
       // Bind Event for Each

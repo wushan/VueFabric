@@ -263,9 +263,9 @@
                   .thumbnail(:style="'background-image: url(' + slide.url +');'")
                   .description
                     span {{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
-                    .configure
-                      .fa.fa-sliders.fa-lg
-                    .delete
+                    //- .configure
+                    //-   .fa.fa-sliders.fa-lg
+                    .delete(@click="deleteSlide(slide.id)")
                       .fa.fa-trash.fa-lg
                   .layers-setting(v-if="slide.id === currentObject.visibleslide.id")
                     .controlgroup
@@ -284,7 +284,7 @@
                         input(type="number", v-model="slide.transitionTime")
                     //- .controlgroup
                     //-   button.btn.edit.full(type="buttn", @click="slideSetting(slide.id)") 修改
-          library(v-bind:baseUrl="baseUrl")
+          library(v-if="slider", v-bind:baseUrl="baseUrl")
 </template>
 
 <script>
@@ -733,7 +733,6 @@ export default {
       })
     },
     slideSetting (ref) {
-      // var fabric = window['fabric']
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
       if (ref === 'all') {
@@ -752,6 +751,30 @@ export default {
             currentObject.slides[i].leastTime = this.slideSettings.leastTime
           }
         }
+      }
+    },
+    deleteSlide (id) {
+      var canvas = window['canvas']
+      var currentObject = canvas.getActiveObject()
+      var targetSlide
+      for (var i = 0; i < currentObject.slides.length; i++) {
+        if (currentObject.slides[i].id === id) {
+          targetSlide = currentObject.slides[i]
+        }
+      }
+      var index = currentObject.slides.indexOf(targetSlide)
+      // Switch to next slide Before deleting it
+      console.log(index)
+      console.log(currentObject.slides[index + 1])
+      // if we've got siblings
+      if (currentObject.slides[index + 1]) {
+        this.selectLayer(currentObject.slides[index + 1].id)
+      } else if (currentObject.slides[index - 1]) {
+        this.selectLayer(currentObject.slides[index - 1].id)
+      }
+      // Delete
+      if (index > -1) {
+        currentObject.slides.splice(index, 1)
       }
     }
   }

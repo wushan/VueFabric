@@ -91,5 +91,18 @@ export default {
         cb(null, res.body)
       }
     })
+  },
+  getProgramList (num, limit, cb) {
+    request.post('http://radi.4webdemo.com/index.php/framesapi/get_editor_link')
+    .type('form')
+    .send({num})
+    .send({limit})
+    .end(function (err, res) {
+      if (err) {
+        cb(err, null)
+      } else {
+        cb(null, res.body)
+      }
+    })
   }
 }

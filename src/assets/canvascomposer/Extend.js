@@ -1,7 +1,20 @@
 // import Slider from './Slider'
 var fabric = window.fabric
 // var canvas = window.canvas
-fabric.Object.prototype.interaction = ''
+fabric.Object.prototype.interaction = {
+  type: 'none',
+  app: {
+    appName: '',
+    appEscape: '',
+    appEscapeTime: '',
+    appEscapeButton: '',
+    appEscapeButtonPost: '',
+    appEscapeButtonSize: ''
+  },
+  link: {
+    url: ''
+  }
+}
 fabric.Object.prototype.toObject = (function (toObject) {
   return function () {
     return fabric.util.object.extend(toObject.call(this), {

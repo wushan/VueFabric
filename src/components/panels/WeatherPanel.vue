@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #weatherSettings.floating-menu
     .canvasconfig-wrapper
       h3 Select Place
@@ -93,6 +93,7 @@ export default {
       var instance = this
       Weather.translate(location, function (err, res) {
         if (err) {
+          console.log(err.response.statusCode)
           instance.$parent.$parent.$emit('globalError', err.response.statusCode + ':' + err.response.body.error.description)
         } else {
           var conditionText = res.conditionText

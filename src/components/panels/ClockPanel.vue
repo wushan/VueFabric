@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #clocksettings.floating-menu
     .canvasconfig-wrapper
       h3 Clock Type
@@ -83,6 +83,7 @@ export default {
   .block {
     @include gallery(6 of 12 2);
     margin-bottom: 1em;
+    cursor: pointer;
     .name {
       margin-top: 1em;
     }

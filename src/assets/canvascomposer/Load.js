@@ -40,6 +40,15 @@ export default {
       // Bind Common Events
       Events.bindEvents(window.vue.$children[0], object)
 
+      // Slider Component should update the maskSize after everytime modified.
+      // After Edit
+      object.on('modified', function () {
+        for (var i = 0; i < this.slides.length; i++) {
+          this.slides[i].maskWidth = this.width * this.scaleX
+          this.slides[i].maskHeight = this.height * this.scaleY
+        }
+      })
+
       canvas.renderAll()
     })
     callback && callback('ddd')

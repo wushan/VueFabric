@@ -83,6 +83,8 @@ export default {
       newMask.set('width', mask.width * mask.scaleX)
       newMask.set('height', mask.height * mask.scaleY)
       // Update Attributes Back to 'visibleslide'
+      newMask.visibleslide.maskWidth = newMask.width
+      newMask.visibleslide.maskHeight = newMask.height
       newMask.visibleslide.offsetX = pattern.offsetX
       newMask.visibleslide.offsetY = pattern.offsetY
       newMask.visibleslide.imgWidth = image.getWidth()
@@ -93,6 +95,7 @@ export default {
       // Find slide in slides
       if (newMask.slides) {
         for (var i = 0; i < newMask.slides.length; i++) {
+          // Update Specific slide
           if (newMask.slides[i].id === targetObj.id) {
             newMask.slides[i] = newMask.visibleslide
           }

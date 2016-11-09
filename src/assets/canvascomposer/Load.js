@@ -1,4 +1,5 @@
 import Events from '../cc.objectEvents'
+import Slider from './Slider'
 export default {
   fromJSON (data, callback) {
     var fabric = window['fabric']
@@ -34,12 +35,16 @@ export default {
           pattern.offsetY = object.visibleslide.offsetY
           canvas.renderAll()
           // canvas.setActiveObject(object)
+          // Edit Mode
+          object.on('object:dblclick', function (options) {
+            // Pass pattern out
+            Slider.enterEditMode(object, img)
+          })
         })
       }
       // Bind Event for Each
       // Bind Common Events
       Events.bindEvents(window.vue.$children[0], object)
-
       // Slider Component should update the maskSize after everytime modified.
       // After Edit
       object.on('modified', function () {

@@ -5,7 +5,6 @@
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
       artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement")
     contextmenu
-    programlist
     transition(name="fade", mode="out-in")
       #globalLoader(v-if="globalLoader")
         .content
@@ -17,13 +16,14 @@
           .icon
             .fa.fa-exclamation.fa-lg
           span {{globalError}}
+          .timer-wrapper
+            .timer(:style="'width:' + globalErrorProgress + '%;'")
 </template>
 
 <script>
 import Artboard from './components/Artboard'
 import Toolbar from './components/Toolbar'
 import Contextmenu from './components/Contextmenu'
-import Programlist from './components/Programlist'
 import Globalmis from './components/globalMis'
 import Events from './assets/cc.objectEvents'
 import Load from './assets/canvascomposer/Load'
@@ -34,7 +34,6 @@ export default {
     Artboard,
     Toolbar,
     Contextmenu,
-    Programlist,
     Globalmis
   },
   data () {
@@ -52,7 +51,8 @@ export default {
       },
       currentView: '',
       globalLoader: false,
-      globalError: null
+      globalError: null,
+      globalErrorProgress: 100
     }
   },
   created () {
@@ -71,6 +71,7 @@ export default {
     })
     this.$on('globalError', function (res) {
       this.globalError = res
+      this.globalErrorProgressCountDown()
       setTimeout(() => (this.globalError = null), 3000)
     })
     this.$on('loadPreset', function (res) {
@@ -99,6 +100,9 @@ export default {
   methods: {
     initial () {
       this.keyBoardControl()
+    },
+    globalErrorProgressCountDown () {
+      this.globalErrorProgress = 0
     },
     arrangementControl () {
       if (this.currentObject) {
@@ -300,6 +304,7 @@ export default {
   align-items: center;
   background-color: darken($darkestgray, 10%);
   box-shadow: 0 3px 3px $pureblack;
+  z-index: 99;
   .content {
     padding: .5em 0 1em 0;
     text-align: center;
@@ -316,13 +321,14 @@ export default {
   bottom: 2em;
   width: 100%; 
   text-align: center;
+  z-index: 999;
   .content {
     display: inline-block;
     vertical-align: middle;
+    color: $white;
     box-shadow: 0 1px 3px $pureblack;
     .icon {
       background-color: $red;
-      color: $white;
       display: inline-block;
       vertical-align: middle;
       padding: 0.8em 1em;
@@ -331,9 +337,18 @@ export default {
       display: inline-block;
       vertical-align: middle;
       padding: 0.8em 1em;
-      background-color: $white;
-      color: $black;
+      background-color: $red;
+      // color: $black;
     }
+  }
+  .timer-wrapper {
+    background-color: darken($red, 20%);
+  }
+  .timer {
+    width: 100%; 
+    height: 5px;
+    background-color: darken($red, 15%);
+    transition: 3s all ease;
   }
 }
 .fade-enter-active, .fade-leave-active {

@@ -19,13 +19,16 @@
           select(v-model="selectedSubCategory", @change="subChanged")
             option(v-for="sub in subCategory", :value="sub") {{ sub.name }} / {{ sub.cateId }}
     transition(name="fade", mode="out-in")
-      .materials-wrapper
-        transition-group.materials-list(name="list-complete", tag="div")
-          .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail)")
-            img(:src="baseUrl + item.thumbnail")
-            .type(v-if="item.video_image")
-              .fa.fa-play-circle.fa-lg
-    loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
+      .materials-container
+        loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
+        .materials-wrapper
+          transition-group.materials-list(name="list-complete", tag="div")
+            .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail)")
+              img(:src="baseUrl + item.thumbnail")
+              .type(v-if="item.video_image")
+                .fa.fa-play-circle.fa-lg
+              .overlay
+                .fa.fa-plus.fa-lg
 
 </template>
 
@@ -270,6 +273,9 @@ export default {
     background-color: $black;
     border-radius: 6px;
     margin: 1em 0;
+    .materials-container {
+      position: relative;
+    }
     .materials-wrapper {
       height: 18em;
       background-color: lighten($darkestgray, 5%);
@@ -292,6 +298,9 @@ export default {
           }
           &:hover {
             box-shadow: 2px 3px 3px $pureblack;
+            .overlay {
+              opacity: 1; 
+            }
           }
           .type {
             pointer-events: none;
@@ -304,6 +313,27 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
+          }
+          .overlay {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: darken($blue, 10%);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin: auto;
+            box-shadow: 0 1px 3px $pureblack;
+            transition: .3s all ease;
+            .fa {
+              margin-top: 2px;
+            }
           }
         }
       }

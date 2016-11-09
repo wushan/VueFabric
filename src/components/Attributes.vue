@@ -111,7 +111,7 @@
                       option(value='144') 144
                       option(value='168') 168
                       option(value='192') 192
-          .attribution-group.specials(v-if="reflectInteractions")
+          .attribution-group.specials
             .controlgroup
               label 互動
               .controls.rich-control
@@ -121,7 +121,7 @@
             .controlgroup.link(v-if="interactionSetting.type === 'interactive'")
               label 連結
               .controls.rich-control
-                input#linkValue(type='text', v-model="interactionSetting.link.url", placeholder="輸入網址(http://)或選擇節目")
+                input#linkValue(type='text', v-model="interactionSetting.link.url", placeholder="輸入網址(http://)或選擇節目", @keyup.change="updateInteraction")
                 button.btn.basic.full(type="button", @click="selectProgram", :class="{disabled:programlist}")
                   | 選擇節目
                   .fa.fa-angle-up.fa-lg(v-if="programlist")
@@ -310,7 +310,9 @@ export default {
   },
   created () {
     this.$on('programSelected', function (res) {
-      this.programlist = res
+      // updateInteraction
+      this.interactionSetting.link.url = res[0]
+      this.programlist = res[1]
     })
   },
   data () {
@@ -420,12 +422,12 @@ export default {
     },
     reflectInteractions () {
       console.log('ref')
-      if (this.currentObject) {
-        this.interactionSetting = this.currentObject.interaction
-        return true
-      } else {
-        return false
-      }
+      // if (this.currentObject) {
+      //   this.interactionSetting = this.currentObject.interaction
+      //   return true
+      // } else {
+      //   return false
+      // }
     }
   },
   mounted () {
@@ -505,20 +507,7 @@ export default {
     updateInteractionType () {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
-      obj.set('interaction', {
-        type: this.interactionSetting.type,
-        app: {
-          appName: '',
-          appEscape: '',
-          appEscapeTime: '',
-          appEscapeButton: '',
-          appEscapeButtonPost: '',
-          appEscapeButtonSize: ''
-        },
-        link: {
-          url: ''
-        }
-      })
+      obj.set('interaction', this.interactionSetting)
     },
     updateInteraction () {
       var canvas = window['canvas']

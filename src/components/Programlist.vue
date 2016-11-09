@@ -84,8 +84,8 @@ export default {
       })
     },
     selectProgram (id) {
-      this.currentObject.interaction.link.url = id
-      this.$parent.$emit('programSelected', false)
+      // this.currentObject.interaction.link.url = id
+      this.$parent.$emit('programSelected', [id, false])
     }
   }
 }

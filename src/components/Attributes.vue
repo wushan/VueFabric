@@ -673,7 +673,8 @@ export default {
       // Rebuild slide from ID
       // currentObject.
       fabric.Image.fromURL(targetSlide.url, function (img) {
-        img.scaleToWidth(targetSlide.imgWidth)
+        img.width = targetSlide.imgWidth
+        img.height = targetSlide.imgHeight
         // img.scaleToWidth(currentObject.width)
         // Make a Pattern
         var patternSourceCanvas = new fabric.StaticCanvas()

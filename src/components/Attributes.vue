@@ -116,12 +116,12 @@
               label 互動
               .controls.rich-control
                 .select-wrapper
-                  select#interactives(v-model="interactionSetting.type", @change="updateInteractionType")
+                  select#interactives(:value="currentObject.interaction.type", @change="updateInteractionType")
                     option(v-for="interactive in interactives", :value="interactive.type") {{interactive.name}}
-            .controlgroup.link(v-if="interactionSetting.type === 'interactive'")
+            .controlgroup.link(v-if="currentObject.interaction.type === 'interactive'")
               label 連結
               .controls.rich-control
-                input#linkValue(type='text', v-model="interactionSetting.link.url", placeholder="輸入網址(http://)或選擇節目", @keyup.change="updateInteraction")
+                input#linkValue(type='text', placeholder="輸入網址(http://)或選擇節目", :value="currentObject.interaction.link.url")
                 button.btn.basic.full(type="button", @click="selectProgram", :class="{disabled:programlist}")
                   | 選擇節目
                   .fa.fa-angle-up.fa-lg(v-if="programlist")
@@ -129,37 +129,37 @@
             transition(name="fade", mode="out-in")
               programlist(v-if="programlist", v-bind:currentObject="currentObject")
             transition(name="fade", mode="out-in")
-              .application(v-if="interactionSetting.type === 'apps'")
+              form.application(v-if="currentObject.interaction.type === 'apps'", @submit.stop.prevent="updateInteraction")
                 .controlgroup
                   label 套件名稱
                   .controls.rich-control
-                    input#appName(v-model="interactionSetting.app.appName", type='text')
+                    input#appName(:value="currentObject.interaction.app.appName", type='text', name="appName")
                 .controlgroup
                   label 退出方式
                   .controls.rich-control
                     .select-wrapper
-                      select#appEscape(v-model="interactionSetting.app.appEscape")
+                      select#appEscape(:value="currentObject.interaction.app.appEscape")
                         option(value="Manual") 手動退出
                         option(value="Force") 強制關閉
                 .controlgroup
                   .controls.rich-control
                     .row
                       .grid.g-6-12
-                        input#appEscapeTime(type='number', v-model="interactionSetting.app.appEscapeTime")
+                        input#appEscapeTime(type='number', :value="currentObject.interaction.app.appEscapeTime")
                       .grid.g-6-12
                         label 秒強制關閉
                 .controlgroup
                   label 懸浮按鈕
                   .controls.rich-control
                     .select-wrapper
-                      select#appEscapeButton(v-model="interactionSetting.app.appEscapeButton")
+                      select#appEscapeButton(:value="currentObject.interaction.app.appEscapeButton")
                         option(value="ON") 啟用
                         option(value="OFF") 不啟用
                 .controlgroup
                   label 按鈕位置
                   .controls.rich-control
                     .select-wrapper
-                      select#appEscapeButtonPos(v-model="interactionSetting.app.appEscapeButtonPost")
+                      select#appEscapeButtonPos(:value="currentObject.interaction.app.appEscapeButtonPost")
                         option(value="lefttop") 左上
                         option(value="leftcenter") 左中
                         option(value="leftbottom") 左下
@@ -173,11 +173,78 @@
                   label 按鈕尺寸
                   .controls.rich-control
                     .select-wrapper
-                      select#appEscapeButtonSize(v-model="interactionSetting.app.appEscapeButtonSize")
+                      select#appEscapeButtonSize(:value="currentObject.interaction.app.appEscapeButtonSize")
                         option(value="L") 大
                         option(value="M") 中
                         option(value="S") 小
-                button.btn.basic.full(type="button", @click="updateInteraction") 儲存設定
+                button.btn.basic.full(type="submit") 儲存設定
+
+            //- .controlgroup
+            //-   label 互動
+            //-   .controls.rich-control
+            //-     .select-wrapper
+            //-       select#interactives(v-model="interactionSetting.type", @change="updateInteractionType")
+            //-         option(v-for="interactive in interactives", :value="interactive.type") {{interactive.name}}
+            //- .controlgroup.link(v-if="interactionSetting.type === 'interactive'")
+            //-   label 連結
+            //-   .controls.rich-control
+            //-     input#linkValue(type='text', v-model="interactionSetting.link.url", placeholder="輸入網址(http://)或選擇節目", @keyup.change="updateInteraction")
+            //-     button.btn.basic.full(type="button", @click="selectProgram", :class="{disabled:programlist}")
+            //-       | 選擇節目
+            //-       .fa.fa-angle-up.fa-lg(v-if="programlist")
+            //-       .fa.fa-angle-down.fa-lg(v-else)
+            //- transition(name="fade", mode="out-in")
+            //-   programlist(v-if="programlist", v-bind:currentObject="currentObject")
+            //- transition(name="fade", mode="out-in")
+            //-   .application(v-if="interactionSetting.type === 'apps'")
+            //-     .controlgroup
+            //-       label 套件名稱
+            //-       .controls.rich-control
+            //-         input#appName(v-model="interactionSetting.app.appName", type='text')
+            //-     .controlgroup
+            //-       label 退出方式
+            //-       .controls.rich-control
+            //-         .select-wrapper
+            //-           select#appEscape(v-model="interactionSetting.app.appEscape")
+            //-             option(value="Manual") 手動退出
+            //-             option(value="Force") 強制關閉
+            //-     .controlgroup
+            //-       .controls.rich-control
+            //-         .row
+            //-           .grid.g-6-12
+            //-             input#appEscapeTime(type='number', v-model="interactionSetting.app.appEscapeTime")
+            //-           .grid.g-6-12
+            //-             label 秒強制關閉
+            //-     .controlgroup
+            //-       label 懸浮按鈕
+            //-       .controls.rich-control
+            //-         .select-wrapper
+            //-           select#appEscapeButton(v-model="interactionSetting.app.appEscapeButton")
+            //-             option(value="ON") 啟用
+            //-             option(value="OFF") 不啟用
+            //-     .controlgroup
+            //-       label 按鈕位置
+            //-       .controls.rich-control
+            //-         .select-wrapper
+            //-           select#appEscapeButtonPos(v-model="interactionSetting.app.appEscapeButtonPost")
+            //-             option(value="lefttop") 左上
+            //-             option(value="leftcenter") 左中
+            //-             option(value="leftbottom") 左下
+            //-             option(value="righttop") 右上
+            //-             option(value="rightcenter") 右中
+            //-             option(value="rightbottom") 右下
+            //-             option(value="centertop") 中上
+            //-             option(value="centercenter") 中中
+            //-             option(value="centerbottom") 中下
+            //-     .controlgroup
+            //-       label 按鈕尺寸
+            //-       .controls.rich-control
+            //-         .select-wrapper
+            //-           select#appEscapeButtonSize(v-model="interactionSetting.app.appEscapeButtonSize")
+            //-             option(value="L") 大
+            //-             option(value="M") 中
+            //-             option(value="S") 小
+            //-     button.btn.basic.full(type="button", @click="updateInteraction") 儲存設定
 
           .attribution-group.webview(v-if="webview")
             p Webview Url
@@ -320,7 +387,23 @@ export default {
     console.log(this.currentObject)
     this.$on('programSelected', function (res) {
       // updateInteraction
-      this.interactionSetting.link.url = res[0]
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var interactionSetting = {
+        type: this.currentObject.interaction.type,
+        app: {
+          appName: '',
+          appEscape: '',
+          appEscapeTime: '',
+          appEscapeButton: '',
+          appEscapeButtonPost: '',
+          appEscapeButtonSize: ''
+        },
+        link: {
+          url: res[0]
+        }
+      }
+      obj.set('interaction', interactionSetting)
       this.programlist = res[1]
     })
   },
@@ -491,9 +574,14 @@ export default {
     })
   },
   watch: {
-    'currentObject': ['updateSpectrum']
+    'currentObject': ['updateSpectrum', 'syncData']
   },
   methods: {
+    syncData () {
+      // console.log('sync Start')
+      // this.interactionSetting = this.currentObject.interaction
+      // console.log('sync Done')
+    },
     // updateAppInteraction () {
     //   var appObj = {
     //     appName: $('#appName').val(),
@@ -509,17 +597,53 @@ export default {
     //   // obj.set('interaction', {type: 'apps', app: this.appSetting})
     //   obj.set('interaction.app', appObj)
     // },
-    updateInteractionType () {
+    updateInteractionType (e) {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
-      console.log(obj)
-      obj.set('interaction', this.interactionSetting)
+      var interactionSetting = {
+        type: e.target.value,
+        app: {
+          appName: '',
+          appEscape: '',
+          appEscapeTime: '',
+          appEscapeButton: '',
+          appEscapeButtonPost: '',
+          appEscapeButtonSize: ''
+        },
+        link: {
+          url: ''
+        }
+      }
+      // console.log(obj.interaction)
+      obj.set('interaction', interactionSetting)
+      canvas.renderAll()
+      this.$forceUpdate()
+      // console.log('updateType Done')
     },
-    updateInteraction () {
-      console.log('did I')
+    updateInteraction (e) {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
-      obj.set('interaction', this.interactionSetting)
+      // Construct this !
+      var interactionSetting = {
+        type: this.currentObject.interaction.type,
+        app: {
+          appName: e.target.elements.appName.value,
+          appEscape: e.target.elements.appEscape.value,
+          appEscapeTime: e.target.elements.appEscapeTime.value,
+          appEscapeButton: e.target.elements.appEscapeButton.value,
+          appEscapeButtonPost: e.target.elements.appEscapeButtonPos.value,
+          appEscapeButtonSize: e.target.elements.appEscapeButtonSize.value
+        },
+        link: {
+          url: ''
+        }
+      }
+      console.log(e.target.elements.appName.value)
+      // console.log('did I')
+      // var canvas = window['canvas']
+      // var obj = canvas.getActiveObject()
+      obj.set('interaction', interactionSetting)
+      canvas.renderAll()
     },
     triggerLayerGroupSetting () {
       if (this.layerGroupSetting) {

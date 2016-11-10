@@ -49,5 +49,3 @@ console.log(vue.$children)
 canvas.on('before:selection:cleared', function () {
   vue.$children[0].currentObject = null
 })
-
-// console.log(window.canvas)

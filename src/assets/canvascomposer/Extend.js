@@ -18,7 +18,8 @@ fabric.Object.prototype.interaction = {
 fabric.Object.prototype.toObject = (function (toObject) {
   return function () {
     return fabric.util.object.extend(toObject.call(this), {
-      interaction: this.interaction
+      interaction: this.interaction,
+      id: this.id
     })
   }
 })(fabric.Object.prototype.toObject)

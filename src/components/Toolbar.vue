@@ -59,6 +59,8 @@ import Timepanel from './panels/TimePanel'
 import Weatherpanel from './panels/WeatherPanel'
 import Presetpanel from './panels/PresetPanel'
 import Savepanel from './panels/SavePanel'
+// UUID
+import uuid from 'node-uuid'
 export default {
   name: 'Toolbar',
   components: {
@@ -82,6 +84,7 @@ export default {
       var fabric = window['fabric']
       var canvas = window['canvas']
       var rect = new fabric.Rect({
+        id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100 / 2,
         top: canvas.getHeight() / 2 - 100 / 2,
         fill: '#' + Math.floor(Math.random() * 16777215).toString(16),

@@ -288,6 +288,13 @@
                         input(type="number", v-model="slide.transitionTime")
                     //- .controlgroup
                     //-   button.btn.edit.full(type="buttn", @click="slideSetting(slide.id)") 修改
+
+          p CanvasEl ( debug )
+          ul.elements
+            li(v-for="obj in artboardEls")
+              p {{obj.type}} : {{obj.id}}
+                br/
+                | Type: '{{obj.interaction.type}}'
           library(v-if="slider", v-bind:baseUrl="baseUrl")
 </template>
 
@@ -309,6 +316,8 @@ export default {
     Programlist
   },
   created () {
+    // this.syncData()
+    console.log(this.currentObject)
     this.$on('programSelected', function (res) {
       // updateInteraction
       this.interactionSetting.link.url = res[0]
@@ -381,6 +390,11 @@ export default {
   },
   props: ['currentObject', 'initialRadius', 'baseUrl'],
   computed: {
+    artboardEls () {
+      var canvas = window['canvas']
+      // var scene = canvas.toObject()
+      return canvas._objects
+    },
     typography () {
       if (this.currentObject.type === 'eclock' || this.currentObject.type === 'textbox' || this.currentObject.type === 'weather' || this.currentObject.type === 'location' || this.currentObject.type === 'temperature') {
         this.initialSpectrum()
@@ -419,15 +433,6 @@ export default {
     },
     currentSlide () {
       console.log(this)
-    },
-    reflectInteractions () {
-      console.log('ref')
-      // if (this.currentObject) {
-      //   this.interactionSetting = this.currentObject.interaction
-      //   return true
-      // } else {
-      //   return false
-      // }
     }
   },
   mounted () {
@@ -507,9 +512,11 @@ export default {
     updateInteractionType () {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
+      console.log(obj)
       obj.set('interaction', this.interactionSetting)
     },
     updateInteraction () {
+      console.log('did I')
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
       obj.set('interaction', this.interactionSetting)
@@ -877,6 +884,16 @@ export default {
   }
   span {
     margin-right: 1em;
+  }
+}
+.elements {
+  padding: 0;
+  margin: 0;
+  display: block;
+  li {
+    display: block;
+    padding: .6em 0;
+    border-bottom: 1px solid rgba($gray, .33);
   }
 }
 

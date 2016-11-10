@@ -203,24 +203,28 @@
                 input#webviewPlaceholder(type='text' readonly)
           .attribution-group(v-if="rss")
             p RSS 來源
-            form
+            form(@submit.stop.prevent="updateRss")
               .controlgroup
                 label 網址
                 .controls
                   input#rssSource(type="text", :value="currentObject.rssmarquee.source", name="rssSource")
-                  span {{currentObject.type}}
-                  span {{currentObject.rssmarquee}}
-                  span {{currentObject.rssmarquee.leastTime}}
-                  span {{currentObject.rssmarquee.source}}
-
-            p Placeholder
-            .controlgroup
-              label 替代圖
-              .controls.rich-control
-                a.js-library(href="javascript:;")
-                  i.fa.fa-cloud-upload.fa-2x
-                input#webviewPlaceholder(type='text' readonly)
-
+              .controlgroup
+                label 持續時間
+                .controls
+                  input.marquee-leasttime(:value="currentObject.rssmarquee.leastTime", type='number', name="leastTime")
+              
+              .controlgroup
+                label 切換特效
+                .controls
+                  .select-wrapper
+                    select.marquee-type(:value="currentObject.rssmarquee.transitionType", name="transitionType")
+                      option(v-for="type in rssdata.transitionType", :value="type.value") {{type.name}}
+            
+              .controlgroup
+                label 特效時間
+                .controls
+                  input.marquee-transitionperiod(:value="currentObject.rssmarquee.transitionPeriod", type='number', name="transitionPeriod")
+              button.btn.basic.full(type="submit") 更新 RSS
           .attribution-group.clock(v-if="clock")
             p Clock Specific
             .controlgroup.clock
@@ -409,6 +413,38 @@ export default {
           type: 'interactive'
         }
       ],
+      rssdata: {
+        transitionType: [
+          {
+            value: 'default',
+            name: '預設'
+          },
+          {
+            value: 'random',
+            name: '隨機'
+          },
+          {
+            value: 'rightleft',
+            name: '由右至左'
+          },
+          {
+            value: 'leftright',
+            name: '由左至右'
+          },
+          {
+            value: 'topbottom',
+            name: '由上至下'
+          },
+          {
+            value: 'bottomtop',
+            name: '由下至上'
+          },
+          {
+            value: 'fade',
+            name: '淡入淡出'
+          }
+        ]
+      },
       interactionSetting: {
         type: 'none',
         app: {
@@ -562,6 +598,22 @@ export default {
     //   // obj.set('interaction', {type: 'apps', app: this.appSetting})
     //   obj.set('interaction.app', appObj)
     // },
+    updateRss (e) {
+      console.log(e.target.elements.rssSource.value)
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var rssSetting = {
+        source: e.target.elements.rssSource.value,
+        leaseTime: e.target.elements.leastTime.value,
+        transitionType: e.target.elements.transitionType.value,
+        transitionPeriod: e.target.elements.transitionPeriod.value
+      }
+      console.log(rssSetting)
+      console.log(obj.rssmarquee)
+      obj.set('rssmarquee', rssSetting)
+      console.log(obj.rssmarquee)
+      canvas.renderAll()
+    },
     updateInteractionType (e) {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()

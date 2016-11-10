@@ -54,6 +54,8 @@ canvas.on('after:render', function () {
 	if (activeObj) {
 		vue.$children[0].currentObject = activeObj.toObject()
 	  console.log('Canvas Just Rendered.')
-	}
+	} else {
+		vue.$children[0].currentObject = activeObj
+	}	
   // After Rendered
 })

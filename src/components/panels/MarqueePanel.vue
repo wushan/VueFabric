@@ -1,17 +1,46 @@
 <template lang="pug">
-  #canvassetting.floating-menu
+  #marquee-settings.floating-menu
     .canvasconfig-wrapper
-      h3 選擇版型
-      span ({{width}}x{{height}})
+      h1 Marquee
       .canvasconfig-inner
-        loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
-        transition(name="fade", mode="out-in")
-          .row.layoutpresets(v-if="presets")
-            .block(v-for="preset in presets")
-              a(href="javascript:;", @click="loadPreset(preset.content)")
-                .thumbnail
-                  img(v-bind:src="baseUrl + preset.image")
-                .name {{preset.name}}
+        .row
+          .controlgroup
+            label 來源：
+            .controls
+              .select-wrapper
+                select#marquee-source
+                  option(value="fromrss") RSS 目錄
+                  option(value="fromcustom") 自訂字串
+          .datas
+            #fromcustom.marquee-form
+              
+              .string-list-wrapper
+                .string-settings.row
+                  
+                  .controlgroup
+                    label 持續時間：
+                    .controls
+                      input.marquee-leasttime(type='number', placeholder='3')
+                
+                  .controlgroup
+                    label 切換特效：
+                    .controls
+                      .select-wrapper
+                        select.marquee-type
+                            option(value='horizontal') 單行(水平)
+                            option(value='vertical') 多行(垂直)
+                  
+                  .controlgroup
+                    label 特效時間：
+                    .controls
+                      input.marquee-transitionperiod(type='number', placeholder='3')
+                .string-item
+                  .controlgroup
+                    label 字串：
+                    textarea.marquee-string.full(placeholder='字串')
+              
+              .call-action.centered
+                a.btn.basic.full.js-sendToMarquee(href="javascript:;") 建立跑馬燈
           
 </template>
 

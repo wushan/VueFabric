@@ -3,6 +3,13 @@
     .panels
       .attributes-wrapper.panel
         .attributes-inner(v-if="currentObject")
+          #debugger
+            span Debugger
+            ul
+              li(v-for="obj in artboardEls")
+                span {{obj.type}} : {{obj.id}}
+                  br/
+                  | Type: '{{obj.interaction.type}}'
           .attribution-group.basics
             p Basics
             .row
@@ -181,73 +188,6 @@
                         option(value="S") 小
                 button.btn.basic.full(type="submit") 儲存設定
 
-            //- .controlgroup
-            //-   label 互動
-            //-   .controls.rich-control
-            //-     .select-wrapper
-            //-       select#interactives(v-model="interactionSetting.type", @change="updateInteractionType")
-            //-         option(v-for="interactive in interactives", :value="interactive.type") {{interactive.name}}
-            //- .controlgroup.link(v-if="interactionSetting.type === 'interactive'")
-            //-   label 連結
-            //-   .controls.rich-control
-            //-     input#linkValue(type='text', v-model="interactionSetting.link.url", placeholder="輸入網址(http://)或選擇節目", @keyup.change="updateInteraction")
-            //-     button.btn.basic.full(type="button", @click="selectProgram", :class="{disabled:programlist}")
-            //-       | 選擇節目
-            //-       .fa.fa-angle-up.fa-lg(v-if="programlist")
-            //-       .fa.fa-angle-down.fa-lg(v-else)
-            //- transition(name="fade", mode="out-in")
-            //-   programlist(v-if="programlist", v-bind:currentObject="currentObject")
-            //- transition(name="fade", mode="out-in")
-            //-   .application(v-if="interactionSetting.type === 'apps'")
-            //-     .controlgroup
-            //-       label 套件名稱
-            //-       .controls.rich-control
-            //-         input#appName(v-model="interactionSetting.app.appName", type='text')
-            //-     .controlgroup
-            //-       label 退出方式
-            //-       .controls.rich-control
-            //-         .select-wrapper
-            //-           select#appEscape(v-model="interactionSetting.app.appEscape")
-            //-             option(value="Manual") 手動退出
-            //-             option(value="Force") 強制關閉
-            //-     .controlgroup
-            //-       .controls.rich-control
-            //-         .row
-            //-           .grid.g-6-12
-            //-             input#appEscapeTime(type='number', v-model="interactionSetting.app.appEscapeTime")
-            //-           .grid.g-6-12
-            //-             label 秒強制關閉
-            //-     .controlgroup
-            //-       label 懸浮按鈕
-            //-       .controls.rich-control
-            //-         .select-wrapper
-            //-           select#appEscapeButton(v-model="interactionSetting.app.appEscapeButton")
-            //-             option(value="ON") 啟用
-            //-             option(value="OFF") 不啟用
-            //-     .controlgroup
-            //-       label 按鈕位置
-            //-       .controls.rich-control
-            //-         .select-wrapper
-            //-           select#appEscapeButtonPos(v-model="interactionSetting.app.appEscapeButtonPost")
-            //-             option(value="lefttop") 左上
-            //-             option(value="leftcenter") 左中
-            //-             option(value="leftbottom") 左下
-            //-             option(value="righttop") 右上
-            //-             option(value="rightcenter") 右中
-            //-             option(value="rightbottom") 右下
-            //-             option(value="centertop") 中上
-            //-             option(value="centercenter") 中中
-            //-             option(value="centerbottom") 中下
-            //-     .controlgroup
-            //-       label 按鈕尺寸
-            //-       .controls.rich-control
-            //-         .select-wrapper
-            //-           select#appEscapeButtonSize(v-model="interactionSetting.app.appEscapeButtonSize")
-            //-             option(value="L") 大
-            //-             option(value="M") 中
-            //-             option(value="S") 小
-            //-     button.btn.basic.full(type="button", @click="updateInteraction") 儲存設定
-
           .attribution-group.webview(v-if="webview")
             p Webview Url
             .controlgroup.webview
@@ -256,6 +196,25 @@
                 input#webviewUrl(type="text", placeholder="http://google.com")
             p Placeholder
             .controlgroup.webview
+              label 替代圖
+              .controls.rich-control
+                a.js-library(href="javascript:;")
+                  i.fa.fa-cloud-upload.fa-2x
+                input#webviewPlaceholder(type='text' readonly)
+          .attribution-group(v-if="rss")
+            p RSS 來源
+            form
+              .controlgroup
+                label 網址
+                .controls
+                  input#rssSource(type="text", :value="currentObject.rssmarquee.source", name="rssSource")
+                  span {{currentObject.type}}
+                  span {{currentObject.rssmarquee}}
+                  span {{currentObject.rssmarquee.leastTime}}
+                  span {{currentObject.rssmarquee.source}}
+
+            p Placeholder
+            .controlgroup
               label 替代圖
               .controls.rich-control
                 a.js-library(href="javascript:;")
@@ -357,14 +316,6 @@
                         input(type="number", v-model="slide.transitionTime")
                     //- .controlgroup
                     //-   button.btn.edit.full(type="buttn", @click="slideSetting(slide.id)") 修改
-
-          #debugger
-            span Debugger
-            ul
-              li(v-for="obj in artboardEls")
-                span {{obj.type}} : {{obj.id}}
-                  br/
-                  | Type: '{{obj.interaction.type}}'
           library(v-if="slider", v-bind:baseUrl="baseUrl")
 </template>
 
@@ -498,6 +449,13 @@ export default {
     },
     webview () {
       if (this.currentObject.type === 'webview') {
+        return true
+      } else {
+        return false
+      }
+    },
+    rss () {
+      if (this.currentObject.type === 'rss') {
         return true
       } else {
         return false

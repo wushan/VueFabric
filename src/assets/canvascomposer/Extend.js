@@ -15,6 +15,12 @@ fabric.Object.prototype.interaction = {
     url: ''
   }
 }
+fabric.Object.prototype.rssmarquee = {
+  source: '',
+  leaseTime: '',
+  transitionType: '',
+  transitionPeriod: ''
+}
 fabric.Object.prototype.toObject = (function (toObject) {
   return function () {
     return fabric.util.object.extend(toObject.call(this), {
@@ -262,7 +268,7 @@ fabric.Rss = fabric.util.createClass(fabric.Group, {
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
-      rss: this.rss
+      rssmarquee: this.rssmarquee
     })
   },
   _render: function (ctx) {

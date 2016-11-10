@@ -14,9 +14,10 @@
         a.full.btn.basic.js-library(href="javascript:;" title="新增圖片或輪播圖", @click='addMedia')
           i.fa.fa-photo.fa-lg
       li
-        a.full.btn.basic(href="javascript:;" title="新增跑馬燈", data-action='addMarquee')
+        a.full.btn.basic(href="javascript:;" title="新增跑馬燈", @click="updateSub('marqueepanel')", :class="{ active: currentView=='marqueepanel' }")
           i.fa.fa-text-width.fa-lg
-        //- include marquee-settings
+      li
+        a.full.btn.basic(href="javascript:;" title="新增RSS", @click="updateSub('rsspanel')", :class="{ active: currentView=='rsspanel' }") RSS
       li
         a.full.btn.basic.js-add-clock(href="javascript:;" title="新增時鐘", @click="updateSub('clockpanel')", :class="{ active: currentView=='clockpanel' }")
           i.fa.fa-clock-o.fa-lg
@@ -59,6 +60,8 @@ import Timepanel from './panels/TimePanel'
 import Weatherpanel from './panels/WeatherPanel'
 import Presetpanel from './panels/PresetPanel'
 import Savepanel from './panels/SavePanel'
+import Marqueepanel from './panels/MarqueePanel'
+import Rsspanel from './panels/RssPanel'
 // UUID
 import uuid from 'node-uuid'
 export default {
@@ -68,13 +71,18 @@ export default {
     Timepanel,
     Weatherpanel,
     Presetpanel,
-    Savepanel
+    Savepanel,
+    Marqueepanel,
+    Rsspanel
   },
   data () {
     return {
     }
   },
   created () {
+    this.$on('addRss', function (src) {
+      this.addRss(src)
+    })
   },
   mounted () {
   },
@@ -328,6 +336,58 @@ export default {
       this.bindEvents(slider)
       // Programmatically Select Newly Added Object
       canvas.setActiveObject(slider)
+    },
+    addRss (rsssource) {
+      const fabric = window['fabric']
+      const canvas = window['canvas']
+      // Always Create Text Object from first string.
+      var bg = new fabric.Rect({
+        fill: '#ffffff',
+        width: 200,
+        height: 200,
+        left: 0,
+        top: 0,
+        padding: 0,
+        strokeWidth: 0,
+        originX: 'center',
+        originY: 'center'
+      })
+      var text = new fabric.Text('<RSS Frame>', {
+        left: 0,
+        top: 0,
+        fontSize: '14',
+        fontFamily: 'Open sans',
+        textAlign: 'center',
+        fill: '#cccccc',
+        originX: 'center',
+        originY: 'center'
+      })
+      var group = new fabric.Rss([bg, text], {
+        left: canvas.getWidth() / 2 - 100,
+        top: canvas.getHeight() / 2 - 100,
+        padding: 0,
+        strokeWidth: 0
+      })
+      group.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            interaction: this.interaction,
+            rssmarquee: {
+              source: rsssource.source,
+              leastTime: rsssource.leastTime,
+              transitionType: rsssource.transitionType,
+              transitionPeriod: rsssource.transitionPeriod
+            }
+          })
+        }
+      })(group.toObject)
+      group.perPixelTargetFind = true
+      canvas.add(group)
+      canvas.renderAll()
+      // Bind
+      this.bindEvents(group)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(group)
     }
   }
 }

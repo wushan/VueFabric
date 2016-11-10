@@ -121,11 +121,13 @@
             .controlgroup.link(v-if="currentObject.interaction.type === 'interactive'")
               label 連結
               .controls.rich-control
-                input#linkValue(type='text', placeholder="輸入網址(http://)或選擇節目", :value="currentObject.interaction.link.url")
-                button.btn.basic.full(type="button", @click="selectProgram", :class="{disabled:programlist}")
-                  | 選擇節目
-                  .fa.fa-angle-up.fa-lg(v-if="programlist")
-                  .fa.fa-angle-down.fa-lg(v-else)
+                form(@submit.stop.prevent="confirmLink")
+                  input#linkValue(type='text', placeholder="輸入網址(http://)或選擇節目", :value="currentObject.interaction.link.url")
+                  button.btn.edit.full(type="button", @click="selectProgram", :class="{disabled:programlist}")
+                    | 選擇節目
+                    .fa.fa-angle-up.fa-lg(v-if="programlist")
+                    .fa.fa-angle-down.fa-lg(v-else)
+                  button.btn.basic.full(type="submit") 確定
             transition(name="fade", mode="out-in")
               programlist(v-if="programlist", v-bind:currentObject="currentObject")
             transition(name="fade", mode="out-in")
@@ -356,12 +358,13 @@
                     //- .controlgroup
                     //-   button.btn.edit.full(type="buttn", @click="slideSetting(slide.id)") 修改
 
-          p CanvasEl ( debug )
-          ul.elements
-            li(v-for="obj in artboardEls")
-              p {{obj.type}} : {{obj.id}}
-                br/
-                | Type: '{{obj.interaction.type}}'
+          #debugger
+            span Debugger
+            ul
+              li(v-for="obj in artboardEls")
+                span {{obj.type}} : {{obj.id}}
+                  br/
+                  | Type: '{{obj.interaction.type}}'
           library(v-if="slider", v-bind:baseUrl="baseUrl")
 </template>
 
@@ -570,7 +573,11 @@ export default {
             'rgb(12, 52, 61)', 'rgb(28, 69, 135)', 'rgb(7, 55, 99)', 'rgb(32, 18, 77)', 'rgb(76, 17, 48)']
         ]
       })
-      $('#objectColor').spectrum('set', this.currentObject.textBackgroundColor)
+      if (this.typography) {
+        $('#objectColor').spectrum('set', this.currentObject.textBackgroundColor)
+      } else {
+        $('#objectColor').spectrum('set', this.currentObject.fill)
+      }
     })
   },
   watch: {
@@ -639,9 +646,6 @@ export default {
         }
       }
       console.log(e.target.elements.appName.value)
-      // console.log('did I')
-      // var canvas = window['canvas']
-      // var obj = canvas.getActiveObject()
       obj.set('interaction', interactionSetting)
       canvas.renderAll()
     },
@@ -652,6 +656,31 @@ export default {
         this.layerGroupSetting = true
       }
     },
+    confirmLink (e) {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      // Construct this !
+      console.log(e)
+      var interactionSetting = {
+        type: this.currentObject.interaction.type,
+        app: {
+          appName: '',
+          appEscape: '',
+          appEscapeTime: '',
+          appEscapeButton: '',
+          appEscapeButtonPost: '',
+          appEscapeButtonSize: ''
+        },
+        link: {
+          url: e.target.elements.linkValue.value
+        }
+      }
+      // console.log('did I')
+      // var canvas = window['canvas']
+      // var obj = canvas.getActiveObject()
+      obj.set('interaction', interactionSetting)
+      canvas.renderAll()
+    },
     selectProgram () {
       if (this.programlist) {
         this.programlist = false
@@ -660,8 +689,14 @@ export default {
       }
     },
     updateSpectrum () {
-      $('#objectColor').spectrum('set', this.currentObject.textBackgroundColor)
-      $('#objectTextColor').spectrum('set', this.currentObject.fill)
+      console.log('color updated')
+      // Text Object is different
+      if (this.typography) {
+        $('#objectColor').spectrum('set', this.currentObject.textBackgroundColor)
+        $('#objectTextColor').spectrum('set', this.currentObject.fill)
+      } else {
+        $('#objectColor').spectrum('set', this.currentObject.fill)
+      }
     },
     changeFontFamily () {
       var canvas = window['canvas']
@@ -747,6 +782,7 @@ export default {
               'rgb(12, 52, 61)', 'rgb(28, 69, 135)', 'rgb(7, 55, 99)', 'rgb(32, 18, 77)', 'rgb(76, 17, 48)']
           ]
         })
+        $('#objectTextColor').spectrum('set', this.currentObject.fill)
       })
     },
     selectLayer (id) {
@@ -1010,14 +1046,20 @@ export default {
     margin-right: 1em;
   }
 }
-.elements {
-  padding: 0;
-  margin: 0;
-  display: block;
-  li {
+#debugger {
+  background-color: $red;
+  box-sizing: border-box;
+  padding: 1em;
+  font-size: 12px;
+  ul {
+    padding: 0;
+    margin: 0;
     display: block;
-    padding: .6em 0;
-    border-bottom: 1px solid rgba($gray, .33);
+    li {
+      display: block;
+      padding: .6em 0;
+      border-bottom: 1px solid rgba($gray, .33);
+    }
   }
 }
 

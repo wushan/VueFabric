@@ -50,7 +50,10 @@ canvas.on('before:selection:cleared', function () {
   vue.$children[0].currentObject = null
 })
 canvas.on('after:render', function () {
-  vue.$children[0].currentObject = canvas.getActiveObject()
-  console.log('Canvas Just Rendered.')
+	var activeObj = canvas.getActiveObject()
+	if (activeObj) {
+		vue.$children[0].currentObject = activeObj.toObject()
+	  console.log('Canvas Just Rendered.')
+	}
   // After Rendered
 })

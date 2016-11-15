@@ -60,7 +60,7 @@ canvas.on('after:render', function () {
 	}	
   // After Rendered
 })
-
+// Prevent Object leaving the canvas
 canvas.on('object:moving', function (e) {
   var obj = e.target;
    // if object is too big ignore

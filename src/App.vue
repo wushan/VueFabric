@@ -283,7 +283,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./node_modules/font-awesome/scss/font-awesome";
+// @import "../node_modules/font-awesome/scss/font-awesome";
 @import "./bower_components/susy/sass/susy";
 @import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "./bower_components/normalize-css/normalize";

@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #timesettings.floating-menu
     .timeconfig-wrapper
       h3 Time Format

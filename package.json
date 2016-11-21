@@ -26,6 +26,7 @@
     "superagent": "^2.3.0",
     "vue": "^2.0.1",
     "vue-sweetalert": "^0.1.15",
+    "vuedraggable": "^2.3.1",
     "vuex": "^2.0.0"
   },
   "devDependencies": {

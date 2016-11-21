@@ -318,8 +318,8 @@
                   button.btn.edit.full(type="buttn", @click="slideSetting('all')") 統一修改
 
             .layers-wrapper
-              .layers-inner
-                .layer(v-for="slide in currentObject.slides", :key="slide.id", :class="{ active:slide.id === currentObject.visibleslide.id }", @click="selectLayer(slide.id)", :title="slide.leastTime + '/sec,' + slide.transitionType + '(' + slide.transitionTime + '/sec)'")
+              draggable.layers-inner(v-bind:list="layerlist", @start="startDragging", @end="endDragging")
+                li.layer(v-for="slide in currentObject.slides", :key="slide.id", :class="{ active:slide.id === currentObject.visibleslide.id }", @click="selectLayer(slide.id)", :title="slide.leastTime + '/sec,' + slide.transitionType + '(' + slide.transitionTime + '/sec)'")
                   .thumbnail(:style="'background-image: url(' + slide.url +');'")
                   .description
                     span {{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
@@ -348,6 +348,7 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import Library from './Library'
 import Events from '../assets/cc.objectEvents'
 import Slider from '../assets/canvascomposer/Slider'
@@ -362,7 +363,8 @@ export default {
   name: 'Attributes',
   components: {
     Library,
-    Programlist
+    Programlist,
+    draggable
   },
   created () {
     // this.syncData()
@@ -391,6 +393,8 @@ export default {
   },
   data () {
     return {
+      layerlist: null,
+      dragging: false,
       layerGroupSetting: false,
       selectedType: 'none',
       programlist: false,
@@ -621,10 +625,23 @@ export default {
     'currentObject': ['updateSpectrum', 'syncData']
   },
   methods: {
+    startDragging () {
+      this.dragging = true
+    },
+    endDragging () {
+      this.dragging = false
+      // Update Array back to object slides
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      if (obj) {
+        obj.set('slides', this.layerlist)
+      }
+    },
     syncData () {
       // console.log('sync Start')
       // this.interactionSetting = this.currentObject.interaction
       // console.log('sync Done')
+      this.layerlist = this.currentObject.slides
     },
     // updateAppInteraction () {
     //   var appObj = {
@@ -1020,12 +1037,15 @@ export default {
     padding: 1em;
     box-shadow: inset 3px 3px 3px $pureblack;
     border-radius: 6px;
+    margin: 0;
+    list-style-type: none;
     .layer {
       @extend .clr;
+      display: block;
       margin-bottom: .5em;
       border: 1px dashed $darkestgray;
       box-sizing: border-box;
-      padding: 1em;
+      padding: .2em;
       cursor: pointer;
       color: $darkgray;
       position: relative;
@@ -1065,7 +1085,7 @@ export default {
         right: 3em;
         top: 0;
         bottom: 0;
-        line-height: 30px;
+        line-height: 43px;
         color: $white;
         transition: .3s all ease;
         &:hover {
@@ -1077,7 +1097,7 @@ export default {
         right: 1em;
         top: 0;
         bottom: 0;
-        line-height: 30px;
+        line-height: 43px;
         color: $white;
         transition: .3s all ease;
         &:hover {

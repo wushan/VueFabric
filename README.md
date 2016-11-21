@@ -1,6 +1,7 @@
-# canvas-editor-standalone
+# Vue-fabric-Editor
 
-> a canvas based editor powered by fabric.js and Vue.js
+> A canvas based editor powered by fabric.js and Vue.js
+> <font color="red">This is still under dev mode, do not use before release.</font>
 
 ## Build Setup
 

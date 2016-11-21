@@ -289,7 +289,7 @@
             .controlgroup.rtsp
               label 網址
               .controls
-                input#rtspUrl(type="text", placeholder="rtsp://000.000.000.00")
+                input#rtspUrl(v-bind:value="currentObject.rtsp", type="text", placeholder="rtsp://000.000.000.00", name="rtsp", @keyup="updateRtsp")
           .attribution-group.layers(v-if="currentObject.slides")
             .configureAll
               .block
@@ -688,6 +688,12 @@ export default {
       obj.set('marquee', marqueeSetting)
       canvas.setActiveObject(obj)
       console.log(obj.marquee)
+    },
+    updateRtsp (e) {
+      // This Updates Rapidly @keyup
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      obj.set('rtsp', e.target.value)
     },
     updateInteractionType (e) {
       var canvas = window['canvas']

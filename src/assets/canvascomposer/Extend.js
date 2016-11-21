@@ -17,7 +17,7 @@ fabric.Object.prototype.interaction = {
 }
 fabric.Object.prototype.rssmarquee = {
   source: '',
-  leaseTime: '',
+  leastTime: '',
   transitionType: '',
   transitionPeriod: ''
 }
@@ -25,7 +25,8 @@ fabric.Object.prototype.toObject = (function (toObject) {
   return function () {
     return fabric.util.object.extend(toObject.call(this), {
       interaction: this.interaction,
-      id: this.id
+      id: this.id,
+      rssmarquee: this.rssmarquee
     })
   }
 })(fabric.Object.prototype.toObject)

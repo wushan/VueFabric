@@ -15,18 +15,11 @@ fabric.Object.prototype.interaction = {
     url: ''
   }
 }
-fabric.Object.prototype.rssmarquee = {
-  source: '',
-  leastTime: '',
-  transitionType: '',
-  transitionPeriod: ''
-}
 fabric.Object.prototype.toObject = (function (toObject) {
   return function () {
     return fabric.util.object.extend(toObject.call(this), {
       interaction: this.interaction,
-      id: this.id,
-      rssmarquee: this.rssmarquee
+      id: this.id
     })
   }
 })(fabric.Object.prototype.toObject)

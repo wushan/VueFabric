@@ -10,7 +10,7 @@
                 .controlgroup
                   label RSS 來源
                   .controls
-                    input(v-model="rss.source", type="text", name="source")
+                    input(v-model="rss.source", type="text", name="source", placeholder="http://....")
                 .controlgroup
                   label 持續時間
                   .controls

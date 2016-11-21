@@ -83,6 +83,9 @@ export default {
     this.$on('addRss', function (src) {
       this.addRss(src)
     })
+    this.$on('addMarquee', function (src) {
+      this.addMarquee(src)
+    })
   },
   mounted () {
   },
@@ -121,6 +124,7 @@ export default {
       var fabric = window['fabric']
       var canvas = window['canvas']
       var circle = new fabric.Circle({
+        id: uuid.v4(),
         left: canvas.getWidth() / 2 - this.initialRadius / 2,
         top: canvas.getHeight() / 2 - this.initialRadius / 2,
         fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
@@ -148,6 +152,7 @@ export default {
       var canvas = window['canvas']
       var text = new fabric.Textbox('Default Text', {
         // options
+        id: uuid.v4(),
         left: 200,
         top: 200,
         width: 300,
@@ -198,6 +203,7 @@ export default {
         originY: 'center'
       })
       var group = new fabric.Usbframe([bg, text], {
+        id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
         padding: 0,
@@ -244,6 +250,7 @@ export default {
         originY: 'center'
       })
       var group = new fabric.Webview([bg, text], {
+        id: uuid.v4(),
         left: 0,
         top: 0
       })
@@ -289,6 +296,7 @@ export default {
         originY: 'center'
       })
       var group = new fabric.Rtspframe([bg, text], {
+        id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
         padding: 0,
@@ -322,6 +330,7 @@ export default {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.Slider({
+        id: uuid.v4(),
         width: 200,
         height: 200,
         left: 250,
@@ -363,6 +372,7 @@ export default {
         originY: 'center'
       })
       var group = new fabric.Rss([bg, text], {
+        id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
         padding: 0,
@@ -379,6 +389,61 @@ export default {
           return fabric.util.object.extend(toObject.call(this), {
             interaction: this.interaction,
             rssmarquee: this.rssmarquee
+          })
+        }
+      })(group.toObject)
+      group.perPixelTargetFind = true
+      canvas.add(group)
+      canvas.renderAll()
+      // Bind
+      this.bindEvents(group)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(group)
+    },
+    addMarquee (marqueesource) {
+      console.log('coming')
+      const fabric = window['fabric']
+      const canvas = window['canvas']
+      // Always Create Text Object from first string.
+      var bg = new fabric.Rect({
+        fill: '#ffffff',
+        width: 200,
+        height: 200,
+        left: 0,
+        top: 0,
+        padding: 0,
+        strokeWidth: 0,
+        originX: 'center',
+        originY: 'center'
+      })
+      var text = new fabric.Text('<Marquee Frame>', {
+        left: 0,
+        top: 0,
+        fontSize: '14',
+        fontFamily: 'Open sans',
+        textAlign: 'center',
+        fill: '#cccccc',
+        originX: 'center',
+        originY: 'center'
+      })
+      var group = new fabric.Marquee([bg, text], {
+        id: uuid.v4(),
+        left: canvas.getWidth() / 2 - 100,
+        top: canvas.getHeight() / 2 - 100,
+        padding: 0,
+        strokeWidth: 0,
+        marquee: {
+          source: marqueesource.source,
+          leastTime: marqueesource.leastTime,
+          transitionType: marqueesource.transitionType,
+          transitionPeriod: marqueesource.transitionPeriod
+        }
+      })
+      group.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            interaction: this.interaction,
+            marquee: this.marquee
           })
         }
       })(group.toObject)

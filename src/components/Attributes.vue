@@ -20,11 +20,11 @@
               .width.controlgroup
                 label 寬度
                 .controls
-                  input.objectSize#objectWidth(v-bind:value="currentObject.width", type='number')
+                  input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number')
               .height.controlgroup
                 label 高度
                 .controls
-                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height")
+                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY")
               .radius.controlgroup(v-if="currentObject.radius")
                 label 半徑
                 .controls
@@ -201,6 +201,30 @@
                 a.js-library(href="javascript:;")
                   i.fa.fa-cloud-upload.fa-2x
                 input#webviewPlaceholder(type='text' readonly)
+          .attribution-group(v-if="marquee")
+            p 跑馬燈
+            form(@submit.stop.prevent="updateMarquee")
+              .controlgroup
+                label 內容
+                .controls
+                  textarea#rssSource.full(type="text", v-bind:value="currentObject.marquee.source", name="source")
+              .controlgroup
+                label 持續時間
+                .controls
+                  input.marquee-leasttime(v-bind:value="currentObject.marquee.leastTime", type='number', name="leastTime")
+              
+              .controlgroup
+                label 切換特效
+                .controls
+                  .select-wrapper
+                    select.marquee-type(v-bind:value="currentObject.marquee.transitionType", name="transitionType")
+                      option(v-for="type in marqueedata.transitionType", :value="type.value") {{type.name}}
+            
+              .controlgroup
+                label 特效時間
+                .controls
+                  input.marquee-transitionperiod(v-bind:value="currentObject.marquee.transitionPeriod", type='number', name="transitionPeriod")
+              button.btn.basic.full(type="submit") 更新跑馬燈
           .attribution-group(v-if="rss")
             p RSS 來源
             form(@submit.stop.prevent="updateRss")
@@ -445,6 +469,18 @@ export default {
           }
         ]
       },
+      marqueedata: {
+        transitionType: [
+          {
+            value: 'horizontal',
+            name: '單行(水平)'
+          },
+          {
+            value: 'vertical',
+            name: '多行(垂直)'
+          }
+        ]
+      },
       interactionSetting: {
         type: 'none',
         app: {
@@ -492,6 +528,13 @@ export default {
     },
     rss () {
       if (this.currentObject.type === 'rss') {
+        return true
+      } else {
+        return false
+      }
+    },
+    marquee () {
+      if (this.currentObject.type === 'marquee') {
         return true
       } else {
         return false
@@ -613,6 +656,21 @@ export default {
       obj.set('rssmarquee', rssSetting)
       canvas.setActiveObject(obj)
       console.log(obj.rssmarquee)
+    },
+    updateMarquee (e) {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var marqueeSetting = {
+        source: e.target.elements.source.value,
+        leastTime: e.target.elements.leastTime.value,
+        transitionType: e.target.elements.transitionType.value,
+        transitionPeriod: e.target.elements.transitionPeriod.value
+      }
+      console.log(marqueeSetting)
+      console.log(obj.marquee)
+      obj.set('marquee', marqueeSetting)
+      canvas.setActiveObject(obj)
+      console.log(obj.marquee)
     },
     updateInteractionType (e) {
       var canvas = window['canvas']

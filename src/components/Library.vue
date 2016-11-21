@@ -74,6 +74,7 @@ export default {
     this.$nextTick(function () {
       $('.materials-wrapper').mCustomScrollbar({
         theme: 'light',
+        alwaysShowScrollbar: 1,
         callbacks: {
           onTotalScroll: function () {
             instance.fetchMoreData(instance.selectedCategory.cateId, instance.selectedSubCategory.cateId, instance.num, instance.limit, instance.selectedSubCategory.public)

@@ -1,5 +1,5 @@
 <template lang="pug">
-  #context-menu.context-menu(v-if="triggered")
+  #context-menu.context-menu(:style="'left:' + position[0] + ';top:' + position[1]")
     ul.context-menu__items
       li.context-menu__item
         a.context-menu__link(href='#', data-action='layertop')
@@ -36,13 +36,18 @@ export default {
   name: 'Contextmenu',
   components: {
   },
+  props: ['position'],
   data () {
     return {
-      triggered: false
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
+#context-menu {
+  position: fixed;
+  top: 0;
+  left: 0; 
+}
 </style>

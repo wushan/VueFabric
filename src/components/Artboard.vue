@@ -1,6 +1,6 @@
 <template lang="pug">
   #artboard
-    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement}", @click="deselectObject")
+    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement}", @click="deselectObject", @contextmenu="deselectObject")
       #canvas.task
         canvas#c
         .objectControl
@@ -40,11 +40,18 @@ export default {
       initCanvas.fit()
     },
     deselectObject (e) {
-      if (e.target.childNodes.length === 0) {
-        return true
+      console.log(e)
+      if (e.type === 'contextmenu') {
+        this.$parent.$emit('triggerContextMenu', [e.clientX, e.clientY])
+        console.log('right')
       } else {
-        var canvas = window['canvas']
-        canvas.discardActiveObject()
+        console.log('left')
+        if (e.target.childNodes.length === 0) {
+          return true
+        } else {
+          var canvas = window['canvas']
+          canvas.discardActiveObject()
+        }
       }
     }
   }

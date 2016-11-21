@@ -4,7 +4,7 @@
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
       artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement")
-    contextmenu
+    contextmenu(v-if="iscontextMenu", v-bind:position="contextMenuPosition")
     transition(name="fade", mode="out-in")
       #globalLoader(v-if="globalLoader")
         .content
@@ -52,10 +52,16 @@ export default {
       currentView: '',
       globalLoader: false,
       globalError: null,
-      globalErrorProgress: 100
+      globalErrorProgress: 100,
+      iscontextMenu: false,
+      contextMenuPosition: [0, 0]
     }
   },
   created () {
+    this.$on('triggerContextMenu', function (position) {
+      this.iscontextMenu = true
+      this.contextMenuPosition = position
+    })
     this.$on('updateHistory', function (res) {
       this.updateHistory()
       console.info('Canvas States Updated.')

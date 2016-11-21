@@ -1,8 +1,12 @@
 # Vue-fabric-Editor
 
 > A canvas based editor powered by fabric.js and Vue.js
-> <font color="red">This is still under dev mode, do not use before release.</font>
 
+### <font color="red">This is still under dev mode, do not use before release.</font>
+
+## Screenshots
+![Alt preview](http://vuefabric.surge.sh/static/assets/images/screenshots.png)
+Demo: [Link](http://vuefabric.surge.sh)
 ## Build Setup
 
 ``` bash

@@ -1,6 +1,6 @@
 <template lang="pug">
   #artboard
-    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement}")
+    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement}", @click="deselectObject")
       #canvas.task
         canvas#c
         .objectControl
@@ -38,6 +38,14 @@ export default {
     fitWindow () {
       console.log('Fitting the Artboard.')
       initCanvas.fit()
+    },
+    deselectObject (e) {
+      if (e.target.childNodes.length === 0) {
+        return true
+      } else {
+        var canvas = window['canvas']
+        canvas.discardActiveObject()
+      }
     }
   }
 }

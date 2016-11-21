@@ -189,18 +189,19 @@
                 button.btn.basic.full(type="submit") 儲存設定
 
           .attribution-group.webview(v-if="webview")
-            p Webview Url
+            p 網頁
             .controlgroup.webview
               label 網址
               .controls
-                input#webviewUrl(type="text", placeholder="http://google.com")
-            p Placeholder
+                input#webviewUrl(v-bind:value="currentObject.webview", type="text", placeholder="http://google.com", @keyup="updateWebview")
+            p 網頁替代圖
             .controlgroup.webview
               label 替代圖
               .controls.rich-control
-                a.js-library(href="javascript:;")
-                  i.fa.fa-cloud-upload.fa-2x
-                input#webviewPlaceholder(type='text' readonly)
+                span ( 請從下列素材庫選取 )
+                transition(name="fade", mode="out-in")
+                  img#webviewPlaceholderPreview(v-if="currentObject.placeholder", :src="baseUrl + currentObject.placeholder")
+
           .attribution-group(v-if="marquee")
             p 跑馬燈
             form(@submit.stop.prevent="updateMarquee")
@@ -344,7 +345,7 @@
                         input(type="number", v-model="slide.transitionTime")
                     //- .controlgroup
                     //-   button.btn.edit.full(type="buttn", @click="slideSetting(slide.id)") 修改
-          library(v-if="slider", v-bind:baseUrl="baseUrl")
+          library(v-if="slider || webview", v-bind:baseUrl="baseUrl")
 </template>
 
 <script>
@@ -393,6 +394,7 @@ export default {
   },
   data () {
     return {
+      libraryOn: false,
       layerlist: null,
       dragging: false,
       layerGroupSetting: false,
@@ -694,6 +696,12 @@ export default {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
       obj.set('rtsp', e.target.value)
+    },
+    updateWebview (e) {
+      // This Updates Rapidly @keyup
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      obj.set('webview', e.target.value)
     },
     updateInteractionType (e) {
       var canvas = window['canvas']
@@ -1139,6 +1147,9 @@ export default {
   span {
     margin-right: 1em;
   }
+}
+#webviewPlaceholderPreview {
+  width: 100%; 
 }
 #debugger {
   background-color: $red;

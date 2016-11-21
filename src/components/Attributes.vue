@@ -207,23 +207,23 @@
               .controlgroup
                 label 網址
                 .controls
-                  input#rssSource(type="text", :value="currentObject.rssmarquee.source", name="rssSource")
+                  input#rssSource(type="text", v-bind:value="currentObject.rssmarquee.source", name="rssSource")
               .controlgroup
                 label 持續時間
                 .controls
-                  input.marquee-leasttime(:value="currentObject.rssmarquee.leastTime", type='number', name="leastTime")
+                  input.marquee-leasttime(v-bind:value="currentObject.rssmarquee.leastTime", type='number', name="leastTime")
               
               .controlgroup
                 label 切換特效
                 .controls
                   .select-wrapper
-                    select.marquee-type(:value="currentObject.rssmarquee.transitionType", name="transitionType")
+                    select.marquee-type(v-bind:value="currentObject.rssmarquee.transitionType", name="transitionType")
                       option(v-for="type in rssdata.transitionType", :value="type.value") {{type.name}}
             
               .controlgroup
                 label 特效時間
                 .controls
-                  input.marquee-transitionperiod(:value="currentObject.rssmarquee.transitionPeriod", type='number', name="transitionPeriod")
+                  input.marquee-transitionperiod(v-bind:value="currentObject.rssmarquee.transitionPeriod", type='number', name="transitionPeriod")
               button.btn.basic.full(type="submit") 更新 RSS
           .attribution-group.clock(v-if="clock")
             p Clock Specific
@@ -604,15 +604,15 @@ export default {
       var obj = canvas.getActiveObject()
       var rssSetting = {
         source: e.target.elements.rssSource.value,
-        leaseTime: e.target.elements.leastTime.value,
+        leastTime: e.target.elements.leastTime.value,
         transitionType: e.target.elements.transitionType.value,
         transitionPeriod: e.target.elements.transitionPeriod.value
       }
       console.log(rssSetting)
       console.log(obj.rssmarquee)
       obj.set('rssmarquee', rssSetting)
+      canvas.setActiveObject(obj)
       console.log(obj.rssmarquee)
-      canvas.renderAll()
     },
     updateInteractionType (e) {
       var canvas = window['canvas']

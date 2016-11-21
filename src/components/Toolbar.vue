@@ -366,18 +366,19 @@ export default {
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
         padding: 0,
-        strokeWidth: 0
+        strokeWidth: 0,
+        rssmarquee: {
+          source: rsssource.source,
+          leastTime: rsssource.leastTime,
+          transitionType: rsssource.transitionType,
+          transitionPeriod: rsssource.transitionPeriod
+        }
       })
       group.toObject = (function (toObject) {
         return function () {
           return fabric.util.object.extend(toObject.call(this), {
             interaction: this.interaction,
-            rssmarquee: {
-              source: rsssource.source,
-              leastTime: rsssource.leastTime,
-              transitionType: rsssource.transitionType,
-              transitionPeriod: rsssource.transitionPeriod
-            }
+            rssmarquee: this.rssmarquee
           })
         }
       })(group.toObject)

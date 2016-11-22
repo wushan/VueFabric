@@ -4,7 +4,8 @@
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
       artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement")
-    contextmenu(v-if="iscontextMenu", v-bind:position="contextMenuPosition")
+    transition(name="normal", mode="out-in")
+      contextmenu(v-if="iscontextMenu", v-bind:position="contextMenuPosition")
     transition(name="fade", mode="out-in")
       #globalLoader(v-if="globalLoader")
         .content
@@ -61,6 +62,9 @@ export default {
     this.$on('triggerContextMenu', function (position) {
       this.iscontextMenu = true
       this.contextMenuPosition = position
+    })
+    this.$on('closeContextMenu', function () {
+      this.iscontextMenu = false
     })
     this.$on('updateHistory', function (res) {
       this.updateHistory()
@@ -365,6 +369,15 @@ export default {
   width: 0;
   padding: 0;
   // transform: translateX(40%)
+}
+.normal-enter-active, .normal-leave-active {
+  transition: .1s all ease;
+}
+.normal-enter, .normal-leave-active {
+  // opacity: 0;
+  // padding: 0;
+  transform-origin: left top;
+  transform: scale(0);
 }
 .floating-menu {
   &.fly-enter-active, &.fly-leave-active {

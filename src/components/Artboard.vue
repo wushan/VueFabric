@@ -1,6 +1,6 @@
 <template lang="pug">
   #artboard
-    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement}", @click="deselectObject", @contextmenu="deselectObject")
+    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement}", @click="deselectObject", @contextmenu.prevent="deselectObject")
       #canvas.task
         canvas#c
         .objectControl
@@ -45,7 +45,7 @@ export default {
         this.$parent.$emit('triggerContextMenu', [e.clientX, e.clientY])
         console.log('right')
       } else {
-        console.log('left')
+        this.$parent.$emit('closeContextMenu')
         if (e.target.childNodes.length === 0) {
           return true
         } else {

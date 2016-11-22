@@ -215,10 +215,8 @@ export default {
       var instance = this
       var map = {8: false, 91: false, 187: false, 189: false, 40: false, 38: false, 68: false, 16: false, 17: false, 76: false, 90: false}
       window.addEventListener('keydown', function (e) {
-        var canvas = window['canvas']
         if (e.keyCode in map) {
           map[e.keyCode] = true
-          var obj = canvas.getActiveObject()
           if (map[16] && map[90] && map[91]) {
             // Redo
             e.preventDefault(); e.stopPropagation()
@@ -235,64 +233,57 @@ export default {
           } else if (map[8] && map[17] || map[46] && map[17]) {
             // Delete
             e.preventDefault(); e.stopPropagation()
-            instance.$swal({
-              title: '確定刪除？',
-              text: '刪除後可使用 Ctrl + Z 組合鍵回復',
-              type: 'warning',
-              showCancelButton: true,
-              cancelButtonText: '取消',
-              confirmButtonText: '確定刪除'
-            }).then(function () {
-              Utils.removeObject(function () {
-                instance.updateHistory()
-              })
-              instance.$swal(
-                '已刪除',
-                '所選項目已刪除',
-                'success'
-              )
-            })
-            // console.log(this)
-            // var checkYourMind = window.confirm('確定刪除？')
-            // if (checkYourMind === true) {
-            //   Utils.removeObject()
-            // }
+            Utils.removeObject()
             map[8] = false
             map[46] = false
             map[17] = false
           } else if (map[38] && map[91]) {
+            // //////////////////////
+            // Command + Arrow Up ///
+            // //////////////////////
             // BringToFront
             e.preventDefault(); e.stopPropagation()
-            // var obj = canvas.getActiveObject()
-            obj.bringToFront()
+            Utils.layertop()
             map[38] = false
           } else if (map[187] && map[91]) {
+            // /////////////////
+            // Command + '+' ///
+            // /////////////////
             // BringForward
             e.preventDefault(); e.stopPropagation()
-            // var obj = canvas.getActiveObject()
-            obj.bringForward()
+            Utils.layerup()
             map[187] = false
           } else if (map[189] && map[91]) {
-            // Send Backwards
             e.preventDefault(); e.stopPropagation()
-            // var obj = canvas.getActiveObject()
-            obj.sendBackwards()
+            // Send Backwards
+            // /////////////////
+            // Command + '-' ///
+            // /////////////////
+            Utils.layerdown()
             map[189] = false
           } else if (map[40] && map[91]) {
-            // Send Bottom
             e.preventDefault(); e.stopPropagation()
-            // var obj = canvas.getActiveObject()
-            obj.sendToBack()
+            // Send Bottom
+            // ////////////////////////
+            // Command + Arrow Down ///
+            // ////////////////////////
+            Utils.layerbottom()
             map[40] = false
           } else if (map[68] && map[17]) {
-            // Duplicate
             e.preventDefault(); e.stopPropagation()
-            // CanvasComposer.Artboard.duplicateObject()
+            // Duplicate
+            // ////////////////
+            // Control + D ///
+            // ///////////////
+            Utils.duplicate()
             map[68] = false
           } else if (map[76] && map[91]) {
-            // Lock
             e.preventDefault(); e.stopPropagation()
-            // CanvasComposer.Artboard.lockObject()
+            // Lock
+            // ////////////////
+            // Command + L ///
+            // ///////////////
+            Utils.lock()
             map[76] = false
           }
         }

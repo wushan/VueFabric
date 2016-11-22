@@ -44,97 +44,25 @@ export default {
   },
   methods: {
     layertop () {
-      var canvas = window['canvas']
-      var obj = canvas.getActiveObject()
-      obj.bringToFront()
-      canvas.renderAll()
-      this.$parent.$emit('updateHistory')
-      this.closeContextMenu()
+      Utils.layertop()
     },
     layerup () {
-      var canvas = window['canvas']
-      var obj = canvas.getActiveObject()
-      obj.bringForward()
-      canvas.renderAll()
-      this.$parent.$emit('updateHistory')
-      this.closeContextMenu()
+      Utils.layerup()
     },
     layerdown () {
-      var canvas = window['canvas']
-      var obj = canvas.getActiveObject()
-      obj.sendBackwards()
-      canvas.renderAll()
-      this.$parent.$emit('updateHistory')
-      this.closeContextMenu()
+      Utils.layerdown()
     },
     layerbottom () {
-      var canvas = window['canvas']
-      var obj = canvas.getActiveObject()
-      obj.sendToBack()
-      canvas.renderAll()
-      this.$parent.$emit('updateHistory')
-      this.closeContextMenu()
+      Utils.layerbottom()
     },
     duplicate () {
-      var canvas = window['canvas']
-      var obj = canvas.getActiveObject()
-      var newObject = obj.clone()
-      // Move New Object
-      newObject.left = newObject.left + 10
-      newObject.top = newObject.top + 10
-      canvas.add(newObject)
-      canvas.setActiveObject(newObject)
-      canvas.renderAll()
-      this.$parent.$emit('updateHistory')
-      this.closeContextMenu()
+      Utils.duplicate()
     },
     lock () {
-      var canvas = window['canvas']
-      var obj = canvas.getActiveObject()
-      if (obj.lockMovementY === true) {
-        obj.lockMovementY = false
-        obj.lockMovementX = false
-        obj.lockRotation = false
-        obj.lockScalingX = false
-        obj.lockScalingY = false
-        obj.stroke = ''
-        obj.strokeWidth = 0
-        canvas.renderAll()
-      } else {
-        obj.lockMovementY = true
-        obj.lockMovementX = true
-        obj.lockRotation = true
-        obj.lockScalingX = true
-        obj.lockScalingY = true
-        obj.stroke = '#ff0000'
-        obj.strokeWidth = 4
-        canvas.renderAll()
-      }
-      this.$parent.$emit('updateHistory')
-      this.closeContextMenu()
+      Utils.lock()
     },
     deleteobj () {
-      this.closeContextMenu()
-      this.$swal({
-        title: '確定刪除？',
-        text: '刪除後可使用 Ctrl + Z 組合鍵回復',
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonText: '取消',
-        confirmButtonText: '確定刪除'
-      }).then(() => {
-        Utils.removeObject(() => {
-          this.$parent.$emit('updateHistory')
-        })
-        this.$swal(
-          '已刪除',
-          '所選項目已刪除',
-          'success'
-        )
-      })
-    },
-    closeContextMenu () {
-      this.$parent.$emit('closeContextMenu')
+      Utils.removeObject()
     }
   }
 }

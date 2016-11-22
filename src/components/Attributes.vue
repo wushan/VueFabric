@@ -1029,14 +1029,8 @@ export default {
   font-size: 13px;
   border-top: 2px solid $pureblack;
   &.fade-enter-active, &.fade-leave-active {
-    transition: .6s all ease;
+    transition: .2s all ease;
   }
-  &.fade-enter, &.fade-leave-active {
-    opacity: 0;
-    width: 0;
-    padding: 0;
-    // transform: translateX(40%);
-  } 
 }
 .attribution-group {
   .row {

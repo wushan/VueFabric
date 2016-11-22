@@ -134,7 +134,7 @@ export default {
   font-size: 13px;
   border-top: 2px solid $pureblack;
   &.fade-enter-active, &.fade-leave-active {
-    transition: .6s all ease;
+    transition: .2s all ease;
   }
 }
 </style>

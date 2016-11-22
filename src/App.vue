@@ -366,8 +366,8 @@ export default {
 }
 .fade-enter, .fade-leave-active {
   opacity: 0;
-  width: 0;
-  padding: 0;
+  // width: 0;
+  // padding: 0;
   // transform: translateX(40%)
 }
 .normal-enter-active, .normal-leave-active {
@@ -381,14 +381,12 @@ export default {
 }
 .floating-menu {
   &.fly-enter-active, &.fly-leave-active {
-  transition: .6s all ease;
+  transition: .2s all ease;
 }
   &.fly-enter, &.fly-leave-active {
     opacity: 0;
     padding: 0;
-    width: 0;
-    font-size: 0;
-    // transform: translateX(-100%)
+    transform: rotate3d(0, 1, 0, 90deg) translate3d(0, 0, -130px);
   } 
 }
 // Basic Style

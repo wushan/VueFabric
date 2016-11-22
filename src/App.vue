@@ -84,8 +84,23 @@ export default {
       this.globalErrorProgressCountDown()
       setTimeout(() => (this.globalError = null), 3000)
     })
-    this.$on('loadPreset', function (res) {
-      this.loadFromPreset(res)
+    this.$on('loadPreset', (res) => {
+      this.$swal({
+        title: '確定刪除？',
+        text: '這個動作會清除畫面中所有物件',
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonText: '取消',
+        confirmButtonText: '確定刪除'
+      }).then(() => {
+        this.loadFromPreset(res)
+        this.updateHistory()
+        this.$swal(
+          '已刪除',
+          '畫面已清空',
+          'success'
+        )
+      })
     })
     this.$on('triggerArrangement', function (res) {
       this.arrangement = res

@@ -515,12 +515,12 @@ export default {
 .floating-menu {
   position: absolute;
   left: 90px;
-  top: 0;
+  top: 52px;
   bottom: 0;
   width: 260px;
   box-sizing: border-box;
   padding: 1em;
-  background-color: $darkblue;
+  background-color: darken($black, 3%);
   border-left: 2px solid $pureblack;
   box-shadow: 3px 0 3px $black;
   z-index: 1;

@@ -299,6 +299,9 @@
                 a(href="javascript:;", :class="{active: layerGroupSetting}", @click="triggerLayerGroupSetting")
                   span 統一設定
                   .fa.fa-sliders.fa-lg
+                a(href="javascript:;", @click="deleteSlideGroup")
+                  span 全部刪除
+                  .fa.fa-trash.fa-lg
             transition(name="fade", mode="out-in")
               .layers-setting(v-if="layerGroupSetting")
                 .controlgroup
@@ -318,7 +321,7 @@
                 .controlgroup
                   button.btn.edit.full(type="buttn", @click="slideSetting('all')") 統一修改
 
-            .layers-wrapper
+            .layers-wrapper(v-if="layerlist")
               draggable.layers-inner(v-bind:list="layerlist", @start="startDragging", @end="endDragging")
                 li.layer(v-for="slide in currentObject.slides", :key="slide.id", :class="{ active:slide.id === currentObject.visibleslide.id }", @click="selectLayer(slide.id)", :title="slide.leastTime + '/sec,' + slide.transitionType + '(' + slide.transitionTime + '/sec)'")
                   .thumbnail(:style="'background-image: url(' + slide.url +');'")
@@ -395,7 +398,7 @@ export default {
   data () {
     return {
       libraryOn: false,
-      layerlist: null,
+      layerlist: [],
       dragging: false,
       layerGroupSetting: false,
       selectedType: 'none',
@@ -645,21 +648,6 @@ export default {
       // console.log('sync Done')
       this.layerlist = this.currentObject.slides
     },
-    // updateAppInteraction () {
-    //   var appObj = {
-    //     appName: $('#appName').val(),
-    //     appEscape: $('#appEscape').val(),
-    //     appEscapeTime: $('#appEscapeTime').val(),
-    //     appEscapeButton: $('#appEscapeButton').val(),
-    //     appEscapeButtonPost: $('#appEscapeButtonPos').val(),
-    //     appEscapeButtonSize: $('#appEscapeButtonSize').val()
-    //   }
-    //   console.log(appObj)
-    //   var canvas = window['canvas']
-    //   var obj = canvas.getActiveObject()
-    //   // obj.set('interaction', {type: 'apps', app: this.appSetting})
-    //   obj.set('interaction.app', appObj)
-    // },
     updateRss (e) {
       console.log(e.target.elements.rssSource.value)
       var canvas = window['canvas']
@@ -754,6 +742,32 @@ export default {
       } else {
         this.layerGroupSetting = true
       }
+    },
+    deleteSlideGroup () {
+      this.$root.$swal({
+        title: '確定刪除？',
+        text: '刪除後可使用 Ctrl + Z 組合鍵回復',
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonText: '取消',
+        confirmButtonText: '確定刪除'
+      }).then(() => {
+        var canvas = window['canvas']
+        var obj = canvas.getActiveObject()
+        obj.slides.splice(0)
+        console.log(obj.visibleslide)
+        obj.set('visibleslide', {})
+        console.log(obj.visibleslide)
+        obj.fill = '#cccccc'
+        canvas.renderAll()
+        console.log(obj.visibleslide)
+        console.log(obj.toObject())
+        this.$root.$swal(
+          '已刪除',
+          '所選項目已刪除',
+          'success'
+        )
+      })
     },
     confirmLink (e) {
       var canvas = window['canvas']
@@ -902,66 +916,68 @@ export default {
       // console.log(targetSlide)
       // Rebuild slide from ID
       // currentObject.
-      fabric.Image.fromURL(targetSlide.url, function (img) {
-        img.width = targetSlide.imgWidth
-        img.height = targetSlide.imgHeight
-        // img.scaleToWidth(currentObject.width)
-        // Make a Pattern
-        var patternSourceCanvas = new fabric.StaticCanvas()
-        patternSourceCanvas.add(img)
-        // console.log('ImageCurrentWidth:' + img.getWidth())
-        var pattern = new fabric.Pattern({
-          source: function () {
-            patternSourceCanvas.setDimensions({
-              width: img.getWidth() + 500,
-              height: img.getHeight() + 500
-            })
-            return patternSourceCanvas.getElement()
-          },
-          repeat: 'no-repeat'
-        })
-        pattern.offsetX = targetSlide.offsetX
-        pattern.offsetY = targetSlide.offsetY
-        // Mask (can be any shape ex: Polygon, Circles....)
-        var mask = currentObject.clone()
-        canvas.remove(currentObject)
-        // First Slide
-        var slideObj = {
-          // Generate an Unique Id for the slide
-          id: id,
-          imgWidth: targetSlide.imgWidth,
-          imgHeight: targetSlide.imgHeight,
-          offsetX: targetSlide.offsetX,
-          offsetY: targetSlide.offsetY,
-          maskWidth: targetSlide.maskWidth,
-          maskHeight: targetSlide.maskHeight,
-          url: targetSlide.url,
-          // Default Transition Settings
-          leastTime: targetSlide.leastTime,
-          transitionType: targetSlide.transitionType,
-          transitionTime: targetSlide.transitionTime
-        }
-        // Attributes
-        mask.toObject = (function (toObject) {
-          return function () {
-            return fabric.util.object.extend(toObject.call(this), {
-              visibleslide: slideObj,
-              interaction: this.interaction
-            })
+      if (targetSlide) {
+        fabric.Image.fromURL(targetSlide.url, function (img) {
+          img.width = targetSlide.imgWidth
+          img.height = targetSlide.imgHeight
+          // img.scaleToWidth(currentObject.width)
+          // Make a Pattern
+          var patternSourceCanvas = new fabric.StaticCanvas()
+          patternSourceCanvas.add(img)
+          // console.log('ImageCurrentWidth:' + img.getWidth())
+          var pattern = new fabric.Pattern({
+            source: function () {
+              patternSourceCanvas.setDimensions({
+                width: img.getWidth() + 500,
+                height: img.getHeight() + 500
+              })
+              return patternSourceCanvas.getElement()
+            },
+            repeat: 'no-repeat'
+          })
+          pattern.offsetX = targetSlide.offsetX
+          pattern.offsetY = targetSlide.offsetY
+          // Mask (can be any shape ex: Polygon, Circles....)
+          var mask = currentObject.clone()
+          canvas.remove(currentObject)
+          // First Slide
+          var slideObj = {
+            // Generate an Unique Id for the slide
+            id: id,
+            imgWidth: targetSlide.imgWidth,
+            imgHeight: targetSlide.imgHeight,
+            offsetX: targetSlide.offsetX,
+            offsetY: targetSlide.offsetY,
+            maskWidth: targetSlide.maskWidth,
+            maskHeight: targetSlide.maskHeight,
+            url: targetSlide.url,
+            // Default Transition Settings
+            leastTime: targetSlide.leastTime,
+            transitionType: targetSlide.transitionType,
+            transitionTime: targetSlide.transitionTime
           }
-        })(mask.toObject)
-        mask.set('fill', pattern)
-        mask.visibleslide = slideObj
-        mask.on('object:dblclick', function (options) {
-          // Pass pattern out
-          // enterEditMode(mask, img)
-          Slider.enterEditMode(mask, img)
+          // // Attributes
+          // mask.toObject = (function (toObject) {
+          //   return function () {
+          //     return fabric.util.object.extend(toObject.call(this), {
+          //       visibleslide: this.visibleslide,
+          //       interaction: this.interaction
+          //     })
+          //   }
+          // })(mask.toObject)
+          mask.set('fill', pattern)
+          mask.visibleslide = slideObj
+          mask.on('object:dblclick', function (options) {
+            // Pass pattern out
+            // enterEditMode(mask, img)
+            Slider.enterEditMode(mask, img)
+          })
+          // console.log(mask)
+          Events.bindEvents(instance, mask)
+          canvas.add(mask)
+          canvas.setActiveObject(mask)
         })
-        // console.log(mask)
-        Events.bindEvents(instance, mask)
-        canvas.add(mask)
-        canvas.setActiveObject(mask)
-      })
+      }
     },
     slideSetting (ref) {
       var canvas = window['canvas']
@@ -995,13 +1011,17 @@ export default {
       }
       var index = currentObject.slides.indexOf(targetSlide)
       // Switch to next slide Before deleting it
-      console.log(index)
-      console.log(currentObject.slides[index + 1])
       // if we've got siblings
       if (currentObject.slides[index + 1]) {
         this.selectLayer(currentObject.slides[index + 1].id)
       } else if (currentObject.slides[index - 1]) {
         this.selectLayer(currentObject.slides[index - 1].id)
+      } else {
+        console.log('There is only me. My friend.')
+        // Clean Up
+        currentObject.set('visibleslide', {})
+        currentObject.fill = '#cccccc'
+        canvas.renderAll()
       }
       // Delete
       if (index > -1) {
@@ -1123,15 +1143,25 @@ export default {
     &:hover, &.active {
       color: $lightgreen;
     }
+    &:last-child {
+      &:hover, &.active {
+        color: $red;
+      } 
+    }
   }
   .block {
-    @include span(6 of 12);
+    @include span(3 of 12);
     &:last-child {
-      @include last;
+      @include span(9 of 12 last);
       text-align: right;
     }
     p {
       margin: 0;
+    }
+    a {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 1em;
     }
   }
   p, span, .fa {

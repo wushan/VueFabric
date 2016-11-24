@@ -172,16 +172,9 @@ export default {
           var slidesArray = mask.slides
           slidesArray.push(slideObj)
           mask.visibleslide = slideObj
-          // Attributes
-          mask.toObject = (function (toObject) {
-            return function () {
-              return fabric.util.object.extend(toObject.call(this), {
-                visibleslide: slideObj,
-                interaction: this.interaction,
-                slides: slidesArray
-              })
-            }
-          })(mask.toObject)
+
+          mask.set('visibleslide', slideObj)
+          mask.set('slides', slidesArray)
           mask.set('fill', pattern)
           mask.on('object:dblclick', function (options) {
             // Pass pattern out

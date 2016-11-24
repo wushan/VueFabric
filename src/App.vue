@@ -28,7 +28,7 @@ import Contextmenu from './components/Contextmenu'
 import Globalmis from './components/globalMis'
 import Events from './assets/cc.objectEvents'
 import Load from './assets/canvascomposer/Load'
-import Utils from './assets/canvascomposer/Utils'
+import Keyboard from './assets/canvascomposer/Keyboard'
 export default {
   name: 'CanvasEditor',
   components: {
@@ -59,6 +59,13 @@ export default {
     }
   },
   created () {
+    this.$on('undo', () => {
+      this.rePlayHistory(this.history.undo, this.history.redo)
+    })
+    this.$on('redo', () => {
+      this.rePlayHistory(this.history.redo, this.history.undo)
+      console.log('redo')
+    })
     this.$on('triggerContextMenu', function (position) {
       this.iscontextMenu = true
       this.contextMenuPosition = position
@@ -124,7 +131,7 @@ export default {
   },
   methods: {
     initial () {
-      this.keyBoardControl()
+      Keyboard.onBind()
     },
     globalErrorProgressCountDown () {
       this.globalErrorProgress = 0
@@ -152,22 +159,17 @@ export default {
       this.history.state = JSON.stringify(canvas)
     },
     rePlayHistory (playStack, saveStack) {
-      console.log(playStack)
-      console.log(Array.isArray(saveStack))
       if (this.history.state) {
-        this.history.redo.push(this.history.state)
+        saveStack.push(this.history.state)
       }
-      this.history.state = this.history.undo.pop()
-      // var on = $(buttonsOn)
-      // var off = $(buttonsOff)
-      // turn both buttons off for the moment to prevent rapid clicking
-      // on.addClass('disabled')
-      // off.addClass('disabled')
-      // canvas.clear()
+      this.history.state = playStack.pop()
       if (this.history.state) {
         this.loadFromJSON(this.history.state)
       } else {
-        console.log('Reach Limit')
+        // Reach Limit
+        this.globalError = '沒有紀錄'
+        this.globalErrorProgressCountDown()
+        setTimeout(() => (this.globalError = null), 3000)
       }
     },
     loadFromPreset (data) {
@@ -209,89 +211,6 @@ export default {
           '畫面已清空',
           'success'
         )
-      })
-    },
-    keyBoardControl () {
-      var instance = this
-      var map = {8: false, 91: false, 187: false, 189: false, 40: false, 38: false, 68: false, 16: false, 17: false, 76: false, 90: false}
-      window.addEventListener('keydown', function (e) {
-        if (e.keyCode in map) {
-          map[e.keyCode] = true
-          if (map[16] && map[90] && map[91]) {
-            // Redo
-            e.preventDefault(); e.stopPropagation()
-            instance.rePlayHistory(instance.history.redo, instance.history.undo)
-            map[90] = false
-          } else if (map[90] && map[91] && !map[16]) {
-            // Undo
-            e.preventDefault(); e.stopPropagation()
-            console.log(instance.history.undo)
-            console.log(instance.history.redo)
-            instance.rePlayHistory(instance.history.undo, instance.history.redo)
-            // CanvasComposer.History.rePlay(undo, redo, '#redo', this)
-            map[90] = false
-          } else if (map[8] && map[17] || map[46] && map[17]) {
-            // Delete
-            e.preventDefault(); e.stopPropagation()
-            Utils.removeObject()
-            map[8] = false
-            map[46] = false
-            map[17] = false
-          } else if (map[38] && map[91]) {
-            // //////////////////////
-            // Command + Arrow Up ///
-            // //////////////////////
-            // BringToFront
-            e.preventDefault(); e.stopPropagation()
-            Utils.layertop()
-            map[38] = false
-          } else if (map[187] && map[91]) {
-            // /////////////////
-            // Command + '+' ///
-            // /////////////////
-            // BringForward
-            e.preventDefault(); e.stopPropagation()
-            Utils.layerup()
-            map[187] = false
-          } else if (map[189] && map[91]) {
-            e.preventDefault(); e.stopPropagation()
-            // Send Backwards
-            // /////////////////
-            // Command + '-' ///
-            // /////////////////
-            Utils.layerdown()
-            map[189] = false
-          } else if (map[40] && map[91]) {
-            e.preventDefault(); e.stopPropagation()
-            // Send Bottom
-            // ////////////////////////
-            // Command + Arrow Down ///
-            // ////////////////////////
-            Utils.layerbottom()
-            map[40] = false
-          } else if (map[68] && map[17]) {
-            e.preventDefault(); e.stopPropagation()
-            // Duplicate
-            // ////////////////
-            // Control + D ///
-            // ///////////////
-            Utils.duplicate()
-            map[68] = false
-          } else if (map[76] && map[91]) {
-            e.preventDefault(); e.stopPropagation()
-            // Lock
-            // ////////////////
-            // Command + L ///
-            // ///////////////
-            Utils.lock()
-            map[76] = false
-          }
-        }
-      })
-      window.addEventListener('keyup', function (e) {
-        if (e.keyCode in map) {
-          map[e.keyCode] = false
-        }
       })
     }
   }

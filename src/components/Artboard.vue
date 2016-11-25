@@ -1,6 +1,6 @@
 <template lang="pug">
   #artboard
-    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement}", @click="deselectObject", @contextmenu.prevent="deselectObject")
+    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement || interaction}", @click="deselectObject", @contextmenu.prevent="deselectObject")
       #canvas.task
         canvas#c
         .objectControl
@@ -13,8 +13,10 @@
               span 800
           .tag.height
               span 600
-    transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
-      arrangement(v-if="arrangement", v-bind:arrangement="arrangement")
+    //- transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
+    interaction(v-if="interaction", v-bind:interaction="interaction")
+    //- transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
+    arrangement(v-if="arrangement", v-bind:arrangement="arrangement")
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
       attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
 </template>
@@ -23,14 +25,16 @@
 // var fabric = window['fabric']
 import Attributes from '../components/Attributes'
 import Arrangement from './Arrangement'
+import Interaction from './Interaction'
 import initCanvas from '../assets/canvascomposer/Initial'
 export default {
   name: 'Artboard',
   components: {
     Attributes,
-    Arrangement
+    Arrangement,
+    Interaction
   },
-  props: ['currentObject', 'initialRadius', 'baseUrl', 'arrangement'],
+  props: ['currentObject', 'initialRadius', 'baseUrl', 'arrangement', 'interaction'],
   mounted () {
     // console.log('ARTBOARD')
   },

@@ -3,7 +3,7 @@
     globalmis(v-bind:width="width", v-bind:height="height")
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
-      artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement")
+      artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement", v-bind:interaction="interaction")
     transition(name="normal", mode="out-in")
       contextmenu(v-if="iscontextMenu", v-bind:position="contextMenuPosition")
     transition(name="fade", mode="out-in")
@@ -40,6 +40,7 @@ export default {
   data () {
     return {
       arrangement: false,
+      interaction: false,
       currentObject: null,
       initialRadius: 100,
       width: null,
@@ -110,7 +111,16 @@ export default {
       })
     })
     this.$on('triggerArrangement', function (res) {
+      this.interaction = false
       this.arrangement = res
+      // DeselectAll
+      var canvas = window['canvas']
+      canvas.deactivateAllWithDispatch()
+      canvas.renderAll()
+    })
+    this.$on('triggerInteraction', function (res) {
+      this.arrangement = false
+      this.interaction = res
       // DeselectAll
       var canvas = window['canvas']
       canvas.deactivateAllWithDispatch()
@@ -139,6 +149,7 @@ export default {
     arrangementControl () {
       if (this.currentObject) {
         this.arrangement = false
+        this.interaction = false
       }
     },
     updateCanvasSize () {

@@ -9,6 +9,7 @@
         .block
           //- .programname Program Name: 'some php string'
           //- button.basic.btn.edit 加入群組
+          button.edit.btn.basic(@click="triggerInteraction") 互動設定
           button.basic.btn.basic(@click="triggerArrangement") 排程發佈
 </template>
 
@@ -22,6 +23,9 @@ export default {
   methods: {
     triggerArrangement () {
       this.$parent.$emit('triggerArrangement', true)
+    },
+    triggerInteraction () {
+      this.$parent.$emit('triggerInteraction', true)
     }
   }
 }

@@ -563,7 +563,7 @@ export default {
       }
     },
     slider () {
-      if (this.currentObject.type === 'slider') {
+      if (this.currentObject.type === 'slider' || this.currentObject.type === 'sliderE' || this.currentObject.type === 'sliderT') {
         return true
       } else {
         return false
@@ -910,79 +910,80 @@ export default {
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
       var instance = this.$parent.$parent
-      if (currentObject.type !== 'slider') {
-        return
-      }
-      var targetSlide
-      for (var i = 0; i < currentObject.slides.length; i++) {
-        if (currentObject.slides[i].id === id) {
-          targetSlide = currentObject.slides[i]
-        }
-      }
-      // console.log(targetSlide)
-      // Rebuild slide from ID
-      // currentObject.
-      if (targetSlide) {
-        fabric.Image.fromURL(targetSlide.url, function (img) {
-          img.width = targetSlide.imgWidth
-          img.height = targetSlide.imgHeight
-          // img.scaleToWidth(currentObject.width)
-          // Make a Pattern
-          var patternSourceCanvas = new fabric.StaticCanvas()
-          patternSourceCanvas.add(img)
-          // console.log('ImageCurrentWidth:' + img.getWidth())
-          var pattern = new fabric.Pattern({
-            source: function () {
-              patternSourceCanvas.setDimensions({
-                width: img.getWidth() + 500,
-                height: img.getHeight() + 500
-              })
-              return patternSourceCanvas.getElement()
-            },
-            repeat: 'no-repeat'
-          })
-          pattern.offsetX = targetSlide.offsetX
-          pattern.offsetY = targetSlide.offsetY
-          // Mask (can be any shape ex: Polygon, Circles....)
-          var mask = currentObject.clone()
-          canvas.remove(currentObject)
-          // First Slide
-          var slideObj = {
-            // Generate an Unique Id for the slide
-            id: id,
-            imgWidth: targetSlide.imgWidth,
-            imgHeight: targetSlide.imgHeight,
-            offsetX: targetSlide.offsetX,
-            offsetY: targetSlide.offsetY,
-            maskWidth: targetSlide.maskWidth,
-            maskHeight: targetSlide.maskHeight,
-            url: targetSlide.url,
-            // Default Transition Settings
-            leastTime: targetSlide.leastTime,
-            transitionType: targetSlide.transitionType,
-            transitionTime: targetSlide.transitionTime
+      if (currentObject.type === 'slider' || currentObject.type === 'sliderE' || currentObject.type === 'sliderT') {
+        var targetSlide
+        for (var i = 0; i < currentObject.slides.length; i++) {
+          if (currentObject.slides[i].id === id) {
+            targetSlide = currentObject.slides[i]
           }
-          // // Attributes
-          // mask.toObject = (function (toObject) {
-          //   return function () {
-          //     return fabric.util.object.extend(toObject.call(this), {
-          //       visibleslide: this.visibleslide,
-          //       interaction: this.interaction
-          //     })
-          //   }
-          // })(mask.toObject)
-          mask.set('fill', pattern)
-          mask.visibleslide = slideObj
-          mask.on('object:dblclick', function (options) {
-            // Pass pattern out
-            // enterEditMode(mask, img)
-            Slider.enterEditMode(mask, img)
+        }
+        // console.log(targetSlide)
+        // Rebuild slide from ID
+        // currentObject.
+        if (targetSlide) {
+          fabric.Image.fromURL(targetSlide.url, function (img) {
+            img.width = targetSlide.imgWidth
+            img.height = targetSlide.imgHeight
+            // img.scaleToWidth(currentObject.width)
+            // Make a Pattern
+            var patternSourceCanvas = new fabric.StaticCanvas()
+            patternSourceCanvas.add(img)
+            // console.log('ImageCurrentWidth:' + img.getWidth())
+            var pattern = new fabric.Pattern({
+              source: function () {
+                patternSourceCanvas.setDimensions({
+                  width: img.getWidth() + 500,
+                  height: img.getHeight() + 500
+                })
+                return patternSourceCanvas.getElement()
+              },
+              repeat: 'no-repeat'
+            })
+            pattern.offsetX = targetSlide.offsetX
+            pattern.offsetY = targetSlide.offsetY
+            // Mask (can be any shape ex: Polygon, Circles....)
+            var mask = currentObject.clone()
+            canvas.remove(currentObject)
+            // First Slide
+            var slideObj = {
+              // Generate an Unique Id for the slide
+              id: id,
+              imgWidth: targetSlide.imgWidth,
+              imgHeight: targetSlide.imgHeight,
+              offsetX: targetSlide.offsetX,
+              offsetY: targetSlide.offsetY,
+              maskWidth: targetSlide.maskWidth,
+              maskHeight: targetSlide.maskHeight,
+              url: targetSlide.url,
+              // Default Transition Settings
+              leastTime: targetSlide.leastTime,
+              transitionType: targetSlide.transitionType,
+              transitionTime: targetSlide.transitionTime
+            }
+            // // Attributes
+            // mask.toObject = (function (toObject) {
+            //   return function () {
+            //     return fabric.util.object.extend(toObject.call(this), {
+            //       visibleslide: this.visibleslide,
+            //       interaction: this.interaction
+            //     })
+            //   }
+            // })(mask.toObject)
+            mask.set('fill', pattern)
+            mask.visibleslide = slideObj
+            mask.on('object:dblclick', function (options) {
+              // Pass pattern out
+              // enterEditMode(mask, img)
+              Slider.enterEditMode(mask, img)
+            })
+            // console.log(mask)
+            Events.bindEvents(instance, mask)
+            canvas.add(mask)
+            canvas.setActiveObject(mask)
           })
-          // console.log(mask)
-          Events.bindEvents(instance, mask)
-          canvas.add(mask)
-          canvas.setActiveObject(mask)
-        })
+        }
+      } else {
+        return
       }
     },
     slideSetting (ref) {

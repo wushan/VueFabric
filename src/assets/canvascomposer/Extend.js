@@ -93,6 +93,58 @@ fabric.Slider.fromObject = function (options) {
   options.fill = '#cccccc'
   return new fabric.Slider(options)
 }
+
+// Create Fabric Slider Class
+fabric.SliderE = fabric.util.createClass(fabric.Ellipse, {
+  type: 'sliderE',
+  initialize: function (options) {
+    options = options || { }
+    this.callSuper('initialize', options)
+  },
+  toObject: function () {
+    return fabric.util.object.extend(this.callSuper('toObject'), {
+      visibleslide: this.visibleslide,
+      slides: this.slides,
+      interaction: this.interaction
+    })
+  },
+  _render: function (ctx) {
+    this.callSuper('_render', ctx)
+  }
+})
+// https://gitlab.com/wushan/radi/blob/master/frontend-dev/app/scripts/CanvasComposer.js
+// fabric.Slider.fromObject = function(objects, callback, options) {
+fabric.SliderE.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#cccccc'
+  return new fabric.SliderE(options)
+}
+
+// Create Fabric Slider Class
+fabric.SliderT = fabric.util.createClass(fabric.Triangle, {
+  type: 'sliderT',
+  initialize: function (options) {
+    options = options || { }
+    this.callSuper('initialize', options)
+  },
+  toObject: function () {
+    return fabric.util.object.extend(this.callSuper('toObject'), {
+      visibleslide: this.visibleslide,
+      slides: this.slides,
+      interaction: this.interaction
+    })
+  },
+  _render: function (ctx) {
+    this.callSuper('_render', ctx)
+  }
+})
+// https://gitlab.com/wushan/radi/blob/master/frontend-dev/app/scripts/CanvasComposer.js
+// fabric.Slider.fromObject = function(objects, callback, options) {
+fabric.SliderT.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#cccccc'
+  return new fabric.SliderT(options)
+}
 // Custom Controller
 // fabric.Slider.prototype.customiseCornerIcons({
 //   settings: {

@@ -45,15 +45,18 @@ export default {
     },
     deselectObject (e) {
       console.log(e)
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
       if (e.type === 'contextmenu') {
-        this.$parent.$emit('triggerContextMenu', [e.clientX, e.clientY])
+        if (obj) {
+          this.$parent.$emit('triggerContextMenu', [e.clientX, e.clientY])
+        }
         console.log('right')
       } else {
         this.$parent.$emit('closeContextMenu')
         if (e.target.childNodes.length === 0) {
           return true
         } else {
-          var canvas = window['canvas']
           canvas.discardActiveObject()
         }
       }

@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     addRect () {
-      this.$parent.$emit('addRect')
+      this.$parent.$emit('addMedia')
     },
     addCircle () {
       this.$parent.$emit('addCircle')

@@ -8,9 +8,6 @@
         a.full.btn.basic.js-add-text(href="javascript:;" title="新增文字", @click="addText")
           i.fa.fa-font.fa-lg
       li
-        a.full.btn.basic.js-library(href="javascript:;" title="新增圖片或輪播圖", @click='addMedia')
-          i.fa.fa-photo.fa-lg
-      li
         a.full.btn.basic(href="javascript:;" title="新增跑馬燈", @click="updateSub('marqueepanel')", :class="{ active: currentView=='marqueepanel' }")
           i.fa.fa-text-width.fa-lg
       li
@@ -85,8 +82,8 @@ export default {
     this.$on('addMarquee', function (src) {
       this.addMarquee(src)
     })
-    this.$on('addRect', () => {
-      this.addRect()
+    this.$on('addMedia', () => {
+      this.addMedia()
     })
     this.$on('addCircle', () => {
       this.addCircle()
@@ -128,59 +125,40 @@ export default {
       canvas.setActiveObject(rect)
     },
     addCircle: function () {
-      var fabric = window['fabric']
-      var canvas = window['canvas']
-      var circle = new fabric.Circle({
+      const fabric = window['fabric']
+      const canvas = window['canvas']
+      var slider = new fabric.SliderE({
         id: uuid.v4(),
-        left: canvas.getWidth() / 2 - this.initialRadius / 2,
-        top: canvas.getHeight() / 2 - this.initialRadius / 2,
-        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
-        radius: this.initialRadius / 2
+        left: 250,
+        top: 250,
+        padding: 0,
+        fill: '#cccccc',
+        rx: 50,
+        ry: 50
       })
-      circle.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction
-          })
-        }
-      })(circle.toObject)
-      circle.perPixelTargetFind = true
-      canvas.add(circle)
+      canvas.add(slider)
       canvas.renderAll()
-      // CanvasComposer.History.Update()
       // Bind
-      this.bindEvents(circle)
+      this.bindEvents(slider)
       // Programmatically Select Newly Added Object
-      canvas.setActiveObject(circle)
-      // Refresh log
+      canvas.setActiveObject(slider)
     },
     addTriangle () {
-      var fabric = window['fabric']
-      var canvas = window['canvas']
-      var triangle = new fabric.Triangle({
+      const fabric = window['fabric']
+      const canvas = window['canvas']
+      var slider = new fabric.SliderT({
         id: uuid.v4(),
-        left: canvas.getWidth() / 2 - 100 / 2,
-        top: canvas.getHeight() / 2 - 100 / 2,
-        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
-        width: this.initialRadius,
-        height: this.initialRadius,
-        padding: 0
+        left: 250,
+        top: 250,
+        padding: 0,
+        fill: '#' + Math.floor(Math.random() * 16777215).toString(16)
       })
-      triangle.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction
-          })
-        }
-      })(triangle.toObject)
-      triangle.perPixelTargetFind = true
-      canvas.add(triangle)
-      // CanvasComposer.History.Update()
+      canvas.add(slider)
       canvas.renderAll()
       // Bind
-      this.bindEvents(triangle)
+      this.bindEvents(slider)
       // Programmatically Select Newly Added Object
-      canvas.setActiveObject(triangle)
+      canvas.setActiveObject(slider)
     },
     addText: function () {
       var fabric = window['fabric']

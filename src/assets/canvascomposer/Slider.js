@@ -73,8 +73,8 @@ export default {
     pattern.offsetY = offsetYTranslate
 
     var newMask = mask.clone()
-
-    if (newMask.type === 'slider') {
+    var i
+    if (newMask.type === 'slider' || newMask.type === 'sliderT') {
       // Style Mask style back
       newMask.set('fill', pattern)
       newMask.set('strokeWidth', 0)
@@ -94,7 +94,36 @@ export default {
       console.log(newMask.visibleslide)
       // Find slide in slides
       if (newMask.slides) {
-        for (var i = 0; i < newMask.slides.length; i++) {
+        for (i = 0; i < newMask.slides.length; i++) {
+          // Update Specific slide
+          if (newMask.slides[i].id === targetObj.id) {
+            newMask.slides[i] = newMask.visibleslide
+          }
+        }
+      }
+    } else if (newMask.type === 'sliderE') {
+      // Style Mask style back
+      newMask.set('fill', pattern)
+      newMask.set('strokeWidth', 0)
+      newMask.set('scaleX', 1)
+      newMask.set('scaleY', 1)
+      newMask.set('rx', mask.rx * mask.scaleX)
+      newMask.set('ry', mask.ry * mask.scaleY)
+      newMask.set('width', mask.width * mask.scaleX)
+      newMask.set('height', mask.height * mask.scaleY)
+      // Update Attributes Back to 'visibleslide'
+      newMask.visibleslide.maskWidth = newMask.width
+      newMask.visibleslide.maskHeight = newMask.height
+      newMask.visibleslide.offsetX = pattern.offsetX
+      newMask.visibleslide.offsetY = pattern.offsetY
+      newMask.visibleslide.imgWidth = image.getWidth()
+      newMask.visibleslide.imgHeight = image.getHeight()
+      newMask.visibleslide.id = targetObj.id
+      newMask.visibleslide.url = targetObj.url
+      console.log(newMask.visibleslide)
+      // Find slide in slides
+      if (newMask.slides) {
+        for (i = 0; i < newMask.slides.length; i++) {
           // Update Specific slide
           if (newMask.slides[i].id === targetObj.id) {
             newMask.slides[i] = newMask.visibleslide

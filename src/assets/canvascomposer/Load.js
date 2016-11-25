@@ -9,7 +9,7 @@ export default {
       console.log(object)
       console.log('^ ---------- ')
       // When object is slider
-      if (object.type === 'slider') {
+      if (object.type === 'slider' || object.type === 'sliderE' || object.type === 'sliderT') {
         fabric.Image.fromURL(object.visibleslide.url, function (img) {
           // img.scaleToWidth(object.visibleslide.imgWidth)
           img.set('width', object.visibleslide.imgWidth)

@@ -120,10 +120,10 @@ export default {
       var fabric = window['fabric']
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
-      // If Slider
-      if (currentObject.type === 'slider') {
+      var instance = this.$parent.$parent.$parent
+      // If Slider Rectangle
+      if (currentObject.type === 'slider' || currentObject.type === 'sliderT') {
         url = this.baseUrl + url
-        var instance = this.$parent.$parent.$parent
 
         fabric.Image.fromURL(url, function (img) {
           // Default to Fit the Frame
@@ -133,6 +133,69 @@ export default {
             img.scaleToHeight(currentObject.height)
           }
           // img.scaleToWidth(currentObject.width)
+          // Make a Pattern
+          var patternSourceCanvas = new fabric.StaticCanvas()
+          patternSourceCanvas.add(img)
+          // console.log('ImageCurrentWidth:' + img.getWidth())
+          var pattern = new fabric.Pattern({
+            source: function () {
+              patternSourceCanvas.setDimensions({
+                width: img.getWidth() + 500,
+                height: img.getHeight() + 500
+              })
+              return patternSourceCanvas.getElement()
+            },
+            repeat: 'no-repeat'
+          })
+          // Mask (can be any shape ex: Polygon, Circles....)
+          var mask = currentObject.clone()
+          canvas.remove(currentObject)
+          // First Slide
+          var slideObj = {
+            // Generate an Unique Id for the slide
+            id: uuid.v4(),
+            imgWidth: img.getWidth(),
+            imgHeight: img.getHeight(),
+            offsetX: pattern.offsetX,
+            offsetY: pattern.offsetY,
+            maskWidth: mask.width * mask.scaleX,
+            maskHeight: mask.height * mask.scaleY,
+            url: url,
+            // Default Transition Settings
+            leastTime: 3,
+            transitionType: 'random',
+            transitionTime: 3
+          }
+          if (!mask.slides) {
+            mask.slides = []
+          }
+          var slidesArray = mask.slides
+          slidesArray.push(slideObj)
+          mask.visibleslide = slideObj
+
+          mask.set('visibleslide', slideObj)
+          mask.set('slides', slidesArray)
+          mask.set('fill', pattern)
+          mask.on('object:dblclick', function (options) {
+            // Pass pattern out
+            Slider.enterEditMode(mask, img)
+          })
+          // console.log(mask)
+          Events.bindEvents(instance, mask)
+          canvas.add(mask)
+          canvas.setActiveObject(mask)
+        })
+      } else if (currentObject.type === 'sliderE') {
+        // slider Ellipse
+        url = this.baseUrl + url
+        fabric.Image.fromURL(url, function (img) {
+          // Default to Fit the Frame
+          if (currentObject.width - img.width >= currentObject.height - img.height) {
+            img.scaleToWidth(currentObject.width)
+          } else {
+            img.scaleToHeight(currentObject.height)
+          }
+
           // Make a Pattern
           var patternSourceCanvas = new fabric.StaticCanvas()
           patternSourceCanvas.add(img)

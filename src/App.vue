@@ -5,7 +5,7 @@
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
       artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement", v-bind:interaction="interaction")
     transition(name="normal", mode="out-in")
-      contextmenu(v-if="iscontextMenu", v-bind:position="contextMenuPosition")
+      contextmenu(v-if="iscontextMenu", v-bind:position="contextMenuPosition", v-bind:currentObject="currentObject")
     transition(name="fade", mode="out-in")
       #globalLoader(v-if="globalLoader")
         .content

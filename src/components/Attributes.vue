@@ -332,6 +332,12 @@
                     .delete(@click="deleteSlide(slide.id)")
                       .fa.fa-trash.fa-lg
                   .layers-setting(v-if="slide.id === currentObject.visibleslide.id")
+                    //- .controlgroup
+                    //-   label 填滿
+                    //-   .controls
+                    //-     button.btn.basic.full Strech
+                    //-     button.btn.basic.full Origin
+                    //-     button.btn.basic.full Fill
                     .controlgroup
                       label 持續時間
                       .controls

@@ -13,6 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "fabric-customise-controls": "^0.1.8",
     "font-awesome": "^4.6.3",
     "imports-loader": "^0.6.5",
     "jquery": "^3.1.1",

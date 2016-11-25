@@ -4,72 +4,84 @@ export default {
   layertop () {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    obj.bringToFront()
-    canvas.renderAll()
-    Vue.$children[0].$emit('updateHistory')
-    Vue.$children[0].$emit('closeContextMenu')
+    if (obj) {
+      obj.bringToFront()
+      canvas.renderAll()
+      Vue.$children[0].$emit('updateHistory')
+      Vue.$children[0].$emit('closeContextMenu')
+    }
   },
   layerup () {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    obj.bringForward()
-    canvas.renderAll()
-    Vue.$children[0].$emit('updateHistory')
-    Vue.$children[0].$emit('closeContextMenu')
+    if (obj) {
+      obj.bringForward()
+      canvas.renderAll()
+      Vue.$children[0].$emit('updateHistory')
+      Vue.$children[0].$emit('closeContextMenu')
+    }
   },
   layerdown () {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    obj.sendBackwards()
-    canvas.renderAll()
-    Vue.$children[0].$emit('updateHistory')
-    Vue.$children[0].$emit('closeContextMenu')
+    if (obj) {
+      obj.sendBackwards()
+      canvas.renderAll()
+      Vue.$children[0].$emit('updateHistory')
+      Vue.$children[0].$emit('closeContextMenu')
+    }
   },
   layerbottom () {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    obj.sendToBack()
-    canvas.renderAll()
-    Vue.$children[0].$emit('updateHistory')
-    Vue.$children[0].$emit('closeContextMenu')
+    if (obj) {
+      obj.sendToBack()
+      canvas.renderAll()
+      Vue.$children[0].$emit('updateHistory')
+      Vue.$children[0].$emit('closeContextMenu')
+    }
   },
   duplicate () {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    var newObject = obj.clone()
-    // Move New Object
-    newObject.left = newObject.left + 10
-    newObject.top = newObject.top + 10
-    canvas.add(newObject)
-    canvas.setActiveObject(newObject)
-    canvas.renderAll()
-    Vue.$children[0].$emit('updateHistory')
-    Vue.$children[0].$emit('closeContextMenu')
+    if (obj) {
+      var newObject = obj.clone()
+      // Move New Object
+      newObject.left = newObject.left + 10
+      newObject.top = newObject.top + 10
+      canvas.add(newObject)
+      canvas.setActiveObject(newObject)
+      canvas.renderAll()
+      Vue.$children[0].$emit('updateHistory')
+      Vue.$children[0].$emit('closeContextMenu')
+    }
   },
   lock () {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    if (obj.lockMovementY === true) {
-      obj.lockMovementY = false
-      obj.lockMovementX = false
-      obj.lockRotation = false
-      obj.lockScalingX = false
-      obj.lockScalingY = false
-      obj.stroke = ''
-      obj.strokeWidth = 0
-      canvas.renderAll()
-    } else {
-      obj.lockMovementY = true
-      obj.lockMovementX = true
-      obj.lockRotation = true
-      obj.lockScalingX = true
-      obj.lockScalingY = true
-      obj.stroke = '#ff0000'
-      obj.strokeWidth = 4
-      canvas.renderAll()
+    if (obj) {
+      if (obj.lockMovementY === true) {
+        obj.lockMovementY = false
+        obj.lockMovementX = false
+        obj.lockRotation = false
+        obj.lockScalingX = false
+        obj.lockScalingY = false
+        obj.stroke = ''
+        obj.strokeWidth = 0
+        canvas.renderAll()
+      } else {
+        obj.lockMovementY = true
+        obj.lockMovementX = true
+        obj.lockRotation = true
+        obj.lockScalingX = true
+        obj.lockScalingY = true
+        obj.stroke = '#ff0000'
+        obj.strokeWidth = 4
+        canvas.renderAll()
+      }
+      Vue.$children[0].$emit('updateHistory')
+      Vue.$children[0].$emit('closeContextMenu')
     }
-    Vue.$children[0].$emit('updateHistory')
-    Vue.$children[0].$emit('closeContextMenu')
   },
   removeObject (cb) {
     var canvas = window['canvas']
@@ -128,6 +140,23 @@ export default {
         cb && cb(instance)
       }
     }
+  },
+  // Ratio
+  lockRatio (ratio) {
+    var canvas = window['canvas']
+    var obj = canvas.getActiveObject()
+    obj.width = Math.round(obj.getWidth())
+    obj.height = obj.width / ratio.w * ratio.h
+    obj.scaleX = 1
+    obj.scaleY = 1
+    obj.lockUniScaling = true
+    canvas.renderAll()
+  },
+  unLockRatio () {
+    var canvas = window['canvas']
+    var obj = canvas.getActiveObject()
+    obj.lockUniScaling = false
+    canvas.renderAll()
   },
   get_param (param) {
     var vars = {}

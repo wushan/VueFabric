@@ -1,6 +1,22 @@
 <template lang="pug">
   #context-menu.context-menu(:style="'left:' + position[0] + 'px;top:' + position[1] + 'px;'")
     ul.context-menu__items
+      li.context-menu__item(v-if="tuneable")
+        a.context-menu__link(href='#', @click="lockRatio({w: 16, h: 9})")
+          i.fa.fa-angle-double-up
+          |  16:9
+      li.context-menu__item(v-if="tuneable")
+        a.context-menu__link(href='#', @click="lockRatio({w: 5, h: 4})")
+          i.fa.fa-angle-double-up
+          |  5:4
+      li.context-menu__item(v-if="tuneable")
+        a.context-menu__link(href='#', @click="lockRatio({w: 4, h: 3})")
+          i.fa.fa-angle-double-up
+          |  4:3
+      li.context-menu__item(v-if="tuneable")
+        a.context-menu__link(href='#', @click="unLockRatio")
+          i.fa.fa-angle-double-up
+          |  解除比例鎖定
       li.context-menu__item
         a.context-menu__link(href='#', @click="layertop")
           i.fa.fa-angle-double-up
@@ -37,9 +53,20 @@ export default {
   name: 'Contextmenu',
   components: {
   },
-  props: ['position'],
+  props: ['position', 'currentObject'],
   data () {
     return {
+    }
+  },
+  computed: {
+    tuneable () {
+      if (this.currentObject) {
+        if (this.currentObject.type === 'slider' || this.currentObject.type === 'rect') {
+          return true
+        } else {
+          return false
+        }
+      }
     }
   },
   methods: {
@@ -63,6 +90,12 @@ export default {
     },
     deleteobj () {
       Utils.removeObject()
+    },
+    lockRatio (ratio) {
+      Utils.lockRatio(ratio)
+    },
+    unLockRatio () {
+      Utils.unLockRatio()
     }
   }
 }

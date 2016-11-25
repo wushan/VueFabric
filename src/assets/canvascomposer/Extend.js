@@ -27,9 +27,9 @@ fabric.Object.prototype.toObject = (function (toObject) {
 fabric.Object.prototype.set({
   borderColor: 'orange',
   cornerColor: 'red',
+  cornerStyle: 'circle',
   cornerSize: 14,
   borderScaleFactor: 0.3,
-  cornerStyle: 'circle',
   transparentCorners: false
 })
 
@@ -91,51 +91,31 @@ fabric.Slider.fromObject = function (options) {
   options.fill = '#cccccc'
   return new fabric.Slider(options)
 }
-
-// fabric.Slider.fromObject = function (objects, callback, options) {
-//   console.log(objects)
-//   // Construct Pattern from 'visibaleslide' sectopm
-//   fabric.Image.fromURL(objects.visibleslide.url, function (img) {
-//     img.scaleToWidth(objects.visibleslide.imgWidth)
-
-//     // Make a Pattern
-//     var patternSourceCanvas = new fabric.StaticCanvas()
-//     patternSourceCanvas.add(img)
-//     // console.log('ImageCurrentWidth:' + img.getWidth())
-//     var pattern = new fabric.Pattern({
-//       source: function () {
-//         patternSourceCanvas.setDimensions({
-//           width: img.getWidth() + 500,
-//           height: img.getHeight() + 500
-//         })
-//         return patternSourceCanvas.getElement()
-//       },
-//       repeat: 'no-repeat'
-//     })
-//     pattern.offsetX = objects.visibleslide.offsetX
-//     pattern.offsetY = objects.visibleslide.offsetY
-//     var enlivenSlider = new fabric.Slider({
-//       width: objects.width,
-//       height: objects.height,
-//       scaleX: objects.scaleX,
-//       scaleY: objects.scaleY,
-//       top: objects.top,
-//       left: objects.left,
-//       slides: objects.slides,
-//       interaction: objects.interaction,
-//       visibleslide: objects.visibleslide,
-//       fill: pattern
-//     })
-//     enlivenSlider.on('object:dblclick', function (options) {
-//       console.log(enlivenSlider)
-//       // Pass pattern out
-//       Slider.enterEditMode(enlivenSlider, img)
-//     })
-//     callback && callback(enlivenSlider)
-//   })
-// }
-
-// fabric.Slider.async = true
+// Custom Controller
+// fabric.Slider.prototype.customiseCornerIcons({
+//   settings: {
+//     borderColor: 'orange',
+//     cornerSize: 25,
+//     cornerShape: 'circle',
+//     cornerBackgroundColor: 'red',
+//     cornerPadding: 10
+//   },
+//   tl: {
+//     icon: '/static/assets/images/icons/rotate.svg'
+//   },
+//   tr: {
+//     icon: '/static/assets/images/icons/resize.svg'
+//   },
+//   bl: {
+//     icon: '/static/assets/images/icons/remove.svg'
+//   },
+//   br: {
+//     icon: '/static/assets/images/icons/up.svg'
+//   },
+//   mb: {
+//     icon: '/static/assets/images/icons/down.svg'
+//   }
+// })
 
 // EClock Class
 fabric.Eclock = fabric.util.createClass(fabric.Text, {

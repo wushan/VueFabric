@@ -1,6 +1,8 @@
 // import Slider from './Slider'
 var fabric = window.fabric
 // var canvas = window.canvas
+fabric.Object.prototype.stroke = '#333333'
+fabric.Object.prototype.strokeWidth = 1
 fabric.Object.prototype.interaction = {
   type: 'none',
   app: {

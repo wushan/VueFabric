@@ -109,8 +109,7 @@ export default {
         fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
         width: this.initialRadius,
         height: this.initialRadius,
-        padding: 0,
-        strokeWidth: 0
+        padding: 0
       })
       rect.toObject = (function (toObject) {
         return function () {
@@ -165,8 +164,7 @@ export default {
         fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
         width: this.initialRadius,
         height: this.initialRadius,
-        padding: 0,
-        strokeWidth: 0
+        padding: 0
       })
       triangle.toObject = (function (toObject) {
         return function () {
@@ -225,7 +223,6 @@ export default {
         left: 0,
         top: 0,
         padding: 0,
-        strokeWidth: 0,
         originX: 'center',
         originY: 'center'
       })
@@ -243,8 +240,7 @@ export default {
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
-        padding: 0,
-        strokeWidth: 0
+        padding: 0
       })
       group.toObject = (function (toObject) {
         return function () {
@@ -272,7 +268,6 @@ export default {
         left: 0,
         top: 0,
         padding: 0,
-        strokeWidth: 0,
         fill: '#cccccc',
         originX: 'center',
         originY: 'center'
@@ -318,7 +313,6 @@ export default {
         left: 0,
         top: 0,
         padding: 0,
-        strokeWidth: 0,
         originX: 'center',
         originY: 'center'
       })
@@ -336,8 +330,7 @@ export default {
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
-        padding: 0,
-        strokeWidth: 0
+        padding: 0
       })
       group.toObject = (function (toObject) {
         return function () {
@@ -373,7 +366,6 @@ export default {
         left: 250,
         top: 250,
         padding: 0,
-        strokeWidth: 0,
         fill: '#cccccc'
       })
       canvas.add(slider)
@@ -394,7 +386,6 @@ export default {
         left: 0,
         top: 0,
         padding: 0,
-        strokeWidth: 0,
         originX: 'center',
         originY: 'center'
       })
@@ -413,7 +404,6 @@ export default {
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
         padding: 0,
-        strokeWidth: 0,
         rssmarquee: {
           source: rsssource.source,
           leastTime: rsssource.leastTime,
@@ -449,7 +439,6 @@ export default {
         left: 0,
         top: 0,
         padding: 0,
-        strokeWidth: 0,
         originX: 'center',
         originY: 'center'
       })
@@ -468,7 +457,6 @@ export default {
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
         padding: 0,
-        strokeWidth: 0,
         marquee: {
           source: marqueesource.source,
           leastTime: marqueesource.leastTime,

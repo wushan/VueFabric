@@ -93,5 +93,17 @@ export default {
       Utils.lock()
       console.log('Lock')
     })
+    // Delete
+    Mousetrap.bind(['command+backspace', 'ctrl+backspace'], function (e) {
+      console.log('del')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.removeObject()
+      console.log('Delete')
+    })
   }
 }

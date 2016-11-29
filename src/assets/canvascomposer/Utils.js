@@ -112,8 +112,8 @@ export default {
         console.log('return')
         return
       }
-      Vue.$children[0].$emit('updateHistory')
-      Vue.$children[0].$emit('closeContextMenu')
+      window.vue.$children[0].$emit('updateHistory')
+      window.vue.$children[0].$emit('closeContextMenu')
       window.vue.$swal(
         '已刪除',
         '所選項目已刪除',

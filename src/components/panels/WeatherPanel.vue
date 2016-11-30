@@ -125,7 +125,7 @@ export default {
               left: canvas.getWidth() / 2,
               top: canvas.getHeight() / 2,
               fontSize: '60',
-              fontFamily: 'Open sans',
+              fontFamily: 'Times New Roman',
               fontWeight: 300
             })
             canvas.add(fTemp)
@@ -145,7 +145,7 @@ export default {
               left: canvas.getWidth() / 2,
               top: canvas.getHeight() / 2,
               fontSize: '18',
-              fontFamily: 'Open sans'
+              fontFamily: 'Times New Roman'
             })
             canvas.add(fLocation)
             // Bind

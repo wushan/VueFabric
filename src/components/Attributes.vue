@@ -3,13 +3,13 @@
     .panels
       .attributes-wrapper.panel
         .attributes-inner(v-if="currentObject")
-          #debugger
-            span Debugger
-            ul
-              li(v-for="obj in artboardEls")
-                span {{obj.type}} : {{obj.id}}
-                  br/
-                  | Type: '{{obj.interaction.type}}'
+          //- #debugger
+          //-   span Debugger
+          //-   ul
+          //-     li(v-for="obj in artboardEls")
+          //-       span {{obj.type}} : {{obj.id}}
+          //-         br/
+          //-         | Type: '{{obj.interaction.type}}'
           .attribution-group.basics
             p Basics
             .row
@@ -78,6 +78,7 @@
                     option(value="DFLiHei-W5-WIN-BF") 華康儷中黑體
                     option(value="Verdana") Verdana
                     option(value="Times") Times
+                    option(value="Times New Roman") Times New Roman
                     option(value="Strasua") Strasua
                     option(value="SegoeScript") Segoe Script
                     option(value="OratorStd") Orator Std
@@ -633,7 +634,7 @@ export default {
     })
   },
   watch: {
-    'currentObject': ['updateSpectrum', 'syncData']
+    'currentObject': ['syncData']
   },
   methods: {
     startDragging () {
@@ -649,9 +650,6 @@ export default {
       }
     },
     syncData () {
-      // console.log('sync Start')
-      // this.interactionSetting = this.currentObject.interaction
-      // console.log('sync Done')
       this.layerlist = this.currentObject.slides
     },
     updateRss (e) {

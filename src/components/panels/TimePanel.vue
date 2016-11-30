@@ -37,6 +37,7 @@ export default {
       var formatString = window.moment().format(format)
       var text = new fabric.Eclock(formatString, {
         format: format,
+        fontFamily: 'Times New Roman',
         gmt: _settings.gmt
       })
       text.toObject = (function (toObject) {

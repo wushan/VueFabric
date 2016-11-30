@@ -13,7 +13,7 @@ export default {
     // }
     image.scaleToWidth(mask.width * mask.scaleX)
     // Set Image Opacity
-    image.set('opacity', 0.8)
+    image.set('opacity', 0.6)
     // Style Fixed Image Position
     var newMask = mask.clone()
     newMask.set('fill', 'rgba(0,0,0,0.25)')
@@ -22,8 +22,8 @@ export default {
     newMask.set('strokeDashArray', [2])
     newMask.set('strokeWidth', 2)
     canvas.remove(mask)
-    canvas.add(image)
     canvas.add(newMask)
+    canvas.add(image)
     canvas.setActiveObject(image)
     console.log(targetObj.id)
     // Arrow function to get 'this'

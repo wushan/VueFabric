@@ -105,5 +105,89 @@ export default {
       Utils.removeObject()
       console.log('Delete')
     })
+    // Push Left
+    Mousetrap.bind(['left'], function (e) {
+      console.log('Push left')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.pushObject('left', 1)
+    })
+    Mousetrap.bind(['shift+left'], function (e) {
+      console.log('Push Large left')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.pushObject('left', 10)
+    })
+    // Push Left
+    Mousetrap.bind(['right'], function (e) {
+      console.log('Push right')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.pushObject('right', 1)
+    })
+    Mousetrap.bind(['shift+right'], function (e) {
+      console.log('Push Large right')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.pushObject('right', 10)
+    })
+    // Push Up
+    Mousetrap.bind(['up'], function (e) {
+      console.log('Push up')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.pushObject('up', 1)
+    })
+    Mousetrap.bind(['shift+up'], function (e) {
+      console.log('Push Large up')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.pushObject('up', 10)
+    })
+    // Push Down
+    Mousetrap.bind(['down'], function (e) {
+      console.log('Push down')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.pushObject('down', 1)
+    })
+    Mousetrap.bind(['shift+down'], function (e) {
+      console.log('Push Large down')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.pushObject('down', 10)
+    })
   }
 }

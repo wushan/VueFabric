@@ -167,5 +167,45 @@ export default {
       return vars[param] ? vars[param] : null
     }
     return vars
+  },
+  pushObject (direction, gap) {
+    var canvas = window['canvas']
+    var obj = canvas.getActiveObject()
+    // if (direction === 'left') {
+    //   goTo = obj.left
+    // } else {
+    //   goTo = obj.top
+    // }
+    switch (direction) {
+      case 'left':
+        if (obj.left <= 0) {
+          obj.left = 0
+        } else {
+          obj.left = obj.left - gap
+        }
+        break
+      case 'right':
+        if (obj.left + obj.getWidth() >= obj.canvas.width) {
+          obj.left = obj.canvas.width - obj.getWidth()
+        } else {
+          obj.left = obj.left + gap
+        }
+        break
+      case 'up':
+        if (obj.top <= 0) {
+          obj.top = 0
+        } else {
+          obj.top = obj.top - gap
+        }
+        break
+      case 'down':
+        if (obj.top + obj.getHeight() >= obj.canvas.height) {
+          obj.top = obj.canvas.height - obj.getHeight()
+        } else {
+          obj.top = obj.top + gap
+        }
+        break
+    }
+    canvas.renderAll()
   }
 }

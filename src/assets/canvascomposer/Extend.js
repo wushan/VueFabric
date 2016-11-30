@@ -213,6 +213,8 @@ fabric.Clock = fabric.util.createClass(fabric.Group, {
   type: 'clock',
   initialize: function (objects, options, alreadyGrouped) {
     this.callSuper('initialize', objects, options, alreadyGrouped)
+    this.originX = 'left'
+    this.originY = 'top'
     // Clock Sync
     console.log(objects)
     // var canvasClock,

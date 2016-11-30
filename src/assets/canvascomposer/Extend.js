@@ -17,14 +17,14 @@ fabric.Object.prototype.interaction = {
     url: ''
   }
 }
-fabric.Object.prototype.toObject = (function (toObject) {
-  return function () {
-    return fabric.util.object.extend(toObject.call(this), {
-      interaction: this.interaction,
-      id: this.id
-    })
-  }
-})(fabric.Object.prototype.toObject)
+// fabric.Object.prototype.toObject = (function (toObject) {
+//   return function () {
+//     return fabric.util.object.extend(toObject.call(this), {
+//       interaction: this.interaction,
+//       id: this.id
+//     })
+//   }
+// })(fabric.Object.prototype.toObject)
 
 fabric.Object.prototype.set({
   borderColor: 'orange',
@@ -103,8 +103,6 @@ fabric.SliderE = fabric.util.createClass(fabric.Ellipse, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
-      rx: this.rx,
-      ry: this.ry,
       visibleslide: this.visibleslide,
       slides: this.slides,
       interaction: this.interaction
@@ -186,7 +184,8 @@ fabric.Eclock = fabric.util.createClass(fabric.Text, {
     eclockSimulate(instance)
     function eclockSimulate (instance) {
       instance.set('text', window.moment().tz(options.gmt).format(options.format))
-      window.canvas.renderAll()
+      // Do not renderAll for performance.
+      // window.canvas.renderAll()
       setTimeout(function () {
         eclockSimulate(instance)
       }, 1000)
@@ -206,6 +205,7 @@ fabric.Eclock = fabric.util.createClass(fabric.Text, {
 fabric.Eclock.fromObject = function (object) {
   return new fabric.Eclock(object.text, object)
 }
+
 fabric.Eclock.async = false
 
 // Create Fabric Clock Class
@@ -235,7 +235,7 @@ fabric.Clock = fabric.util.createClass(fabric.Group, {
       canvasClockHour.setAngle(30 * window.moment().tz(canvasClockTimeZone).format('H') + 6 * window.moment().tz(canvasClockTimeZone).format('mm') / 360 * 30)
       canvasClockMin.setAngle(6 * window.moment().tz(canvasClockTimeZone).format('mm'))
       canvasClockSec.setAngle(6 * window.moment().tz(canvasClockTimeZone).format('ss'))
-      window.canvas.renderAll()
+      // window.canvas.renderAll()
       setTimeout(function () {
         clockSimulate()
       }, 1000)

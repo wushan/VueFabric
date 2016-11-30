@@ -61,7 +61,7 @@ export default {
   computed: {
     tuneable () {
       if (this.currentObject) {
-        if (this.currentObject.type === 'slider' || this.currentObject.type === 'rect') {
+        if (this.currentObject.type === 'slider' || this.currentObject.type === 'rect' || this.currentObject.type === 'image') {
           return true
         } else {
           return false

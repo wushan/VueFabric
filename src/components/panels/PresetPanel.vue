@@ -54,6 +54,7 @@ export default {
     },
     loadPreset (data) {
       this.$parent.$parent.$emit('loadPreset', data)
+      this.$root.$children[0].$emit('updateSubmenu', null)
     }
   }
 }

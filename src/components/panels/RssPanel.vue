@@ -85,6 +85,7 @@ export default {
   methods: {
     addRss (e) {
       this.$parent.$emit('addRss', this.rss)
+      this.$root.$children[0].$emit('updateSubmenu', null)
     }
   }
 }

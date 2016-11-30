@@ -165,6 +165,7 @@ export default {
           })
         }
       })
+      this.$root.$children[0].$emit('updateSubmenu', null)
     }
   },
   computed: {

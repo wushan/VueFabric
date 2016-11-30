@@ -59,6 +59,7 @@ export default {
     addMarquee (e) {
       console.log(this.marquee)
       this.$parent.$emit('addMarquee', this.marquee)
+      this.$root.$children[0].$emit('updateSubmenu', null)
     }
   }
 }

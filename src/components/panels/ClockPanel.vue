@@ -68,6 +68,7 @@ export default {
           Utils.loadClock(data, function (o) {
             instance.bindEvents(o)
           })
+          this.$root.$children[0].$emit('updateSubmenu', null)
         }
       })
     }

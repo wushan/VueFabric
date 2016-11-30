@@ -26,12 +26,15 @@ export default {
   },
   methods: {
     addRect () {
+      this.$root.$children[0].$emit('updateSubmenu', null)
       this.$parent.$emit('addMedia')
     },
     addCircle () {
+      this.$root.$children[0].$emit('updateSubmenu', null)
       this.$parent.$emit('addCircle')
     },
     addTriangle () {
+      this.$root.$children[0].$emit('updateSubmenu', null)
       this.$parent.$emit('addTriangle')
     }
   }

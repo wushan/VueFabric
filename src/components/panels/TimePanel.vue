@@ -56,6 +56,7 @@ export default {
       Events.bindEvents(this.$parent.$parent, text)
       // Programmatically Select Newly Added Object
       canvas.setActiveObject(text)
+      this.$root.$children[0].$emit('updateSubmenu', null)
     }
   }
 }

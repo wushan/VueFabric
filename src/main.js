@@ -44,22 +44,24 @@ if (CanvasInitData && CanvasInitOption) {
     height: 768
   })
 }
-console.log(vue.$children)
-
-canvas.on('before:selection:cleared', function () {
+// Deselect
+canvas.on('selection:cleared', function () {
+  console.log('Canvas Before Deselect')
   vue.$children[0].currentObject = null
+  canvas.renderAll()
 })
 
+// After Rendered
 canvas.on('after:render', function () {
 	var activeObj = canvas.getActiveObject()
 	if (activeObj) {
 		vue.$children[0].currentObject = activeObj.toObject()
-	  console.log('Canvas Just Rendered.')
 	} else {
 		vue.$children[0].currentObject = activeObj
-	}	
-  // After Rendered
+	}
+  console.log('Canvas afterRender')
 })
+
 // Prevent Object leaving the canvas
 canvas.on('object:moving', function (e) {
   var obj = e.target;
@@ -67,6 +69,37 @@ canvas.on('object:moving', function (e) {
   if(obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width){
       return;
   }        
+  obj.setCoords();        
+  // top-left  corner
+  if(obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0){
+      obj.top = Math.max(obj.top, obj.top-obj.getBoundingRect().top);
+      obj.left = Math.max(obj.left, obj.left-obj.getBoundingRect().left);
+  }
+  // bot-right corner
+  if(obj.getBoundingRect().top+obj.getBoundingRect().height  > obj.canvas.height || obj.getBoundingRect().left+obj.getBoundingRect().width  > obj.canvas.width){
+      obj.top = Math.min(obj.top, obj.canvas.height-obj.getBoundingRect().height+obj.top-obj.getBoundingRect().top);
+      obj.left = Math.min(obj.left, obj.canvas.width-obj.getBoundingRect().width+obj.left-obj.getBoundingRect().left);
+  }
+});
+
+canvas.on('object:scaling', function (e) {
+  var obj = e.target;
+  // 2 pixels for not losing control
+  if (obj.getHeight() >= obj.canvas.height && obj.getWidth() >= obj.canvas.width) {
+    obj.scaleY = obj.canvas.height / obj.height
+    obj.scaleX = obj.canvas.width / obj.width
+    obj.left = 0
+    obj.top = 0
+    console.log('limiteeeC')
+  } else if (obj.getHeight() >= obj.canvas.height && obj.getWidth() < obj.canvas.width) {
+    obj.scaleY = obj.canvas.height / obj.height
+    console.log('limiteeeB')
+  } else if (obj.getHeight() < obj.canvas.height && obj.getWidth() >= obj.canvas.width) {
+    obj.scaleX = obj.canvas.width / obj.width
+    console.log('limiteeeA')
+  } else {
+    return
+  }
   obj.setCoords();        
   // top-left  corner
   if(obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0){

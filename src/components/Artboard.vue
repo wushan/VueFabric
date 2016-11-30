@@ -36,7 +36,6 @@ export default {
   },
   props: ['currentObject', 'initialRadius', 'baseUrl', 'arrangement', 'interaction'],
   mounted () {
-    // console.log('ARTBOARD')
   },
   methods: {
     fitWindow () {
@@ -58,6 +57,7 @@ export default {
           return true
         } else {
           canvas.discardActiveObject()
+          canvas.renderAll()
         }
       }
     }

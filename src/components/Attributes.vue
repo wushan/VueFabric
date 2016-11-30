@@ -33,11 +33,11 @@
               .position.controlgroup
                 label Y 軸
                 .controls
-                  input#objectTop(type='number', v-bind:value="currentObject.top")
+                  input#objectTop(type='number', v-bind:value="positionY")
               .position.controlgroup
                 label X 軸
                 .controls
-                  input#objectLeft(type='number', v-bind:value="currentObject.left")
+                  input#objectLeft(type='number', v-bind:value="positionX")
               .angle.controlgroup
                 label 角度
                 .controls
@@ -572,6 +572,20 @@ export default {
     },
     currentSlide () {
       console.log(this)
+    },
+    positionX () {
+      if (this.currentObject.type === 'clock') {
+        return this.currentObject.left - this.currentObject.width / 2 * this.currentObject.scaleX
+      } else {
+        return this.currentObject.left
+      }
+    },
+    positionY () {
+      if (this.currentObject.type === 'clock') {
+        return this.currentObject.top - this.currentObject.height / 2 * this.currentObject.scaleY
+      } else {
+        return this.currentObject.top
+      }
     }
   },
   mounted () {

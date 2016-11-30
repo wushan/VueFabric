@@ -31,7 +31,7 @@ fabric.Object.prototype.set({
   cornerColor: 'red',
   cornerStyle: 'circle',
   cornerSize: 14,
-  borderScaleFactor: 0.3,
+  borderScaleFactor: 3,
   transparentCorners: false
 })
 
@@ -103,6 +103,8 @@ fabric.SliderE = fabric.util.createClass(fabric.Ellipse, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      rx: this.rx,
+      ry: this.ry,
       visibleslide: this.visibleslide,
       slides: this.slides,
       interaction: this.interaction

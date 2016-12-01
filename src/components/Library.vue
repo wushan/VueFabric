@@ -186,7 +186,7 @@ export default {
           canvas.setActiveObject(mask)
           canvas.renderAll()
           instance.$emit('updateHistory')
-        })
+        }, { crossOrigin: 'Anonymous' })
       } else if (currentObject.type === 'sliderE') {
         // slider Ellipse
         url = this.baseUrl + url
@@ -251,7 +251,7 @@ export default {
           canvas.setActiveObject(mask)
           canvas.renderAll()
           instance.$emit('updateHistory')
-        })
+        }, { crossOrigin: 'Anonymous' })
       } else if (currentObject.type === 'webview') {
         currentObject.set('placeholder', url)
         canvas.renderAll()

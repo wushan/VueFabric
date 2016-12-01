@@ -20,11 +20,11 @@
               .width.controlgroup
                 label 寬度
                 .controls
-                  input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX+currentObject.strokeWidth", type='number')
+                  input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number')
               .height.controlgroup
                 label 高度
                 .controls
-                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY+currentObject.strokeWidth")
+                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY")
               .radius.controlgroup(v-if="currentObject.radius")
                 label 半徑
                 .controls
@@ -980,7 +980,7 @@ export default {
             Events.bindEvents(instance, mask)
             canvas.add(mask)
             canvas.setActiveObject(mask)
-          })
+          }, { crossOrigin: 'Anonymous' })
         }
       } else {
         return

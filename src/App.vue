@@ -26,7 +26,7 @@ import Artboard from './components/Artboard'
 import Toolbar from './components/Toolbar'
 import Contextmenu from './components/Contextmenu'
 import Globalmis from './components/globalMis'
-import Events from './assets/cc.objectEvents'
+// import Events from './assets/cc.objectEvents'
 import Load from './assets/canvascomposer/Load'
 import Keyboard from './assets/canvascomposer/Keyboard'
 export default {
@@ -191,11 +191,14 @@ export default {
       })
     },
     loadFromJSON (data) {
-      var canvas = window['canvas']
-      var component = this
-      canvas.loadFromJSON(data, canvas.renderAll.bind(canvas), function (o, object) {
-        canvas.renderAll()
-        Events.bindEvents(component, object)
+      // var canvas = window['canvas']
+      // var component = this
+      // canvas.loadFromJSON(data, canvas.renderAll.bind(canvas), function (o, object) {
+      //   canvas.renderAll()
+      //   Events.bindEvents(component, object)
+      // })
+      Load.fromJSON(data, () => {
+        console.log('loaded.')
       })
     },
     dispose () {

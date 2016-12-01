@@ -43,7 +43,6 @@ export default {
       initCanvas.fit()
     },
     deselectObject (e) {
-      console.log(e)
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
       if (e.type === 'contextmenu') {

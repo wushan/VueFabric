@@ -77,6 +77,7 @@ fabric.Slider = fabric.util.createClass(fabric.Rect, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       visibleslide: this.visibleslide,
       slides: this.slides,
       interaction: this.interaction
@@ -103,6 +104,7 @@ fabric.SliderE = fabric.util.createClass(fabric.Ellipse, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       visibleslide: this.visibleslide,
       slides: this.slides,
       interaction: this.interaction
@@ -129,6 +131,7 @@ fabric.SliderT = fabric.util.createClass(fabric.Triangle, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       visibleslide: this.visibleslide,
       slides: this.slides,
       interaction: this.interaction

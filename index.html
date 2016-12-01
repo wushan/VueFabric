@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant-TW">
   <head>
     <meta charset="utf-8">
     <title>canvas-editor-standalone</title>
@@ -8,20 +8,20 @@
   <body>
     <div id="app"></div>
     <script>
-      // var CanvasInitData = null
-      // var CanvasInitOption = null
+      var CanvasInitData = null
+      var CanvasInitOption = null
 
-      var CanvasInitData = {"objects":[{"type":"sliderT","originX":"left","originY":"top","left":69,"top":450,"width":331,"height":265,"fill":{"source":"function source() {\n        patternSourceCanvas.setDimensions({\n          width: image.getWidth() + 500,\n          height: image.getHeight() + 500\n        });\n        return patternSourceCanvas.getElement();\n      }","repeat":"no-repeat","offsetX":-121,"offsetY":-50},"stroke":"rgb(125,125,125)","strokeWidth":0,"strokeDashArray":[2,2],"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","fillRule":"nonzero","globalCompositeOperation":"source-over","transformMatrix":null,"skewX":0,"skewY":0,"interaction":{"type":"none","app":{"appName":"","appEscape":"","appEscapeTime":"","appEscapeButton":"","appEscapeButtonPost":"","appEscapeButtonSize":""},"link":{"url":""}},"id":"ace39839-9768-4d8c-9e8f-dd4fb4714027","visibleslide":{"id":"d303c241-1bc7-4b02-b65b-150f530f6a9c","imgWidth":737.9999999999999,"imgHeight":491.58415841584156,"offsetX":-121,"offsetY":-50,"maskWidth":331,"maskHeight":265,"url":"http://radi.4webdemo.com/assets/uploads/radi/5500/library/9999/thumb_5805bd563ace8.jpg","leastTime":3,"transitionType":"random","transitionTime":3},"slides":[{"id":"d303c241-1bc7-4b02-b65b-150f530f6a9c","imgWidth":737.9999999999999,"imgHeight":491.58415841584156,"offsetX":-121,"offsetY":-50,"maskWidth":331,"maskHeight":265,"url":"http://radi.4webdemo.com/assets/uploads/radi/5500/library/9999/thumb_5805bd563ace8.jpg","leastTime":3,"transitionType":"random","transitionTime":3},{"id":"1c517a11-4faf-4280-9aea-7d79033d735b","imgWidth":108,"imgHeight":100,"offsetX":0,"offsetY":0,"maskWidth":100,"maskHeight":100,"url":"http://radi.4webdemo.com/assets/uploads/radi/5500/library/9999/thumb_5805bd5548cc5.jpg","leastTime":3,"transitionType":"random","transitionTime":3}]},{"type":"slider","originX":"left","originY":"top","left":800,"top":50,"width":200,"height":200,"fill":{"source":"function source() {\n        patternSourceCanvas.setDimensions({\n          width: image.getWidth() + 500,\n          height: image.getHeight() + 500\n        });\n        return patternSourceCanvas.getElement();\n      }","repeat":"no-repeat","offsetX":-150,"offsetY":-50},"stroke":"rgb(125,125,125)","strokeWidth":0,"strokeDashArray":[2,2],"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","fillRule":"nonzero","globalCompositeOperation":"source-over","transformMatrix":null,"skewX":0,"skewY":0,"interaction":{"type":"none","app":{"appName":"","appEscape":"","appEscapeTime":"","appEscapeButton":"","appEscapeButtonPost":"","appEscapeButtonSize":""},"link":{"url":""}},"id":"ba7f7073-2039-4261-886c-ec9c69446900","rx":0,"ry":0,"visibleslide":{"id":"7e68d498-0539-4aaa-a20e-5df2a14a5f2a","imgWidth":368,"imgHeight":312,"offsetX":-150,"offsetY":-50,"maskWidth":200,"maskHeight":200,"url":"http://radi.4webdemo.com/assets/uploads/radi/5500/library/9999/thumb_5820126fe8ef5.jpg","leastTime":3,"transitionType":"random","transitionTime":3},"slides":[{"id":"1a4ff6ad-861b-4749-978c-4297c3febeef","imgWidth":357.14285714285705,"imgHeight":199.99999999999997,"offsetX":0,"offsetY":0,"maskWidth":200,"maskHeight":200,"url":"http://radi.4webdemo.com/assets/uploads/radi/5500/library/9999/thumb_582012683e5c9.jpg","leastTime":3,"transitionType":"random","transitionTime":3},{"id":"7e68d498-0539-4aaa-a20e-5df2a14a5f2a","imgWidth":368,"imgHeight":312,"offsetX":-150,"offsetY":-50,"maskWidth":200,"maskHeight":200,"url":"http://radi.4webdemo.com/assets/uploads/radi/5500/library/9999/thumb_5820126fe8ef5.jpg","leastTime":3,"transitionType":"random","transitionTime":3}]},{"type":"sliderE","originX":"left","originY":"top","left":187,"top":100,"width":452,"height":356,"fill":{"source":"function source() {\n        patternSourceCanvas.setDimensions({\n          width: image.getWidth() + 500,\n          height: image.getHeight() + 500\n        });\n        return patternSourceCanvas.getElement();\n      }","repeat":"no-repeat","offsetX":-37,"offsetY":0},"stroke":"rgb(125,125,125)","strokeWidth":0,"strokeDashArray":[2,2],"strokeLineCap":"butt","strokeLineJoin":"miter","strokeMiterLimit":10,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"clipTo":null,"backgroundColor":"","fillRule":"nonzero","globalCompositeOperation":"source-over","transformMatrix":null,"skewX":0,"skewY":0,"interaction":{"type":"none","app":{"appName":"","appEscape":"","appEscapeTime":"","appEscapeButton":"","appEscapeButtonPost":"","appEscapeButtonSize":""},"link":{"url":""}},"id":"4df06f7e-1f31-4adc-bd94-82c98819a3ea","rx":225.99999999999997,"ry":178,"visibleslide":{"id":"d05ac816-235a-4e70-bc99-577306fd4994","imgWidth":760,"imgHeight":465,"offsetX":-37,"offsetY":0,"maskWidth":451.99999999999994,"maskHeight":356,"url":"http://radi.4webdemo.com/assets/uploads/radi/5500/library/9999/thumb_582012695264d.jpg","leastTime":3,"transitionType":"random","transitionTime":3},"slides":[{"id":"d05ac816-235a-4e70-bc99-577306fd4994","imgWidth":760,"imgHeight":465,"offsetX":-37,"offsetY":0,"maskWidth":451.99999999999994,"maskHeight":356,"url":"http://radi.4webdemo.com/assets/uploads/radi/5500/library/9999/thumb_582012695264d.jpg","leastTime":3,"transitionType":"random","transitionTime":3}]}],"background":""};
-      var CanvasInitOption = {
-        width: 1024,
-        height: 768
-      }
+      // var CanvasInitData = ;
+      // var CanvasInitOption = {
+      //   width: 1024,
+      //   height: 768
+      // }
     </script>
     <script type="text/javascript" src="./static/assets/scripts/moments.js"></script>
     <script type="text/javascript" src="./static/assets/scripts/momentstz.js"></script>
     <script type="text/javascript" src="./static/assets/scripts/fabric.js"></script>
     <script type="text/javascript" src="./static/assets/scripts/fabricex.js"></script>
-    <script type="text/javascript" src="./static/assets/scripts/customiseControls.min.js"></script>
+    <!-- <script type="text/javascript" src="./static/assets/scripts/customiseControls.min.js"></script> -->
     <!-- built files will be auto injected -->    
   </body>
 </html>

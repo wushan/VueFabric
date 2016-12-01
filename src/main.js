@@ -46,7 +46,7 @@ if (CanvasInitData && CanvasInitOption) {
 }
 // Deselect
 canvas.on('selection:cleared', function () {
-  console.log('Canvas Before Deselect')
+  // console.log('Canvas Before Deselect')
   vue.$children[0].currentObject = null
   canvas.renderAll()
 })
@@ -59,7 +59,7 @@ canvas.on('after:render', function () {
 	} else {
 		vue.$children[0].currentObject = activeObj
 	}
-  console.log('Canvas afterRender')
+  // console.log('Canvas afterRender')
 })
 
 // Prevent Object leaving the canvas

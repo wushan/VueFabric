@@ -42,14 +42,14 @@
                 label 角度
                 .controls
                   input#objectAngle(type='text', v-bind:value="currentObject.angle")
-              //- .scalex.controlgroup
-              //-   label X 延展
-              //-   .controls
-              //-     input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
-              //- .scaley.controlgroup
-              //-   label Y 延展
-              //-   .controls
-              //-     input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
+              .scalex.controlgroup
+                label X 延展
+                .controls
+                  input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
+              .scaley.controlgroup
+                label Y 延展
+                .controls
+                  input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
               .color.controlgroup(v-if="!slider")
                 label 背景色
                 .controls
@@ -119,7 +119,7 @@
                       option(value='144') 144
                       option(value='168') 168
                       option(value='192') 192
-          .attribution-group.specials
+          .attribution-group.specials(v-if="currentObject.interaction")
             .controlgroup
               label 互動
               .controls.rich-control
@@ -330,7 +330,7 @@
                     span {{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
                     //- .configure
                     //-   .fa.fa-sliders.fa-lg
-                    .delete(@click="deleteSlide(slide.id)")
+                    .delete(@click.prevent.stop="deleteSlide(slide.id)")
                       .fa.fa-trash.fa-lg
                   .layers-setting(v-if="slide.id === currentObject.visibleslide.id")
                     //- .controlgroup
@@ -574,18 +574,10 @@ export default {
       console.log(this)
     },
     positionX () {
-      if (this.currentObject.type === 'clock') {
-        return this.currentObject.left - this.currentObject.width / 2 * this.currentObject.scaleX
-      } else {
-        return this.currentObject.left
-      }
+      return this.currentObject.left
     },
     positionY () {
-      if (this.currentObject.type === 'clock') {
-        return this.currentObject.top - this.currentObject.height / 2 * this.currentObject.scaleY
-      } else {
-        return this.currentObject.top
-      }
+      return this.currentObject.top
     }
   },
   mounted () {
@@ -772,14 +764,10 @@ export default {
       }).then(() => {
         var canvas = window['canvas']
         var obj = canvas.getActiveObject()
-        obj.slides.splice(0)
-        console.log(obj.visibleslide)
+        obj.set('slides', null)
         obj.set('visibleslide', {})
-        console.log(obj.visibleslide)
-        obj.fill = '#cccccc'
+        obj.setFill('#cccccc')
         canvas.renderAll()
-        console.log(obj.visibleslide)
-        console.log(obj.toObject())
         this.$root.$swal(
           '已刪除',
           '所選項目已刪除',
@@ -1033,18 +1021,27 @@ export default {
       // if we've got siblings
       if (currentObject.slides[index + 1]) {
         this.selectLayer(currentObject.slides[index + 1].id)
+        // Delete
+        if (index > -1) {
+          currentObject.slides.splice(index, 1)
+        } else {
+          console.log('none')
+        }
       } else if (currentObject.slides[index - 1]) {
         this.selectLayer(currentObject.slides[index - 1].id)
+        // Delete
+        if (index > -1) {
+          currentObject.slides.splice(index, 1)
+        } else {
+          console.log('none')
+        }
       } else {
         console.log('There is only me. My friend.')
         // Clean Up
         currentObject.set('visibleslide', {})
-        currentObject.fill = '#cccccc'
+        currentObject.set('slides', null)
+        currentObject.setFill('#cccccc')
         canvas.renderAll()
-      }
-      // Delete
-      if (index > -1) {
-        currentObject.slides.splice(index, 1)
       }
     }
   }

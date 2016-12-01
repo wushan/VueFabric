@@ -184,6 +184,8 @@ export default {
           Events.bindEvents(instance, mask)
           canvas.add(mask)
           canvas.setActiveObject(mask)
+          canvas.renderAll()
+          instance.$emit('updateHistory')
         })
       } else if (currentObject.type === 'sliderE') {
         // slider Ellipse
@@ -247,10 +249,13 @@ export default {
           Events.bindEvents(instance, mask)
           canvas.add(mask)
           canvas.setActiveObject(mask)
+          canvas.renderAll()
+          instance.$emit('updateHistory')
         })
       } else if (currentObject.type === 'webview') {
         currentObject.set('placeholder', url)
         canvas.renderAll()
+        instance.$emit('updateHistory')
       } else {
         return
       }

@@ -1,4 +1,5 @@
-import Vue from 'vue'
+// UUID
+import uuid from 'node-uuid'
 export default {
   // Global
   layertop () {
@@ -7,8 +8,8 @@ export default {
     if (obj) {
       obj.bringToFront()
       canvas.renderAll()
-      Vue.$children[0].$emit('updateHistory')
-      Vue.$children[0].$emit('closeContextMenu')
+      window.vue.$children[0].$emit('updateHistory')
+      window.vue.$children[0].$emit('closeContextMenu')
     }
   },
   layerup () {
@@ -17,8 +18,8 @@ export default {
     if (obj) {
       obj.bringForward()
       canvas.renderAll()
-      Vue.$children[0].$emit('updateHistory')
-      Vue.$children[0].$emit('closeContextMenu')
+      window.vue.$children[0].$emit('updateHistory')
+      window.vue.$children[0].$emit('closeContextMenu')
     }
   },
   layerdown () {
@@ -27,8 +28,8 @@ export default {
     if (obj) {
       obj.sendBackwards()
       canvas.renderAll()
-      Vue.$children[0].$emit('updateHistory')
-      Vue.$children[0].$emit('closeContextMenu')
+      window.vue.$children[0].$emit('updateHistory')
+      window.vue.$children[0].$emit('closeContextMenu')
     }
   },
   layerbottom () {
@@ -37,23 +38,47 @@ export default {
     if (obj) {
       obj.sendToBack()
       canvas.renderAll()
-      Vue.$children[0].$emit('updateHistory')
-      Vue.$children[0].$emit('closeContextMenu')
+      window.vue.$children[0].$emit('updateHistory')
+      window.vue.$children[0].$emit('closeContextMenu')
     }
   },
   duplicate () {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
+    var newObject
     if (obj) {
-      var newObject = obj.clone()
-      // Move New Object
-      newObject.left = newObject.left + 10
-      newObject.top = newObject.top + 10
-      canvas.add(newObject)
-      canvas.setActiveObject(newObject)
-      canvas.renderAll()
-      Vue.$children[0].$emit('updateHistory')
-      Vue.$children[0].$emit('closeContextMenu')
+      // Slider Clone
+      if (obj.type === 'slider' || obj.type === 'sliderE' || obj.type === 'sliderT') {
+        if (obj.slides) {
+          window.vue.$children[0].$emit('globalError', '已含有圖層的 Slider 物件無法複製，請建立新的 Slider。')
+        } else {
+          // Normal Clone
+          newObject = obj.clone()
+          // Move New Object
+          newObject.left = newObject.left + 10
+          newObject.top = newObject.top + 10
+          // Assign a new id for new Object
+          newObject.id = uuid.v4()
+          canvas.add(newObject)
+          canvas.setActiveObject(newObject)
+          canvas.renderAll()
+          window.vue.$children[0].$emit('updateHistory')
+          window.vue.$children[0].$emit('closeContextMenu')
+        }
+      } else {
+        // Normal Clone
+        newObject = obj.clone()
+        // Move New Object
+        newObject.left = newObject.left + 10
+        newObject.top = newObject.top + 10
+        // Assign a new id for new Object
+        newObject.id = uuid.v4()
+        canvas.add(newObject)
+        canvas.setActiveObject(newObject)
+        canvas.renderAll()
+        window.vue.$children[0].$emit('updateHistory')
+        window.vue.$children[0].$emit('closeContextMenu')
+      }
     }
   },
   lock () {
@@ -79,8 +104,8 @@ export default {
         obj.strokeWidth = 4
         canvas.renderAll()
       }
-      Vue.$children[0].$emit('updateHistory')
-      Vue.$children[0].$emit('closeContextMenu')
+      window.vue.$children[0].$emit('updateHistory')
+      window.vue.$children[0].$emit('closeContextMenu')
     }
   },
   removeObject (cb) {

@@ -17,6 +17,7 @@ export default {
     // 拖拉縮放解鎖
     canvas.uniScaleTransform = true
     canvas.preserveObjectStacking = true
+    canvas.renderOnAddRemove = false
     canvas.on('object:moving', snapMoveToGrid)
     // canvas.on('object:scaling', snapScaleToGrid)
     // canvas.on('object:moving', fixBoundaries)
@@ -79,8 +80,11 @@ export default {
     // 拖拉縮放解鎖
     canvas.uniScaleTransform = true
     canvas.preserveObjectStacking = true
+    canvas.renderOnAddRemove = false
     canvas.on('object:moving', snapMoveToGrid)
+    window.vue.$children[0].$emit('globalLoad', true)
     Load.fromJSON(data, function (res) {
+      window.vue.$children[0].$emit('globalLoad', false)
     })
     this.fit()
     function roundToGrid (value) {

@@ -7,7 +7,8 @@ export default {
     canvas = new fabric.CanvasEx('c', {
       width: options.width,
       height: options.height,
-      allowTouchScrolling: true
+      allowTouchScrolling: true,
+      perPixelTargetFind: true
     })
     // Register to window.global
     window.canvas = canvas
@@ -70,7 +71,8 @@ export default {
     // *Setting Up Canvas
     var canvas = new fabric.CanvasEx('c', {
       width: options.width,
-      height: options.height
+      height: options.height,
+      perPixelTargetFind: true
     })
     // Register to window.global
     window.canvas = canvas

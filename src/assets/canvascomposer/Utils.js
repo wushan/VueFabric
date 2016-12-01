@@ -170,8 +170,8 @@ export default {
   lockRatio (ratio) {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    obj.width = Math.round(obj.getWidth())
-    obj.height = obj.width / ratio.w * ratio.h
+    obj.width = Math.floor(obj.getWidth())
+    obj.height = Math.floor(obj.width / ratio.w * ratio.h)
     obj.scaleX = 1
     obj.scaleY = 1
     obj.lockUniScaling = true

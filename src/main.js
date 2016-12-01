@@ -85,16 +85,16 @@ canvas.on('object:moving', function (e) {
 canvas.on('object:scaling', function (e) {
   var obj = e.target;
   // 2 pixels for not losing control
-  if (obj.getHeight() >= obj.canvas.height && obj.getWidth() >= obj.canvas.width) {
+  if (Math.floor(obj.getHeight()) >= obj.canvas.height && Math.floor(obj.getWidth()) >= obj.canvas.width) {
     obj.scaleY = obj.canvas.height / obj.height
     obj.scaleX = obj.canvas.width / obj.width
     obj.left = 0
     obj.top = 0
     console.log('limiteeeC')
-  } else if (obj.getHeight() >= obj.canvas.height && obj.getWidth() < obj.canvas.width) {
+  } else if (Math.floor(obj.getHeight()) >= obj.canvas.height && Math.floor(obj.getWidth()) < obj.canvas.width) {
     obj.scaleY = obj.canvas.height / obj.height
     console.log('limiteeeB')
-  } else if (obj.getHeight() < obj.canvas.height && obj.getWidth() >= obj.canvas.width) {
+  } else if (Math.floor(obj.getHeight()) < obj.canvas.height && Math.floor(obj.getWidth()) >= obj.canvas.width) {
     obj.scaleX = obj.canvas.width / obj.width
     console.log('limiteeeA')
   } else {
@@ -113,11 +113,11 @@ canvas.on('object:scaling', function (e) {
   }
 });
 
-(function(d) {
-    var config = {
-      kitId: 'daf4cqp',
-      scriptTimeout: 3000,
-      async: true
-    },
-    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
-  })(document);
+// (function(d) {
+//     var config = {
+//       kitId: 'daf4cqp',
+//       scriptTimeout: 3000,
+//       async: true
+//     },
+//     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+//   })(document);

@@ -3,6 +3,7 @@ export default{
   bindEvents (instance, obj) {
     obj.on('selected', function () {
       instance.currentObject = obj.toObject()
+      window.bus.$emit('updateSpectrum')
     })
     obj.on('deselected', function () {
       instance.$root.$children[0].currentObject = null
@@ -31,6 +32,15 @@ export default{
         obj.strokeWidth = 1
         obj.stroke = 'rgb(125,125,125)'
         obj.strokeDashArray = 0
+        // Position Correction
+        if (obj.rx >= obj.canvas.width / 2) {
+          obj.rx = obj.canvas.width / 2
+          obj.left = 0
+        }
+        if (obj.ry >= obj.canvas.height / 2) {
+          obj.ry = obj.canvas.height / 2
+          obj.top = 0
+        }
       } else if (obj.type === 'slider' || obj.type === 'sliderT') {
         // Normal Objects
         obj.width = Math.floor(obj.width * obj.scaleX)

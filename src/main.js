@@ -12,8 +12,8 @@ var vue = new Vue({
   el: '#app',
   render: h => h(App)
 })
-
-
+var bus = new Vue()
+window.bus = bus
 window.vue = vue
 // // Register Canvas Globally
 // var canvas = new fabric.CanvasEx('c', {

@@ -12,45 +12,50 @@
           //-         | Type: '{{obj.interaction.type}}'
           .attribution-group.basics
             p Basics
+            .controlgroup.type
+              label 類型
+              .controls
+                input(type='text' v-bind:value="currentObject.type" readonly)
             .row
-              .controlgroup.type
-                label 類型
-                .controls
-                  input(type='text' v-bind:value="currentObject.type" readonly)
               .width.controlgroup
                 label 寬度
                 .controls
-                  input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number')
+                  input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number', @keyup="updateWidth")
               .height.controlgroup
                 label 高度
                 .controls
-                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY")
-              .radius.controlgroup(v-if="currentObject.radius")
-                label 半徑
-                .controls
-                  input#objectRadius(type='number', v-bind:value="currentObject.radius", readonly)
-              
-              .position.controlgroup
-                label Y 軸
-                .controls
-                  input#objectTop(type='number', v-bind:value="positionY")
+                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY", @keyup="updateHeight")
               .position.controlgroup
                 label X 軸
                 .controls
-                  input#objectLeft(type='number', v-bind:value="positionX")
+                  input#objectLeft(type='number', v-bind:value="positionX", @keyup="updateLeft")
+              .position.controlgroup
+                label Y 軸
+                .controls
+                  input#objectTop(type='number', v-bind:value="positionY", @keyup="updateTop")
+              .radius.controlgroup(v-if="currentObject.rx")
+                label X 半徑
+                .controls
+                  input#objectRadius(type='number', v-bind:value="currentObject.rx", readonly)
+
+              .radius.controlgroup(v-if="currentObject.ry")
+                label Y 半徑
+                .controls
+                  input#objectRadius(type='number', v-bind:value="currentObject.ry", readonly)
+              
+              //- .scalex.controlgroup
+              //-   label X 延展
+              //-   .controls
+              //-     input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
+              //- .scaley.controlgroup
+              //-   label Y 延展
+              //-   .controls
+              //-     input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
               .angle.controlgroup
                 label 角度
                 .controls
-                  input#objectAngle(type='text', v-bind:value="currentObject.angle")
-              .scalex.controlgroup
-                label X 延展
-                .controls
-                  input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
-              .scaley.controlgroup
-                label Y 延展
-                .controls
-                  input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
-              .color.controlgroup(v-if="!slider")
+                  input#objectAngle(type='number', v-bind:value="currentObject.angle", @keyup="updateAngle")
+              .color.controlgroup
                 label 背景色
                 .controls
                   input#objectColor(type='text')
@@ -120,6 +125,7 @@
                       option(value='168') 168
                       option(value='192') 192
           .attribution-group.specials(v-if="currentObject.interaction")
+            p Interactions
             .controlgroup
               label 互動
               .controls.rich-control
@@ -190,7 +196,7 @@
                 button.btn.basic.full(type="submit") 儲存設定
 
           .attribution-group.webview(v-if="webview")
-            p 網頁
+            p Webview
             .controlgroup.webview
               label 網址
               .controls
@@ -364,6 +370,7 @@ import Library from './Library'
 import Events from '../assets/cc.objectEvents'
 import Slider from '../assets/canvascomposer/Slider'
 import Programlist from './Programlist'
+import Attr from '../assets/canvascomposer/Attributes'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
@@ -378,8 +385,9 @@ export default {
     draggable
   },
   created () {
-    // this.syncData()
-    console.log(this.currentObject)
+    window.bus.$on('updateSpectrum', (res) => {
+      this.updateSpectrum()
+    })
     this.$on('programSelected', function (res) {
       // updateInteraction
       var canvas = window['canvas']
@@ -583,7 +591,8 @@ export default {
   mounted () {
     this.$nextTick(function () {
       $('#attributes').mCustomScrollbar({
-        theme: 'light'
+        theme: 'light',
+        alwaysShowScrollbar: 1
       })
       $('#objectColor').spectrum({
         showInput: false,
@@ -1043,6 +1052,21 @@ export default {
         currentObject.setFill('#cccccc')
         canvas.renderAll()
       }
+    },
+    updateWidth (e) {
+      Attr.updateWidth(e.target.value)
+    },
+    updateHeight (e) {
+      Attr.updateHeight(e.target.value)
+    },
+    updateLeft (e) {
+      Attr.updateLeft(e.target.value)
+    },
+    updateTop (e) {
+      Attr.updateTop(e.target.value)
+    },
+    updateAngle (e) {
+      Attr.updateAngle(e.target.value)
     }
   }
 }
@@ -1069,6 +1093,8 @@ export default {
   }
 }
 .attribution-group {
+  border-top: 1px solid darken($darkgray, 20%);
+  padding-bottom: .5em;
   .row {
     .controlgroup {
       @include gallery(6 of 12 1);

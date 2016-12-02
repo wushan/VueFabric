@@ -1,6 +1,6 @@
 <template lang="pug">
   #artboard
-    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement || interaction}", @click="deselectObject", @contextmenu.prevent="deselectObject")
+    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement || interaction, double: canvasLayer}", @click="deselectObject", @contextmenu.prevent="deselectObject")
       #canvas.task
         canvas#c
         .objectControl
@@ -18,8 +18,9 @@
     //- transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
     arrangement(v-if="arrangement", v-bind:arrangement="arrangement")
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
+      canvaslayers(v-if="canvasLayer", v-bind:currentObject="currentObject")
+    transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
       attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
-    canvaslayers(v-if="canvasLayer", v-bind:currentObject="currentObject")
 </template>
 
 <script>
@@ -71,7 +72,9 @@ export default {
 <style lang="scss">
 @import "../assets/scss/var";
 @import "../assets/scss/helpers";
-
+#artboard {
+  position: relative;
+}
 .canvas-wrapper {
   box-sizing: border-box;
   height: 100%;
@@ -87,6 +90,12 @@ export default {
   border-left: 2px solid $pureblack;
   max-width: calc( 100vw - 90px );
   &.pushed {
+    max-width: calc( 100vw - 400px );
+    &.double {
+      max-width: calc( 100vw - 710px );
+    }
+  }
+  &.double {
     max-width: calc( 100vw - 400px );
   }
   #canvas {

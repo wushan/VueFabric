@@ -90,14 +90,16 @@ export default {
 @import "../assets/scss/buttons";
 #canvasLayers {
   box-sizing: border-box;
-  position: fixed;
-  top: 50px;
-  right: 0;
-  bottom: 0;
+  flex: none;
   width: 310px;
-  height: calc(100% - 50px);
+  height: 100%;
+  font-size: 13px;
   border-top: 2px solid $pureblack;
   background-color: #535353;
+  position: relative;
+  &.fade-enter-active, &.fade-leave-active {
+    transition: .2s all ease;
+  }
   input[readonly] {
     background-color: #535353;
     border: 0;

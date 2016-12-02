@@ -1,6 +1,6 @@
 <template lang="pug">
   #canvaseditor
-    globalmis(v-bind:width="width", v-bind:height="height")
+    globalmis(v-bind:width="width", v-bind:height="height", v-bind:canvasLayer="canvasLayer")
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
       artboard(v-bind:canvasLayer="canvasLayer", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement", v-bind:interaction="interaction")
@@ -41,7 +41,7 @@ export default {
     return {
       arrangement: false,
       interaction: false,
-      canvasLayer: true,
+      canvasLayer: false,
       currentObject: null,
       initialRadius: 100,
       width: null,
@@ -61,6 +61,9 @@ export default {
     }
   },
   created () {
+    this.$on('toggleCanvasLayer', () => {
+      this.canvasLayer = !this.canvasLayer
+    })
     this.$on('undo', () => {
       this.rePlayHistory(this.history.undo, this.history.redo)
     })

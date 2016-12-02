@@ -1084,8 +1084,6 @@ export default {
   flex: none;
   width: 310px;
   height: 100%;
-}
-#attributes {
   font-size: 13px;
   border-top: 2px solid $pureblack;
   &.fade-enter-active, &.fade-leave-active {

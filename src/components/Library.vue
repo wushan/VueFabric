@@ -1,5 +1,6 @@
 <template lang="pug">
-  #library
+  #library.attribution-group
+    p Library
     transition(name="fade", mode="out-in")
       .controlgroup(v-if="categories")
         label 素材
@@ -336,7 +337,6 @@ export default {
     position: absolute;
   }
   #library {
-    text-align: center;
     background-color: $black;
     border-radius: 6px;
     margin: 1em 0;

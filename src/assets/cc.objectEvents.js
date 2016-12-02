@@ -42,8 +42,11 @@ export default{
         obj.strokeDashArray = 0
         // Position Correction
         if (obj.width >= obj.canvas.width) {
+          obj.width = obj.canvas.width
           obj.left = 0
-        } else if (obj.height >= obj.canvas.height) {
+        }
+        if (obj.height >= obj.canvas.height) {
+          obj.height = obj.canvas.height
           obj.top = 0
         }
       }

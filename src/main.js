@@ -82,36 +82,36 @@ canvas.on('object:moving', function (e) {
   }
 });
 
-canvas.on('object:scaling', function (e) {
-  var obj = e.target;
-  // 2 pixels for not losing control
-  if (Math.floor(obj.getHeight()) >= obj.canvas.height && Math.floor(obj.getWidth()) >= obj.canvas.width) {
-    obj.scaleY = obj.canvas.height / obj.height
-    obj.scaleX = obj.canvas.width / obj.width
-    obj.left = 0
-    obj.top = 0
-    console.log('limiteeeC')
-  } else if (Math.floor(obj.getHeight()) >= obj.canvas.height && Math.floor(obj.getWidth()) < obj.canvas.width) {
-    obj.scaleY = obj.canvas.height / obj.height
-    console.log('limiteeeB')
-  } else if (Math.floor(obj.getHeight()) < obj.canvas.height && Math.floor(obj.getWidth()) >= obj.canvas.width) {
-    obj.scaleX = obj.canvas.width / obj.width
-    console.log('limiteeeA')
-  } else {
-    return
-  }
-  obj.setCoords();        
-  // top-left  corner
-  if(obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0){
-      obj.top = Math.max(obj.top, obj.top-obj.getBoundingRect().top);
-      obj.left = Math.max(obj.left, obj.left-obj.getBoundingRect().left);
-  }
-  // bot-right corner
-  if(obj.getBoundingRect().top+obj.getBoundingRect().height  > obj.canvas.height || obj.getBoundingRect().left+obj.getBoundingRect().width  > obj.canvas.width){
-      obj.top = Math.min(obj.top, obj.canvas.height-obj.getBoundingRect().height+obj.top-obj.getBoundingRect().top);
-      obj.left = Math.min(obj.left, obj.canvas.width-obj.getBoundingRect().width+obj.left-obj.getBoundingRect().left);
-  }
-});
+// canvas.on('object:scaling', function (e) {
+//   var obj = e.target;
+//   // 2 pixels for not losing control
+//   if (Math.floor(obj.getHeight()) >= obj.canvas.height && Math.floor(obj.getWidth()) >= obj.canvas.width) {
+//     obj.scaleY = obj.canvas.height / obj.height
+//     obj.scaleX = obj.canvas.width / obj.width
+//     obj.left = 0
+//     obj.top = 0
+//     console.log('limiteeeC')
+//   } else if (Math.floor(obj.getHeight()) >= obj.canvas.height && Math.floor(obj.getWidth()) < obj.canvas.width) {
+//     obj.scaleY = obj.canvas.height / obj.height
+//     console.log('limiteeeB')
+//   } else if (Math.floor(obj.getHeight()) < obj.canvas.height && Math.floor(obj.getWidth()) >= obj.canvas.width) {
+//     obj.scaleX = obj.canvas.width / obj.width
+//     console.log('limiteeeA')
+//   } else {
+//     return
+//   }
+//   obj.setCoords();        
+//   // top-left  corner
+//   if(obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0){
+//       obj.top = Math.max(obj.top, obj.top-obj.getBoundingRect().top);
+//       obj.left = Math.max(obj.left, obj.left-obj.getBoundingRect().left);
+//   }
+//   // bot-right corner
+//   if(obj.getBoundingRect().top+obj.getBoundingRect().height  > obj.canvas.height || obj.getBoundingRect().left+obj.getBoundingRect().width  > obj.canvas.width){
+//       obj.top = Math.min(obj.top, obj.canvas.height-obj.getBoundingRect().height+obj.top-obj.getBoundingRect().top);
+//       obj.left = Math.min(obj.left, obj.canvas.width-obj.getBoundingRect().width+obj.left-obj.getBoundingRect().left);
+//   }
+// });
 
 // (function(d) {
 //     var config = {

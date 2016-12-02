@@ -21,7 +21,8 @@ fabric.Object.prototype.interaction = {
 //   return function () {
 //     return fabric.util.object.extend(toObject.call(this), {
 //       interaction: this.interaction,
-//       id: this.id
+//       id: this.id,
+//       name: this.name
 //     })
 //   }
 // })(fabric.Object.prototype.toObject)
@@ -80,7 +81,8 @@ fabric.Slider = fabric.util.createClass(fabric.Rect, {
       id: this.id,
       visibleslide: this.visibleslide,
       slides: this.slides,
-      interaction: this.interaction
+      interaction: this.interaction,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -107,7 +109,8 @@ fabric.SliderE = fabric.util.createClass(fabric.Ellipse, {
       id: this.id,
       visibleslide: this.visibleslide,
       slides: this.slides,
-      interaction: this.interaction
+      interaction: this.interaction,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -134,7 +137,8 @@ fabric.SliderT = fabric.util.createClass(fabric.Triangle, {
       id: this.id,
       visibleslide: this.visibleslide,
       slides: this.slides,
-      interaction: this.interaction
+      interaction: this.interaction,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -198,7 +202,8 @@ fabric.Eclock = fabric.util.createClass(fabric.Text, {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
       format: this.format,
-      gmt: this.gmt
+      gmt: this.gmt,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -253,7 +258,8 @@ fabric.Clock = fabric.util.createClass(fabric.Group, {
       hour: this.hour,
       minute: this.minute,
       second: this.second,
-      gmt: this.gmt
+      gmt: this.gmt,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -278,7 +284,8 @@ fabric.Marquee = fabric.util.createClass(fabric.Group, {
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
-      marquee: this.marquee
+      marquee: this.marquee,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -303,7 +310,8 @@ fabric.Rss = fabric.util.createClass(fabric.Group, {
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
-      rssmarquee: this.rssmarquee
+      rssmarquee: this.rssmarquee,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -326,7 +334,8 @@ fabric.Usbframe = fabric.util.createClass(fabric.Group, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
-      interaction: this.interaction
+      interaction: this.interaction,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -351,7 +360,8 @@ fabric.Webview = fabric.util.createClass(fabric.Group, {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
       webview: this.webview,
-      placeholder: this.placeholder
+      placeholder: this.placeholder,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -376,7 +386,8 @@ fabric.Rtspframe = fabric.util.createClass(fabric.Group, {
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
-      rtsp: this.rtsp
+      rtsp: this.rtsp,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -402,7 +413,8 @@ fabric.Temperature = fabric.util.createClass(fabric.Text, {
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
-      location: this.location
+      location: this.location,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -422,7 +434,8 @@ fabric.Location = fabric.util.createClass(fabric.Text, {
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
-      location: this.location
+      location: this.location,
+      name: this.name
     })
   },
   _render: function (ctx) {
@@ -443,7 +456,8 @@ fabric.Weatherimg = fabric.util.createClass(fabric.Image, {
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
-      location: this.location
+      location: this.location,
+      name: this.name
     })
   },
   _render: function (ctx) {

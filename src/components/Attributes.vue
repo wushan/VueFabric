@@ -521,7 +521,7 @@ export default {
       }
     }
   },
-  props: ['currentObject', 'initialRadius', 'baseUrl'],
+  props: ['canvasLayers', 'currentObject', 'initialRadius', 'baseUrl'],
   computed: {
     artboardEls () {
       var canvas = window['canvas']
@@ -1095,6 +1095,9 @@ export default {
 .attribution-group {
   border-top: 1px solid darken($darkgray, 20%);
   padding-bottom: .5em;
+  &:first-child {
+   border: 0; 
+  }
   .row {
     .controlgroup {
       @include gallery(6 of 12 1);

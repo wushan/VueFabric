@@ -128,6 +128,7 @@ export default {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.SliderE({
+        name: 'Slider Ellipse',
         id: uuid.v4(),
         left: 250,
         top: 250,
@@ -147,6 +148,7 @@ export default {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.SliderT({
+        name: 'Slider Triangle',
         id: uuid.v4(),
         left: 250,
         top: 250,
@@ -338,6 +340,7 @@ export default {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.Slider({
+        name: 'Slider Rect',
         id: uuid.v4(),
         width: 200,
         height: 200,

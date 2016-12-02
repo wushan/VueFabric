@@ -113,6 +113,14 @@ canvas.on('object:moving', function (e) {
 //   }
 // });
 
+// Canvas Events for Detecting objects
+canvas.on('object:added', function (e) {
+  window.bus.$emit('updateScene')
+});
+canvas.on('object:modified', function (e) {
+  window.bus.$emit('updateScene')
+});
+
 // (function(d) {
 //     var config = {
 //       kitId: 'daf4cqp',

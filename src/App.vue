@@ -3,7 +3,7 @@
     globalmis(v-bind:width="width", v-bind:height="height")
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
-      artboard(v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement", v-bind:interaction="interaction")
+      artboard(v-bind:canvasLayer="canvasLayer", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement", v-bind:interaction="interaction")
     transition(name="normal", mode="out-in")
       contextmenu(v-if="iscontextMenu", v-bind:position="contextMenuPosition", v-bind:currentObject="currentObject")
     transition(name="fade", mode="out-in")
@@ -41,6 +41,7 @@ export default {
     return {
       arrangement: false,
       interaction: false,
+      canvasLayer: true,
       currentObject: null,
       initialRadius: 100,
       width: null,

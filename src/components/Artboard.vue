@@ -19,6 +19,7 @@
     arrangement(v-if="arrangement", v-bind:arrangement="arrangement")
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
       attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
+    canvaslayers(v-if="canvasLayer", v-bind:currentObject="currentObject")
 </template>
 
 <script>
@@ -27,14 +28,16 @@ import Attributes from '../components/Attributes'
 import Arrangement from './Arrangement'
 import Interaction from './Interaction'
 import initCanvas from '../assets/canvascomposer/Initial'
+import Canvaslayers from './Canvaslayers'
 export default {
   name: 'Artboard',
   components: {
     Attributes,
     Arrangement,
-    Interaction
+    Interaction,
+    Canvaslayers
   },
-  props: ['currentObject', 'initialRadius', 'baseUrl', 'arrangement', 'interaction'],
+  props: ['canvasLayer', 'currentObject', 'initialRadius', 'baseUrl', 'arrangement', 'interaction'],
   mounted () {
   },
   methods: {
@@ -43,6 +46,7 @@ export default {
       initCanvas.fit()
     },
     deselectObject (e) {
+      console.log(e)
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
       if (e.type === 'contextmenu') {

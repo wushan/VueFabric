@@ -1,4 +1,7 @@
 //ControlGroup
+input, textarea, optgroup, select, button {
+  font-family: $sans-serif;
+}
 .controlgroup {
   margin-bottom: .5em;
   @extend .clr;

@@ -9,6 +9,11 @@
         .block
           //- .programname Program Name: 'some php string'
           //- button.basic.btn.edit 加入群組
+          //- span 自由選取：
+          //- .auto-select(@click="toggleAutoSelection", :class="{active:autoSelection}")
+          //-   span AUTO
+          //-   .handle
+          span 顯示圖層：
           .canvaslayer-handle(@click="toggleCanvasLayer", :class="{active:canvasLayer}")
             span LAYER
             .handle
@@ -22,7 +27,7 @@ export default {
     return {
     }
   },
-  props: ['width', 'height', 'canvasLayer'],
+  props: ['width', 'height', 'canvasLayer', 'autoSelection'],
   methods: {
     triggerArrangement () {
       this.$parent.$emit('triggerArrangement', true)
@@ -32,6 +37,9 @@ export default {
     },
     toggleCanvasLayer () {
       this.$root.$children[0].$emit('toggleCanvasLayer')
+    },
+    toggleAutoSelection () {
+      this.$root.$children[0].$emit('toggleAutoSelection')
     }
   }
 }
@@ -64,7 +72,7 @@ export default {
     }
   }
 }
-.canvaslayer-handle {
+.canvaslayer-handle, .auto-select {
   display: inline-block;
   vertical-align: middle;
   line-height: 1; 

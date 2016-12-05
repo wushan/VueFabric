@@ -173,12 +173,14 @@ export default {
         width: 300,
         height: 300,
         fontSize: 24,
-        fontFamily: 'Open Sans'
+        fontFamily: 'Open Sans',
+        name: 'Text'
       })
       text.toObject = (function (toObject) {
         return function () {
           return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction
+            interaction: this.interaction,
+            id: this.id
           })
         }
       })(text.toObject)
@@ -220,12 +222,14 @@ export default {
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
-        padding: 0
+        padding: 0,
+        name: 'Usb Frame'
       })
       group.toObject = (function (toObject) {
         return function () {
           return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction
+            interaction: this.interaction,
+            id: this.id
           })
         }
       })(group.toObject)
@@ -264,14 +268,16 @@ export default {
       var group = new fabric.Webview([bg, text], {
         id: uuid.v4(),
         left: 0,
-        top: 0
+        top: 0,
+        name: 'Webview'
       })
       group.toObject = (function (toObject) {
         return function () {
           return fabric.util.object.extend(toObject.call(this), {
             webview: this.webview,
             interaction: this.interaction,
-            placeholder: this.placeholder
+            placeholder: this.placeholder,
+            id: this.id
           })
         }
       })(group.toObject)
@@ -310,13 +316,15 @@ export default {
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
-        padding: 0
+        padding: 0,
+        name: 'RTSP Frame'
       })
       group.toObject = (function (toObject) {
         return function () {
           return fabric.util.object.extend(toObject.call(this), {
             interaction: this.interaction,
-            rtsp: this.rtsp
+            rtsp: this.rtsp,
+            id: this.id
           })
         }
       })(group.toObject)
@@ -385,6 +393,7 @@ export default {
         left: canvas.getWidth() / 2 - 100,
         top: canvas.getHeight() / 2 - 100,
         padding: 0,
+        name: 'RSS Frame',
         rssmarquee: {
           source: rsssource.source,
           leastTime: rsssource.leastTime,
@@ -396,7 +405,8 @@ export default {
         return function () {
           return fabric.util.object.extend(toObject.call(this), {
             interaction: this.interaction,
-            rssmarquee: this.rssmarquee
+            rssmarquee: this.rssmarquee,
+            id: this.id
           })
         }
       })(group.toObject)
@@ -443,13 +453,15 @@ export default {
           leastTime: marqueesource.leastTime,
           transitionType: marqueesource.transitionType,
           transitionPeriod: marqueesource.transitionPeriod
-        }
+        },
+        name: 'Marquee Frame'
       })
       group.toObject = (function (toObject) {
         return function () {
           return fabric.util.object.extend(toObject.call(this), {
             interaction: this.interaction,
-            marquee: this.marquee
+            marquee: this.marquee,
+            id: this.id
           })
         }
       })(group.toObject)

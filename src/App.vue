@@ -42,6 +42,7 @@ export default {
       arrangement: false,
       interaction: false,
       canvasLayer: false,
+      autoSelection: false,
       currentObject: null,
       initialRadius: 100,
       width: null,
@@ -61,6 +62,14 @@ export default {
     }
   },
   created () {
+    this.$on('AutoSelection', () => {
+      this.autoSelection = !this.autoSelection
+      // if (this.autoSelection) {
+      //   var canvas = window['canvas']
+      //   for (var i = 0; i < canvas._objects.length; i++) {
+      //   }
+      // }
+    })
     this.$on('toggleCanvasLayer', () => {
       this.canvasLayer = !this.canvasLayer
     })

@@ -259,7 +259,8 @@ fabric.Clock = fabric.util.createClass(fabric.Group, {
       minute: this.minute,
       second: this.second,
       gmt: this.gmt,
-      name: this.name
+      name: this.name,
+      id: this.id
     })
   },
   _render: function (ctx) {

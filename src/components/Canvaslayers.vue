@@ -1,16 +1,20 @@
 <template lang="pug">
   #canvasLayers
     .canvaslayer-wrapper
-      .obj-list
-        .obj-layer(v-for="layer in layers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id)}")
+      draggable.obj-list(v-bind:list="viewLayers", @start="startDragging", @end="endDragging")
+        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id)}")
           .type {{layer.type}}
           .name
             input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
-          .id
-            .fa.fa-lg.fa-trash
+          .control
+            .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
+            .fa.fa-lg.fa-hand-pointer-o(v-else)
+          .additional {{layer.id}}
 </template>
 
 <script>
+import draggable from 'vuedraggable'
+import Utils from '../assets/canvascomposer/Utils'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
@@ -19,10 +23,12 @@ require('imports?$=jquery!../assets/vendor/jquery.mCustomScrollbar.js')
 export default {
   name: 'Layers',
   components: {
+    draggable
   },
   data () {
     return {
-      layers: null
+      layers: [],
+      dragging: false
     }
   },
   created () {
@@ -43,7 +49,22 @@ export default {
     })
   },
   props: ['currentObject'],
+  computed: {
+    viewLayers () {
+      return this.layers.slice().reverse()
+    }
+  },
   methods: {
+    startDragging () {
+      this.dragging = true
+    },
+    endDragging () {
+      this.dragging = false
+      var canvas = window['canvas']
+      // Save Current order back to canvas and remember the softcopy
+      canvas._objects = this.viewLayers.slice().reverse()
+      canvas.renderAll()
+    },
     compare (id) {
       if (this.currentObject) {
         if (id === this.currentObject.id) {
@@ -55,6 +76,7 @@ export default {
     },
     updateScene () {
       // this.$forceUpdate()
+      console.log('SCENE UPPPDATEEEEE!')
       var canvas = window['canvas']
       if (canvas) {
         this.layers = canvas._objects
@@ -79,6 +101,9 @@ export default {
     confirmedInput (e) {
       console.log(e)
       e.target.readOnly = true
+    },
+    deleteObject () {
+      Utils.removeObject()
     }
   }
 }
@@ -139,13 +164,13 @@ export default {
   }
   .obj-layer {
     display: flex;
+    flex-wrap: wrap;
     -webkit-align-content: center;
     align-content: center;
     -webkit-justify-content: center;
     justify-content: center;
     border-bottom: 1px solid darken($darkgray, 15%);
     transition: .3s all ease;
-    padding: 0 0 0 1em;
     &:hover {
       cursor: pointer;
       background-color: lighten(#535353, 5%);
@@ -165,6 +190,9 @@ export default {
           box-shadow: inset 0px 0px 3px rgba($black, 10%);
         }
       }
+      .additional {
+        display: block;
+      }
     }
     div {
       padding: 0 .5em;
@@ -182,12 +210,20 @@ export default {
       padding: .5em;
       border-right: 1px solid darken($darkgray, 15%);
     }
-    .id {
+    .control {
       padding: .5em;
       flex: initial;
+      width: 45px; 
       overflow: hidden;
       white-space: nowrap;
       align-self: center;
+    }
+    .additional {
+      display: none;
+      width: 100%;
+      padding: .8em 0 .8em 1em;
+      // background-color: $darkgray;
+      border-top: 1px solid darken($darkgray, 15%);
     }
   }
 }

@@ -160,6 +160,8 @@ export default {
         })
       } else {
         var instance = klass.fromObject(objects[i])
+        instance.id = uuid.v4()
+        instance.name = 'Clock'
         canvas.add(instance)
         canvas.setActiveObject(instance)
         cb && cb(instance)

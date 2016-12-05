@@ -37,6 +37,8 @@ import Api from '../../assets/canvascomposer/Api'
 import Weather from '../../assets/canvascomposer/Weather'
 import Events from '../../assets/cc.objectEvents'
 import Loader from '../Loader'
+// UUID
+import uuid from 'node-uuid'
 export default {
   components: {
     Loader
@@ -106,7 +108,9 @@ export default {
             oImg.scaleToWidth(60)
             oImg.set({
               left: canvas.getWidth() / 2,
-              top: canvas.getHeight() / 2
+              top: canvas.getHeight() / 2,
+              name: 'Weather Image',
+              id: uuid.v4()
             })
             // 加入圖片
             canvas.add(oImg)
@@ -116,7 +120,8 @@ export default {
               return function () {
                 return fabric.util.object.extend(toObject.call(this), {
                   location: location,
-                  interaction: this.interaction
+                  interaction: this.interaction,
+                  id: this.id
                 })
               }
             })(oImg.toObject)
@@ -126,7 +131,9 @@ export default {
               top: canvas.getHeight() / 2,
               fontSize: '60',
               fontFamily: 'Times New Roman',
-              fontWeight: 300
+              fontWeight: 300,
+              name: 'Temperature',
+              id: uuid.v4()
             })
             canvas.add(fTemp)
             // Bind
@@ -135,7 +142,8 @@ export default {
               return function () {
                 return fabric.util.object.extend(toObject.call(this), {
                   location: location,
-                  interaction: this.interaction
+                  interaction: this.interaction,
+                  id: this.id
                 })
               }
             })(fTemp.toObject)
@@ -145,7 +153,9 @@ export default {
               left: canvas.getWidth() / 2,
               top: canvas.getHeight() / 2,
               fontSize: '18',
-              fontFamily: 'Times New Roman'
+              fontFamily: 'Times New Roman',
+              name: 'Weather Location',
+              id: uuid.v4()
             })
             canvas.add(fLocation)
             // Bind
@@ -155,7 +165,8 @@ export default {
               return function () {
                 return fabric.util.object.extend(toObject.call(this), {
                   location: location,
-                  interaction: this.interaction
+                  interaction: this.interaction,
+                  id: this.id
                 })
               }
             })(fLocation.toObject)

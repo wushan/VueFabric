@@ -9,6 +9,8 @@
 </template>
 
 <script>
+// UUID
+import uuid from 'node-uuid'
 import Loader from '../Loader'
 import Events from '../../assets/cc.objectEvents'
 // Expose Jquery Globally.
@@ -38,14 +40,17 @@ export default {
       var text = new fabric.Eclock(formatString, {
         format: format,
         fontFamily: 'Times New Roman',
-        gmt: _settings.gmt
+        gmt: _settings.gmt,
+        name: 'Time',
+        id: uuid.v4()
       })
       text.toObject = (function (toObject) {
         return function () {
           return fabric.util.object.extend(toObject.call(this), {
             interaction: this.interaction,
             format: format,
-            gmt: _settings.gmt
+            gmt: _settings.gmt,
+            id: this.id
           })
         }
       })(text.toObject)

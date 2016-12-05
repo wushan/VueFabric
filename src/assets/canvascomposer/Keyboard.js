@@ -189,5 +189,27 @@ export default {
       }
       Utils.pushObject('down', 10)
     })
+    // Select All
+    Mousetrap.bind(['command+a', 'ctrl+a'], function (e) {
+      console.log('Select All')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.selectAll()
+    })
+    // Deselect All
+    Mousetrap.bind(['esc'], function (e) {
+      console.log('Deselect All')
+      if (e.preventDefault) {
+        e.preventDefault()
+      } else {
+        // internet explorer
+        e.returnValue = false
+      }
+      Utils.deselectAll()
+    })
   }
 }

@@ -234,5 +234,22 @@ export default {
         break
     }
     canvas.renderAll()
+  },
+  selectAll () {
+    var fabric = window['fabric']
+    var canvas = window['canvas']
+    var objs = canvas.getObjects().map(function (o) {
+      return o.set('active', true)
+    })
+    var group = new fabric.Group(objs, {
+      originX: 'center',
+      originY: 'center'
+    })
+    canvas._activeObject = null
+    canvas.setActiveGroup(group.setCoords()).renderAll()
+  },
+  deselectAll () {
+    var canvas = window['canvas']
+    canvas.deactivateAllWithDispatch()
   }
 }

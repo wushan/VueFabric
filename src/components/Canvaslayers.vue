@@ -1,15 +1,17 @@
 <template lang="pug">
   #canvasLayers
     .canvaslayer-wrapper
-      draggable.obj-list(v-bind:list="viewLayers", @start="startDragging", @end="endDragging")
+      draggable.obj-list(v-bind:list="viewLayers", :options="{handle:'.type'}", @start="startDragging", @end="endDragging")
         .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id)}")
-          .type {{layer.type}}
+          .type
+            .fa.fa-bars(title="layer.type")
           .name
             input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
           .control
             .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
             .fa.fa-lg.fa-hand-pointer-o(v-else)
-          .additional {{layer.id}}
+          transition(name="slide", mode="out-in")
+            .additional(v-if="compare(layer.id)") {{layer.id}}
 </template>
 
 <script>
@@ -101,6 +103,9 @@ export default {
     confirmedInput (e) {
       console.log(e)
       e.target.readOnly = true
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      obj.set('name', e.target.value)
     },
     deleteObject () {
       Utils.removeObject()
@@ -113,6 +118,13 @@ export default {
 @import "../assets/scss/var";
 @import "../assets/scss/helpers";
 @import "../assets/scss/buttons";
+.slide-enter-active, .slide-leave-active {
+  transition: .3s all ease;
+}
+.slide-enter, .slide-leave-active {
+  // opacity: 0;
+  transform: translateY(100%);
+} 
 #canvasLayers {
   box-sizing: border-box;
   flex: none;
@@ -199,16 +211,19 @@ export default {
       box-sizing: border-box;
     }
     .type {
-      width: 50px;
+      text-align: center;
+      width: 45px;
       flex: initial;
       align-self: center;
       padding: .5em;
+      cursor: move;
     }
     .name {
       flex: 1;
       align-self: stretch;
       padding: .5em;
       border-right: 1px solid darken($darkgray, 15%);
+      border-left: 1px solid darken($darkgray, 15%);
     }
     .control {
       padding: .5em;
@@ -224,6 +239,7 @@ export default {
       padding: .8em 0 .8em 1em;
       // background-color: $darkgray;
       border-top: 1px solid darken($darkgray, 15%);
+      background-color: lighten(#535353, 15%);
     }
   }
 }

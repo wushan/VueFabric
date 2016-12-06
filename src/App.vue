@@ -4,6 +4,7 @@
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
       artboard(v-bind:canvasLayer="canvasLayer", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:arrangement="arrangement", v-bind:interaction="interaction")
+        .mouseplace(slot="mouseplace") {{mouseplace}}
     transition(name="normal", mode="out-in")
       contextmenu(v-if="iscontextMenu", v-bind:position="contextMenuPosition", v-bind:currentObject="currentObject")
     transition(name="fade", mode="out-in")
@@ -44,6 +45,7 @@ export default {
       canvasLayer: false,
       autoSelection: false,
       currentObject: null,
+      mouseplace: null,
       initialRadius: 100,
       width: null,
       height: null,

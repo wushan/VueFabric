@@ -62,6 +62,11 @@ canvas.on('after:render', function () {
   // console.log('Canvas afterRender')
 })
 
+// var canvas = window['canvas']
+canvas.on('mouse:move', (e) => {
+  vue.$children[0].mouseplace = [e.e.layerX, e.e.layerY]
+})
+
 // Prevent Object leaving the canvas
 // canvas.on('object:moving', function (e) {
 //   var obj = e.target;

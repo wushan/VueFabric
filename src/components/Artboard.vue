@@ -13,6 +13,7 @@
               span 800
           .tag.height
               span 600
+      slot(name="mouseplace")
     //- transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
       canvaslayers(v-if="canvasLayer", v-bind:currentObject="currentObject")
@@ -101,6 +102,14 @@ export default {
   #canvas {
     display: inline-block;
     vertical-align: middle;
+  }
+  .mouseplace {
+    font-size: 12px;
+    position: absolute;
+    bottom: 2em;
+    left: 0;
+    right: 0;
+    opacity: .5; 
   }
 }
 #canvas {

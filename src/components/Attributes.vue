@@ -43,14 +43,14 @@
                 .controls
                   input#objectRadius(type='number', v-bind:value="currentObject.ry", readonly)
               
-              //- .scalex.controlgroup
-              //-   label X 延展
-              //-   .controls
-              //-     input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
-              //- .scaley.controlgroup
-              //-   label Y 延展
-              //-   .controls
-              //-     input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
+              .scalex.controlgroup
+                label X 延展
+                .controls
+                  input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
+              .scaley.controlgroup
+                label Y 延展
+                .controls
+                  input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
               .angle.controlgroup
                 label 角度
                 .controls
@@ -1087,7 +1087,12 @@ export default {
   font-size: 13px;
   border-top: 2px solid $pureblack;
   &.fade-enter-active, &.fade-leave-active {
-    transition: .2s all ease;
+    transition: .3s all ease;
+  }
+  &.fade-enter, &.fade-leave-active {
+    width: 0;
+    padding: 0;
+    // transform: translateX(40%)
   }
 }
 .attribution-group {

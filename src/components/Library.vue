@@ -122,6 +122,7 @@ export default {
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
       var instance = this.$parent.$parent.$parent
+      var zindex
       // If Slider Rectangle
       if (currentObject.type === 'slider' || currentObject.type === 'sliderT') {
         url = this.baseUrl + url
@@ -150,6 +151,8 @@ export default {
           })
           // Mask (can be any shape ex: Polygon, Circles....)
           var mask = currentObject.clone()
+          // Lets remember your Z-index Level
+          zindex = canvas.getObjects().indexOf(currentObject)
           canvas.remove(currentObject)
           // First Slide
           var slideObj = {
@@ -185,6 +188,7 @@ export default {
           Events.bindEvents(instance, mask)
           canvas.add(mask)
           canvas.setActiveObject(mask)
+          mask.moveTo(zindex)
           canvas.renderAll()
           instance.$emit('updateHistory')
         }, { crossOrigin: 'Anonymous' })
@@ -215,6 +219,8 @@ export default {
           })
           // Mask (can be any shape ex: Polygon, Circles....)
           var mask = currentObject.clone()
+          // Lets remember your Z-index Level
+          zindex = canvas.getObjects().indexOf(currentObject)
           canvas.remove(currentObject)
           // First Slide
           var slideObj = {
@@ -250,6 +256,7 @@ export default {
           Events.bindEvents(instance, mask)
           canvas.add(mask)
           canvas.setActiveObject(mask)
+          mask.moveTo(zindex)
           canvas.renderAll()
           instance.$emit('updateHistory')
         }, { crossOrigin: 'Anonymous' })

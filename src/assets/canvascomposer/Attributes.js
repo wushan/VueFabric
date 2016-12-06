@@ -6,8 +6,10 @@ export default {
     obj = canvas.getActiveObject()
     if (obj.type === 'sliderE') {
       obj.set('rx', val / 2)
+      obj.scaleX = 1
     } else {
       obj.set('width', val)
+      obj.scaleX = 1
     }
     obj.setCoords()
     canvas.renderAll()
@@ -18,8 +20,10 @@ export default {
     obj = canvas.getActiveObject()
     if (obj.type === 'sliderE') {
       obj.set('ry', val / 2)
+      obj.scaleY = 1
     } else {
       obj.set('height', val)
+      obj.scaleY = 1
     }
     obj.setCoords()
     canvas.renderAll()

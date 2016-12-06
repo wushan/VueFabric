@@ -14,6 +14,10 @@
           i.fa.fa-angle-double-up
           |  4:3
       li.context-menu__item(v-if="tuneable")
+        a.context-menu__link(href='#', @click="lockRatio()")
+          i.fa.fa-angle-double-up
+          |  鎖定目前比例
+      li.context-menu__item(v-if="tuneable")
         a.context-menu__link(href='#', @click="unLockRatio")
           i.fa.fa-angle-double-up
           |  解除比例鎖定

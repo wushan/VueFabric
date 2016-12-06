@@ -17,8 +17,8 @@
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
       canvaslayers(v-if="canvasLayer", v-bind:currentObject="currentObject")
     interaction(v-if="interaction", v-bind:interaction="interaction")
-    //- transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
-    arrangement(v-if="arrangement", v-bind:arrangement="arrangement")
+    transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
+      arrangement(v-if="arrangement", v-bind:arrangement="arrangement")
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
       attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
 </template>

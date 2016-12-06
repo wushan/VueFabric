@@ -172,12 +172,22 @@ export default {
   lockRatio (ratio) {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    obj.width = Math.floor(obj.getWidth())
-    obj.height = Math.floor(obj.width / ratio.w * ratio.h)
-    obj.scaleX = 1
-    obj.scaleY = 1
-    obj.lockUniScaling = true
-    canvas.renderAll()
+    if (ratio) {
+      obj.width = Math.floor(obj.getWidth())
+      obj.height = Math.floor(obj.width / ratio.w * ratio.h)
+      obj.scaleX = 1
+      obj.scaleY = 1
+      obj.lockUniScaling = true
+      canvas.renderAll()
+    } else {
+      // Lock current size
+      obj.width = Math.round(obj.width * obj.scaleX)
+      obj.height = Math.round(obj.height * obj.scaleY)
+      obj.scaleX = 1
+      obj.scaleY = 1
+      obj.lockUniScaling = true
+      canvas.renderAll()
+    }
   },
   unLockRatio () {
     var canvas = window['canvas']

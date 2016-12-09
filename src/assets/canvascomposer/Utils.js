@@ -284,5 +284,31 @@ export default {
   deselectAll () {
     var canvas = window['canvas']
     canvas.deactivateAllWithDispatch()
+  },
+  isolation (state) {
+    // Make Everything but selected Object inselectable
+    var canvas = window['canvas']
+    var obj = canvas.getActiveObject()
+    var i
+    if (state) {
+      for (i = 0; i < canvas._objects.length; i++) {
+        if (canvas._objects[i] === obj) {
+
+        } else {
+          canvas._objects[i].selectable = false
+          canvas._objects[i].evented = false
+        }
+      }
+    } else {
+      for (i = 0; i < canvas._objects.length; i++) {
+        if (canvas._objects[i] === obj) {
+
+        } else {
+          canvas._objects[i].selectable = true
+          canvas._objects[i].evented = true
+        }
+      }
+    }
+    canvas.renderAll()
   }
 }

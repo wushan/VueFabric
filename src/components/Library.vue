@@ -295,7 +295,7 @@ export default {
           this.categories = data.category
           this.items = data.library
           this.$nextTick(function () {
-            if (initial) {
+            if (initial && this.computedCategory) {
               this.selectedCategory = this.computedCategory[0]
             }
           })

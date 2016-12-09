@@ -1,8 +1,12 @@
 <template lang="pug">
   #canvasLayers
+    .canvas-objectIsolation
+      .isolation-handle(@click="toggleIsolation", :class="{active:isolated}")
+        span ISOLATE
+        .handle
     .canvaslayer-wrapper
       draggable.obj-list(v-bind:list="viewLayers", :options="{handle:'.type'}", @start="startDragging", @end="endDragging")
-        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}")
+        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}", v-show="isolated && compare(layer.id)")
           .type
             .fa.fa-bars(title="layer.type")
           .name
@@ -10,8 +14,20 @@
           .control
             .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
             .fa.fa-lg.fa-hand-pointer-o(v-else)
-          //- transition(name="slide", mode="out-in")
-          //-   .additional(v-if="compare(layer.id)") {{layer.id}}
+          transition(name="slide", mode="out-in")
+            .additional(v-if="compare(layer.id)") {{layer.id}}
+        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}", v-show="!isolated")
+          .type
+            .fa.fa-bars(title="layer.type")
+          .name
+            input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
+          .control
+            .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
+            .fa.fa-lg.fa-hand-pointer-o(v-else)
+          transition(name="slide", mode="out-in")
+            .additional(v-if="compare(layer.id)") {{layer.id}}
+
+        //- v-show="layer.id === currentObject.id"
 </template>
 
 <script>
@@ -30,7 +46,8 @@ export default {
   data () {
     return {
       layers: [],
-      dragging: false
+      dragging: false,
+      isolated: false
     }
   },
   created () {
@@ -77,15 +94,12 @@ export default {
       }
     },
     updateScene () {
-      // this.$forceUpdate()
-      console.log('SCENE UPPPDATEEEEE!')
       var canvas = window['canvas']
       if (canvas) {
         this.layers = canvas._objects
       }
     },
     getItem (id) {
-      console.log('trugg')
       var canvas = window['canvas']
       // Find Object has matched ID
       for (var i = 0; i < canvas._objects.length; i++) {
@@ -101,7 +115,6 @@ export default {
       // console.log(e.target)
     },
     confirmedInput (e) {
-      console.log(e)
       e.target.readOnly = true
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
@@ -109,6 +122,10 @@ export default {
     },
     deleteObject () {
       Utils.removeObject()
+    },
+    toggleIsolation () {
+      this.isolated = !this.isolated
+      Utils.isolation(this.isolated)
     }
   }
 }
@@ -147,6 +164,60 @@ export default {
   }
   h3 {
     padding: 0 1em;
+  }
+  .canvas-objectIsolation {
+    padding: .5em 1em;
+    border-bottom: 2px solid $pureblack;
+    background-color: darken($darkgray, 20%);
+    text-align: right;
+  }
+  .isolation-handle {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1; 
+    transition: .3s all ease;
+    cursor: pointer;
+    text-align: center;
+    background-color: $gray;
+    color: $darkgray;
+    border-radius: 15px;
+    width: 76px; 
+    position: relative;
+    margin-right: .5em;
+    &.active {
+      color: $white;
+      background-color: darken($red, 20%);
+      .handle {
+        margin-left: 48px;
+        background-color: lighten($red, 10%);
+      }
+    }
+    span {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 2px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      line-height: 30px; 
+    }
+    .handle {
+      position: relative;
+      border-radius: 50%;
+      background-color: rgba(#535353, 1);
+      transition: .3s all ease;
+      width: 26px;
+      height: 26px;
+      margin: 2px;
+    }
+    &:hover {
+      // color: $white;
+      .handle {
+        // background-color: rgba(#535353, 1);
+      }
+    }
   }
   .mCSB_inside > .mCSB_container {
     margin-right: 16px;

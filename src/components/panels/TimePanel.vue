@@ -4,8 +4,11 @@
       h3 Time Format
       .timeconfig-inner
         .row
-          a.format(href='javascript:;', @click="addTime('YYYY-MM-DD HH:mm:ss')") 2016-09-01 12:01:42
-          a.format(href='javascript:;', @click="addTime('YYYY-MMM-DD HH:mm:ss')") 2016-Sep-01 12:02:26
+          a.format(href='javascript:;', @click="addTime('YYYY-MM-DD HH:mm:ss', {locale: 'en'})") 2016-09-01 12:01:42
+          a.format(href='javascript:;', @click="addTime('YYYY-MMM-DD HH:mm:ss', {locale: 'en'})") 2016-Sep-01 12:02:26
+          a.format(href='javascript:;', @click="addTime('LLL', {locale: 'zh-tw'})") YYYY 年 MMMD 日 Ah 點 mm 分
+          a.format(href='javascript:;', @click="addTime('LL LTS', {locale: 'zh-tw'})") YYYY 年 MMMD 日 Ah 點 mm 分 ss 秒
+          a.format(href='javascript:;', @click="addTime('LLLL', {locale: 'zh-tw'})") YYYY 年 MMMD 日 ddddAh 點 mm 分
 </template>
 
 <script>
@@ -34,26 +37,29 @@ export default {
         'gmt': 'Asia/Taipei'
       }
       var _settings = $.extend(_defaultSettings, options)
-      console.log(_settings.gmt)
+      console.log(options)
       // Make Time String
-      var formatString = window.moment().format(format)
+      var formatString = window.moment().locale(options.locale).format(format)
+      console.log(formatString)
       var text = new fabric.Eclock(formatString, {
         format: format,
         fontFamily: 'Times New Roman',
         gmt: _settings.gmt,
         name: 'Time',
-        id: uuid.v4()
+        id: uuid.v4(),
+        locale: options.locale
       })
-      text.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction,
-            format: format,
-            gmt: _settings.gmt,
-            id: this.id
-          })
-        }
-      })(text.toObject)
+      // text.toObject = (function (toObject) {
+      //   return function () {
+      //     return fabric.util.object.extend(toObject.call(this), {
+      //       interaction: this.interaction,
+      //       format: format,
+      //       gmt: _settings.gmt,
+      //       id: this.id,
+      //       locale: options.locale
+      //     })
+      //   }
+      // })(text.toObject)
       canvas.add(text)
       text.center()
       text.setCoords()

@@ -190,7 +190,7 @@ fabric.Eclock = fabric.util.createClass(fabric.Text, {
       // Init Now
     eclockSimulate(instance)
     function eclockSimulate (instance) {
-      instance.set('text', window.moment().tz(options.gmt).format(options.format))
+      instance.set('text', window.moment().tz(options.gmt).locale(options.locale).format(options.format))
       // Do not renderAll for performance.
       // window.canvas.renderAll()
       setTimeout(function () {
@@ -203,7 +203,8 @@ fabric.Eclock = fabric.util.createClass(fabric.Text, {
       interaction: this.interaction,
       format: this.format,
       gmt: this.gmt,
-      name: this.name
+      name: this.name,
+      locale: this.locale
     })
   },
   _render: function (ctx) {

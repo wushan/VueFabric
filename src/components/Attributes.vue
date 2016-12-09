@@ -11,56 +11,61 @@
           //-         br/
           //-         | Type: '{{obj.interaction.type}}'
           .attribution-group.basics
-            p Basics
-            .controlgroup.type
-              label 類型
-              .controls
-                input(type='text' v-bind:value="currentObject.type" readonly)
-            .row
-              .width.controlgroup
-                label 寬度
+            .attr-head
+              .title BASICS
+              button T
+            .attr-content
+              .controlgroup.type
+                label 類型
                 .controls
-                  input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number', @keyup="updateWidth")
-              .height.controlgroup
-                label 高度
-                .controls
-                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY", @keyup="updateHeight")
-              .position.controlgroup
-                label X 軸
-                .controls
-                  input#objectLeft(type='number', v-bind:value="positionX", @keyup="updateLeft")
-              .position.controlgroup
-                label Y 軸
-                .controls
-                  input#objectTop(type='number', v-bind:value="positionY", @keyup="updateTop")
-              .radius.controlgroup(v-if="currentObject.rx")
-                label X 半徑
-                .controls
-                  input#objectRadius(type='number', v-bind:value="currentObject.rx", readonly)
+                  input(type='text' v-bind:value="currentObject.type" readonly)
+              .row
+                .width.controlgroup
+                  label 寬度
+                  .controls
+                    input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number', @keyup="updateWidth")
+                .height.controlgroup
+                  label 高度
+                  .controls
+                    input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY", @keyup="updateHeight")
+                .position.controlgroup
+                  label X 軸
+                  .controls
+                    input#objectLeft(type='number', v-bind:value="positionX", @keyup="updateLeft")
+                .position.controlgroup
+                  label Y 軸
+                  .controls
+                    input#objectTop(type='number', v-bind:value="positionY", @keyup="updateTop")
+                //- .radius.controlgroup(v-if="currentObject.rx")
+                //-   label X 半徑
+                //-   .controls
+                //-     input#objectRadius(type='number', v-bind:value="currentObject.rx", readonly)
 
-              .radius.controlgroup(v-if="currentObject.ry")
-                label Y 半徑
-                .controls
-                  input#objectRadius(type='number', v-bind:value="currentObject.ry", readonly)
-              
-              .scalex.controlgroup
-                label X 延展
-                .controls
-                  input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
-              .scaley.controlgroup
-                label Y 延展
-                .controls
-                  input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
-              .angle.controlgroup
-                label 角度
-                .controls
-                  input#objectAngle(type='number', v-bind:value="currentObject.angle", @keyup="updateAngle")
-              .color.controlgroup(v-if="allowBackground")
-                label 背景色
-                .controls
-                  input#objectColor(type='text')
+                //- .radius.controlgroup(v-if="currentObject.ry")
+                //-   label Y 半徑
+                //-   .controls
+                //-     input#objectRadius(type='number', v-bind:value="currentObject.ry", readonly)
+                
+                //- .scalex.controlgroup
+                //-   label X 延展
+                //-   .controls
+                //-     input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
+                //- .scaley.controlgroup
+                //-   label Y 延展
+                //-   .controls
+                //-     input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
+                .angle.controlgroup
+                  label 角度
+                  .controls
+                    input#objectAngle(type='number', v-bind:value="currentObject.angle", @keyup="updateAngle")
+          .attribution-group(v-if="allowBackground")
+            p FILL
+            .color.controlgroup
+              label 背景色
+              .controls
+                input#objectColor(type='text')
           .attribution-group.fonts(v-if="typography")
-            p Fonts Specific
+            p FONTS
             .controlgroup.text.text-attr
               label 文字
               .controls
@@ -125,7 +130,7 @@
                       option(value='168') 168
                       option(value='192') 192
           .attribution-group.specials(v-if="currentObject.interaction")
-            p Interactions
+            p INTERACTIVE
             .controlgroup
               label 互動
               .controls.rich-control
@@ -196,7 +201,7 @@
                 button.btn.basic.full(type="submit") 儲存設定
 
           .attribution-group.webview(v-if="webview")
-            p Webview
+            p WEBVIEW
             .controlgroup.webview
               label 網址
               .controls
@@ -210,7 +215,7 @@
                   img#webviewPlaceholderPreview(v-if="currentObject.placeholder", :src="baseUrl + currentObject.placeholder")
 
           .attribution-group(v-if="marquee")
-            p 跑馬燈
+            p MARQUEE
             form(@submit.stop.prevent="updateMarquee")
               .controlgroup
                 label 內容
@@ -234,7 +239,7 @@
                   input.marquee-transitionperiod(v-bind:value="currentObject.marquee.transitionPeriod", type='number', name="transitionPeriod")
               button.btn.basic.full(type="submit") 更新跑馬燈
           .attribution-group(v-if="rss")
-            p RSS 來源
+            p RSS FRAME
             form(@submit.stop.prevent="updateRss")
               .controlgroup
                 label 網址
@@ -258,7 +263,7 @@
                   input.marquee-transitionperiod(v-bind:value="currentObject.rssmarquee.transitionPeriod", type='number', name="transitionPeriod")
               button.btn.basic.full(type="submit") 更新 RSS
           .attribution-group.clock(v-if="clock")
-            p Clock Specific
+            p CLOCKS
             .controlgroup.clock
               label 時區
               .controls
@@ -293,7 +298,7 @@
                     option(value='Pacific/Kiritimati') [+14:00] Pacific/Kiritimati
           
           .attribution-group.rtsp(v-if="rtsp")
-            p RTSP 資源
+            p RTSP FRAME
             .controlgroup.rtsp
               label 網址
               .controls
@@ -1088,11 +1093,13 @@ export default {
 // Transitions
 #attributes {
   box-sizing: border-box;
-  padding: 1em;
+  padding: 1em 0;
   flex: none;
   width: 310px;
   height: 100%;
-  font-size: 13px;
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: $gray;
   border-top: 2px solid $pureblack;
   &.fade-enter-active, &.fade-leave-active {
     transition: .3s all ease;
@@ -1102,10 +1109,13 @@ export default {
     padding: 0;
     // transform: translateX(40%)
   }
+  .mCSB_inside > .mCSB_container {
+    margin-right: 12px;
+  }
 }
 .attribution-group {
   border-top: 1px solid darken($darkgray, 20%);
-  padding-bottom: .5em;
+  padding: 0.5em;
   &:first-child {
    border: 0; 
   }

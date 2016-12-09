@@ -1,6 +1,6 @@
 <template lang="pug">
   #library.attribution-group
-    p Library
+    p LIBRARY
     transition(name="fade", mode="out-in")
       .controlgroup(v-if="categories")
         label 素材
@@ -24,7 +24,7 @@
         loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
         .materials-wrapper
           transition-group.materials-list(name="list-complete", tag="div")
-            .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail)")
+            .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail, item.video_image)")
               img(:src="baseUrl + item.thumbnail")
               .type(v-if="item.video_image")
                 .fa.fa-play-circle.fa-lg
@@ -117,7 +117,7 @@ export default {
     }
   },
   methods: {
-    insertMedia (url) {
+    insertMedia (url, isVideo) {
       var fabric = window['fabric']
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
@@ -155,6 +155,12 @@ export default {
           zindex = canvas.getObjects().indexOf(currentObject)
           canvas.remove(currentObject)
           // First Slide
+          var leastTime
+          if (isVideo) {
+            leastTime = 0
+          } else {
+            leastTime = 3
+          }
           var slideObj = {
             // Generate an Unique Id for the slide
             id: uuid.v4(),
@@ -166,7 +172,7 @@ export default {
             maskHeight: mask.height * mask.scaleY,
             url: url,
             // Default Transition Settings
-            leastTime: 3,
+            leastTime: leastTime,
             transitionType: 'random',
             transitionTime: 3
           }
@@ -222,6 +228,12 @@ export default {
           // Lets remember your Z-index Level
           zindex = canvas.getObjects().indexOf(currentObject)
           canvas.remove(currentObject)
+          var leastTime
+          if (isVideo) {
+            leastTime = 0
+          } else {
+            leastTime = 3
+          }
           // First Slide
           var slideObj = {
             // Generate an Unique Id for the slide
@@ -234,7 +246,7 @@ export default {
             maskHeight: mask.height * mask.scaleY,
             url: url,
             // Default Transition Settings
-            leastTime: 3,
+            leastTime: leastTime,
             transitionType: 'random',
             transitionTime: 3
           }

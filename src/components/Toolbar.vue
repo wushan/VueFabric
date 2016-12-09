@@ -323,7 +323,7 @@ export default {
       const canvas = window['canvas']
       var bg = new fabric.Marquee({
         id: uuid.v4(),
-        fill: '#508590',
+        fill: '#63513d',
         width: 200,
         height: 200,
         left: canvas.getWidth() / 2,

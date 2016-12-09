@@ -2,7 +2,7 @@
   #canvasLayers
     .canvaslayer-wrapper
       draggable.obj-list(v-bind:list="viewLayers", :options="{handle:'.type'}", @start="startDragging", @end="endDragging")
-        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id)}")
+        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}")
           .type
             .fa.fa-bars(title="layer.type")
           .name
@@ -10,8 +10,8 @@
           .control
             .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
             .fa.fa-lg.fa-hand-pointer-o(v-else)
-          transition(name="slide", mode="out-in")
-            .additional(v-if="compare(layer.id)") {{layer.id}}
+          //- transition(name="slide", mode="out-in")
+          //-   .additional(v-if="compare(layer.id)") {{layer.id}}
 </template>
 
 <script>
@@ -195,6 +195,22 @@ export default {
       cursor: pointer;
       color: $white;
       background-color: lighten(#535353, 15%);
+      // Layer Specific Colours
+      &.usbframe {
+        background-color: #bba60c;
+      }
+      &.www {
+        background-color: #5e7e29;
+      }
+      &.rtsp {
+        background-color: #b46b7b;
+      }
+      &.rss {
+        background-color: #508590;
+      }
+      &.marquee {
+        background-color: #63513d;
+      }
       input[readonly] {
         background-color: lighten(#535353, 15%);
         border: 1px dotted lighten(#535353, 25%);

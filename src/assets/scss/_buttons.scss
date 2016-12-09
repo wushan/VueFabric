@@ -115,6 +115,31 @@
       background-color: darken($green, 20%);
     }
   }
+  &.usb {
+    background-color: #bba60c;
+    color: $white;
+    border: 0;
+  }
+  &.www {
+    background-color: #5e7e29;
+    color: $white;
+    border: 0;
+  }
+  &.rtsp {
+    background-color: #b46b7b;
+    color: $white;
+    border: 0;
+  }
+  &.rss {
+    background-color: #508590;
+    color: $white;
+    border: 0;
+  }
+  &.marquee {
+    background-color: #63513d;
+    color: $white;
+    border: 0;
+  }
   //Full
   &.full {
     display: block;

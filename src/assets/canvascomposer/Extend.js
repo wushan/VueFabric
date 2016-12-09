@@ -277,64 +277,64 @@ fabric.Clock.fromObject = function (object, callback) {
 }
 // Create Fabric Marquee Class
 // http://stackoverflow.com/questions/20407546/scale-some-object-but-not-others-in-a-fabric-group
-fabric.Marquee = fabric.util.createClass(fabric.Group, {
+fabric.Marquee = fabric.util.createClass(fabric.Rect, {
   type: 'marquee',
-  initialize: function (objects, options, alreadyGrouped) {
-    this.callSuper('initialize', objects, options, alreadyGrouped)
+  initialize: function (options) {
+    options = options || { }
+    this.callSuper('initialize', options)
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       interaction: this.interaction,
-      marquee: this.marquee,
-      name: this.name
+      name: this.name,
+      marquee: this.marquee
     })
   },
   _render: function (ctx) {
     this.callSuper('_render', ctx)
   }
 })
-fabric.Marquee.fromObject = function (object, callback) {
-  var _enlivenedObjects
-  fabric.util.enlivenObjects(object.objects, function (enlivenedObjects) {
-    delete object.objects
-    _enlivenedObjects = enlivenedObjects
-  })
-  return new fabric.Marquee(_enlivenedObjects, object, true)
+fabric.Marquee.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#63513d'
+  return new fabric.Marquee(options)
 }
 // Create Fabric Rss Class
 // http://stackoverflow.com/questions/20407546/scale-some-object-but-not-others-in-a-fabric-group
-fabric.Rss = fabric.util.createClass(fabric.Group, {
+fabric.Rss = fabric.util.createClass(fabric.Rect, {
   type: 'rss',
-  initialize: function (objects, options, alreadyGrouped) {
-    this.callSuper('initialize', objects, options, alreadyGrouped)
+  initialize: function (options) {
+    options = options || { }
+    this.callSuper('initialize', options)
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       interaction: this.interaction,
-      rssmarquee: this.rssmarquee,
-      name: this.name
+      name: this.name,
+      rssmarquee: this.rssmarquee
     })
   },
   _render: function (ctx) {
     this.callSuper('_render', ctx)
   }
 })
-fabric.Rss.fromObject = function (object, callback) {
-  var _enlivenedObjects
-  fabric.util.enlivenObjects(object.objects, function (enlivenedObjects) {
-    delete object.objects
-    _enlivenedObjects = enlivenedObjects
-  })
-  return new fabric.Rss(_enlivenedObjects, object, true)
+fabric.Rss.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#508590'
+  return new fabric.Rss(options)
 }
 // Create Fabric USB Class
-fabric.Usbframe = fabric.util.createClass(fabric.Group, {
+fabric.Usbframe = fabric.util.createClass(fabric.Rect, {
   type: 'usbframe',
-  initialize: function (objects, options, alreadyGrouped) {
-    this.callSuper('initialize', objects, options, alreadyGrouped)
+  initialize: function (options) {
+    options = options || { }
+    this.callSuper('initialize', options)
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       interaction: this.interaction,
       name: this.name
     })
@@ -343,65 +343,60 @@ fabric.Usbframe = fabric.util.createClass(fabric.Group, {
     this.callSuper('_render', ctx)
   }
 })
-fabric.Usbframe.fromObject = function (object, callback) {
-  var _enlivenedObjects
-  fabric.util.enlivenObjects(object.objects, function (enlivenedObjects) {
-    delete object.objects
-    _enlivenedObjects = enlivenedObjects
-  })
-  return new fabric.Usbframe(_enlivenedObjects, object, true)
+fabric.Usbframe.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#bba60c'
+  return new fabric.Usbframe(options)
 }
 // Create Fabric Webview Class
-fabric.Webview = fabric.util.createClass(fabric.Group, {
+fabric.Webview = fabric.util.createClass(fabric.Rect, {
   type: 'webview',
-  initialize: function (objects, options, alreadyGrouped) {
-    this.callSuper('initialize', objects, options, alreadyGrouped)
+  initialize: function (options) {
+    options = options || { }
+    this.callSuper('initialize', options)
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       interaction: this.interaction,
+      name: this.name,
       webview: this.webview,
-      placeholder: this.placeholder,
-      name: this.name
+      placeholder: this.placeholder
     })
   },
   _render: function (ctx) {
     this.callSuper('_render', ctx)
   }
 })
-fabric.Webview.fromObject = function (object, callback) {
-  var _enlivenedObjects
-  fabric.util.enlivenObjects(object.objects, function (enlivenedObjects) {
-    delete object.objects
-    _enlivenedObjects = enlivenedObjects
-  })
-  return new fabric.Webview(_enlivenedObjects, object, true)
+fabric.Webview.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#5e7e29'
+  return new fabric.Webview(options)
 }
 // RTSP Class
 // Create Fabric USB Class
-fabric.Rtspframe = fabric.util.createClass(fabric.Group, {
+fabric.Rtspframe = fabric.util.createClass(fabric.Rect, {
   type: 'rtspframe',
-  initialize: function (objects, options, alreadyGrouped) {
-    this.callSuper('initialize', objects, options, alreadyGrouped)
+  initialize: function (options) {
+    options = options || { }
+    this.callSuper('initialize', options)
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       interaction: this.interaction,
-      rtsp: this.rtsp,
-      name: this.name
+      name: this.name,
+      rtsp: this.rtsp
     })
   },
   _render: function (ctx) {
     this.callSuper('_render', ctx)
   }
 })
-fabric.Rtspframe.fromObject = function (object, callback) {
-  var _enlivenedObjects
-  fabric.util.enlivenObjects(object.objects, function (enlivenedObjects) {
-    delete object.objects
-    _enlivenedObjects = enlivenedObjects
-  })
-  return new fabric.Rtspframe(_enlivenedObjects, object, true)
+fabric.Rtspframe.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#b46b7b'
+  return new fabric.Rtspframe(options)
 }
 // 天氣系列
 // 溫度(Temperature - Text)

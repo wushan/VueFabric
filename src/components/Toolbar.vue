@@ -8,11 +8,6 @@
         a.full.btn.basic.js-add-text(href="javascript:;" title="新增文字", @click="addText")
           i.fa.fa-font.fa-lg
       li
-        a.full.btn.basic(href="javascript:;" title="新增跑馬燈", @click="updateSub('marqueepanel')", :class="{ active: currentView=='marqueepanel' }")
-          i.fa.fa-text-width.fa-lg
-      li
-        a.full.btn.basic(href="javascript:;" title="新增RSS", @click="updateSub('rsspanel')", :class="{ active: currentView=='rsspanel' }") RSS
-      li
         a.full.btn.basic.js-add-clock(href="javascript:;" title="新增時鐘", @click="updateSub('clockpanel')", :class="{ active: currentView=='clockpanel' }")
           i.fa.fa-clock-o.fa-lg
       li
@@ -21,11 +16,16 @@
         a.full.btn.basic(href="javascript:;" title="新增天氣", @click="updateSub('weatherpanel')", :class="{ active: currentView=='weatherpanel' }")
           i.fa.fa-cloud.fa-lg
       li
-        a.full.btn.basic(href="javascript:;" title="USB", @click="addUsb") USB
+        a.full.btn.marquee(href="javascript:;" title="新增跑馬燈", @click="updateSub('marqueepanel')", :class="{ active: currentView=='marqueepanel' }")
+          i.fa.fa-text-width.fa-lg
       li
-        a.full.btn.basic(href="javascript:;" title="WWW", @click="addWeb") WWW
+        a.full.btn.rss(href="javascript:;" title="新增RSS", @click="updateSub('rsspanel')", :class="{ active: currentView=='rsspanel' }") RSS
       li
-        a.full.btn.basic(href="javascript:;" title="RTSP", @click="addRtsp") RTSP
+        a.full.btn.usb(href="javascript:;" title="USB", @click="addUsb") USB
+      li
+        a.full.btn.www(href="javascript:;" title="WWW", @click="addWeb") WWW
+      li
+        a.full.btn.rtsp(href="javascript:;" title="RTSP", @click="addRtsp") RTSP
       li
         a.full.btn.delete.js-dispose(href="javascript:;" title="清除所有物件", @click="disposeAll")
           i.fa.fa-eraser.fa-lg
@@ -198,143 +198,69 @@ export default {
     addUsb () {
       var fabric = window['fabric']
       var canvas = window['canvas']
-      var bg = new fabric.Rect({
-        fill: '#333333',
+      var bg = new fabric.Usbframe({
+        id: uuid.v4(),
+        fill: '#bba60c',
         width: 200,
         height: 200,
-        left: 0,
-        top: 0,
+        left: canvas.getWidth() / 2,
+        top: canvas.getHeight() / 2,
         padding: 0,
         originX: 'center',
-        originY: 'center'
-      })
-      var text = new fabric.Text('<USB Frame>', {
-        left: 0,
-        top: 0,
-        fontSize: '14',
-        fontFamily: 'Open sans',
-        textAlign: 'center',
-        fill: '#cccccc',
-        originX: 'center',
-        originY: 'center'
-      })
-      var group = new fabric.Usbframe([bg, text], {
-        id: uuid.v4(),
-        left: canvas.getWidth() / 2 - 100,
-        top: canvas.getHeight() / 2 - 100,
-        padding: 0,
+        originY: 'center',
         name: 'Usb Frame'
       })
-      group.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction,
-            id: this.id
-          })
-        }
-      })(group.toObject)
-      group.perPixelTargetFind = true
-      canvas.add(group)
+      canvas.add(bg)
       canvas.renderAll()
       // CanvasComposer.History.Update()
       // Bind
-      this.bindEvents(group)
+      this.bindEvents(bg)
       // Programmatically Select Newly Added Object
-      canvas.setActiveObject(group)
+      canvas.setActiveObject(bg)
       // Refresh log
     },
     addWeb () {
       var fabric = window['fabric']
       var canvas = window['canvas']
-      var bg = new fabric.Rect({
+      var bg = new fabric.Webview({
+        id: uuid.v4(),
+        fill: '#5e7e29',
         width: 200,
         height: 200,
-        left: 0,
-        top: 0,
+        left: canvas.getWidth() / 2,
+        top: canvas.getHeight() / 2,
         padding: 0,
-        fill: '#cccccc',
         originX: 'center',
-        originY: 'center'
-      })
-      var text = new fabric.Text('<WebView>', {
-        left: 0,
-        top: 0,
-        fontSize: '14',
-        fontFamily: 'Open sans',
-        textAlign: 'center',
-        originX: 'center',
-        originY: 'center'
-      })
-      var group = new fabric.Webview([bg, text], {
-        id: uuid.v4(),
-        left: 0,
-        top: 0,
+        originY: 'center',
         name: 'Webview'
       })
-      group.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            webview: this.webview,
-            interaction: this.interaction,
-            placeholder: this.placeholder,
-            id: this.id
-          })
-        }
-      })(group.toObject)
-      group.perPixelTargetFind = true
-      canvas.add(group)
+      canvas.add(bg)
       // Bind
-      this.bindEvents(group)
+      this.bindEvents(bg)
       // Programmatically Select Newly Added Object
-      canvas.setActiveObject(group)
+      canvas.setActiveObject(bg)
       // Refresh log
     },
     addRtsp () {
       var fabric = window['fabric']
       var canvas = window['canvas']
-      var bg = new fabric.Rect({
-        fill: '#1a1a1a',
+      var bg = new fabric.Rtspframe({
+        id: uuid.v4(),
+        fill: '#b46b7b',
         width: 200,
         height: 200,
-        left: 0,
-        top: 0,
+        left: canvas.getWidth() / 2,
+        top: canvas.getHeight() / 2,
         padding: 0,
         originX: 'center',
-        originY: 'center'
+        originY: 'center',
+        name: 'RTSP'
       })
-      var text = new fabric.Text('<RTSP Frame>', {
-        left: 0,
-        top: 0,
-        fontSize: '14',
-        fontFamily: 'Open sans',
-        textAlign: 'center',
-        fill: '#cccccc',
-        originX: 'center',
-        originY: 'center'
-      })
-      var group = new fabric.Rtspframe([bg, text], {
-        id: uuid.v4(),
-        left: canvas.getWidth() / 2 - 100,
-        top: canvas.getHeight() / 2 - 100,
-        padding: 0,
-        name: 'RTSP Frame'
-      })
-      group.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction,
-            rtsp: this.rtsp,
-            id: this.id
-          })
-        }
-      })(group.toObject)
-      group.perPixelTargetFind = true
-      canvas.add(group)
-      canvas.renderAll()
+      canvas.add(bg)
       // Bind
-      this.bindEvents(group)
+      this.bindEvents(bg)
       // Programmatically Select Newly Added Object
-      canvas.setActiveObject(group)
+      canvas.setActiveObject(bg)
       // Refresh log
     },
     disposeAll () {
@@ -367,33 +293,17 @@ export default {
     addRss (rsssource) {
       const fabric = window['fabric']
       const canvas = window['canvas']
-      // Always Create Text Object from first string.
-      var bg = new fabric.Rect({
-        fill: '#ffffff',
+      var bg = new fabric.Rss({
+        id: uuid.v4(),
+        fill: '#508590',
         width: 200,
         height: 200,
-        left: 0,
-        top: 0,
+        left: canvas.getWidth() / 2,
+        top: canvas.getHeight() / 2,
         padding: 0,
         originX: 'center',
-        originY: 'center'
-      })
-      var text = new fabric.Text('<RSS Frame>', {
-        left: 0,
-        top: 0,
-        fontSize: '14',
-        fontFamily: 'Open sans',
-        textAlign: 'center',
-        fill: '#cccccc',
-        originX: 'center',
-        originY: 'center'
-      })
-      var group = new fabric.Rss([bg, text], {
-        id: uuid.v4(),
-        left: canvas.getWidth() / 2 - 100,
-        top: canvas.getHeight() / 2 - 100,
-        padding: 0,
-        name: 'RSS Frame',
+        originY: 'center',
+        name: 'RSS',
         rssmarquee: {
           source: rsssource.source,
           leastTime: rsssource.leastTime,
@@ -401,77 +311,40 @@ export default {
           transitionPeriod: rsssource.transitionPeriod
         }
       })
-      group.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction,
-            rssmarquee: this.rssmarquee,
-            id: this.id
-          })
-        }
-      })(group.toObject)
-      group.perPixelTargetFind = true
-      canvas.add(group)
-      canvas.renderAll()
+      canvas.add(bg)
       // Bind
-      this.bindEvents(group)
+      this.bindEvents(bg)
       // Programmatically Select Newly Added Object
-      canvas.setActiveObject(group)
+      canvas.setActiveObject(bg)
+      // Refresh log
     },
     addMarquee (marqueesource) {
-      console.log('coming')
       const fabric = window['fabric']
       const canvas = window['canvas']
-      // Always Create Text Object from first string.
-      var bg = new fabric.Rect({
-        fill: '#ffffff',
+      var bg = new fabric.Marquee({
+        id: uuid.v4(),
+        fill: '#508590',
         width: 200,
         height: 200,
-        left: 0,
-        top: 0,
+        left: canvas.getWidth() / 2,
+        top: canvas.getHeight() / 2,
         padding: 0,
         originX: 'center',
-        originY: 'center'
-      })
-      var text = new fabric.Text('<Marquee Frame>', {
-        left: 0,
-        top: 0,
-        fontSize: '14',
-        fontFamily: 'Open sans',
-        textAlign: 'center',
-        fill: '#cccccc',
-        originX: 'center',
-        originY: 'center'
-      })
-      var group = new fabric.Marquee([bg, text], {
-        id: uuid.v4(),
-        left: canvas.getWidth() / 2 - 100,
-        top: canvas.getHeight() / 2 - 100,
-        padding: 0,
+        originY: 'center',
+        name: 'Marquee',
         marquee: {
           source: marqueesource.source,
           leastTime: marqueesource.leastTime,
           transitionType: marqueesource.transitionType,
           transitionPeriod: marqueesource.transitionPeriod
-        },
-        name: 'Marquee Frame'
-      })
-      group.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction,
-            marquee: this.marquee,
-            id: this.id
-          })
         }
-      })(group.toObject)
-      group.perPixelTargetFind = true
-      canvas.add(group)
-      canvas.renderAll()
+      })
+      canvas.add(bg)
       // Bind
-      this.bindEvents(group)
+      this.bindEvents(bg)
       // Programmatically Select Newly Added Object
-      canvas.setActiveObject(group)
+      canvas.setActiveObject(bg)
+      // Refresh log
     }
   }
 }

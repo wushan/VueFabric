@@ -91,6 +91,7 @@ export default {
         obj.lockRotation = false
         obj.lockScalingX = false
         obj.lockScalingY = false
+        obj.selectable = true
         obj.stroke = ''
         obj.strokeWidth = 0
         canvas.renderAll()
@@ -100,8 +101,8 @@ export default {
         obj.lockRotation = true
         obj.lockScalingX = true
         obj.lockScalingY = true
-        obj.stroke = '#ff0000'
-        obj.strokeWidth = 4
+        obj.selectable = false
+        canvas.deactivateAllWithDispatch()
         canvas.renderAll()
       }
       window.vue.$children[0].$emit('updateHistory')
@@ -248,6 +249,8 @@ export default {
   selectAll () {
     var fabric = window['fabric']
     var canvas = window['canvas']
+    // First Deselect All
+    this.deselectAll()
     var objs = canvas.getObjects().map(function (o) {
       return o.set('active', true)
     })

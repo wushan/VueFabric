@@ -14,6 +14,10 @@
           i.fa.fa-angle-double-up
           |  4:3
       li.context-menu__item(v-if="tuneable")
+        a.context-menu__link(href='#', @click="lockRatio({w: 1, h: 1})")
+          i.fa.fa-angle-double-up
+          |  1:1
+      li.context-menu__item(v-if="tuneable")
         a.context-menu__link(href='#', @click="lockRatio()")
           i.fa.fa-angle-double-up
           |  鎖定目前比例
@@ -71,7 +75,7 @@ export default {
   computed: {
     tuneable () {
       if (this.currentObject) {
-        if (this.currentObject.type === 'rtspframe' || this.currentObject.type === 'usbframe' || this.currentObject.type === 'webview' || this.currentObject.type === 'slider' || this.currentObject.type === 'rect' || this.currentObject.type === 'image') {
+        if (this.currentObject.type === 'rtspframe' || this.currentObject.type === 'usbframe' || this.currentObject.type === 'webview' || this.currentObject.type === 'slider' || this.currentObject.type === 'sliderE' || this.currentObject.type === 'rect' || this.currentObject.type === 'image') {
           return true
         } else {
           return false

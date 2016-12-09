@@ -174,18 +174,27 @@ export default {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
     if (ratio) {
-      obj.width = Math.floor(obj.getWidth())
-      obj.height = Math.floor(obj.width / ratio.w * ratio.h)
-      obj.scaleX = 1
-      obj.scaleY = 1
+      // obj.width = Math.floor(obj.getWidth())
+      // obj.height = Math.floor(obj.width / ratio.w * ratio.h)
+      // obj.scaleX = 1
+      // obj.scaleY = 1
+      // obj.lockUniScaling = true
+      // obj.scaleX = Math.floor(obj.scaleX / ratio.w)
+      obj.scaleY = obj.scaleX / ratio.w * ratio.h
+      obj.setCoords()
       obj.lockUniScaling = true
+      // Dealing With Sliders
+      // if (obj.type === 'slider') {
+      //   console.log(obj)
+      // }
       canvas.renderAll()
     } else {
       // Lock current size
-      obj.width = Math.round(obj.width * obj.scaleX)
-      obj.height = Math.round(obj.height * obj.scaleY)
-      obj.scaleX = 1
-      obj.scaleY = 1
+      // obj.width = Math.round(obj.width * obj.scaleX)
+      // obj.height = Math.round(obj.height * obj.scaleY)
+      // obj.scaleX = 1
+      // obj.scaleY = 1
+      obj.setCoords()
       obj.lockUniScaling = true
       canvas.renderAll()
     }

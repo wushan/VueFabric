@@ -62,6 +62,12 @@ export default {
     return {
     }
   },
+  mounted () {
+    this.adjustPosition()
+  },
+  updated () {
+    this.adjustPosition()
+  },
   computed: {
     tuneable () {
       if (this.currentObject) {
@@ -74,6 +80,12 @@ export default {
     }
   },
   methods: {
+    adjustPosition () {
+      if (this.position[1] + this.$el.clientHeight > window.innerHeight) {
+        this.$parent.$emit('adjustPosition', [window.innerHeight - this.$el.clientHeight])
+        this.$forceUpdate()
+      }
+    },
     layertop () {
       Utils.layertop()
     },

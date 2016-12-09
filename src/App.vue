@@ -72,6 +72,10 @@ export default {
       //   }
       // }
     })
+    this.$on('adjustPosition', (pos) => {
+      console.log(pos)
+      this.contextMenuPosition[1] = pos[0]
+    })
     this.$on('toggleCanvasLayer', () => {
       this.canvasLayer = !this.canvasLayer
     })
@@ -83,8 +87,13 @@ export default {
       console.log('redo')
     })
     this.$on('triggerContextMenu', function (position) {
-      this.iscontextMenu = true
-      this.contextMenuPosition = position
+      if (this.iscontextMenu) {
+        // Context Menu is already there, update position
+        this.contextMenuPosition = position
+      } else {
+        this.iscontextMenu = true
+        this.contextMenuPosition = position
+      }
     })
     this.$on('closeContextMenu', function () {
       this.iscontextMenu = false

@@ -48,14 +48,12 @@ export default {
       initCanvas.fit()
     },
     deselectObject (e) {
-      console.log(e)
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
       if (e.type === 'contextmenu') {
         if (obj) {
           this.$parent.$emit('triggerContextMenu', [e.clientX, e.clientY])
         }
-        console.log('right')
       } else {
         this.$parent.$emit('closeContextMenu')
         if (e.target.childNodes.length === 0) {

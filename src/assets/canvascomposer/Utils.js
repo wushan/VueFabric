@@ -209,39 +209,50 @@ export default {
   pushObject (direction, gap) {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    // if (direction === 'left') {
-    //   goTo = obj.left
-    // } else {
-    //   goTo = obj.top
-    // }
     switch (direction) {
       case 'left':
-        if (obj.left <= 0) {
-          obj.left = 0
-        } else {
-          obj.left = obj.left - gap
-        }
+        // if (obj.left <= 0) {
+        //   obj.left = 0
+        //   obj.setCoords()
+        // } else {
+        //   obj.left = obj.left - gap
+        //   obj.setCoords()
+        // }
+        obj.left = obj.left - gap
+        obj.setCoords()
         break
       case 'right':
-        if (obj.left + obj.getWidth() >= obj.canvas.width) {
-          obj.left = obj.canvas.width - obj.getWidth()
-        } else {
-          obj.left = obj.left + gap
-        }
+        // if (obj.left + obj.getWidth() >= obj.canvas.width) {
+        //   obj.left = obj.canvas.width - obj.getWidth()
+        //   obj.setCoords()
+        // } else {
+        //   obj.left = obj.left + gap
+        //   obj.setCoords()
+        // }
+        obj.left = obj.left + gap
+        obj.setCoords()
         break
       case 'up':
-        if (obj.top <= 0) {
-          obj.top = 0
-        } else {
-          obj.top = obj.top - gap
-        }
+        // if (obj.top <= 0) {
+        //   obj.top = 0
+        //   obj.setCoords()
+        // } else {
+        //   obj.top = obj.top - gap
+        //   obj.setCoords()
+        // }
+        obj.top = obj.top - gap
+        obj.setCoords()
         break
       case 'down':
-        if (obj.top + obj.getHeight() >= obj.canvas.height) {
-          obj.top = obj.canvas.height - obj.getHeight()
-        } else {
-          obj.top = obj.top + gap
-        }
+        // if (obj.top + obj.getHeight() >= obj.canvas.height) {
+        //   obj.top = obj.canvas.height - obj.getHeight()
+        //   obj.setCoords()
+        // } else {
+        //   obj.top = obj.top + gap
+        //   obj.setCoords()
+        // }
+        obj.top = obj.top + gap
+        obj.setCoords()
         break
     }
     canvas.renderAll()

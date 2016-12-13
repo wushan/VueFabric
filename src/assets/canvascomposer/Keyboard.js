@@ -72,7 +72,7 @@ export default {
       console.log('Down')
     })
     // Duplicate
-    Mousetrap.bind(['command+d', 'ctrl+d'], function (e) {
+    Mousetrap.bind(['command+c', 'ctrl+c'], function (e) {
       if (e.preventDefault) {
         e.preventDefault()
       } else {
@@ -94,7 +94,7 @@ export default {
       console.log('Lock')
     })
     // Delete
-    Mousetrap.bind(['command+backspace', 'ctrl+backspace'], function (e) {
+    Mousetrap.bind(['command+backspace', 'ctrl+backspace', 'command+d', 'ctrl+d'], function (e) {
       console.log('del')
       if (e.preventDefault) {
         e.preventDefault()

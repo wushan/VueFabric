@@ -11,53 +11,51 @@
           //-         br/
           //-         | Type: '{{obj.interaction.type}}'
           .attribution-group.basics
-            .attr-head
-              .title BASICS
-              button T
-            .attr-content
-              .controlgroup.type
-                label 類型
+            p BASICS
+            .controlgroup.type
+              label TYPE
+              .controls
+                input(type='text' v-bind:value="currentObject.type" readonly)
+            .row
+              .width.controlgroup
+                label W
                 .controls
-                  input(type='text' v-bind:value="currentObject.type" readonly)
-              .row
-                .width.controlgroup
-                  label 寬度
-                  .controls
-                    input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number', @keyup="updateWidth")
-                .height.controlgroup
-                  label 高度
-                  .controls
-                    input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY", @keyup="updateHeight")
-                .position.controlgroup
-                  label X 軸
-                  .controls
-                    input#objectLeft(type='number', v-bind:value="positionX", @keyup="updateLeft")
-                .position.controlgroup
-                  label Y 軸
-                  .controls
-                    input#objectTop(type='number', v-bind:value="positionY", @keyup="updateTop")
-                //- .radius.controlgroup(v-if="currentObject.rx")
-                //-   label X 半徑
-                //-   .controls
-                //-     input#objectRadius(type='number', v-bind:value="currentObject.rx", readonly)
+                  input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number', @keyup="updateWidth")
+              .height.controlgroup
+                label H
+                .controls
+                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY", @keyup="updateHeight")
+              .position.controlgroup
+                label X
+                .controls
+                  input#objectLeft(type='number', v-bind:value="positionX", @keyup="updateLeft")
+              .position.controlgroup
+                label Y
+                .controls
+                  input#objectTop(type='number', v-bind:value="positionY", @keyup="updateTop")
+              //- .radius.controlgroup(v-if="currentObject.rx")
+              //-   label X 半徑
+              //-   .controls
+              //-     input#objectRadius(type='number', v-bind:value="currentObject.rx", readonly)
 
-                //- .radius.controlgroup(v-if="currentObject.ry")
-                //-   label Y 半徑
-                //-   .controls
-                //-     input#objectRadius(type='number', v-bind:value="currentObject.ry", readonly)
-                
-                //- .scalex.controlgroup
-                //-   label X 延展
-                //-   .controls
-                //-     input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
-                //- .scaley.controlgroup
-                //-   label Y 延展
-                //-   .controls
-                //-     input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
-                .angle.controlgroup
-                  label 角度
-                  .controls
-                    input#objectAngle(type='number', v-bind:value="currentObject.angle", @keyup="updateAngle")
+              //- .radius.controlgroup(v-if="currentObject.ry")
+              //-   label Y 半徑
+              //-   .controls
+              //-     input#objectRadius(type='number', v-bind:value="currentObject.ry", readonly)
+              
+              .scalex.controlgroup
+                label X 延展
+                .controls
+                  input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
+              .scaley.controlgroup
+                label Y 延展
+                .controls
+                  input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
+              .angle.controlgroup
+                label
+                  img(src="../assets/images/angle.png")
+                .controls
+                  input#objectAngle(type='number', v-bind:value="currentObject.angle", @keyup="updateAngle")
           .attribution-group(v-if="allowBackground")
             p FILL
             .color.controlgroup
@@ -821,6 +819,7 @@ export default {
       }
     },
     initialSpectrum () {
+      var instance = this
       this.$nextTick(function () {
         $('#objectColor').spectrum({
           showInput: false,
@@ -850,6 +849,7 @@ export default {
               obj.setFill(color)
             }
             canvas.renderAll()
+            instance.$root.$children[0].$emit('updateHistory')
             $('#objectColor').spectrum('hide')
           },
           palette: [
@@ -904,6 +904,7 @@ export default {
             }
             // obj.backgroundColor(color);
             canvas.renderAll()
+            instance.$root.$children[0].$emit('updateHistory')
             $('#objectTextColor').spectrum('hide')
           },
           palette: [
@@ -1097,7 +1098,7 @@ export default {
   flex: none;
   width: 310px;
   height: 100%;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: .1em;
   color: $gray;
   border-top: 2px solid $pureblack;

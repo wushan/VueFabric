@@ -92,8 +92,9 @@ fabric.Slider = fabric.util.createClass(fabric.Rect, {
 // https://gitlab.com/wushan/radi/blob/master/frontend-dev/app/scripts/CanvasComposer.js
 // fabric.Slider.fromObject = function(objects, callback, options) {
 fabric.Slider.fromObject = function (options) {
-  console.log(options)
-  options.fill = '#cccccc'
+  if (typeof options.fill === 'object') {
+    options.fill = '#cccccc'
+  }
   return new fabric.Slider(options)
 }
 
@@ -120,8 +121,9 @@ fabric.SliderE = fabric.util.createClass(fabric.Ellipse, {
 // https://gitlab.com/wushan/radi/blob/master/frontend-dev/app/scripts/CanvasComposer.js
 // fabric.Slider.fromObject = function(objects, callback, options) {
 fabric.SliderE.fromObject = function (options) {
-  console.log(options)
-  options.fill = '#cccccc'
+  if (typeof options.fill === 'object') {
+    options.fill = '#cccccc'
+  }
   return new fabric.SliderE(options)
 }
 
@@ -148,8 +150,9 @@ fabric.SliderT = fabric.util.createClass(fabric.Triangle, {
 // https://gitlab.com/wushan/radi/blob/master/frontend-dev/app/scripts/CanvasComposer.js
 // fabric.Slider.fromObject = function(objects, callback, options) {
 fabric.SliderT.fromObject = function (options) {
-  console.log(options)
-  options.fill = '#cccccc'
+  if (typeof options.fill === 'object') {
+    options.fill = '#cccccc'
+  }
   return new fabric.SliderT(options)
 }
 // Custom Controller
@@ -283,6 +286,8 @@ fabric.Marquee = fabric.util.createClass(fabric.Rect, {
   initialize: function (options) {
     options = options || { }
     this.callSuper('initialize', options)
+    this.originX = 'left'
+    this.originY = 'top'
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
@@ -308,6 +313,8 @@ fabric.Rss = fabric.util.createClass(fabric.Rect, {
   initialize: function (options) {
     options = options || { }
     this.callSuper('initialize', options)
+    this.originX = 'left'
+    this.originY = 'top'
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
@@ -332,6 +339,8 @@ fabric.Usbframe = fabric.util.createClass(fabric.Rect, {
   initialize: function (options) {
     options = options || { }
     this.callSuper('initialize', options)
+    this.originX = 'left'
+    this.originY = 'top'
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
@@ -355,6 +364,8 @@ fabric.Webview = fabric.util.createClass(fabric.Rect, {
   initialize: function (options) {
     options = options || { }
     this.callSuper('initialize', options)
+    this.originX = 'left'
+    this.originY = 'top'
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
@@ -381,6 +392,8 @@ fabric.Rtspframe = fabric.util.createClass(fabric.Rect, {
   initialize: function (options) {
     options = options || { }
     this.callSuper('initialize', options)
+    this.originX = 'left'
+    this.originY = 'top'
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {

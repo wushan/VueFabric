@@ -174,15 +174,29 @@ export default {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
     if (ratio) {
-      // obj.width = Math.floor(obj.getWidth())
-      // obj.height = Math.floor(obj.width / ratio.w * ratio.h)
-      // obj.scaleX = 1
-      // obj.scaleY = 1
-      // obj.lockUniScaling = true
-      // obj.scaleX = Math.floor(obj.scaleX / ratio.w)
-      obj.scaleY = obj.scaleX / ratio.w * ratio.h
-      obj.setCoords()
+      if (obj.type === 'sliderE') {
+        // obj.scaleX = Math.floor(obj.scaleX / ratio.w)
+        obj.set('rx', obj.getWidth() / 2)
+        obj.set('ry', obj.rx / ratio.w * ratio.h)
+        obj.scaleX = 1
+        obj.scaleY = 1
+        obj.setCoords()
+        canvas.renderAll()
+      } else {
+        obj.width = Math.floor(obj.getWidth())
+        obj.height = Math.floor(obj.width / ratio.w * ratio.h)
+        obj.scaleX = 1
+        obj.scaleY = 1
+      }
       obj.lockUniScaling = true
+      // obj.scaleX = Math.floor(obj.scaleX / ratio.w)
+      // obj.scaleX = Math.round(obj.scaleX)
+      // console.log(obj.scaleX)
+      // console.log(Math.round(obj.scaleX))
+      // obj.scaleY = Math.round(obj.scaleX) / ratio.w * ratio.h
+      // console.log(obj.scaleY)
+      obj.setCoords()
+      // obj.lockUniScaling = true
       // Dealing With Sliders
       // if (obj.type === 'slider') {
       //   console.log(obj)
@@ -290,23 +304,12 @@ export default {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
     var i
-    if (state) {
-      for (i = 0; i < canvas._objects.length; i++) {
-        if (canvas._objects[i] === obj) {
+    for (i = 0; i < canvas._objects.length; i++) {
+      if (canvas._objects[i] === obj) {
 
-        } else {
-          canvas._objects[i].selectable = false
-          canvas._objects[i].evented = false
-        }
-      }
-    } else {
-      for (i = 0; i < canvas._objects.length; i++) {
-        if (canvas._objects[i] === obj) {
-
-        } else {
-          canvas._objects[i].selectable = true
-          canvas._objects[i].evented = true
-        }
+      } else {
+        canvas._objects[i].selectable = !canvas._objects[i].selectable
+        canvas._objects[i].evented = !canvas._objects[i].evented
       }
     }
     canvas.renderAll()

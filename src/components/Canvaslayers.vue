@@ -4,30 +4,60 @@
       .isolation-handle(@click="toggleIsolation", :class="{active:isolated}")
         span ISOLATE
         .handle
-    .canvaslayer-wrapper
+    .canvaslayer-wrapper(v-show="isolated")
+      .obj-list(v-bind:list="viewLayers", :options="{handle:'.type'}", @start="startDragging", @end="endDragging")
+        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}", v-if="compare(layer.id)")
+          .type
+            .button
+              .fa.fa-lg.fa-chain(v-if="layer.lockUniScaling")
+              .fa.fa-lg.fa-chain-broken(v-else)
+          .name
+            input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
+          .control
+            .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
+            .fa.fa-lg.fa-hand-pointer-o(v-else)
+          transition(name="slide", mode="out-in")
+            .additional(v-if="compare(layer.id)") {{layer.id}}
+    .canvaslayer-wrapper(v-show="!isolated")
       draggable.obj-list(v-bind:list="viewLayers", :options="{handle:'.type'}", @start="startDragging", @end="endDragging")
-        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}", v-show="isolated && compare(layer.id)")
+        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}")
           .type
-            .fa.fa-bars(title="layer.type")
+            //- .fa.fa-bars(title="layer.type")
+            .button
+              .fa.fa-lg.fa-chain(v-if="layer.lockUniScaling")
+              .fa.fa-lg.fa-chain-broken(v-else)
+              span.lockUniScaling(v-if="layer.lockUniScaling") {{simple(layer.getWidth(), layer.getHeight())}}
           .name
             input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
           .control
-            .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
-            .fa.fa-lg.fa-hand-pointer-o(v-else)
-          transition(name="slide", mode="out-in")
-            .additional(v-if="compare(layer.id)") {{layer.id}}
-        .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}", v-show="!isolated")
-          .type
-            .fa.fa-bars(title="layer.type")
-          .name
-            input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
-          .control
-            .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
-            .fa.fa-lg.fa-hand-pointer-o(v-else)
-          transition(name="slide", mode="out-in")
-            .additional(v-if="compare(layer.id)") {{layer.id}}
+            .button
+              //- .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
+              //- .fa.fa-lg.fa-hand-pointer-o(v-else)
+              .fa.fa-lg.fa-unlock(v-if="layer.selectable")
+              .fa.fa-lg.fa-lock(v-else)
+          //- transition(name="slide", mode="out-in")
+          //-   .additional(v-if="compare(layer.id)") {{layer.id}}
+        //- .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}", v-show="!isolated")
+        //-   .type
+        //-     .fa.fa-bars(title="layer.type")
+        //-   .name
+        //-     input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
+        //-   .control
+        //-     .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
+        //-     .fa.fa-lg.fa-hand-pointer-o(v-else)
+        //-   transition(name="slide", mode="out-in")
+        //-     .additional(v-if="compare(layer.id)") {{layer.id}}
 
         //- v-show="layer.id === currentObject.id"
+        //- .button
+        //-   .fa.fa-lg.fa-compress(v-if="layer.lockUniScaling")
+        //-   .fa.fa-lg.fa-expand(v-else)
+        //- .button
+        //-   .fa.fa-lg.fa-unlock(v-if="layer.selectable")
+        //-   .fa.fa-lg.fa-lock(v-else)
+        //- .button
+        //-   .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
+        //-   .fa.fa-lg.fa-hand-pointer-o(v-else)
 </template>
 
 <script>
@@ -74,6 +104,38 @@ export default {
     }
   },
   methods: {
+    simple (a, b) {
+      /* eslint-disable */
+      var ma = 1
+      var mb = 1
+      a += ''
+      b += ''
+
+      if (a.indexOf('/') > -1) {
+        ma = +a.split('/')[1]
+      } else if (a.indexOf('.') > -1) {
+        ma = Math.pow(10, a.split('.')[1].length)
+      }
+      if (b.indexOf('/') > -1) {
+        mb = +b.split('/')[1]
+      } else if (b.indexOf('.') > -1) {
+        mb = Math.pow(10, b.split('.')[1].length)
+      }
+      a = eval(a) * ma * mb
+      b = eval(b) * ma * mb
+      var c = (function (a, b) {
+        var c
+        if (a < b) {
+          b = [a, a = b][0]
+        }
+        while (c = a % b) {
+          a = b
+          b = c
+        }
+        return b
+      })(a, b)
+      return (a / c) + ':' + (b / c)
+    },
     startDragging () {
       this.dragging = true
     },
@@ -238,7 +300,7 @@ export default {
   }
   .canvaslayer-wrapper {
     box-sizing: border-box;
-    height: 100%;
+    height: calc( 100% - 45px );
     overflow: hidden;
     color: $gray;
     .obj-list {
@@ -297,6 +359,27 @@ export default {
       padding: 0 .5em;
       box-sizing: border-box;
     }
+    .button {
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0;
+      color: $darkgray;
+      position: relative;
+      .fa-lock, .fa-chain {
+        color: $white;
+      }
+      .lockUniScaling {
+       color: $white;
+       font-size: 10px;
+       position: absolute;
+       top: 100%;
+       left: 0;
+       right: 0;
+       margin: auto;
+       text-align: center;
+       
+      }
+    }
     .type {
       text-align: center;
       width: 45px;
@@ -319,6 +402,9 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       align-self: center;
+      .button {
+        padding: 0;
+      }
     }
     .additional {
       display: none;

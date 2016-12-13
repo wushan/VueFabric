@@ -41,7 +41,7 @@ export default {
               // Pass pattern out
               Slider.enterEditMode(object, img)
             })
-          })
+          }, { crossOrigin: 'Anonymous' })
         }
       }
       // Bind Event for Each

@@ -1,6 +1,6 @@
 <template lang="pug">
   #artboard
-    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement || interaction, double: canvasLayer}", @click="deselectObject", @contextmenu.prevent="deselectObject")
+    .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement || interaction, double: canvasLayer}", @mousedown="deselectObject", @contextmenu.prevent="deselectObject")
       #canvas.task
         canvas#c
         .objectControl

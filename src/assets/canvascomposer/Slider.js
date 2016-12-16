@@ -5,13 +5,18 @@ export default {
     var canvas = window['canvas']
     var currentObject = canvas.getActiveObject()
     var targetObj = currentObject.visibleslide
-    // console.log(image)
-    image.left = mask.left
-    image.top = mask.top
-    // if (mask.type === 'circle') {
-    //   image.scaleToWidth(mask.width * mask.scaleX)
-    // }
-    image.scaleToWidth(mask.width * mask.scaleX)
+
+    if (image.getWidth() - mask.getWidth() >= image.getHeight() - mask.getHeight()) {
+      image.scaleToHeight(mask.getHeight())
+    } else {
+      image.scaleToWidth(mask.width * mask.scaleX)
+    }
+    image.angle = mask.angle
+    image.setPositionByOrigin(mask.getCenterPoint(), 'center', 'center')
+    image.setControlsVisibility({
+      mtr: false
+    })
+    image.lockRotation = true
     // Set Image Opacity
     image.set('opacity', 0.6)
     // Style Fixed Image Position
@@ -48,12 +53,20 @@ export default {
     image.set('height', image.height * image.scaleY)
     image.set('scaleX', 1)
     image.set('scaleY', 1)
+    // Make a Group
+    var tempGroup = new fabric.Group([image, mask])
+    canvas.setActiveGroup(tempGroup)
+    var savedAngle = image.angle
+    tempGroup.angle = image.angle * -1
+    canvas.renderAll()
+    canvas.discardActiveGroup()
     // Save Image Left/Image Top for Pattern Offset
     var offsetXTranslate = image.left - mask.left
     var offsetYTranslate = image.top - mask.top
     // Set Image left/top to 0 (Matching the Mask left/top)
     image.left = 0
     image.top = 0
+    image.angle = 0
     // Make a Pattern
     var patternSourceCanvas = new fabric.StaticCanvas()
     patternSourceCanvas.add(image)
@@ -82,6 +95,7 @@ export default {
       newMask.set('scaleY', 1)
       newMask.set('width', mask.width * mask.scaleX)
       newMask.set('height', mask.height * mask.scaleY)
+      newMask.set('angle', savedAngle)
       // Update Attributes Back to 'visibleslide'
       newMask.visibleslide.maskWidth = newMask.width
       newMask.visibleslide.maskHeight = newMask.height
@@ -111,6 +125,7 @@ export default {
       newMask.set('ry', mask.ry * mask.scaleY)
       newMask.set('width', mask.width * mask.scaleX)
       newMask.set('height', mask.height * mask.scaleY)
+      newMask.set('angle', savedAngle)
       // Update Attributes Back to 'visibleslide'
       newMask.visibleslide.maskWidth = newMask.width
       newMask.visibleslide.maskHeight = newMask.height
@@ -140,10 +155,13 @@ export default {
       // Pass pattern out
       this.enterEditMode(newMask, image)
     })
+
     canvas.remove(mask)
     canvas.remove(image)
     Events.bindEvents(window.vue.$children[0], newMask)
     canvas.add(newMask)
+    newMask.center()
+    newMask.setCoords()
     canvas.setActiveObject(newMask)
     canvas.renderAll()
   }

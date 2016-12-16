@@ -35,8 +35,8 @@
               //- .fa.fa-lg.fa-hand-pointer-o(v-else)
               .fa.fa-lg.fa-unlock(v-if="layer.selectable")
               .fa.fa-lg.fa-lock(v-else)
-          //- transition(name="slide", mode="out-in")
-          //-   .additional(v-if="compare(layer.id)") {{layer.id}}
+          transition(name="slide", mode="out-in")
+            .additional(v-if="compare(layer.id)") {{layer.id}}
         //- .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}", v-show="!isolated")
         //-   .type
         //-     .fa.fa-bars(title="layer.type")

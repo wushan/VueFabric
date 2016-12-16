@@ -122,7 +122,11 @@ export default {
     }).then(() => {
       if (canvas.getActiveGroup()) {
         canvas.getActiveGroup().forEachObject(function (o) {
-          canvas.remove(o)
+          if (o.type === 'image') {
+            return window.vue.$children[0].$emit('globalError', '必須先離開編輯模式，才能刪除 Slider 物件中的圖片。')
+          } else {
+            canvas.remove(o)
+          }
         })
         canvas.discardActiveGroup().renderAll()
       } else if (canvas.getActiveObject()) {
@@ -130,6 +134,8 @@ export default {
         if (singleObj._element !== undefined && singleObj._element.localName === 'video') {
           singleObj.getElement().pause()
           canvas.remove(singleObj)
+        } else if (singleObj.type === 'image') {
+          return window.vue.$children[0].$emit('globalError', '必須先離開編輯模式，才能刪除 Slider 物件中的圖片。')
         } else {
           canvas.remove(singleObj)
         }

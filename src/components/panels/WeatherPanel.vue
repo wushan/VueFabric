@@ -129,7 +129,7 @@ export default {
             var fTemp = new fabric.Temperature(temp, {
               left: canvas.getWidth() / 2,
               top: canvas.getHeight() / 2,
-              fontSize: '60',
+              fontSize: '64',
               fontFamily: 'Times New Roman',
               fontWeight: 300,
               name: 'Temperature',

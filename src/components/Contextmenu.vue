@@ -25,31 +25,31 @@
         a.context-menu__link(href='#', @click="unLockRatio")
           i.fa.fa-angle-double-up
           |  解除比例鎖定
-      li.context-menu__item
+      li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="layertop")
           i.fa.fa-angle-double-up
           |  移至頂層 ( &#8984;&nbsp;&#8593; )
-      li.context-menu__item
+      li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="layerup")
           i.fa.fa-angle-up
           |  上移一層 ( &#8984;&nbsp;+ )
-      li.context-menu__item
+      li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="layerdown")
           i.fa.fa-angle-down
           |  下移一層 ( &#8984;&nbsp;- )
-      li.context-menu__item
+      li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="layerbottom")
           i.fa.fa-angle-double-down
           |  移至底層 ( &#8984;&nbsp;&#8595; )
-      li.context-menu__item
+      li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="duplicate")
           i.fa.fa-times
           |  Duplicate ( &#8963;&nbsp;D )
-      li.context-menu__item
+      li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="lock")
           i.fa.fa-times
           |  鎖定/解鎖 ( &#8984;&nbsp;L )
-      li.context-menu__item
+      li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="deleteobj")
           i.fa.fa-times
           |  刪除物件 ( &#8984;&nbsp;Delete )
@@ -76,6 +76,15 @@ export default {
     tuneable () {
       if (this.currentObject) {
         if (this.currentObject.type === 'rtspframe' || this.currentObject.type === 'usbframe' || this.currentObject.type === 'webview' || this.currentObject.type === 'slider' || this.currentObject.type === 'sliderE' || this.currentObject.type === 'rect' || this.currentObject.type === 'image') {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
+    isImage () {
+      if (this.currentObject) {
+        if (this.currentObject.type === 'image') {
           return true
         } else {
           return false

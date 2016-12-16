@@ -22,19 +22,19 @@
                 .width.controlgroup
                   label W
                   .controls
-                    input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number', @keyup="updateWidth")
+                    input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number', @keyup.enter="updateWidth")
                 .height.controlgroup
                   label H
                   .controls
-                    input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY", @keyup="updateHeight")
+                    input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY", @keyup.enter="updateHeight")
                 .position.controlgroup
                   label X
                   .controls
-                    input#objectLeft(type='number', v-bind:value="positionX", @keyup="updateLeft")
+                    input#objectLeft(type='number', v-bind:value="positionX", @keyup.enter="updateLeft")
                 .position.controlgroup
                   label Y
                   .controls
-                    input#objectTop(type='number', v-bind:value="positionY", @keyup="updateTop")
+                    input#objectTop(type='number', v-bind:value="positionY", @keyup.enter="updateTop")
                 //- .radius.controlgroup(v-if="currentObject.rx")
                 //-   label X 半徑
                 //-   .controls
@@ -743,6 +743,8 @@ export default {
       }
     },
     deleteSlideGroup () {
+      // Capture current state
+      this.$root.$children[0].$emit('updateHistory')
       this.$root.$swal({
         title: '確定刪除？',
         text: '刪除後可使用 Ctrl + Z 組合鍵回復',
@@ -1052,6 +1054,8 @@ export default {
       }
     },
     deleteSlide (id) {
+      // Capture current state
+      this.$root.$children[0].$emit('updateHistory')
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
       var targetSlide

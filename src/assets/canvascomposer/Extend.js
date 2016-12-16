@@ -46,7 +46,8 @@ fabric.Video = fabric.util.createClass(fabric.Image, {
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
-      media: this.media
+      media: this.media,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -82,7 +83,8 @@ fabric.Slider = fabric.util.createClass(fabric.Rect, {
       visibleslide: this.visibleslide,
       slides: this.slides,
       interaction: this.interaction,
-      name: this.name
+      name: this.name,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -111,7 +113,8 @@ fabric.SliderE = fabric.util.createClass(fabric.Ellipse, {
       visibleslide: this.visibleslide,
       slides: this.slides,
       interaction: this.interaction,
-      name: this.name
+      name: this.name,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -140,7 +143,8 @@ fabric.SliderT = fabric.util.createClass(fabric.Triangle, {
       visibleslide: this.visibleslide,
       slides: this.slides,
       interaction: this.interaction,
-      name: this.name
+      name: this.name,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -207,7 +211,8 @@ fabric.Eclock = fabric.util.createClass(fabric.Text, {
       format: this.format,
       gmt: this.gmt,
       name: this.name,
-      locale: this.locale
+      locale: this.locale,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -264,7 +269,8 @@ fabric.Clock = fabric.util.createClass(fabric.Group, {
       second: this.second,
       gmt: this.gmt,
       name: this.name,
-      id: this.id
+      id: this.id,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -294,7 +300,8 @@ fabric.Marquee = fabric.util.createClass(fabric.Rect, {
       id: this.id,
       interaction: this.interaction,
       name: this.name,
-      marquee: this.marquee
+      marquee: this.marquee,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -321,7 +328,8 @@ fabric.Rss = fabric.util.createClass(fabric.Rect, {
       id: this.id,
       interaction: this.interaction,
       name: this.name,
-      rssmarquee: this.rssmarquee
+      rssmarquee: this.rssmarquee,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -346,7 +354,8 @@ fabric.Usbframe = fabric.util.createClass(fabric.Rect, {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       id: this.id,
       interaction: this.interaction,
-      name: this.name
+      name: this.name,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -373,7 +382,8 @@ fabric.Webview = fabric.util.createClass(fabric.Rect, {
       interaction: this.interaction,
       name: this.name,
       webview: this.webview,
-      placeholder: this.placeholder
+      placeholder: this.placeholder,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -400,7 +410,8 @@ fabric.Rtspframe = fabric.util.createClass(fabric.Rect, {
       id: this.id,
       interaction: this.interaction,
       name: this.name,
-      rtsp: this.rtsp
+      rtsp: this.rtsp,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -424,7 +435,8 @@ fabric.Temperature = fabric.util.createClass(fabric.Text, {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
       location: this.location,
-      name: this.name
+      name: this.name,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -445,7 +457,8 @@ fabric.Location = fabric.util.createClass(fabric.Text, {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
       location: this.location,
-      name: this.name
+      name: this.name,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {
@@ -467,7 +480,8 @@ fabric.Weatherimg = fabric.util.createClass(fabric.Image, {
     return fabric.util.object.extend(this.callSuper('toObject'), {
       interaction: this.interaction,
       location: this.location,
-      name: this.name
+      name: this.name,
+      selectable: this.selectable
     })
   },
   _render: function (ctx) {

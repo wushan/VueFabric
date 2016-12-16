@@ -7,6 +7,8 @@ export default {
     if (obj.type === 'sliderE') {
       obj.set('rx', val / 2)
       obj.scaleX = 1
+    } else if (obj.type === 'clock') {
+      obj.scaleX = val / obj.width
     } else {
       obj.set('width', val)
       obj.scaleX = 1
@@ -21,6 +23,8 @@ export default {
     if (obj.type === 'sliderE') {
       obj.set('ry', val / 2)
       obj.scaleY = 1
+    } else if (obj.type === 'clock') {
+      obj.scaleY = val / obj.height
     } else {
       obj.set('height', val)
       obj.scaleY = 1

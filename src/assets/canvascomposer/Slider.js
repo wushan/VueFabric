@@ -5,7 +5,12 @@ export default {
     var canvas = window['canvas']
     var currentObject = canvas.getActiveObject()
     var targetObj = currentObject.visibleslide
-
+    var index
+    for (var i = 0; i < canvas._objects.length; i++) {
+      if (mask.id === canvas._objects[i].id) {
+        index = i
+      }
+    }
     if (image.getWidth() - mask.getWidth() >= image.getHeight() - mask.getHeight()) {
       image.scaleToHeight(mask.getHeight())
     } else {
@@ -17,6 +22,7 @@ export default {
       mtr: false
     })
     image.lockRotation = true
+    image.name = 'Source'
     // Set Image Opacity
     image.set('opacity', 0.6)
     // Style Fixed Image Position
@@ -34,12 +40,12 @@ export default {
     // Arrow function to get 'this'
     image.on('object:dblclick', (options) => {
       // Flatten
-      this.flatten(newMask, image, targetObj)
+      this.flatten(newMask, image, targetObj, index)
     })
     canvas.renderAll()
     // console.log(JSON.stringify(canvas));
   },
-  flatten (mask, image, targetObj) {
+  flatten (mask, image, targetObj, index) {
     var fabric = window['fabric']
     var canvas = window['canvas']
     console.log('Flattened')
@@ -160,8 +166,10 @@ export default {
     canvas.remove(image)
     Events.bindEvents(window.vue.$children[0], newMask)
     canvas.add(newMask)
+    newMask.moveTo(index)
     newMask.center()
     newMask.setCoords()
+    newMask.selectable = true
     canvas.setActiveObject(newMask)
     canvas.renderAll()
   }

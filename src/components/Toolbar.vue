@@ -101,9 +101,9 @@ export default {
       var canvas = window['canvas']
       var rect = new fabric.Rect({
         id: uuid.v4(),
+        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
         left: canvas.getWidth() / 2 - 100 / 2,
         top: canvas.getHeight() / 2 - 100 / 2,
-        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
         width: this.initialRadius,
         height: this.initialRadius,
         padding: 0
@@ -130,12 +130,12 @@ export default {
       var slider = new fabric.SliderE({
         name: 'Slider Ellipse',
         id: uuid.v4(),
-        left: 250,
-        top: 250,
+        left: canvas.getWidth() / 2 - 100 / 2,
+        top: canvas.getHeight() / 2 - 100 / 2,
         padding: 0,
-        fill: '#cccccc',
-        rx: 50,
-        ry: 50
+        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
+        rx: this.initialRadius / 2,
+        ry: this.initialRadius / 2
       })
       canvas.add(slider)
       canvas.renderAll()
@@ -150,8 +150,10 @@ export default {
       var slider = new fabric.SliderT({
         name: 'Slider Triangle',
         id: uuid.v4(),
-        left: 250,
-        top: 250,
+        left: canvas.getWidth() / 2 - 100 / 2,
+        top: canvas.getHeight() / 2 - 100 / 2,
+        width: this.initialRadius,
+        height: this.initialRadius,
         padding: 0,
         fill: '#' + Math.floor(Math.random() * 16777215).toString(16)
       })
@@ -276,12 +278,12 @@ export default {
       var slider = new fabric.Slider({
         name: 'Slider Rect',
         id: uuid.v4(),
-        width: 200,
-        height: 200,
-        left: 250,
-        top: 250,
+        left: canvas.getWidth() / 2 - 100 / 2,
+        top: canvas.getHeight() / 2 - 100 / 2,
+        width: this.initialRadius,
+        height: this.initialRadius,
         padding: 0,
-        fill: '#cccccc'
+        fill: '#' + Math.floor(Math.random() * 16777215).toString(16)
       })
       canvas.add(slider)
       canvas.renderAll()

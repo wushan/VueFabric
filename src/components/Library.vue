@@ -1,35 +1,37 @@
 <template lang="pug">
   #library.attribution-group
-    p LIBRARY
-    transition(name="fade", mode="out-in")
-      .controlgroup(v-if="categories")
-        label 素材
-        .controls.check-group
-          .check-item
-            input#public(type="checkbox", v-model="isPublic")
-            label(for="public") 共用
-          .check-item
-            input#user(type="checkbox", v-model="isUser")
-            label(for="user") 使用者
-        .select-wrapper
-          select(v-model="selectedCategory", @change="changed")
-            option(v-for="(category, index) in computedCategory", :value="category", :key="category.cateId") {{ category.public==1 ? '[共用]-' : '[使用者]-' }}{{ category.name }}
-    transition(name="fade", mode="out-in")
-      .controlgroup(v-if="subCategory")
-        .select-wrapper(v-if="subCategory.length")
-          select(v-model="selectedSubCategory", @change="subChanged")
-            option(v-for="sub in subCategory", :value="sub") {{ sub.name }} / {{ sub.cateId }}
-    transition(name="fade", mode="out-in")
-      .materials-container
-        loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
-        .materials-wrapper
-          transition-group.materials-list(name="list-complete", tag="div")
-            .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail, item.video_image)")
-              img(:src="baseUrl + item.thumbnail")
-              .type(v-if="item.video_image")
-                .fa.fa-play-circle.fa-lg
-              .overlay
-                .fa.fa-plus.fa-lg
+    .attr-head
+      .title LIBRARY
+    .attr-content
+      transition(name="fade", mode="out-in")
+        .controlgroup(v-if="categories")
+          label 素材
+          .controls.check-group
+            .check-item
+              input#public(type="checkbox", v-model="isPublic")
+              label(for="public") 共用
+            .check-item
+              input#user(type="checkbox", v-model="isUser")
+              label(for="user") 使用者
+          .select-wrapper
+            select(v-model="selectedCategory", @change="changed")
+              option(v-for="(category, index) in computedCategory", :value="category", :key="category.cateId") {{ category.public==1 ? '[共用]-' : '[使用者]-' }}{{ category.name }}
+      transition(name="fade", mode="out-in")
+        .controlgroup(v-if="subCategory")
+          .select-wrapper(v-if="subCategory.length")
+            select(v-model="selectedSubCategory", @change="subChanged")
+              option(v-for="sub in subCategory", :value="sub") {{ sub.name }} / {{ sub.cateId }}
+      transition(name="fade", mode="out-in")
+        .materials-container
+          loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
+          .materials-wrapper
+            transition-group.materials-list(name="list-complete", tag="div")
+              .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail, item.video_image)")
+                img(:src="baseUrl + item.thumbnail")
+                .type(v-if="item.video_image")
+                  .fa.fa-play-circle.fa-lg
+                .overlay
+                  .fa.fa-plus.fa-lg
 
 </template>
 
@@ -356,9 +358,7 @@ export default {
     position: absolute;
   }
   #library {
-    background-color: $black;
-    border-radius: 6px;
-    margin: 1em 0;
+    margin: 0;
     .materials-container {
       position: relative;
     }

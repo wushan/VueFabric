@@ -72,20 +72,20 @@ input[type=color], input[type=time],input[type=datetime],input[type=time],input[
   width: 100%;
   display: inline-block;
   vertical-align: middle;
-  border: 2px solid transparent;
+  border: 1px solid $pureblack;
   box-sizing: border-box;
   height: $input-height;
-  background-color: $darkgray;
-  color: $gray;
+  background-color: $input-bgcolor;
+  box-shadow: inset 1px 1px 2px rgba($pureblack, .5);
+  color: $pureblack;
   padding: 0 .6em;
   outline: none;
-  border-radius: 6px;
+  border-radius: 3px;
+  opacity: .5;
   &:focus {
     transition: .3s all ease;
-    border: 2px solid $blue;
-    background-color: darken($darkgray, 20%);
-    box-shadow: inset 0 0 3px $pureblack;
-    color: $white;
+    border: 1px solid $blue;
+    opacity: 1;
   }
   &.calc {
     display: inline-block;
@@ -203,7 +203,7 @@ input[disabled] {
       background-image: url("assets/images/select-arrow.png");
       background-position: calc(100% - 10px) center;
       background-repeat: no-repeat;
-      background-color: $white;
+      background-color: $input-bgcolor;
       select {
         width: 110%;
         background-image: url("assets/images/select-arrow.png");
@@ -216,11 +216,20 @@ input[disabled] {
     box-sizing: border-box;
     width: 100%;
     outline: none;
-    background-color: $darkgray;
+    background-color: $select-bgcolor;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#21252c+0,424a4f+0,383f43+100 */
+    background: rgb(33,37,44); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(33,37,44,1) 0%, rgba(66,74,79,1) 0%, rgba(56,63,67,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(33,37,44,1) 0%,rgba(66,74,79,1) 0%,rgba(56,63,67,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(33,37,44,1) 0%,rgba(66,74,79,1) 0%,rgba(56,63,67,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21252c', endColorstr='#383f43',GradientType=0 ); /* IE6-9 */
+
     overflow: hidden;
     display: inline-block;
     vertical-align: middle;
-    border-radius: 6px;
+    border-radius: 3px;
+    border: 1px solid $pureblack;
+    box-shadow: 0 1px 0 0 rgba($select-bgcolor, .33), inset 0 1px 1px 0 rgba($white, .1);
     &:focus {
     }
   }

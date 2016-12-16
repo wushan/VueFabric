@@ -11,359 +11,380 @@
           //-         br/
           //-         | Type: '{{obj.interaction.type}}'
           .attribution-group.basics
-            p BASICS
-            .controlgroup.type
-              label TYPE
-              .controls
-                input(type='text' v-bind:value="currentObject.type" readonly)
-            .row
-              .width.controlgroup
-                label W
+            .attr-head
+              .title BASICS
+            .attr-content
+              .controlgroup.type
+                label TYPE
                 .controls
-                  input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number', @keyup="updateWidth")
-              .height.controlgroup
-                label H
-                .controls
-                  input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY", @keyup="updateHeight")
-              .position.controlgroup
-                label X
-                .controls
-                  input#objectLeft(type='number', v-bind:value="positionX", @keyup="updateLeft")
-              .position.controlgroup
-                label Y
-                .controls
-                  input#objectTop(type='number', v-bind:value="positionY", @keyup="updateTop")
-              //- .radius.controlgroup(v-if="currentObject.rx")
-              //-   label X 半徑
-              //-   .controls
-              //-     input#objectRadius(type='number', v-bind:value="currentObject.rx", readonly)
+                  input(type='text' v-bind:value="currentObject.type" readonly)
+              .row
+                .width.controlgroup
+                  label W
+                  .controls
+                    input.objectSize#objectWidth(v-bind:value="currentObject.width*currentObject.scaleX", type='number', @keyup="updateWidth")
+                .height.controlgroup
+                  label H
+                  .controls
+                    input.objectSize#objectHeight(type='number', v-bind:value="currentObject.height*currentObject.scaleY", @keyup="updateHeight")
+                .position.controlgroup
+                  label X
+                  .controls
+                    input#objectLeft(type='number', v-bind:value="positionX", @keyup="updateLeft")
+                .position.controlgroup
+                  label Y
+                  .controls
+                    input#objectTop(type='number', v-bind:value="positionY", @keyup="updateTop")
+                //- .radius.controlgroup(v-if="currentObject.rx")
+                //-   label X 半徑
+                //-   .controls
+                //-     input#objectRadius(type='number', v-bind:value="currentObject.rx", readonly)
 
-              //- .radius.controlgroup(v-if="currentObject.ry")
-              //-   label Y 半徑
-              //-   .controls
-              //-     input#objectRadius(type='number', v-bind:value="currentObject.ry", readonly)
-              
-              .scalex.controlgroup
-                label X 延展
-                .controls
-                  input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
-              .scaley.controlgroup
-                label Y 延展
-                .controls
-                  input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
-              .angle.controlgroup
-                label
-                  img(src="../assets/images/angle.png")
-                .controls
-                  input#objectAngle(type='number', v-bind:value="currentObject.angle", @keyup="updateAngle")
+                //- .radius.controlgroup(v-if="currentObject.ry")
+                //-   label Y 半徑
+                //-   .controls
+                //-     input#objectRadius(type='number', v-bind:value="currentObject.ry", readonly)
+                
+                .scalex.controlgroup
+                  label X 延展
+                  .controls
+                    input#objectScaleX(type='text', v-bind:value="currentObject.scaleX")
+                .scaley.controlgroup
+                  label Y 延展
+                  .controls
+                    input#objectScaleY(type='text', v-bind:value="currentObject.scaleY")
+                .angle.controlgroup
+                  label
+                    img(src="../assets/images/angle.png")
+                  .controls
+                    input#objectAngle(type='number', v-bind:value="currentObject.angle", @keyup="updateAngle")
           .attribution-group(v-if="allowBackground")
-            p FILL
-            .color.controlgroup
-              label 背景色
-              .controls
-                input#objectColor(type='text')
-          .attribution-group.fonts(v-if="typography")
-            p FONTS
-            .controlgroup.text.text-attr
-              label 文字
-              .controls
-                input#objectInput(type='text', v-bind:value="currentObject.text")
-            .controlgroup.fontfamily
-              label 字體
-              .controls
-                .select-wrapper
-                  select#objectFontFamily(v-model="currentObject.fontFamily", @change="changeFontFamily")
-                    option(value="Open Sans") 預設 (Open Sans)
-                    option(value="DFYa-W3-WIN-BF") 華康雅風體
-                    option(value="DFHuaZong-W5-WIN-BF") 華綜體體
-                    option(value="DFJinWen-W3-WIN-BF") 華康金文體
-                    option(value="DFXingShu-W5-WIN-BF") 華康行書體
-                    option(value="DFYingHeiU-W7-WIN-BF") 華康硬黑體
-                    option(value="DFYanKai-W5-WIN-BF") 華康正顏楷體
-                    option(value="DFOYangXun-W5-WIN-BF") 華康歐陽詢體
-                    option(value="DFFangYuan-W7-WIN-BF") 華康方圓體
-                    option(value="DFWaWa-W5-WIN-BF") 娃娃體
-                    option(value="DFLiHei-W5-WIN-BF") 華康儷中黑體
-                    option(value="Verdana") Verdana
-                    option(value="Times") Times
-                    option(value="Times New Roman") Times New Roman
-                    option(value="Strasua") Strasua
-                    option(value="SegoeScript") Segoe Script
-                    option(value="OratorStd") Orator Std
-                    option(value="MicrosoftJhengHeiLight") 微軟正黑 Light
-                    option(value="MicrosoftJhengHeiBold") 微軟正黑 Bold
-                    option(value="Serif") 細明體
-                    option(value="CopperplateGothic-Light") Copperplate Gothic Light
-                    option(value="ComicSansMS") Comic Sans MS
-                    option(value="BerlinSansFBDemi-Bold") Berlin Sans FB Demi-Bold
-                    option(value="Arial") Arial
-                    option(value="ARBERKLEY") ARBERKLEY
-                    option(value="FuturaBT-Book") FuturaBT Book
-            .row
-              .controlgroup.color
-                label 顏色
+            .attr-head
+              .title FILL
+            .attr-content
+              .color.controlgroup
+                label 背景色
                 .controls
-                  input#objectTextColor(type='text')
-            
-              .controlgroup.fontsize
-                label 尺寸
+                  input#objectColor(type='text')
+          .attribution-group.fonts(v-if="typography")
+            .attr-head
+              .title FONTS
+            .attr-content
+              .controlgroup.text.text-attr
+                label 文字
+                .controls
+                  input#objectInput(type='text', v-bind:value="currentObject.text")
+              .controlgroup.fontfamily
+                label 字體
                 .controls
                   .select-wrapper
-                    select#objectFontSize(v-model="currentObject.fontSize", @change="changeFontSize")
-                      option(value='14') 14
-                      option(value='18') 18
-                      option(value='24') 24
-                      option(value='30') 30
-                      option(value='36') 36
-                      option(value='40') 40
-                      option(value='44') 44
-                      option(value='48') 48
-                      option(value='56') 56
-                      option(value='64') 64
-                      option(value='72') 72
-                      option(value='84') 84
-                      option(value='96') 96
-                      option(value='128') 128
-                      option(value='144') 144
-                      option(value='168') 168
-                      option(value='192') 192
+                    select#objectFontFamily(v-model="currentObject.fontFamily", @change="changeFontFamily")
+                      option(value="Open Sans") 預設 (Open Sans)
+                      option(value="DFYa-W3-WIN-BF") 華康雅風體
+                      option(value="DFHuaZong-W5-WIN-BF") 華綜體體
+                      option(value="DFJinWen-W3-WIN-BF") 華康金文體
+                      option(value="DFXingShu-W5-WIN-BF") 華康行書體
+                      option(value="DFYingHeiU-W7-WIN-BF") 華康硬黑體
+                      option(value="DFYanKai-W5-WIN-BF") 華康正顏楷體
+                      option(value="DFOYangXun-W5-WIN-BF") 華康歐陽詢體
+                      option(value="DFFangYuan-W7-WIN-BF") 華康方圓體
+                      option(value="DFWaWa-W5-WIN-BF") 娃娃體
+                      option(value="DFLiHei-W5-WIN-BF") 華康儷中黑體
+                      option(value="Verdana") Verdana
+                      option(value="Times") Times
+                      option(value="Times New Roman") Times New Roman
+                      option(value="Strasua") Strasua
+                      option(value="SegoeScript") Segoe Script
+                      option(value="OratorStd") Orator Std
+                      option(value="MicrosoftJhengHeiLight") 微軟正黑 Light
+                      option(value="MicrosoftJhengHeiBold") 微軟正黑 Bold
+                      option(value="Serif") 細明體
+                      option(value="CopperplateGothic-Light") Copperplate Gothic Light
+                      option(value="ComicSansMS") Comic Sans MS
+                      option(value="BerlinSansFBDemi-Bold") Berlin Sans FB Demi-Bold
+                      option(value="Arial") Arial
+                      option(value="ARBERKLEY") ARBERKLEY
+                      option(value="FuturaBT-Book") FuturaBT Book
+              .row
+                .controlgroup.color
+                  label 顏色
+                  .controls
+                    input#objectTextColor(type='text')
+              
+                .controlgroup.fontsize
+                  label 尺寸
+                  .controls
+                    .select-wrapper
+                      select#objectFontSize(v-model="currentObject.fontSize", @change="changeFontSize")
+                        option(value='14') 14
+                        option(value='18') 18
+                        option(value='24') 24
+                        option(value='30') 30
+                        option(value='36') 36
+                        option(value='40') 40
+                        option(value='44') 44
+                        option(value='48') 48
+                        option(value='56') 56
+                        option(value='64') 64
+                        option(value='72') 72
+                        option(value='84') 84
+                        option(value='96') 96
+                        option(value='128') 128
+                        option(value='144') 144
+                        option(value='168') 168
+                        option(value='192') 192
           .attribution-group.specials(v-if="currentObject.interaction")
-            p INTERACTIVE
-            .controlgroup
-              label 互動
-              .controls.rich-control
-                .select-wrapper
-                  select#interactives(:value="currentObject.interaction.type", @change="updateInteractionType")
-                    option(v-for="interactive in interactives", :value="interactive.type") {{interactive.name}}
-            .controlgroup.link(v-if="currentObject.interaction.type === 'interactive'")
-              label 連結
-              .controls.rich-control
-                form(@submit.stop.prevent="confirmLink")
-                  input#linkValue(type='text', placeholder="輸入網址(http://)或選擇節目", :value="currentObject.interaction.link.url")
-                  button.btn.edit.full(type="button", @click="selectProgram", :class="{disabled:programlist}")
-                    | 選擇節目
-                    .fa.fa-angle-up.fa-lg(v-if="programlist")
-                    .fa.fa-angle-down.fa-lg(v-else)
-                  button.btn.basic.full(type="submit") 確定
-            transition(name="fade", mode="out-in")
-              programlist(v-if="programlist", v-bind:currentObject="currentObject")
-            transition(name="fade", mode="out-in")
-              form.application(v-if="currentObject.interaction.type === 'apps'", @submit.stop.prevent="updateInteraction")
-                .controlgroup
-                  label 套件名稱
-                  .controls.rich-control
-                    input#appName(:value="currentObject.interaction.app.appName", type='text', name="appName")
-                .controlgroup
-                  label 退出方式
-                  .controls.rich-control
-                    .select-wrapper
-                      select#appEscape(:value="currentObject.interaction.app.appEscape")
-                        option(value="Manual") 手動退出
-                        option(value="Force") 強制關閉
-                .controlgroup
-                  .controls.rich-control
-                    .row
-                      .grid.g-6-12
-                        input#appEscapeTime(type='number', :value="currentObject.interaction.app.appEscapeTime")
-                      .grid.g-6-12
-                        label 秒強制關閉
-                .controlgroup
-                  label 懸浮按鈕
-                  .controls.rich-control
-                    .select-wrapper
-                      select#appEscapeButton(:value="currentObject.interaction.app.appEscapeButton")
-                        option(value="ON") 啟用
-                        option(value="OFF") 不啟用
-                .controlgroup
-                  label 按鈕位置
-                  .controls.rich-control
-                    .select-wrapper
-                      select#appEscapeButtonPos(:value="currentObject.interaction.app.appEscapeButtonPost")
-                        option(value="lefttop") 左上
-                        option(value="leftcenter") 左中
-                        option(value="leftbottom") 左下
-                        option(value="righttop") 右上
-                        option(value="rightcenter") 右中
-                        option(value="rightbottom") 右下
-                        option(value="centertop") 中上
-                        option(value="centercenter") 中中
-                        option(value="centerbottom") 中下
-                .controlgroup
-                  label 按鈕尺寸
-                  .controls.rich-control
-                    .select-wrapper
-                      select#appEscapeButtonSize(:value="currentObject.interaction.app.appEscapeButtonSize")
-                        option(value="L") 大
-                        option(value="M") 中
-                        option(value="S") 小
-                button.btn.basic.full(type="submit") 儲存設定
+            .attr-head
+              .title INTERACTIVE
+            .attr-content
+              .controlgroup
+                label 互動
+                .controls.rich-control
+                  .select-wrapper
+                    select#interactives(:value="currentObject.interaction.type", @change="updateInteractionType")
+                      option(v-for="interactive in interactives", :value="interactive.type") {{interactive.name}}
+              .controlgroup.link(v-if="currentObject.interaction.type === 'interactive'")
+                label 連結
+                .controls.rich-control
+                  form(@submit.stop.prevent="confirmLink")
+                    input#linkValue(type='text', placeholder="輸入網址(http://)或選擇節目", :value="currentObject.interaction.link.url")
+                    button.btn.edit.full(type="button", @click="selectProgram", :class="{disabled:programlist}")
+                      | 選擇節目
+                      .fa.fa-angle-up.fa-lg(v-if="programlist")
+                      .fa.fa-angle-down.fa-lg(v-else)
+                    button.btn.basic.full(type="submit") 確定
+              transition(name="fade", mode="out-in")
+                programlist(v-if="programlist", v-bind:currentObject="currentObject")
+              transition(name="fade", mode="out-in")
+                form.application(v-if="currentObject.interaction.type === 'apps'", @submit.stop.prevent="updateInteraction")
+                  .controlgroup
+                    label 套件名稱
+                    .controls.rich-control
+                      input#appName(:value="currentObject.interaction.app.appName", type='text', name="appName")
+                  .controlgroup
+                    label 退出方式
+                    .controls.rich-control
+                      .select-wrapper
+                        select#appEscape(:value="currentObject.interaction.app.appEscape")
+                          option(value="Manual") 手動退出
+                          option(value="Force") 強制關閉
+                  .controlgroup
+                    .controls.rich-control
+                      .row
+                        .grid.g-6-12
+                          input#appEscapeTime(type='number', :value="currentObject.interaction.app.appEscapeTime")
+                        .grid.g-6-12
+                          label 秒強制關閉
+                  .controlgroup
+                    label 懸浮按鈕
+                    .controls.rich-control
+                      .select-wrapper
+                        select#appEscapeButton(:value="currentObject.interaction.app.appEscapeButton")
+                          option(value="ON") 啟用
+                          option(value="OFF") 不啟用
+                  .controlgroup
+                    label 按鈕位置
+                    .controls.rich-control
+                      .select-wrapper
+                        select#appEscapeButtonPos(:value="currentObject.interaction.app.appEscapeButtonPost")
+                          option(value="lefttop") 左上
+                          option(value="leftcenter") 左中
+                          option(value="leftbottom") 左下
+                          option(value="righttop") 右上
+                          option(value="rightcenter") 右中
+                          option(value="rightbottom") 右下
+                          option(value="centertop") 中上
+                          option(value="centercenter") 中中
+                          option(value="centerbottom") 中下
+                  .controlgroup
+                    label 按鈕尺寸
+                    .controls.rich-control
+                      .select-wrapper
+                        select#appEscapeButtonSize(:value="currentObject.interaction.app.appEscapeButtonSize")
+                          option(value="L") 大
+                          option(value="M") 中
+                          option(value="S") 小
+                  button.btn.basic.full(type="submit") 儲存設定
 
           .attribution-group.webview(v-if="webview")
-            p WEBVIEW
-            .controlgroup.webview
-              label 網址
-              .controls
-                input#webviewUrl(v-bind:value="currentObject.webview", type="text", placeholder="http://google.com", @keyup="updateWebview")
-            p 網頁替代圖
-            .controlgroup.webview
-              label 替代圖
-              .controls.rich-control
-                span ( 請從下列素材庫選取 )
-                transition(name="fade", mode="out-in")
-                  img#webviewPlaceholderPreview(v-if="currentObject.placeholder", :src="baseUrl + currentObject.placeholder")
-
-          .attribution-group(v-if="marquee")
-            p MARQUEE
-            form(@submit.stop.prevent="updateMarquee")
-              .controlgroup
-                label 內容
-                .controls
-                  textarea#rssSource.full(type="text", v-bind:value="currentObject.marquee.source", name="source")
-              .controlgroup
-                label 持續時間
-                .controls
-                  input.marquee-leasttime(v-bind:value="currentObject.marquee.leastTime", type='number', name="leastTime")
-              
-              .controlgroup
-                label 切換特效
-                .controls
-                  .select-wrapper
-                    select.marquee-type(v-bind:value="currentObject.marquee.transitionType", name="transitionType")
-                      option(v-for="type in marqueedata.transitionType", :value="type.value") {{type.name}}
-            
-              .controlgroup
-                label 特效時間
-                .controls
-                  input.marquee-transitionperiod(v-bind:value="currentObject.marquee.transitionPeriod", type='number', name="transitionPeriod")
-              button.btn.basic.full(type="submit") 更新跑馬燈
-          .attribution-group(v-if="rss")
-            p RSS FRAME
-            form(@submit.stop.prevent="updateRss")
-              .controlgroup
+            .attr-head
+              .title WEBVIEW
+            .attr-content
+              .controlgroup.webview
                 label 網址
                 .controls
-                  input#rssSource(type="text", v-bind:value="currentObject.rssmarquee.source", name="rssSource")
-              .controlgroup
-                label 持續時間
-                .controls
-                  input.marquee-leasttime(v-bind:value="currentObject.rssmarquee.leastTime", type='number', name="leastTime")
-              
-              .controlgroup
-                label 切換特效
-                .controls
-                  .select-wrapper
-                    select.marquee-type(v-bind:value="currentObject.rssmarquee.transitionType", name="transitionType")
-                      option(v-for="type in rssdata.transitionType", :value="type.value") {{type.name}}
-            
-              .controlgroup
-                label 特效時間
-                .controls
-                  input.marquee-transitionperiod(v-bind:value="currentObject.rssmarquee.transitionPeriod", type='number', name="transitionPeriod")
-              button.btn.basic.full(type="submit") 更新 RSS
-          .attribution-group.clock(v-if="clock")
-            p CLOCKS
-            .controlgroup.clock
-              label 時區
-              .controls
-                .select-wrapper
-                  select#gmt-time(v-model="currentObject.gmt", @change="changeTimeZone()")
-                    option(value='Etc/GMT+12') [-01:00] Etc/GMT+12
-                    option(value='Pacific/Midway') [-11:00] Pacific/Midway
-                    option(value='Pacific/Honolulu') [-10:00] Pacific/Honolulu
-                    option(value='Pacific/Gambier') [-09:00] Pacific/Gambier
-                    option(value='Pacific/Pitcairn') [-08:00] Pacific/Pitcairn
-                    option(value='America/Creston') [-07:00] America/Creston
-                    option(value='America/Belize') [-06:00] America/Belize
-                    option(value='America/Atikokan') [-05:00] America/Atikokan
-                    option(value='America/Anguilla') [-04:00] America/Anguilla
-                    option(value='America/Araguaina') [-03:00] America/Araguaina
-                    option(value='America/Noronha') [-02:00] America/Noronha
-                    option(value='America/Scoresbysund') [-01:00] America/Scoresbysund
-                    option(value='Africa/Abidjan') [+00:00] Africa/Abidjan
-                    option(value='Africa/Algiers') [+01:00] Africa/Algiers
-                    option(value='Africa/Blantyre') [+02:00] Africa/Blantyre
-                    option(value='Africa/Asmara') [+03:00] Africa/Asmara
-                    option(value='Asia/Dubai') [+04:00] Asia/Dubai
-                    option(value='Antarctica/Mawson') [+05:00] Antarctica/Mawson
-                    option(value='Antarctica/Vostok') [+06:00] Antarctica/Vostok
-                    option(value='Asia/Bangkok') [+07:00] Asia/Bangkok
-                    option(value='Asia/Taipei') [+08:00] Asia/Taipei
-                    option(value='Asia/Seoul') [+09:00] Asia/Seoul
-                    option(value='Australia/Brisbane') [+10:00] Australia/Brisbane
-                    option(value='Asia/Magadan') [+11:00] Asia/Magadan
-                    option(value='Asia/Anadyr') [+12:00] Asia/Anadyr
-                    option(value='Pacific/Enderbury') [+13:00] Pacific/Enderbury
-                    option(value='Pacific/Kiritimati') [+14:00] Pacific/Kiritimati
-          
-          .attribution-group.rtsp(v-if="rtsp")
-            p RTSP FRAME
-            .controlgroup.rtsp
-              label 網址
-              .controls
-                input#rtspUrl(v-bind:value="currentObject.rtsp", type="text", placeholder="rtsp://000.000.000.00", name="rtsp", @keyup="updateRtsp")
-          .attribution-group.layers(v-if="currentObject.slides")
-            .configureAll
-              .block
-                p 內容
-              .block
-                a(href="javascript:;", :class="{active: layerGroupSetting}", @click="triggerLayerGroupSetting")
-                  span 統一設定
-                  .fa.fa-sliders.fa-lg
-                a(href="javascript:;", @click="deleteSlideGroup")
-                  span 全部刪除
-                  .fa.fa-trash.fa-lg
-            transition(name="fade", mode="out-in")
-              .layers-setting(v-if="layerGroupSetting")
+                  input#webviewUrl(v-bind:value="currentObject.webview", type="text", placeholder="http://google.com", @keyup="updateWebview")
+              p 網頁替代圖
+              .controlgroup.webview
+                label 替代圖
+                .controls.rich-control
+                  span ( 請從下列素材庫選取 )
+                  transition(name="fade", mode="out-in")
+                    img#webviewPlaceholderPreview(v-if="currentObject.placeholder", :src="baseUrl + currentObject.placeholder")
+
+          .attribution-group(v-if="marquee")
+            .attr-head
+              .title MARQUEE
+            .attr-content
+              form(@submit.stop.prevent="updateMarquee")
+                .controlgroup
+                  label 內容
+                  .controls
+                    textarea#rssSource.full(type="text", v-bind:value="currentObject.marquee.source", name="source")
                 .controlgroup
                   label 持續時間
                   .controls
-                    input(type="number", v-model="slideSettings.leastTime")
+                    input.marquee-leasttime(v-bind:value="currentObject.marquee.leastTime", type='number', name="leastTime")
+                
                 .controlgroup
-                  label 特效
+                  label 切換特效
                   .controls
                     .select-wrapper
-                      select(v-model="slideSettings.transitionTypeSelected")
-                        option(v-for="type in slideSettings.transitionType", :value="type.value") {{type.text}}
+                      select.marquee-type(v-bind:value="currentObject.marquee.transitionType", name="transitionType")
+                        option(v-for="type in marqueedata.transitionType", :value="type.value") {{type.name}}
+              
                 .controlgroup
                   label 特效時間
                   .controls
-                    input(type="number", v-model="slideSettings.transitionTime")
+                    input.marquee-transitionperiod(v-bind:value="currentObject.marquee.transitionPeriod", type='number', name="transitionPeriod")
+                button.btn.basic.full(type="submit") 更新跑馬燈
+          .attribution-group(v-if="rss")
+            .attr-head
+              .title RSS FRAME
+            .attr-content
+              form(@submit.stop.prevent="updateRss")
                 .controlgroup
-                  button.btn.edit.full(type="buttn", @click="slideSetting('all')") 統一修改
+                  label 網址
+                  .controls
+                    input#rssSource(type="text", v-bind:value="currentObject.rssmarquee.source", name="rssSource")
+                .controlgroup
+                  label 持續時間
+                  .controls
+                    input.marquee-leasttime(v-bind:value="currentObject.rssmarquee.leastTime", type='number', name="leastTime")
+                
+                .controlgroup
+                  label 切換特效
+                  .controls
+                    .select-wrapper
+                      select.marquee-type(v-bind:value="currentObject.rssmarquee.transitionType", name="transitionType")
+                        option(v-for="type in rssdata.transitionType", :value="type.value") {{type.name}}
+              
+                .controlgroup
+                  label 特效時間
+                  .controls
+                    input.marquee-transitionperiod(v-bind:value="currentObject.rssmarquee.transitionPeriod", type='number', name="transitionPeriod")
+                button.btn.basic.full(type="submit") 更新 RSS
+          .attribution-group.clock(v-if="clock")
+            .attr-head
+              .title CLOCKS
+            .attr-content
+              .controlgroup.clock
+                label 時區
+                .controls
+                  .select-wrapper
+                    select#gmt-time(v-model="currentObject.gmt", @change="changeTimeZone()")
+                      option(value='Etc/GMT+12') [-01:00] Etc/GMT+12
+                      option(value='Pacific/Midway') [-11:00] Pacific/Midway
+                      option(value='Pacific/Honolulu') [-10:00] Pacific/Honolulu
+                      option(value='Pacific/Gambier') [-09:00] Pacific/Gambier
+                      option(value='Pacific/Pitcairn') [-08:00] Pacific/Pitcairn
+                      option(value='America/Creston') [-07:00] America/Creston
+                      option(value='America/Belize') [-06:00] America/Belize
+                      option(value='America/Atikokan') [-05:00] America/Atikokan
+                      option(value='America/Anguilla') [-04:00] America/Anguilla
+                      option(value='America/Araguaina') [-03:00] America/Araguaina
+                      option(value='America/Noronha') [-02:00] America/Noronha
+                      option(value='America/Scoresbysund') [-01:00] America/Scoresbysund
+                      option(value='Africa/Abidjan') [+00:00] Africa/Abidjan
+                      option(value='Africa/Algiers') [+01:00] Africa/Algiers
+                      option(value='Africa/Blantyre') [+02:00] Africa/Blantyre
+                      option(value='Africa/Asmara') [+03:00] Africa/Asmara
+                      option(value='Asia/Dubai') [+04:00] Asia/Dubai
+                      option(value='Antarctica/Mawson') [+05:00] Antarctica/Mawson
+                      option(value='Antarctica/Vostok') [+06:00] Antarctica/Vostok
+                      option(value='Asia/Bangkok') [+07:00] Asia/Bangkok
+                      option(value='Asia/Taipei') [+08:00] Asia/Taipei
+                      option(value='Asia/Seoul') [+09:00] Asia/Seoul
+                      option(value='Australia/Brisbane') [+10:00] Australia/Brisbane
+                      option(value='Asia/Magadan') [+11:00] Asia/Magadan
+                      option(value='Asia/Anadyr') [+12:00] Asia/Anadyr
+                      option(value='Pacific/Enderbury') [+13:00] Pacific/Enderbury
+                      option(value='Pacific/Kiritimati') [+14:00] Pacific/Kiritimati
+          
+          .attribution-group.rtsp(v-if="rtsp")
+            .attr-head
+              .title RTSP FRAME
+            .attr-content
+              .controlgroup.rtsp
+                label 網址
+                .controls
+                  input#rtspUrl(v-bind:value="currentObject.rtsp", type="text", placeholder="rtsp://000.000.000.00", name="rtsp", @keyup="updateRtsp")
+          .attribution-group.layers(v-if="currentObject.slides")
+            .attr-head
+              .title LAYER
+            .attr-content
+              .configureAll
+                .block
+                  p 內容
+                .block
+                  a(href="javascript:;", :class="{active: layerGroupSetting}", @click="triggerLayerGroupSetting")
+                    span 統一設定
+                    .fa.fa-sliders.fa-lg
+                  a(href="javascript:;", @click="deleteSlideGroup")
+                    span 全部刪除
+                    .fa.fa-trash.fa-lg
+              transition(name="fade", mode="out-in")
+                .layers-setting(v-if="layerGroupSetting")
+                  .controlgroup
+                    label 持續時間
+                    .controls
+                      input(type="number", v-model="slideSettings.leastTime")
+                  .controlgroup
+                    label 特效
+                    .controls
+                      .select-wrapper
+                        select(v-model="slideSettings.transitionTypeSelected")
+                          option(v-for="type in slideSettings.transitionType", :value="type.value") {{type.text}}
+                  .controlgroup
+                    label 特效時間
+                    .controls
+                      input(type="number", v-model="slideSettings.transitionTime")
+                  .controlgroup
+                    button.btn.edit.full(type="buttn", @click="slideSetting('all')") 統一修改
 
-            .layers-wrapper(v-if="layerlist")
-              draggable.layers-inner(v-bind:list="layerlist", @start="startDragging", @end="endDragging")
-                li.layer(v-for="slide in currentObject.slides", :key="slide.id", :class="{ active:slide.id === currentObject.visibleslide.id }", @click="selectLayer(slide.id)", :title="slide.leastTime + '/sec,' + slide.transitionType + '(' + slide.transitionTime + '/sec)'")
-                  .thumbnail(:style="'background-image: url(' + slide.url +');'")
-                  .description
-                    span {{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
-                    //- .configure
-                    //-   .fa.fa-sliders.fa-lg
-                    .delete(@click.prevent.stop="deleteSlide(slide.id)")
-                      .fa.fa-trash.fa-lg
-                  .layers-setting(v-if="slide.id === currentObject.visibleslide.id")
-                    //- .controlgroup
-                    //-   label 填滿
-                    //-   .controls
-                    //-     button.btn.basic.full Strech
-                    //-     button.btn.basic.full Origin
-                    //-     button.btn.basic.full Fill
-                    .controlgroup
-                      label 持續時間
-                      .controls
-                        input(type="number", v-model="slide.leastTime")
-                    .controlgroup
-                      label 特效
-                      .controls
-                        .select-wrapper
-                          select(v-model="slide.transitionType")
-                            option(v-for="type in slideSettings.transitionType", :value="type.value") {{type.text}}
-                    .controlgroup
-                      label 特效時間
-                      .controls
-                        input(type="number", v-model="slide.transitionTime")
-                    //- .controlgroup
-                    //-   button.btn.edit.full(type="buttn", @click="slideSetting(slide.id)") 修改
+              .layers-wrapper(v-if="layerlist")
+                draggable.layers-inner(v-bind:list="layerlist", @start="startDragging", @end="endDragging")
+                  li.layer(v-for="slide in currentObject.slides", :key="slide.id", :class="{ active:slide.id === currentObject.visibleslide.id }", @click="selectLayer(slide.id)", :title="slide.leastTime + '/sec,' + slide.transitionType + '(' + slide.transitionTime + '/sec)'")
+                    .thumbnail(:style="'background-image: url(' + slide.url +');'")
+                    .description
+                      span {{slide.leastTime}}/sec, {{slide.transitionType}}({{slide.transitionTime}}/sec)
+                      //- .configure
+                      //-   .fa.fa-sliders.fa-lg
+                      .delete(@click.prevent.stop="deleteSlide(slide.id)")
+                        .fa.fa-trash.fa-lg
+                    .layers-setting(v-if="slide.id === currentObject.visibleslide.id")
+                      //- .controlgroup
+                      //-   label 填滿
+                      //-   .controls
+                      //-     button.btn.basic.full Strech
+                      //-     button.btn.basic.full Origin
+                      //-     button.btn.basic.full Fill
+                      .controlgroup
+                        label 持續時間
+                        .controls
+                          input(type="number", v-model="slide.leastTime")
+                      .controlgroup
+                        label 特效
+                        .controls
+                          .select-wrapper
+                            select(v-model="slide.transitionType")
+                              option(v-for="type in slideSettings.transitionType", :value="type.value") {{type.text}}
+                      .controlgroup
+                        label 特效時間
+                        .controls
+                          input(type="number", v-model="slide.transitionTime")
+                      //- .controlgroup
+                      //-   button.btn.edit.full(type="buttn", @click="slideSetting(slide.id)") 修改
           library(v-if="slider || webview", v-bind:baseUrl="baseUrl")
 </template>
 
@@ -1094,7 +1115,6 @@ export default {
 // Transitions
 #attributes {
   box-sizing: border-box;
-  padding: 1em 0;
   flex: none;
   width: 310px;
   height: 100%;
@@ -1102,6 +1122,7 @@ export default {
   letter-spacing: .1em;
   color: $gray;
   border-top: 2px solid $pureblack;
+  background-color: $darkestgray;
   &.fade-enter-active, &.fade-leave-active {
     transition: .3s all ease;
   }
@@ -1115,10 +1136,27 @@ export default {
   }
 }
 .attribution-group {
-  border-top: 1px solid darken($darkgray, 20%);
-  padding: 0.5em;
+  // border-top: 1px solid darken($darkgray, 25%);
+  // border-bottom: 1px solid $pureblack;
   &:first-child {
-   border: 0; 
+   border-top: 0; 
+  }
+  .attr-head {
+    border-top: 1px solid darken($darkgray, 20%);
+    border-bottom: 1px solid darken($darkgray, 30%);
+    padding: .8em 1em;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#21252c+0,1e2224+100 */
+background: rgb(33,37,44); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(33,37,44,1) 0%, rgba(30,34,36,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(33,37,44,1) 0%,rgba(30,34,36,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(33,37,44,1) 0%,rgba(30,34,36,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21252c', endColorstr='#1e2224',GradientType=0 ); /* IE6-9 */
+
+  }
+  .attr-content {
+    border-top: 1px solid darken($darkgray, 20%);
+    border-bottom: 1px solid darken($darkgray, 30%);
+    padding: 1em;
   }
   .row {
     .controlgroup {

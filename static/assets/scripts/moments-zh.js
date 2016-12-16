@@ -18,16 +18,16 @@ var zhTw = moment.defineLocale('zh-tw', {
     weekdaysShort : '週日_週一_週二_週三_週四_週五_週六'.split('_'),
     weekdaysMin : '日_一_二_三_四_五_六'.split('_'),
     longDateFormat : {
-        LT : 'Ah點mm分',
-        LTS : 'Ah點m分s秒',
-        L : 'YYYY年MMMD日',
-        LL : 'YYYY年MMMD日',
-        LLL : 'YYYY年MMMD日Ah點mm分',
-        LLLL : 'YYYY年MMMD日ddddAh點mm分',
-        l : 'YYYY年MMMD日',
-        ll : 'YYYY年MMMD日',
-        lll : 'YYYY年MMMD日Ah點mm分',
-        llll : 'YYYY年MMMD日ddddAh點mm分'
+        LT : 'Ah 點 mm 分',
+        LTS : 'Ah 點 m 分 s 秒',
+        L : 'YYYY 年 MMMD 日',
+        LL : 'YYYY 年 MMMD 日',
+        LLL : 'YYYY 年 MMMD 日 Ah 點 mm 分',
+        LLLL : 'YYYY 年 MMMD 日 dddd Ah 點 mm 分',
+        l : 'YYYY 年 MMMD 日',
+        ll : 'YYYY 年 MMMD 日',
+        lll : 'YYYY 年 MMMD 日 Ah 點 mm 分',
+        llll : 'YYYY 年 MMMD 日 ddddAh 點 mm分'
     },
     meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
     meridiemHour : function (hour, meridiem) {

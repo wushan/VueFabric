@@ -211,7 +211,7 @@ export default {
   height: 100%;
   font-size: 13px;
   border-top: 2px solid $pureblack;
-  background-color: #535353;
+  background-color: $darkestgray;
   position: relative;
   &.fade-enter-active, &.fade-leave-active {
     transition: .2s all ease;
@@ -230,7 +230,7 @@ export default {
   .canvas-objectIsolation {
     padding: .5em 1em;
     border-bottom: 2px solid $pureblack;
-    background-color: darken($darkgray, 20%);
+    background-color: darken($darkestgray, 5%);
     text-align: right;
   }
   .isolation-handle {
@@ -282,10 +282,11 @@ export default {
     }
   }
   .mCSB_inside > .mCSB_container {
-    margin-right: 16px;
+    margin-right: 10px;
   }
   .mCSB_scrollTools {
-    background-color: darken(#535353, 10%);
+    background-color: darken($darkestgray, 3%);
+    width: 10px;
     .mCSB_draggerContainer {
       top: 3px;
       bottom: 3px;
@@ -294,8 +295,8 @@ export default {
       background: transparent;
     }
     .mCSB_dragger .mCSB_dragger_bar {
-      width: 10px;
-      background-color: lighten(#535353, 10%);
+      width: 4px;
+      background-color: lighten($darkestgray, 3%);
     }
   }
   .canvaslayer-wrapper {
@@ -304,7 +305,7 @@ export default {
     overflow: hidden;
     color: $gray;
     .obj-list {
-      background-color: #535353;
+      background-color: $darkestgray;
     }
   }
   .obj-layer {
@@ -314,20 +315,21 @@ export default {
     align-content: center;
     -webkit-justify-content: center;
     justify-content: center;
-    border-bottom: 1px solid darken($darkgray, 15%);
+    border-top: 1px solid lighten($darkestgray, 5%);
+    border-bottom: 1px solid darken($darkestgray, 5%);
     transition: .3s all ease;
     &:hover {
       cursor: pointer;
-      background-color: lighten(#535353, 5%);
+      background-color: lighten($darkestgray, 5%);
       input[readonly] {
-        background-color: lighten(#535353, 5%);
-        border: 1px dotted lighten(#535353, 15%);
+        background-color: lighten($darkestgray, 5%);
+        border: 1px dotted lighten($darkestgray, 15%);
       }
     }
     &:active, &.active {
       cursor: pointer;
       color: $white;
-      background-color: lighten(#535353, 15%);
+      background-color: lighten($darkestgray, 15%);
       // Layer Specific Colours
       &.usbframe {
         background-color: #bba60c;
@@ -345,8 +347,8 @@ export default {
         background-color: #63513d;
       }
       input[readonly] {
-        background-color: lighten(#535353, 15%);
-        border: 1px dotted lighten(#535353, 25%);
+        background-color: lighten($darkestgray, 15%);
+        border: 1px dotted lighten($darkestgray, 25%);
         &:hover {
           box-shadow: inset 0px 0px 3px rgba($black, 10%);
         }
@@ -392,8 +394,8 @@ export default {
       flex: 1;
       align-self: stretch;
       padding: .5em;
-      border-right: 1px solid darken($darkgray, 15%);
-      border-left: 1px solid darken($darkgray, 15%);
+      border-right: 1px solid darken($darkestgray, 5%);
+      border-left: 1px solid lighten($darkestgray, 5%);
     }
     .control {
       padding: .5em;
@@ -411,7 +413,7 @@ export default {
       width: 100%;
       padding: .8em 0 .8em 1em;
       // background-color: $darkgray;
-      border-top: 1px solid darken($darkgray, 15%);
+      border-top: 1px solid darken($darkestgray, 15%);
       background-color: lighten(#535353, 15%);
     }
   }

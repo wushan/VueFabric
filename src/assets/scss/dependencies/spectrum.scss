@@ -254,10 +254,10 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 */
 
 .sp-container {
-    border-radius: 0 6px 6px 6px;
-    background-color: $white;
+    border-radius: 3px;
+    background-color: $darkestgray;
     padding: 0;
-    box-shadow: 0 3px 3px rgba($pureblack, .66);
+    box-shadow: 1px 1px 2px rgba($pureblack, .66);
 }
 .sp-container, .sp-container button, .sp-container input, .sp-color, .sp-hue, .sp-clear {
     font: normal 12px "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
@@ -314,7 +314,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 
 /* Palettes */
 .sp-palette-container {
-    border-right: solid 1px #ccc;
+    border-right: solid 1px darken($darkestgray, 5%);
 }
 
 .sp-palette-only .sp-palette-container {
@@ -371,11 +371,18 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     display:inline-block;
     *zoom: 1;
     *display: inline;
-    background: $darkgray;
     color: #333;
     vertical-align: middle;
-    border-radius: 6px;
     transition: .3s all ease;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#21252c+0,424a4f+0,383f43+100 */
+    background: rgb(33,37,44); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(33,37,44,1) 0%, rgba(66,74,79,1) 0%, rgba(56,63,67,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  rgba(33,37,44,1) 0%,rgba(66,74,79,1) 0%,rgba(56,63,67,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  rgba(33,37,44,1) 0%,rgba(66,74,79,1) 0%,rgba(56,63,67,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21252c', endColorstr='#383f43',GradientType=0 ); /* IE6-9 */
+    border-radius: 3px;
+    border: 1px solid $pureblack;
+    box-shadow: 0 1px 0 0 rgba($select-bgcolor, .33), inset 0 1px 1px 0 rgba($white, .1);
 }
 .sp-replacer:hover {
     background-color: $gray;
@@ -399,7 +406,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 }
 .sp-preview {
     position:relative;
-    width: 36px;
+    width: 35px;
     height: 20px;
     border-radius: 3px;
     overflow: hidden;
@@ -407,6 +414,8 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     margin-right: 5px;
     float:left;
     z-index: 0;
+    box-sizing: border-box;
+    border: 1px solid $darkestgray;
 }
 
 .sp-palette {
@@ -499,6 +508,9 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 .sp-preview, .sp-alpha, .sp-thumb-el {
     position:relative;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
+}
+.sp-preview-inner {
+    box-shadow: inset 1px 1px 1px rgba($pureblack, .5);
 }
 .sp-preview-inner, .sp-alpha-inner, .sp-thumb-inner {
     display:block;

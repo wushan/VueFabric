@@ -167,7 +167,9 @@ export default {
     Events.bindEvents(window.vue.$children[0], newMask)
     canvas.add(newMask)
     newMask.moveTo(index)
-    newMask.center()
+    if (newMask.angle !== 0) {
+      newMask.center()
+    }
     newMask.setCoords()
     newMask.selectable = true
     canvas.setActiveObject(newMask)

@@ -207,6 +207,7 @@ fabric.Eclock = fabric.util.createClass(fabric.Text, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       interaction: this.interaction,
       format: this.format,
       gmt: this.gmt,

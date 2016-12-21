@@ -243,6 +243,8 @@ export default {
           }
         }
         canvas.clear()
+        canvas.renderAll()
+        window.bus.$emit('updateScene')
         instance.updateHistory()
         instance.$swal(
           '已刪除',

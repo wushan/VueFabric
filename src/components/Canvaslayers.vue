@@ -90,7 +90,6 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.updateScene()
-      console.log($('.canvaslayer-wrapper'))
       $('.canvaslayer-wrapper').mCustomScrollbar({
         theme: 'light',
         alwaysShowScrollbar: 1
@@ -158,7 +157,8 @@ export default {
     updateScene () {
       var canvas = window['canvas']
       if (canvas) {
-        this.layers = canvas._objects
+        // a shallow copy
+        this.layers = canvas._objects.slice()
       }
     },
     getItem (id) {

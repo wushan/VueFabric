@@ -73,7 +73,7 @@
               .controlgroup.text.text-attr
                 label 文字
                 .controls
-                  input#objectInput(type='text', v-bind:value="currentObject.text")
+                  textarea.full#objectInput(type='text', v-bind:value="currentObject.text", @keyup="updateText")
               .controlgroup.fontfamily
                 label 字體
                 .controls
@@ -363,12 +363,6 @@
                       .delete(@click.prevent.stop="deleteSlide(slide.id)")
                         .fa.fa-trash.fa-lg
                     .layers-setting(v-if="slide.id === currentObject.visibleslide.id")
-                      //- .controlgroup
-                      //-   label 填滿
-                      //-   .controls
-                      //-     button.btn.basic.full Strech
-                      //-     button.btn.basic.full Origin
-                      //-     button.btn.basic.full Fill
                       .controlgroup
                         label 持續時間
                         .controls
@@ -383,8 +377,6 @@
                         label 特效時間
                         .controls
                           input(type="number", v-model="slide.transitionTime")
-                      //- .controlgroup
-                      //-   button.btn.edit.full(type="buttn", @click="slideSetting(slide.id)") 修改
           library(v-if="slider || webview", v-bind:baseUrl="baseUrl")
 </template>
 
@@ -432,6 +424,7 @@ export default {
       }
       obj.set('interaction', interactionSetting)
       this.programlist = res[1]
+      canvas.renderAll()
     })
   },
   data () {
@@ -662,6 +655,12 @@ export default {
       obj.set('rssmarquee', rssSetting)
       canvas.setActiveObject(obj)
       console.log(obj.rssmarquee)
+    },
+    updateText (e) {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      obj.set('text', e.target.value)
+      canvas.renderAll()
     },
     updateMarquee (e) {
       var canvas = window['canvas']
@@ -950,12 +949,13 @@ export default {
         $('#objectTextColor').spectrum('set', this.currentObject.fill)
       })
     },
-    selectLayer (id) {
+    selectLayer (id, callback) {
       console.log(id)
       var fabric = window['fabric']
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
       var instance = this.$parent.$parent
+      var zindex
       if (currentObject.type === 'slider' || currentObject.type === 'sliderE' || currentObject.type === 'sliderT') {
         var targetSlide
         for (var i = 0; i < currentObject.slides.length; i++) {
@@ -989,6 +989,8 @@ export default {
             pattern.offsetY = targetSlide.offsetY
             // Mask (can be any shape ex: Polygon, Circles....)
             var mask = currentObject.clone()
+            // Lets remember your Z-index Level
+            zindex = canvas.getObjects().indexOf(currentObject)
             canvas.remove(currentObject)
             // First Slide
             var slideObj = {
@@ -1016,7 +1018,7 @@ export default {
             //   }
             // })(mask.toObject)
             mask.set('fill', pattern)
-            mask.visibleslide = slideObj
+            mask.set('visibleslide', slideObj)
             mask.on('object:dblclick', function (options) {
               // Pass pattern out
               // enterEditMode(mask, img)
@@ -1026,6 +1028,8 @@ export default {
             Events.bindEvents(instance, mask)
             canvas.add(mask)
             canvas.setActiveObject(mask)
+            mask.moveTo(zindex)
+            callback && callback(null)
           }, { crossOrigin: 'Anonymous' })
         }
       } else {
@@ -1054,8 +1058,6 @@ export default {
       }
     },
     deleteSlide (id) {
-      // Capture current state
-      this.$root.$children[0].$emit('updateHistory')
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
       var targetSlide
@@ -1068,23 +1070,35 @@ export default {
       // Switch to next slide Before deleting it
       // if we've got siblings
       if (currentObject.slides[index + 1]) {
-        this.selectLayer(currentObject.slides[index + 1].id)
-        // Delete
-        if (index > -1) {
-          currentObject.slides.splice(index, 1)
-        } else {
-          console.log('none')
-        }
+        this.selectLayer(currentObject.slides[index + 1].id, () => {
+          // Delete
+          console.log('selected')
+          if (index > -1) {
+            currentObject.slides.splice(index, 1)
+            // Capture current state
+            this.$root.$children[0].$emit('updateHistory')
+            console.log('saved')
+          } else {
+            console.log('none')
+          }
+        })
       } else if (currentObject.slides[index - 1]) {
-        this.selectLayer(currentObject.slides[index - 1].id)
-        // Delete
-        if (index > -1) {
-          currentObject.slides.splice(index, 1)
-        } else {
-          console.log('none')
-        }
+        this.selectLayer(currentObject.slides[index - 1].id, () => {
+          // Delete
+          console.log('selected')
+          if (index > -1) {
+            currentObject.slides.splice(index, 1)
+            // Capture current state
+            this.$root.$children[0].$emit('updateHistory')
+            console.log('saved')
+          } else {
+            console.log('none')
+          }
+        })
       } else {
         console.log('There is only me. My friend.')
+        // Capture current state
+        this.$root.$children[0].$emit('updateHistory')
         // Clean Up
         currentObject.set('visibleslide', {})
         currentObject.set('slides', null)

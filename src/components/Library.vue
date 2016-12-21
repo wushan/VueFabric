@@ -199,6 +199,7 @@ export default {
           mask.moveTo(zindex)
           canvas.renderAll()
           instance.$emit('updateHistory')
+          instance.$emit('globalError', '滑鼠雙擊 Slider 可編輯內容。')
         }, { crossOrigin: 'Anonymous' })
       } else if (currentObject.type === 'sliderE') {
         // slider Ellipse

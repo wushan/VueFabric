@@ -52,19 +52,21 @@ input, textarea, optgroup, select, button {
   }
 }
 textarea {
-  // width: 100%;
-  border: 1px solid $gray;
   box-sizing: border-box;
   height: 44px;
-  background-color: $white;
-  border-radius: 6px;
+  border-radius: 3px;
   padding: 1em;
   outline: none;
   min-height: 200px;
+  border: 1px solid $pureblack;
+  background-color: $input-bgcolor;
+  box-shadow: inset 1px 1px 2px rgba($pureblack, .5);
+  color: $pureblack;
+  opacity: .5;
   &:focus {
-    border: 1px solid $gray;
-    background-color: $smokygray;
-    color: $black;
+    transition: .3s all ease;
+    border: 1px solid $blue;
+    opacity: 1;
   }
 }
 
@@ -234,7 +236,7 @@ input[disabled] {
     }
   }
   select {
-    background-color: transparent;
+    background-color: $select-bgcolor;
     background-image: url("assets/images/select-arrow.png");
     background-position: calc(100% - 10px) center;
     background-repeat: no-repeat;

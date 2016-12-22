@@ -104,5 +104,15 @@ export default {
         cb(null, res.body)
       }
     })
+  },
+  getSource (cb) {
+    request('/static/assets/source/data.json')
+    .end(function (err, res) {
+      if (err) {
+        console.log(err)
+      } else {
+        cb(null, res.body)
+      }
+    })
   }
 }

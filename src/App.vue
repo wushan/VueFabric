@@ -1,5 +1,6 @@
 <template lang="pug">
   #canvaseditor
+    parser(v-if="preview")
     globalmis(v-bind:width="width", v-bind:height="height", v-bind:canvasLayer="canvasLayer")
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
@@ -27,6 +28,7 @@ import Artboard from './components/Artboard'
 import Toolbar from './components/Toolbar'
 import Contextmenu from './components/Contextmenu'
 import Globalmis from './components/globalMis'
+import Parser from './components/Parser'
 // import Events from './assets/cc.objectEvents'
 import Load from './assets/canvascomposer/Load'
 import Keyboard from './assets/canvascomposer/Keyboard'
@@ -36,10 +38,12 @@ export default {
     Artboard,
     Toolbar,
     Contextmenu,
-    Globalmis
+    Globalmis,
+    Parser
   },
   data () {
     return {
+      preview: false,
       arrangement: false,
       interaction: false,
       canvasLayer: false,
@@ -85,6 +89,9 @@ export default {
     this.$on('redo', () => {
       this.rePlayHistory(this.history.redo, this.history.undo)
       console.log('redo')
+    })
+    this.$on('triggerPreview', function () {
+      this.preview = true
     })
     this.$on('triggerContextMenu', function (position) {
       if (this.iscontextMenu) {

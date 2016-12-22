@@ -19,6 +19,7 @@
             .handle
           button.edit.btn.basic(@click="triggerInteraction") 互動設定
           button.basic.btn.basic(@click="triggerArrangement") 排程發佈
+          button.basic.btn.basic(@click="triggerPreview") 預覽
 </template>
 
 <script>
@@ -40,6 +41,9 @@ export default {
     },
     toggleAutoSelection () {
       this.$root.$children[0].$emit('toggleAutoSelection')
+    },
+    triggerPreview () {
+      this.$root.$children[0].$emit('triggerPreview')
     }
   }
 }

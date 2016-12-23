@@ -1,7 +1,8 @@
 <template lang="pug">
   #canvasParser
     .paintarea(:style="'width:' + paintarea.width + 'px; height:' + paintarea.height + 'px;'")
-      component.object(v-for="obj in objects", v-bind:is="obj.type")
+      component.object(v-for="obj in objects", v-bind:is="obj.type", v-bind:attr="obj")
+      .mode PLAYING
 </template>
 
 <script>
@@ -17,6 +18,8 @@ import rss from './parser/rss'
 import usbframe from './parser/usbframe'
 import rtspframe from './parser/rtspframe'
 import weatherimg from './parser/weatherimg'
+import marquee from './parser/marquee'
+import webview from './parser/webview'
 import Api from '../assets/canvascomposer/Api'
 export default {
   components: {
@@ -31,7 +34,9 @@ export default {
     location,
     rss,
     usbframe,
-    rtspframe
+    rtspframe,
+    marquee,
+    webview
   },
   data () {
     return {
@@ -68,27 +73,46 @@ export default {
 @import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "../assets/scss/var";
 #canvasParser {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background-color: $darkestgray;
-    z-index: 99;
-    display: flex;
-    -webkit-align-content: center;
-            align-content: center;
-    -webkit-justify-content: center;
-            justify-content: center;
-    .paintarea {
-      background-color: $white;
-      align-self: center;
-      box-shadow: 0 0 3px 3px rgba($black, .66);
-      position: relative;
-      color: $black;
-      .object {
-        position: absolute;
-      }
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: $darkestgray;
+  z-index: 99;
+  display: flex;
+  -webkit-align-content: center;
+          align-content: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  .paintarea {
+    background-color: $white;
+    align-self: center;
+    box-shadow: 0 0 3px 3px rgba($black, .66);
+    position: relative;
+    color: $black;
+    overflow: hidden;
+    .object {
+      position: absolute;
+      // background-color: $gray;
+      -webkit-transform-origin: left top;
+         -moz-transform-origin: left top;
+          -ms-transform-origin: left top;
+           -o-transform-origin: left top;
+              transform-origin: left top;
+      // box-shadow: 0 3px 3px rgba($black, .66);
+      // opacity: .8;
     }
+    .mode {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-color: $black;
+      color: $red;
+      padding: .3em 1em;
+      font-weight: bold;
+      opacity: .9;
+    }
+  }
 }
 </style>

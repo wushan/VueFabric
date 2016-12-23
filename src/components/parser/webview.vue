@@ -1,5 +1,5 @@
 <template lang="pug">
-  .usb(v-bind:style="attributes") USB
+  .web(v-bind:style="attributes") Webview
 </template>
 
 <script>

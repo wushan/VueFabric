@@ -1,5 +1,5 @@
 <template lang="pug">
-  .usb(v-bind:style="attributes") USB
+  .marquee(v-bind:style="attributes") Marquee
 </template>
 
 <script>

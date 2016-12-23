@@ -1,16 +1,53 @@
 <template lang="pug">
-  .slider clock
+  .clock(v-bind:style="attributes")
+    .clock-object
+      .frame
+        img(v-bind:src="'http://radi.4webdemo.com/assets/' + attr.frame")
+      .hour(v-bind:style="'transform: rotate(' + this.hour + 'deg);'")
+        img(v-bind:src="'http://radi.4webdemo.com/assets/' + attr.hour")
+      .minute(v-bind:style="'transform: rotate(' + this.minute + 'deg);'")
+        img(v-bind:src="'http://radi.4webdemo.com/assets/' + attr.minute")
+      .second(v-bind:style="'transform: rotate(' + this.second + 'deg);'")
+        img(v-bind:src="'http://radi.4webdemo.com/assets/' + attr.second")
 </template>
 
 <script>
+import Css from 'object-to-css'
 export default {
   data () {
     return {
+      currentTime: null,
+      second: 0,
+      minute: 0,
+      hour: 0
     }
   },
+  props: ['attr'],
   created () {
+    this.mountClock()
   },
   methods: {
+    mountClock () {
+      this.currentTime = window.moment()
+      this.second = 6 * window.moment().tz(this.attr.gmt).format('ss')
+      this.minute = 6 * window.moment().tz(this.attr.gmt).format('mm')
+      this.hour = 30 * window.moment().tz(this.attr.gmt).format('H') + 6 * window.moment().tz(this.attr.gmt).format('mm') / 360 * 30
+      setTimeout(() => {
+        this.mountClock()
+      }, 1000)
+    }
+  },
+  computed: {
+    attributes () {
+      var style = {
+        width: this.attr.width + 'px',
+        height: this.attr.height + 'px',
+        top: this.attr.top + 'px',
+        left: this.attr.left + 'px',
+        transform: 'rotate(' + this.attr.angle + 'deg) ' + 'scaleX(' + this.attr.scaleX + ') ' + 'scaleY(' + this.attr.scaleY + ')'
+      }
+      return Css(style)
+    }
   }
 }
 </script>
@@ -20,5 +57,19 @@ export default {
 @import "../../../bower_components/susy/sass/susy";
 @import "../../../bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "../../assets/scss/var";
-
+.clock {
+  .clock-object {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    div {
+      transition: .3s all ease;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      left: 0;
+      top: 0;
+    }
+  }
+}
 </style>

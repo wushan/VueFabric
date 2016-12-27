@@ -24,12 +24,15 @@ export default {
   },
   props: ['attr'],
   created () {
+    this.second = 6 * window.moment().tz(this.attr.gmt).format('ss')
+    this.minute = 6 * window.moment().tz(this.attr.gmt).format('mm')
+    this.hour = 30 * window.moment().tz(this.attr.gmt).format('H') + 6 * window.moment().tz(this.attr.gmt).format('mm') / 360 * 30
     this.mountClock()
   },
   methods: {
     mountClock () {
       this.currentTime = window.moment()
-      this.second = 6 * window.moment().tz(this.attr.gmt).format('ss')
+      this.second = this.second + 6
       this.minute = 6 * window.moment().tz(this.attr.gmt).format('mm')
       this.hour = 30 * window.moment().tz(this.attr.gmt).format('H') + 6 * window.moment().tz(this.attr.gmt).format('mm') / 360 * 30
       setTimeout(() => {
@@ -63,7 +66,6 @@ export default {
     height: 100%;
     width: 100%;
     div {
-      transition: .3s all ease;
       position: absolute;
       height: 100%;
       width: 100%;

@@ -1,5 +1,6 @@
 <template lang="pug">
-  .slider(v-bind:style="attributes") THIS IS SLIDER
+  .slider(v-bind:style="attributes")
+    .slide(v-for="slide in attr.slides", v-bind:style="'background-image: url(' + slide.url + ');'")
 </template>
 
 <script>
@@ -37,5 +38,12 @@ export default {
 @import "../../assets/scss/var";
 .slider {
   overflow: hidden;
+  .slide {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
 }
 </style>

@@ -1,5 +1,6 @@
 <template lang="pug">
-  .web(v-bind:style="attributes") Webview
+  .web(v-bind:style="attributes")
+    iframe(v-bind:src="attr.webview", frameborder="0")
 </template>
 
 <script>
@@ -35,5 +36,12 @@ export default {
 @import "../../../bower_components/susy/sass/susy";
 @import "../../../bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "../../assets/scss/var";
-
+.web {
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  } 
+}
 </style>

@@ -1,6 +1,6 @@
 <template lang="pug">
   .web(v-bind:style="attributes")
-    iframe(v-bind:src="attr.webview", frameborder="0")
+    //- iframe(v-bind:src="attr.webview", frameborder="0")
 </template>
 
 <script>

@@ -276,7 +276,9 @@ export default {
           instance.$emit('updateHistory')
         }, { crossOrigin: 'Anonymous' })
       } else if (currentObject.type === 'webview') {
-        currentObject.set('placeholder', url)
+        var currentWebview = currentObject.get('webview')
+        currentWebview.placeholder = url
+        currentObject.set('webview', currentWebview)
         canvas.renderAll()
         instance.$emit('updateHistory')
       } else {

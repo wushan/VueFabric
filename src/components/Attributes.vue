@@ -213,14 +213,18 @@
               .controlgroup.webview
                 label 網址
                 .controls
-                  input#webviewUrl(v-bind:value="currentObject.webview", type="text", placeholder="http://google.com", @keyup="updateWebview")
+                  input#webviewUrl(v-bind:value="currentObject.webview.url", type="text", placeholder="http://google.com", name="url", @keyup="updateWebview")
+              .controlgroup.webview
+                label 更新週期
+                .controls
+                  input#webviewUrl(v-bind:value="currentObject.webview.refreshRate ? currentObject.webview.refreshRate : 0", type="number", name="refreshRate", @keyup="updateWebview")
               p 網頁替代圖
               .controlgroup.webview
                 label 替代圖
                 .controls.rich-control
                   span ( 請從下列素材庫選取 )
                   transition(name="fade", mode="out-in")
-                    img#webviewPlaceholderPreview(v-if="currentObject.placeholder", :src="baseUrl + currentObject.placeholder")
+                    img#webviewPlaceholderPreview(v-if="currentObject.webview.placeholder", :src="baseUrl + currentObject.webview.placeholder")
 
           .attribution-group(v-if="marquee")
             .attr-head
@@ -687,7 +691,14 @@ export default {
       // This Updates Rapidly @keyup
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
-      obj.set('webview', e.target.value)
+      var currentWebview = obj.get('webview')
+      console.log(e)
+      if (e.target.name === 'url') {
+        currentWebview.url = e.target.value
+      } else if (e.target.name === 'refreshRate') {
+        currentWebview.refreshRate = e.target.value
+      }
+      obj.set('webview', currentWebview)
     },
     updateInteractionType (e) {
       var canvas = window['canvas']

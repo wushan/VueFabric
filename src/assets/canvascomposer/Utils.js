@@ -9,6 +9,7 @@ export default {
       obj.bringToFront()
       canvas.renderAll()
       window.vue.$children[0].$emit('updateHistory')
+      window.bus.$emit('updateScene')
       window.vue.$children[0].$emit('closeContextMenu')
     }
   },
@@ -19,6 +20,7 @@ export default {
       obj.bringForward()
       canvas.renderAll()
       window.vue.$children[0].$emit('updateHistory')
+      window.bus.$emit('updateScene')
       window.vue.$children[0].$emit('closeContextMenu')
     }
   },
@@ -29,6 +31,7 @@ export default {
       obj.sendBackwards()
       canvas.renderAll()
       window.vue.$children[0].$emit('updateHistory')
+      window.bus.$emit('updateScene')
       window.vue.$children[0].$emit('closeContextMenu')
     }
   },
@@ -39,6 +42,7 @@ export default {
       obj.sendToBack()
       canvas.renderAll()
       window.vue.$children[0].$emit('updateHistory')
+      window.bus.$emit('updateScene')
       window.vue.$children[0].$emit('closeContextMenu')
     }
   },
@@ -107,6 +111,8 @@ export default {
       }
       window.vue.$children[0].$emit('updateHistory')
       window.vue.$children[0].$emit('closeContextMenu')
+    } else {
+      window.vue.$children[0].$emit('globalError', '錯誤')
     }
   },
   removeObject (cb) {

@@ -86,6 +86,7 @@ export default {
     Mousetrap.bind(['command+l', 'ctrl+l'], function (e) {
       if (e.preventDefault) {
         e.preventDefault()
+        e.stopPropagation()
       } else {
         // internet explorer
         e.returnValue = false

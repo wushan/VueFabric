@@ -330,6 +330,11 @@ export default {
       cursor: pointer;
       color: $white;
       background-color: lighten($darkestgray, 15%);
+      .name {
+        input {
+          pointer-events: auto;
+        }
+      }
       // Layer Specific Colours
       &.usbframe {
         background-color: #bba60c;
@@ -396,6 +401,9 @@ export default {
       padding: .5em;
       border-right: 1px solid darken($darkestgray, 5%);
       border-left: 1px solid lighten($darkestgray, 5%);
+      input {
+        pointer-events: none;
+      }
     }
     .control {
       padding: .5em;

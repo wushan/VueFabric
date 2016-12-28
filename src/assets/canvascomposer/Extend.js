@@ -396,6 +396,11 @@ fabric.Webview.fromObject = function (options) {
   options.fill = '#5e7e29'
   return new fabric.Webview(options)
 }
+fabric.Webview.prototype.webview = {
+  url: '',
+  placeholder: '',
+  refreshRate: ''
+}
 // RTSP Class
 // Create Fabric USB Class
 fabric.Rtspframe = fabric.util.createClass(fabric.Rect, {

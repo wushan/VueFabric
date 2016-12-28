@@ -236,6 +236,18 @@ export default {
         originY: 'center',
         name: 'Webview'
       })
+      bg.toObject = (function (toObject) {
+        return function () {
+          return fabric.util.object.extend(toObject.call(this), {
+            interaction: this.interaction,
+            webview: {
+              url: this.webview.url,
+              placeholder: this.webview.placeholder,
+              refreshRate: this.webview.refreshRate
+            }
+          })
+        }
+      })(bg.toObject)
       canvas.add(bg)
       // Bind
       this.bindEvents(bg)

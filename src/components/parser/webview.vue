@@ -1,6 +1,6 @@
 <template lang="pug">
   .web(v-bind:style="attributes")
-    //- iframe(v-bind:src="attr.webview", frameborder="0")
+    iframe(v-bind:src="attr.webview.url", frameborder="0", scrolling="no", v-bind:id="attr.id")
 </template>
 
 <script>
@@ -12,8 +12,21 @@ export default {
   },
   created () {
   },
+  mounted () {
+    this.readyToRefresh()
+  },
   props: ['attr'],
   methods: {
+    readyToRefresh () {
+      var item
+      if (this.attr) {
+        console.log(this.attr.id)
+        item = document.getElementById(this.attr.id)
+        setTimeout(() => {
+          item.parentNode.replaceChild(item.cloneNode(), item)
+        }, this.attr.webview.refreshRate * 1000)
+      }
+    }
   },
   computed: {
     attributes () {
@@ -23,7 +36,7 @@ export default {
         top: this.attr.top + 'px',
         left: this.attr.left + 'px',
         transform: 'rotate(' + this.attr.angle + 'deg)',
-        'background-color': this.attr.fill
+        'background-color': '#ffffff'
       }
       return Css(style)
     }

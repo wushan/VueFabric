@@ -3,6 +3,7 @@
     .paintarea(:style="'width:' + paintarea.width + 'px; height:' + paintarea.height + 'px;'")
       component.object(v-for="obj in objects", v-bind:is="obj.type", v-bind:attr="obj")
       .mode PLAYING
+    a.fa.fa-lg.fa-times.close(@click="leavePreview")
 </template>
 
 <script>
@@ -51,6 +52,9 @@ export default {
     this.getSource()
     // this.objects = source
   },
+  beforeDestroy () {
+    console.log('111')
+  },
   methods: {
     getSource () {
       Api.getSource((err, data) => {
@@ -62,6 +66,9 @@ export default {
           this.objects = data.objects
         }
       })
+    },
+    leavePreview () {
+      this.$parent.$emit('closePreview')
     }
   }
 }
@@ -85,6 +92,11 @@ export default {
           align-content: center;
   -webkit-justify-content: center;
           justify-content: center;
+  .close {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+  }
   .paintarea {
     background-color: $white;
     align-self: center;

@@ -135,7 +135,8 @@ export default {
         padding: 0,
         fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
         rx: this.initialRadius / 2,
-        ry: this.initialRadius / 2
+        ry: this.initialRadius / 2,
+        ratio: {w: 'free', h: 'free'}
       })
       canvas.add(slider)
       canvas.renderAll()
@@ -155,7 +156,8 @@ export default {
         width: this.initialRadius,
         height: this.initialRadius,
         padding: 0,
-        fill: '#' + Math.floor(Math.random() * 16777215).toString(16)
+        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
+        ratio: {w: 'free', h: 'free'}
       })
       canvas.add(slider)
       canvas.renderAll()
@@ -210,7 +212,8 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'Usb Frame'
+        name: 'Usb Frame',
+        ratio: {w: 'free', h: 'free'}
       })
       canvas.add(bg)
       canvas.renderAll()
@@ -234,7 +237,8 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'Webview'
+        name: 'Webview',
+        ratio: {w: 'free', h: 'free'}
       })
       bg.toObject = (function (toObject) {
         return function () {
@@ -268,7 +272,8 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'RTSP'
+        name: 'RTSP',
+        ratio: {w: 'free', h: 'free'}
       })
       canvas.add(bg)
       // Bind
@@ -295,7 +300,8 @@ export default {
         width: this.initialRadius,
         height: this.initialRadius,
         padding: 0,
-        fill: '#' + Math.floor(Math.random() * 16777215).toString(16)
+        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
+        ratio: {w: 'free', h: 'free'}
       })
       canvas.add(slider)
       canvas.renderAll()
@@ -319,10 +325,15 @@ export default {
         originY: 'center',
         name: 'RSS',
         rssmarquee: {
+          type: rsssource.type,
           source: rsssource.source,
           leastTime: rsssource.leastTime,
           transitionType: rsssource.transitionType,
-          transitionPeriod: rsssource.transitionPeriod
+          transitionPeriod: rsssource.transitionPeriod,
+          fontface: 'Open Sans',
+          size: 14,
+          fontcolor: 'rgba(0,0,0,1)',
+          backgroundColor: 'transparent'
         }
       })
       canvas.add(bg)

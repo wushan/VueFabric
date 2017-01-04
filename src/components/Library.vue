@@ -26,7 +26,7 @@
           loader(v-bind:loading="loading", v-bind:loadingtext="loadingtext")
           .materials-wrapper
             transition-group.materials-list(name="list-complete", tag="div")
-              .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail, item.video_image)")
+              .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail, item.video_image, item.filepath)")
                 img(:src="baseUrl + item.thumbnail")
                 .type(v-if="item.video_image")
                   .fa.fa-play-circle.fa-lg
@@ -119,11 +119,12 @@ export default {
     }
   },
   methods: {
-    insertMedia (url, isVideo) {
+    insertMedia (url, isVideo, filepath) {
       var fabric = window['fabric']
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
       var instance = this.$parent.$parent.$parent
+      var siteurl = this.baseUrl
       var zindex
       // If Slider Rectangle
       if (currentObject.type === 'slider' || currentObject.type === 'sliderT') {
@@ -177,6 +178,9 @@ export default {
             leastTime: leastTime,
             transitionType: 'random',
             transitionTime: 3
+          }
+          if (isVideo) {
+            slideObj.video = siteurl + filepath
           }
           if (!mask.slides) {
             mask.slides = []
@@ -252,6 +256,9 @@ export default {
             leastTime: leastTime,
             transitionType: 'random',
             transitionTime: 3
+          }
+          if (isVideo) {
+            slideObj.video = siteurl + filepath
           }
           if (!mask.slides) {
             mask.slides = []

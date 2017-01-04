@@ -68,6 +68,9 @@ export default {
     }
   },
   created () {
+    this.$on('closePreview', () => {
+      this.preview = false
+    })
     this.$on('AutoSelection', () => {
       this.autoSelection = !this.autoSelection
       // if (this.autoSelection) {

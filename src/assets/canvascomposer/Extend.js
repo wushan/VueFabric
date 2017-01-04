@@ -84,7 +84,8 @@ fabric.Slider = fabric.util.createClass(fabric.Rect, {
       slides: this.slides,
       interaction: this.interaction,
       name: this.name,
-      selectable: this.selectable
+      selectable: this.selectable,
+      ratio: this.ratio
     })
   },
   _render: function (ctx) {
@@ -114,7 +115,8 @@ fabric.SliderE = fabric.util.createClass(fabric.Ellipse, {
       slides: this.slides,
       interaction: this.interaction,
       name: this.name,
-      selectable: this.selectable
+      selectable: this.selectable,
+      ratio: this.ratio
     })
   },
   _render: function (ctx) {
@@ -144,7 +146,8 @@ fabric.SliderT = fabric.util.createClass(fabric.Triangle, {
       slides: this.slides,
       interaction: this.interaction,
       name: this.name,
-      selectable: this.selectable
+      selectable: this.selectable,
+      ratio: this.ratio
     })
   },
   _render: function (ctx) {
@@ -330,13 +333,25 @@ fabric.Rss = fabric.util.createClass(fabric.Rect, {
       interaction: this.interaction,
       name: this.name,
       rssmarquee: this.rssmarquee,
-      selectable: this.selectable
+      selectable: this.selectable,
+      typography: this.typography
     })
   },
   _render: function (ctx) {
     this.callSuper('_render', ctx)
   }
 })
+fabric.Rss.prototype.rssmarquee = {
+  type: 'custom',
+  source: '',
+  leastTime: '10',
+  transitionType: 'random',
+  transitionPeriod: '3',
+  fontface: 'Open Sans',
+  size: 14,
+  fontcolor: 'rgba(0,0,0,1)',
+  backgroundColor: 'transparent'
+}
 fabric.Rss.fromObject = function (options) {
   console.log(options)
   options.fill = '#508590'
@@ -356,13 +371,22 @@ fabric.Usbframe = fabric.util.createClass(fabric.Rect, {
       id: this.id,
       interaction: this.interaction,
       name: this.name,
-      selectable: this.selectable
+      selectable: this.selectable,
+      ratio: this.ratio,
+      usbframe: this.usbframe
     })
   },
   _render: function (ctx) {
     this.callSuper('_render', ctx)
   }
 })
+fabric.Usbframe.prototype.usbframe = {
+  type: 'usb',
+  transitionType: 'random',
+  fillType: 'autoFill',
+  leastTime: 10,
+  transitionTime: 3
+}
 fabric.Usbframe.fromObject = function (options) {
   console.log(options)
   options.fill = '#bba60c'
@@ -384,7 +408,9 @@ fabric.Webview = fabric.util.createClass(fabric.Rect, {
       name: this.name,
       webview: this.webview,
       placeholder: this.placeholder,
-      selectable: this.selectable
+      selectable: this.selectable,
+      ratio: this.ratio,
+      toolbox: this.toolbox
     })
   },
   _render: function (ctx) {
@@ -400,6 +426,11 @@ fabric.Webview.prototype.webview = {
   url: '',
   placeholder: '',
   refreshRate: ''
+}
+fabric.Webview.prototype.toolbox = {
+  enable: false,
+  position: 'lefttop',
+  size: 'medium'
 }
 // RTSP Class
 // Create Fabric USB Class
@@ -417,7 +448,8 @@ fabric.Rtspframe = fabric.util.createClass(fabric.Rect, {
       interaction: this.interaction,
       name: this.name,
       rtsp: this.rtsp,
-      selectable: this.selectable
+      selectable: this.selectable,
+      ratio: this.ratio
     })
   },
   _render: function (ctx) {

@@ -218,6 +218,36 @@
                 label 更新週期
                 .controls
                   input#webviewUrl(v-bind:value="currentObject.webview.refreshRate ? currentObject.webview.refreshRate : 0", type="number", name="refreshRate", @keyup="updateWebview")
+              .controlgroup.webview
+                label 工具列
+                .controls.check-group
+                  .check-item
+                    input#toolbox(type="checkbox", v-bind:value="currentObject.toolbox.enable", @change="toolbox")
+                    label(for="toolbox") 啟用工具列?
+              .controlgroup.webview(v-if="enableToolbox")
+                label 位置
+                .controls
+                  .select-wrapper
+                    select(v-bind:value="currentObject.toolbox.position", @change="changeToolboxPosition")
+                      option(value="lefttop") 左上
+                      option(value="leftmiddle") 左中
+                      option(value="leftbottom") 左下
+                      option(value="centertop") 中上
+                      option(value="centercenter") 中中
+                      option(value="centerbottom") 中下
+                      option(value="righttop") 右上
+                      option(value="rightcenter") 右中
+                      option(value="rightbottom") 右下
+
+              .controlgroup.webview(v-if="enableToolbox")
+                label 尺寸
+                .controls
+                  .select-wrapper
+                    select(v-bind:value="currentObject.toolbox.size", @change="changeToolboxSize")
+                      option(value="large") 大
+                      option(value="medium") 中
+                      option(value="small") 小
+
               p 網頁替代圖
               .controlgroup.webview
                 label 替代圖
@@ -252,32 +282,137 @@
                   .controls
                     input.marquee-transitionperiod(v-bind:value="currentObject.marquee.transitionPeriod", type='number', name="transitionPeriod")
                 button.btn.basic.full(type="submit") 更新跑馬燈
+          .attribution-group(v-if="usb")
+            .attr-head
+              .title USB FRAME
+            .attr-content
+              .controlgroup
+                label 設備類型
+                .controls
+                  .select-wrapper
+                    select(v-bind:value="currentObject.usbframe.type", name="type", @change="updateUsbframe")
+                      option(value="usb") USB
+                      option(value="sd") SD 卡
+              .controlgroup
+                label 轉場效果
+                .controls
+                  .select-wrapper
+                    select(v-bind:value="currentObject.usbframe.transitionType", name="transitionType", @change="updateUsbframe")
+                      option(value="random") 隨機
+                      option(value="leftright") 由左至右
+                      option(value="rightleft") 由右至左
+                      option(value="bottomtop") 由下至上
+                      option(value="topbottom") 由上至下
+                      option(value="fade") 淡入淡出
+              .controlgroup
+                label 填充樣式
+                .controls
+                  .select-wrapper
+                    select(v-bind:value="currentObject.usbframe.fillType", name="fillType", @change="updateUsbframe")
+                      option(value="autoFill") 自動填滿
+                      option(value="center") 原始置中
+                      option(value="strech") 等比例延伸
+              .controlgroup
+                label 播放時間
+                .controls
+                  input(type="number", placeholder="播放時間", v-bind:value="currentObject.usbframe.leastTime", name="leastTime", @keyup="updateUsbframe")
+              .controlgroup
+                label 特效時間
+                .controls
+                  input(type="number", placeholder="特效時間", v-bind:value="currentObject.usbframe.transitionTime", name="transitionTime", @keyup="updateUsbframe")
           .attribution-group(v-if="rss")
             .attr-head
               .title RSS FRAME
             .attr-content
-              form(@submit.stop.prevent="updateRss")
-                .controlgroup
-                  label 網址
+              .controlgroup
+                label 來源
+                .controls
+                  .select-wrapper
+                    select(v-bind:value="currentObject.rssmarquee.type", @change="updateRssFrame", name="type")
+                      option(value="dynamic") 多媒體通道
+                      option(value="custom") 自訂來源
+              .controlgroup
+                label 網址
+                .controls
+                  input#rssSource(type="text", v-bind:value="currentObject.rssmarquee.source", name="rssSource", @keyup="updateRssFrame")
+              .controlgroup
+                label 持續時間
+                .controls
+                  input.marquee-leasttime(v-bind:value="currentObject.rssmarquee.leastTime", type='number', name="leastTime", @keyup="updateRssFrame")
+              
+              .controlgroup
+                label 切換特效
+                .controls
+                  .select-wrapper
+                    select.marquee-type(v-bind:value="currentObject.rssmarquee.transitionType", name="transitionType", @change="updateRssFrame")
+                      option(v-for="type in rssdata.transitionType", :value="type.value") {{type.name}}
+              .controlgroup
+                label 特效時間
+                .controls
+                  input.marquee-transitionperiod(v-bind:value="currentObject.rssmarquee.transitionPeriod", type='number', name="transitionPeriod", @keyup="updateRssFrame")
+              h4 RSS TYPOGRAPHY
+              .controlgroup.fontfamily
+                label 字體
+                .controls
+                  .select-wrapper
+                    select#objectFontFamily(v-bind:value="currentObject.rssmarquee.fontface", @change="updateRssFrame", name="rssFontfamily")
+                      option(value="Open Sans") 預設 (Open Sans)
+                      option(value="DFYa-W3-WIN-BF") 華康雅風體
+                      option(value="DFHuaZong-W5-WIN-BF") 華綜體體
+                      option(value="DFJinWen-W3-WIN-BF") 華康金文體
+                      option(value="DFXingShu-W5-WIN-BF") 華康行書體
+                      option(value="DFYingHeiU-W7-WIN-BF") 華康硬黑體
+                      option(value="DFYanKai-W5-WIN-BF") 華康正顏楷體
+                      option(value="DFOYangXun-W5-WIN-BF") 華康歐陽詢體
+                      option(value="DFFangYuan-W7-WIN-BF") 華康方圓體
+                      option(value="DFWaWa-W5-WIN-BF") 娃娃體
+                      option(value="DFLiHei-W5-WIN-BF") 華康儷中黑體
+                      option(value="Verdana") Verdana
+                      option(value="Times") Times
+                      option(value="Times New Roman") Times New Roman
+                      option(value="Strasua") Strasua
+                      option(value="SegoeScript") Segoe Script
+                      option(value="OratorStd") Orator Std
+                      option(value="MicrosoftJhengHeiLight") 微軟正黑 Light
+                      option(value="MicrosoftJhengHeiBold") 微軟正黑 Bold
+                      option(value="Serif") 細明體
+                      option(value="CopperplateGothic-Light") Copperplate Gothic Light
+                      option(value="ComicSansMS") Comic Sans MS
+                      option(value="BerlinSansFBDemi-Bold") Berlin Sans FB Demi-Bold
+                      option(value="Arial") Arial
+                      option(value="ARBERKLEY") ARBERKLEY
+                      option(value="FuturaBT-Book") FuturaBT Book
+              .row
+                .controlgroup.color
+                  label 顏色
                   .controls
-                    input#rssSource(type="text", v-bind:value="currentObject.rssmarquee.source", name="rssSource")
-                .controlgroup
-                  label 持續時間
+                    input#rssTextColor(type='text')
+                .controlgroup.color
+                  label 背景
                   .controls
-                    input.marquee-leasttime(v-bind:value="currentObject.rssmarquee.leastTime", type='number', name="leastTime")
-                
-                .controlgroup
-                  label 切換特效
+                    input#rssBackgroundColor(type='text')
+                .controlgroup.fontsize
+                  label 尺寸
                   .controls
                     .select-wrapper
-                      select.marquee-type(v-bind:value="currentObject.rssmarquee.transitionType", name="transitionType")
-                        option(v-for="type in rssdata.transitionType", :value="type.value") {{type.name}}
-              
-                .controlgroup
-                  label 特效時間
-                  .controls
-                    input.marquee-transitionperiod(v-bind:value="currentObject.rssmarquee.transitionPeriod", type='number', name="transitionPeriod")
-                button.btn.basic.full(type="submit") 更新 RSS
+                      select#objectFontSize(v-bind:value="currentObject.rssmarquee.size", @change="updateRssFrame", name="rssFontSize")
+                        option(value='14') 14
+                        option(value='18') 18
+                        option(value='24') 24
+                        option(value='30') 30
+                        option(value='36') 36
+                        option(value='40') 40
+                        option(value='44') 44
+                        option(value='48') 48
+                        option(value='56') 56
+                        option(value='64') 64
+                        option(value='72') 72
+                        option(value='84') 84
+                        option(value='96') 96
+                        option(value='128') 128
+                        option(value='144') 144
+                        option(value='168') 168
+                        option(value='192') 192
           .attribution-group.clock(v-if="clock")
             .attr-head
               .title CLOCKS
@@ -433,6 +568,7 @@ export default {
   },
   data () {
     return {
+      enableToolbox: false,
       libraryOn: false,
       layerlist: [],
       dragging: false,
@@ -581,6 +717,14 @@ export default {
     },
     rss () {
       if (this.currentObject.type === 'rss') {
+        this.initialSpectrumRSS()
+        return true
+      } else {
+        return false
+      }
+    },
+    usb () {
+      if (this.currentObject.type === 'usbframe') {
         return true
       } else {
         return false
@@ -629,6 +773,101 @@ export default {
     'currentObject': ['syncData']
   },
   methods: {
+    updateUsbframe (e) {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var currentUsbframe = obj.get('usbframe')
+      switch (e.target.name) {
+        case 'type':
+          currentUsbframe.type = e.target.value
+          obj.set('usbframe', currentUsbframe)
+          break
+        case 'transitionType':
+          currentUsbframe.transitionType = e.target.value
+          obj.set('usbframe', currentUsbframe)
+          break
+        case 'fillType':
+          currentUsbframe.fillType = e.target.value
+          obj.set('usbframe', currentUsbframe)
+          break
+        case 'leastTime':
+          currentUsbframe.leastTime = e.target.value
+          obj.set('usbframe', currentUsbframe)
+          break
+        case 'transitionTime':
+          currentUsbframe.transitionTime = e.target.value
+          obj.set('usbframe', currentUsbframe)
+          break
+      }
+    },
+    updateRssFrame (e) {
+      console.log(e.target.name)
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var currentRssframe = obj.get('rssmarquee')
+      switch (e.target.name) {
+        case 'type':
+          currentRssframe.type = e.target.value
+          obj.set('rssmarquee', currentRssframe)
+          break
+        case 'rssSource':
+          currentRssframe.source = e.target.value
+          obj.set('rssmarquee', currentRssframe)
+          break
+        case 'leastTime':
+          currentRssframe.leastTime = e.target.value
+          obj.set('rssmarquee', currentRssframe)
+          break
+        case 'transitionType':
+          currentRssframe.transitionType = e.target.value
+          obj.set('rssmarquee', currentRssframe)
+          break
+        case 'transitionPeriod':
+          currentRssframe.transitionPeriod = e.target.value
+          obj.set('rssmarquee', currentRssframe)
+          break
+        case 'rssFontfamily':
+          currentRssframe.fontface = e.target.value
+          obj.set('rssmarquee', currentRssframe)
+          break
+        case 'rssFontSize':
+          currentRssframe.size = e.target.value
+          obj.set('rssmarquee', currentRssframe)
+          break
+      }
+    },
+    toolbox (e) {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var currentToolbox = obj.get('toolbox')
+      if (e.target.checked) {
+        this.enableToolbox = true
+        currentToolbox.enable = true
+        currentToolbox.position = 'lefttop'
+        currentToolbox.size = 'medium'
+        obj.set('toolbox', currentToolbox)
+      } else {
+        this.enableToolbox = false
+        currentToolbox.enable = false
+        currentToolbox.position = 'lefttop'
+        currentToolbox.size = 'medium'
+        obj.set('toolbox', currentToolbox)
+      }
+    },
+    changeToolboxPosition (e) {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var currentToolbox = obj.get('toolbox')
+      currentToolbox.position = e.target.value
+      obj.set('toolbox', currentToolbox)
+    },
+    changeToolboxSize (e) {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var currentToolbox = obj.get('toolbox')
+      currentToolbox.size = e.target.value
+      obj.set('toolbox', currentToolbox)
+    },
     startDragging () {
       this.dragging = true
     },
@@ -643,22 +882,6 @@ export default {
     },
     syncData () {
       this.layerlist = this.currentObject.slides
-    },
-    updateRss (e) {
-      console.log(e.target.elements.rssSource.value)
-      var canvas = window['canvas']
-      var obj = canvas.getActiveObject()
-      var rssSetting = {
-        source: e.target.elements.rssSource.value,
-        leastTime: e.target.elements.leastTime.value,
-        transitionType: e.target.elements.transitionType.value,
-        transitionPeriod: e.target.elements.transitionPeriod.value
-      }
-      console.log(rssSetting)
-      console.log(obj.rssmarquee)
-      obj.set('rssmarquee', rssSetting)
-      canvas.setActiveObject(obj)
-      console.log(obj.rssmarquee)
     },
     updateText (e) {
       var canvas = window['canvas']
@@ -692,6 +915,7 @@ export default {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
       var currentWebview = obj.get('webview')
+      console.log(currentWebview)
       console.log(e)
       if (e.target.name === 'url') {
         currentWebview.url = e.target.value
@@ -814,6 +1038,10 @@ export default {
       if (this.typography) {
         $('#objectColor').spectrum('set', this.currentObject.textBackgroundColor)
         $('#objectTextColor').spectrum('set', this.currentObject.fill)
+      } else if (this.rss) {
+        console.log('condition coms here')
+        $('#rssTextColor').spectrum('set', this.currentObject.rssmarquee.fontcolor)
+        $('#rssBackgroundColor').spectrum('set', this.currentObject.rssmarquee.backgroundColor)
       } else {
         $('#objectColor').spectrum('set', this.currentObject.fill)
       }
@@ -958,6 +1186,107 @@ export default {
           ]
         })
         $('#objectTextColor').spectrum('set', this.currentObject.fill)
+      })
+    },
+    initialSpectrumRSS () {
+      var instance = this
+      this.$nextTick(function () {
+        // RSS TEXT Color
+        $('#rssTextColor').spectrum({
+          showInput: false,
+          className: 'full-spectrum',
+          showInitial: true,
+          showPalette: true,
+          showAlpha: true,
+          showSelectionPalette: true,
+          maxSelectionSize: 10,
+          localStorageKey: 'spectrum.demo',
+          move: function (color) {
+          },
+          show: function () {
+          },
+          beforeShow: function () {
+          },
+          hide: function () {
+          },
+          change: function (color) {
+            var canvas = window['canvas']
+            var obj = canvas.getActiveObject()
+            // Turn the Spectrum Object to Hex String
+            color = color.toRgbString()
+            var currentTypography = obj.get('rssmarquee')
+            currentTypography.fontcolor = color
+            obj.set('rssmarquee', currentTypography)
+            canvas.renderAll()
+            instance.$root.$children[0].$emit('updateHistory')
+            $('#rssTextColor').spectrum('hide')
+          },
+          palette: [
+            ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
+              'rgb(204, 204, 204)', 'rgb(217, 217, 217)', 'rgb(255, 255, 255)'],
+            ['rgb(152, 0, 0)', 'rgb(255, 0, 0)', 'rgb(255, 153, 0)', 'rgb(255, 255, 0)', 'rgb(0, 255, 0)',
+              'rgb(0, 255, 255)', 'rgb(74, 134, 232)', 'rgb(0, 0, 255)', 'rgb(153, 0, 255)', 'rgb(255, 0, 255)'],
+            ['rgb(230, 184, 175)', 'rgb(244, 204, 204)', 'rgb(252, 229, 205)', 'rgb(255, 242, 204)', 'rgb(217,234, 211)',
+              'rgb(208, 224, 227)', 'rgb(201, 218, 248)', 'rgb(207, 226, 243)', 'rgb(217, 210, 233)', 'rgb(234, 209, 220)',
+              'rgb(221, 126, 107)', 'rgb(234, 153, 153)', 'rgb(249, 203, 156)', 'rgb(255, 229, 153)', 'rgb(182, 215, 168)',
+              'rgb(162, 196, 201)', 'rgb(164, 194, 244)', 'rgb(159, 197, 232)', 'rgb(180, 167, 214)', 'rgb(213, 166, 189)',
+              'rgb(204, 65, 37)', 'rgb(224, 102, 102)', 'rgb(246, 178, 107)', 'rgb(255, 217, 102)', 'rgb(147, 196, 125)',
+              'rgb(118, 165, 175)', 'rgb(109, 158, 235)', 'rgb(111, 168, 220)', 'rgb(142, 124, 195)', 'rgb(194, 123, 160)',
+              'rgb(166, 28, 0)', 'rgb(204, 0, 0)', 'rgb(230, 145, 56)', 'rgb(241, 194, 50)', 'rgb(106, 168, 79)',
+              'rgb(69, 129, 142)', 'rgb(60, 120, 216)', 'rgb(61, 133, 198)', 'rgb(103, 78, 167)', 'rgb(166, 77, 121)',
+              'rgb(91, 15, 0)', 'rgb(102, 0, 0)', 'rgb(120, 63, 4)', 'rgb(127, 96, 0)', 'rgb(39, 78, 19)',
+              'rgb(12, 52, 61)', 'rgb(28, 69, 135)', 'rgb(7, 55, 99)', 'rgb(32, 18, 77)', 'rgb(76, 17, 48)']
+          ]
+        })
+        $('#rssTextColor').spectrum('set', this.currentObject.rssmarquee.fontcolor)
+        // RSS TEXT Color
+        $('#rssBackgroundColor').spectrum({
+          showInput: false,
+          className: 'full-spectrum',
+          showInitial: true,
+          showPalette: true,
+          showAlpha: true,
+          showSelectionPalette: true,
+          maxSelectionSize: 10,
+          localStorageKey: 'spectrum.demo',
+          move: function (color) {
+          },
+          show: function () {
+          },
+          beforeShow: function () {
+          },
+          hide: function () {
+          },
+          change: function (color) {
+            var canvas = window['canvas']
+            var obj = canvas.getActiveObject()
+            // Turn the Spectrum Object to Hex String
+            color = color.toRgbString()
+            var currentTypography = obj.get('rssmarquee')
+            currentTypography.backgroundColor = color
+            obj.set('rssmarquee', currentTypography)
+            canvas.renderAll()
+            instance.$root.$children[0].$emit('updateHistory')
+            $('#rssBackgroundColor').spectrum('hide')
+          },
+          palette: [
+            ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
+              'rgb(204, 204, 204)', 'rgb(217, 217, 217)', 'rgb(255, 255, 255)'],
+            ['rgb(152, 0, 0)', 'rgb(255, 0, 0)', 'rgb(255, 153, 0)', 'rgb(255, 255, 0)', 'rgb(0, 255, 0)',
+              'rgb(0, 255, 255)', 'rgb(74, 134, 232)', 'rgb(0, 0, 255)', 'rgb(153, 0, 255)', 'rgb(255, 0, 255)'],
+            ['rgb(230, 184, 175)', 'rgb(244, 204, 204)', 'rgb(252, 229, 205)', 'rgb(255, 242, 204)', 'rgb(217,234, 211)',
+              'rgb(208, 224, 227)', 'rgb(201, 218, 248)', 'rgb(207, 226, 243)', 'rgb(217, 210, 233)', 'rgb(234, 209, 220)',
+              'rgb(221, 126, 107)', 'rgb(234, 153, 153)', 'rgb(249, 203, 156)', 'rgb(255, 229, 153)', 'rgb(182, 215, 168)',
+              'rgb(162, 196, 201)', 'rgb(164, 194, 244)', 'rgb(159, 197, 232)', 'rgb(180, 167, 214)', 'rgb(213, 166, 189)',
+              'rgb(204, 65, 37)', 'rgb(224, 102, 102)', 'rgb(246, 178, 107)', 'rgb(255, 217, 102)', 'rgb(147, 196, 125)',
+              'rgb(118, 165, 175)', 'rgb(109, 158, 235)', 'rgb(111, 168, 220)', 'rgb(142, 124, 195)', 'rgb(194, 123, 160)',
+              'rgb(166, 28, 0)', 'rgb(204, 0, 0)', 'rgb(230, 145, 56)', 'rgb(241, 194, 50)', 'rgb(106, 168, 79)',
+              'rgb(69, 129, 142)', 'rgb(60, 120, 216)', 'rgb(61, 133, 198)', 'rgb(103, 78, 167)', 'rgb(166, 77, 121)',
+              'rgb(91, 15, 0)', 'rgb(102, 0, 0)', 'rgb(120, 63, 4)', 'rgb(127, 96, 0)', 'rgb(39, 78, 19)',
+              'rgb(12, 52, 61)', 'rgb(28, 69, 135)', 'rgb(7, 55, 99)', 'rgb(32, 18, 77)', 'rgb(76, 17, 48)']
+          ]
+        })
+        $('#rssBackgroundColor').spectrum('set', this.currentObject.rssmarquee.backgroundColor)
       })
     },
     selectLayer (id, callback) {

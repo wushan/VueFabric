@@ -8,7 +8,14 @@
             form#fromrss.marquee-form(@submit.stop.prevent="addRss")
               .row
                 .controlgroup
-                  label RSS 來源
+                  label 來源
+                  .controls
+                    .select-wrapper
+                      select(v-model="rss.type")
+                        option(value="dynamic") 多媒體通道
+                        option(value="custom") 自訂來源
+                .controlgroup
+                  label 資源網址
                   .controls
                     input(v-model="rss.source", type="text", name="source", placeholder="http://....")
                 .controlgroup
@@ -43,9 +50,10 @@ export default {
   data () {
     return {
       rss: {
+        type: 'custom',
         source: '',
-        leastTime: '3',
-        transitionType: 'default',
+        leastTime: '10',
+        transitionType: 'random',
         transitionPeriod: '3'
       },
       transitionType: [

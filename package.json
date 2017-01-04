@@ -15,6 +15,7 @@
   "dependencies": {
     "fabric-customise-controls": "^0.1.8",
     "font-awesome": "^4.6.3",
+    "html5_rtsp_player": "git://github.com/SpecForge/html5_rtsp_player.git",
     "imports-loader": "^0.6.5",
     "jquery": "^3.1.1",
     "jquery-mousewheel": "^3.1.13",

@@ -75,7 +75,7 @@ export default {
   computed: {
     tuneable () {
       if (this.currentObject) {
-        if (this.currentObject.type === 'rtspframe' || this.currentObject.type === 'usbframe' || this.currentObject.type === 'webview' || this.currentObject.type === 'slider' || this.currentObject.type === 'sliderE' || this.currentObject.type === 'rect' || this.currentObject.type === 'image') {
+        if (this.currentObject.type === 'rtspframe' || this.currentObject.type === 'usbframe' || this.currentObject.type === 'webview' || this.currentObject.type === 'slider' || this.currentObject.type === 'sliderE' || this.currentObject.type === 'sliderT' || this.currentObject.type === 'rect' || this.currentObject.type === 'image') {
           return true
         } else {
           return false

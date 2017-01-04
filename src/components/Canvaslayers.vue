@@ -26,7 +26,7 @@
             .button
               .fa.fa-lg.fa-chain(v-if="layer.lockUniScaling")
               .fa.fa-lg.fa-chain-broken(v-else)
-              span.lockUniScaling(v-if="layer.lockUniScaling") {{simple(layer.getWidth(), layer.getHeight())}}
+              span.lockUniScaling(v-if="layer.lockUniScaling") {{layer.ratio.w}}: {{layer.ratio.h}}
           .name
             input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
           .control
@@ -103,38 +103,6 @@ export default {
     }
   },
   methods: {
-    simple (a, b) {
-      /* eslint-disable */
-      var ma = 1
-      var mb = 1
-      a += ''
-      b += ''
-
-      if (a.indexOf('/') > -1) {
-        ma = +a.split('/')[1]
-      } else if (a.indexOf('.') > -1) {
-        ma = Math.pow(10, a.split('.')[1].length)
-      }
-      if (b.indexOf('/') > -1) {
-        mb = +b.split('/')[1]
-      } else if (b.indexOf('.') > -1) {
-        mb = Math.pow(10, b.split('.')[1].length)
-      }
-      a = eval(a) * ma * mb
-      b = eval(b) * ma * mb
-      var c = (function (a, b) {
-        var c
-        if (a < b) {
-          b = [a, a = b][0]
-        }
-        while (c = a % b) {
-          a = b
-          b = c
-        }
-        return b
-      })(a, b)
-      return (a / c) + ':' + (b / c)
-    },
     startDragging () {
       this.dragging = true
     },

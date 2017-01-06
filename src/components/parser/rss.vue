@@ -1,5 +1,5 @@
 <template lang="pug">
-  .rss(v-bind:style="attributes")
+  .rssobj(v-bind:style="attributes")
     h4 RSS FRAME
     .attributes
       ul
@@ -69,7 +69,7 @@ export default {
 @import "../../../bower_components/susy/sass/susy";
 @import "../../../bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "../../assets/scss/var";
-.rss {
+.rssobj {
   padding: 1em;
   box-sizing: border-box;
   overflow-y: scroll;

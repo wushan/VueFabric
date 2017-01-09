@@ -84,9 +84,9 @@ export default {
   justify-content:center;
   transition: .3s all ease;
   background-color: $darkestgray;
-  border-right: 2px solid $pureblack;
-  border-top: 2px solid $pureblack;
-  border-left: 2px solid $pureblack;
+  border-right: 1px solid $pureblack;
+  border-top: 1px solid $pureblack;
+  border-left: 1px solid $pureblack;
   max-width: calc( 100vw - 90px );
   &.pushed {
     max-width: calc( 100vw - 400px );

@@ -379,9 +379,9 @@ a {
     display: flex;
     #toolbar {
       box-sizing: border-box;
-      padding: 1em;
+      padding: 1em .5em;
       flex: initial;
-      width: 90px;
+      width: 75px;
   // min-width: 60px
     }
     #artboard {

@@ -14,7 +14,8 @@ fabric.Object.prototype.interaction = {
     appEscapeButtonSize: ''
   },
   link: {
-    url: ''
+    url: '',
+    name: ''
   }
 }
 // fabric.Object.prototype.toObject = (function (toObject) {

@@ -147,7 +147,11 @@
                 label 連結
                 .controls.rich-control
                   form(@submit.stop.prevent="confirmLink")
-                    input#linkValue(type='text', placeholder="輸入網址(http://)或選擇節目", :value="currentObject.interaction.link.url")
+                    .columns
+                      .column
+                        input#linkValue(type='text', placeholder="輸入網址(http://)或選擇節目", :value="currentObject.interaction.link.url")
+                      .column
+                        input#linkName(type='text', placeholder="節目名稱", v-bind:value="currentObject.interaction.link.name")
                     button.btn.edit.full(type="button", @click="selectProgram", :class="{disabled:programlist}")
                       | 選擇節目
                       .fa.fa-angle-up.fa-lg(v-if="programlist")
@@ -168,7 +172,7 @@
                         select#appEscape(:value="currentObject.interaction.app.appEscape")
                           option(value="Manual") 手動退出
                           option(value="Force") 強制關閉
-                  .controlgroup
+                  .controlgroup(v-if="currentObject.interaction.app.appEscape === 'Force'")
                     .controls.rich-control
                       .row
                         .grid.g-6-12
@@ -223,7 +227,7 @@
                 .controls.check-group
                   .check-item
                     input#toolbox(type="checkbox", v-bind:value="currentObject.toolbox.enable", @change="toolbox")
-                    label(for="toolbox") 啟用工具列?
+                    label(for="toolbox") 啟用工具列
               .controlgroup.webview(v-if="enableToolbox")
                 label 位置
                 .controls
@@ -558,11 +562,12 @@ export default {
           appEscapeButtonSize: ''
         },
         link: {
-          url: res[0]
+          url: res[0],
+          name: res[1]
         }
       }
       obj.set('interaction', interactionSetting)
-      this.programlist = res[1]
+      this.programlist = res[2]
       canvas.renderAll()
     })
   },
@@ -580,10 +585,17 @@ export default {
         transitionTypeSelected: 'random',
         transitionType: [
           {value: 'random', text: '隨機'},
-          {value: 'leftright', text: '由左至右'},
-          {value: 'rightleft', text: '由右至左'},
-          {value: 'bottomtop', text: '由下至上'},
-          {value: 'topbottom', text: '由上至下'},
+          {value: 'slidedown', text: '向下切入'},
+          {value: 'slideup', text: '向上切入'},
+          {value: 'slideleft', text: '向左切入'},
+          {value: 'slideright', text: '向右切入'},
+          {value: 'blindvertical', text: '垂直百葉窗'},
+          {value: 'blindhorizontal', text: '水平百葉窗'},
+          {value: 'pixel', text: '格子'},
+          {value: 'scrolltop', text: '向上捲動'},
+          {value: 'scrolldown', text: '向下捲動'},
+          {value: 'scrollleft', text: '向左捲動'},
+          {value: 'scrollright', text: '向右捲動'},
           {value: 'fade', text: '淡入淡出'}
         ],
         transitionTime: '0'
@@ -1016,7 +1028,8 @@ export default {
           appEscapeButtonSize: ''
         },
         link: {
-          url: e.target.elements.linkValue.value
+          url: e.target.elements.linkValue.value,
+          name: e.target.elements.linkName.value
         }
       }
       // console.log('did I')
@@ -1381,9 +1394,7 @@ export default {
       var currentObject = canvas.getActiveObject()
       if (ref === 'all') {
         // Settings for all slide
-        if (currentObject.type !== 'slider') {
-          return
-        } else {
+        if (currentObject.type === 'slider' || currentObject.type === 'sliderT' || currentObject.type === 'sliderE') {
           // Set Visible Slide
           currentObject.visibleslide.transitionType = this.slideSettings.transitionTypeSelected
           currentObject.visibleslide.transitionTime = this.slideSettings.transitionTime
@@ -1394,6 +1405,8 @@ export default {
             currentObject.slides[i].transitionTime = this.slideSettings.transitionTime
             currentObject.slides[i].leastTime = this.slideSettings.leastTime
           }
+        } else {
+          return
         }
       }
     },
@@ -1479,8 +1492,8 @@ export default {
   font-size: 12px;
   letter-spacing: .1em;
   color: $gray;
-  border-top: 2px solid $pureblack;
-  background-color: $darkestgray;
+  border-top: 1px solid $pureblack;
+  background-color: $black;
   &.fade-enter-active, &.fade-leave-active {
     transition: .3s all ease;
   }
@@ -1505,9 +1518,9 @@ export default {
     padding: .8em 1em;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#21252c+0,1e2224+100 */
 background: rgb(33,37,44); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(33,37,44,1) 0%, rgba(30,34,36,1) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  rgba(33,37,44,1) 0%,rgba(30,34,36,1) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  rgba(33,37,44,1) 0%,rgba(30,34,36,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+background: -moz-linear-gradient(top, rgba(30,34,36,1) 0%, $black 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, rgba(30,34,36,1) 0%, $black 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, rgba(30,34,36,1) 0%, $black 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21252c', endColorstr='#1e2224',GradientType=0 ); /* IE6-9 */
 
   }

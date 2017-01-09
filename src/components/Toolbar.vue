@@ -16,26 +16,26 @@
         a.full.btn.basic(href="javascript:;" title="新增天氣", @click="updateSub('weatherpanel')", :class="{ active: currentView=='weatherpanel' }")
           i.fa.fa-cloud.fa-lg
       li
-        a.full.btn.marquee(href="javascript:;" title="新增跑馬燈", @click="updateSub('marqueepanel')", :class="{ active: currentView=='marqueepanel' }")
+        a.full.btn.basic.marquee(href="javascript:;" title="新增跑馬燈", @click="updateSub('marqueepanel')", :class="{ active: currentView=='marqueepanel' }")
           i.fa.fa-text-width.fa-lg
       li
-        a.full.btn.rss(href="javascript:;" title="新增RSS", @click="updateSub('rsspanel')", :class="{ active: currentView=='rsspanel' }") RSS
+        a.full.btn.basic.rss(href="javascript:;" title="新增RSS", @click="updateSub('rsspanel')", :class="{ active: currentView=='rsspanel' }") RSS
       li
-        a.full.btn.usb(href="javascript:;" title="USB", @click="addUsb") USB
+        a.full.btn.basic.usb(href="javascript:;" title="USB", @click="addUsb") USB
       li
-        a.full.btn.www(href="javascript:;" title="WWW", @click="addWeb") WWW
+        a.full.btn.basic.www(href="javascript:;" title="WWW", @click="addWeb") WWW
       li
-        a.full.btn.rtsp(href="javascript:;" title="RTSP", @click="addRtsp") RTSP
+        a.full.btn.basic.rtsp(href="javascript:;" title="RTSP", @click="addRtsp") RTSP
       li
-        a.full.btn.delete.js-dispose(href="javascript:;" title="清除所有物件", @click="disposeAll")
+        a.full.btn.basic.delete.js-dispose(href="javascript:;" title="清除所有物件", @click="disposeAll")
           i.fa.fa-eraser.fa-lg
     
     ul.tools
       li
-        a.full.btn.edit.js-setting(href="javascript:;" title="版面設定", @click="updateSub('presetpanel')", :class="{ active: currentView=='presetpanel' }")
+        a.full.btn.basic.js-setting(href="javascript:;" title="版面設定", @click="updateSub('presetpanel')", :class="{ active: currentView=='presetpanel' }")
           i.fa.fa-cogs.fa-lg
       li
-        a.full.btn.edit.js-save(href="javascript:;" title="儲存", @click="updateSub('savepanel')", :class="{ active: currentView=='savepanel' }")
+        a.full.btn.basic.js-save(href="javascript:;" title="儲存", @click="updateSub('savepanel')", :class="{ active: currentView=='savepanel' }")
           i.fa.fa-floppy-o.fa-lg
         //- .floating-menu
         //-   .canvasconfig-wrapper
@@ -381,7 +381,7 @@ export default {
 @import "../assets/scss/buttons";
 #toolbar {
   text-align: center;
-  border-top: 2px solid $pureblack;
+  border-top: 1px solid $pureblack;
   ul {
     margin: 0;
     padding: 0;
@@ -393,14 +393,14 @@ export default {
 }
 .floating-menu {
   position: absolute;
-  left: 90px;
+  left: 75px;
   top: 52px;
   bottom: 0;
   width: 260px;
   box-sizing: border-box;
   padding: 1em;
   background-color: darken($black, 3%);
-  border-left: 2px solid $pureblack;
+  border-left: 1px solid $pureblack;
   box-shadow: 3px 0 3px $black;
   z-index: 1;
 }

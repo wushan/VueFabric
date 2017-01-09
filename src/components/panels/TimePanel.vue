@@ -4,14 +4,14 @@
       h3 Time Format
       .timeconfig-inner
         .row
-          a.format(href='javascript:;', @click="addTime('YYYY-MM-DD HH:mm:ss', {locale: 'en'})") 2016-09-01 12:01:42
-          a.format(href='javascript:;', @click="addTime('YYYY-MMM-DD HH:mm:ss', {locale: 'en'})") 2016-Sep-01 12:02:26
-          a.format(href='javascript:;', @click="addTime('LLL', {locale: 'zh-tw'})") 2016年12月14日上午9點54分
-          a.format(href='javascript:;', @click="addTime('LL LTS', {locale: 'zh-tw'})") 2016年12月14日 上午9點55分18秒
-          a.format(href='javascript:;', @click="addTime('LLLL', {locale: 'zh-tw'})") 2016年12月14日星期三上午9點55分
-          a.format(href='javascript:;', @click="addTime('YYYY-MM-DD', {locale: 'zh-tw'})") 2016-12-14
-          a.format(href='javascript:;', @click="addTime('HH:mm:ss', {locale: 'zh-tw'})") 09:55:43
-          a.format(href='javascript:;', @click="addTime('dddd', {locale: 'zh-tw'})") 星期三
+          a.btn.basic.full.format(href='javascript:;', @click="addTime('YYYY-MM-DD HH:mm:ss', {locale: 'en'})") 2016-09-01 12:01:42
+          a.btn.basic.full.format(href='javascript:;', @click="addTime('YYYY-MMM-DD HH:mm:ss', {locale: 'en'})") 2016-Sep-01 12:02:26
+          a.btn.basic.full.format(href='javascript:;', @click="addTime('LLL', {locale: 'zh-tw'})") 2016年12月14日上午9點54分
+          a.btn.basic.full.format(href='javascript:;', @click="addTime('LL LTS', {locale: 'zh-tw'})") 2016年12月14日 上午9點55分18秒
+          a.btn.basic.full.format(href='javascript:;', @click="addTime('LLLL', {locale: 'zh-tw'})") 2016年12月14日星期三上午9點55分
+          a.btn.basic.full.format(href='javascript:;', @click="addTime('YYYY-MM-DD', {locale: 'zh-tw'})") 2016-12-14
+          a.btn.basic.full.format(href='javascript:;', @click="addTime('HH:mm:ss', {locale: 'zh-tw'})") 09:55:43
+          a.btn.basic.full.format(href='javascript:;', @click="addTime('dddd', {locale: 'zh-tw'})") 星期三
 </template>
 
 <script>
@@ -82,16 +82,16 @@ export default {
 @import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "../../assets/scss/var";
 #timesettings {
-  font-size: 12px;
-  a {
-    display: block;
-    padding: 2em 1em;
-    background-color: darken($darkblue, 5%);
-    margin-bottom: .5em;
-    transition: .3s all ease;
-    &:hover {
-      background-color: darken($darkblue, 10%);
-    }
-  }
+  // font-size: 12px;
+  // a {
+  //   display: block;
+  //   padding: 2em 1em;
+  //   background-color: darken($darkblue, 5%);
+  //   margin-bottom: .5em;
+  //   transition: .3s all ease;
+  //   &:hover {
+  //     background-color: darken($darkblue, 10%);
+  //   }
+  // }
 }
 </style>

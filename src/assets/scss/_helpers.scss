@@ -12,3 +12,13 @@
 .row {
   @extend .clr;
 }
+
+
+.columns {
+  display: flex;
+  .column {
+    flex: 1;
+    line-height: 25px;
+    text-align: center;
+  }
+}

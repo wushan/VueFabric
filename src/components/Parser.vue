@@ -21,7 +21,7 @@ import rtspframe from './parser/rtspframe'
 import weatherimg from './parser/weatherimg'
 import marquee from './parser/marquee'
 import webview from './parser/webview'
-import Api from '../assets/canvascomposer/Api'
+// import Api from '../assets/canvascomposer/Api'
 export default {
   components: {
     slider,
@@ -57,15 +57,18 @@ export default {
   },
   methods: {
     getSource () {
-      Api.getSource((err, data) => {
-        this.loading = false
-        if (err) {
-          this.error = err.toString()
-          console.log(err)
-        } else {
-          this.objects = data.objects
-        }
-      })
+      // Api.getSource((err, data) => {
+      //   this.loading = false
+      //   if (err) {
+      //     this.error = err.toString()
+      //     console.log(err)
+      //   } else {
+      //     this.objects = data.objects
+      //   }
+      // })
+      var canvas = window['canvas']
+      this.objects = canvas._objects
+      console.log(canvas._objects)
     },
     leavePreview () {
       this.$parent.$emit('closePreview')

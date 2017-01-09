@@ -5,7 +5,7 @@
     .inboundlist-inner
       ul
         li(v-for="program in programs")
-          a(@click="selectProgram(program.PID)")
+          a(@click="selectProgram(program.PID, program.name)")
             span.id {{program.PID}}
             span.name {{program.name}}
 </template>
@@ -83,9 +83,9 @@ export default {
         }
       })
     },
-    selectProgram (id) {
+    selectProgram (id, name) {
       // this.currentObject.interaction.link.url = id
-      this.$parent.$emit('programSelected', [id, false])
+      this.$parent.$emit('programSelected', [id, name, false])
     }
   }
 }

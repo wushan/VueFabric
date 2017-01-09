@@ -33,10 +33,11 @@
 
   }
   &.basic {
-    background-color: $blue;
+    background-color: $darkestgray;
     color: $white;
     border: 0;
-    
+    box-shadow: 0px 1px 1px 0px rgba($pureblack, .8);
+    position: relative;
     &.bordered {
       border: 1px solid $blue;
       background-color: transparent;
@@ -46,12 +47,111 @@
       }
     }
     &:hover, &.active {
-      background-color: darken($blue, 20%);
-      box-shadow: inset 0 0 6px darken($blue, 40%);
-      color: rgba($white, .5);
+      // background-color: darken($blue, 20%);
+      box-shadow: inset 0 0 6px darken($pureblack, 40%);
+      color: lighten($blue, 10%);
     }
     &:active {
       background-color: darken($blue, 20%);
+    }
+    &.delete {
+      // color: $red;
+      // border: 1px solid transparent;
+      box-sizing: border-box;
+      &:hover {
+        // border: 1px solid darken($red, 20%);
+        background-color: $red;
+        color: $white;
+      }
+      &:active {
+        background-color: darken($red, 20%);
+        color: $white;
+      }
+    }
+    &.usb {
+      &:after {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: #bba60c;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        box-shadow: -1px -1px 0px $pureblack;
+      }
+      &:hover {
+        color: #bba60c;
+      }
+    }
+    &.www {
+      &:after {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: #5e7e29;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        box-shadow: -1px -1px 0px $pureblack;
+      }
+      &:hover {
+        color: #5e7e29;
+      }
+    }
+    &.rtsp {
+      &:after {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: #b46b7b;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        box-shadow: -1px -1px 0px $pureblack;
+      }
+      &:hover {
+        color: #b46b7b;
+      }
+    }
+    &.rss {
+      &:after {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: #508590;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        box-shadow: -1px -1px 0px $pureblack;
+      }
+      &:hover {
+        color: #508590;
+      }
+    }
+    &.marquee {
+      &:after {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: #63513d;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        box-shadow: -1px -1px 0px $pureblack;
+      }
+      &:hover {
+        color: #63513d;
+      }
     }
   }
   
@@ -75,26 +175,6 @@
       background-color: darken(#dcdcdc, 20%);
     }
   }
-  &.delete {
-    background-color: $red;
-    color: $white;
-    border: 0;
-    &.bordered {
-      border: 1px solid $red;
-      background-color: transparent;
-      color: $red;
-      &:hover {
-        color: $white;
-      }
-    }
-    &:hover {
-      background-color: darken($red, 10%);
-      box-shadow: inset 0 0 6px darken($red, 10%);
-    }
-    &:active {
-      background-color: darken($red, 20%);
-    }
-  }
   &.edit {
     background-color: $green;
     color: $white;
@@ -114,31 +194,6 @@
     &:active {
       background-color: darken($green, 20%);
     }
-  }
-  &.usb {
-    background-color: #bba60c;
-    color: $white;
-    border: 0;
-  }
-  &.www {
-    background-color: #5e7e29;
-    color: $white;
-    border: 0;
-  }
-  &.rtsp {
-    background-color: #b46b7b;
-    color: $white;
-    border: 0;
-  }
-  &.rss {
-    background-color: #508590;
-    color: $white;
-    border: 0;
-  }
-  &.marquee {
-    background-color: #63513d;
-    color: $white;
-    border: 0;
   }
   //Full
   &.full {

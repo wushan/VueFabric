@@ -202,13 +202,13 @@ input[disabled] {
   @-moz-document url-prefix() {
     .select-wrapper {
       //background-color: #ffffff;
-      background-image: url("assets/images/select-arrow.png");
+      background-image: url("/static/assets/images/select-arrow.png");
       background-position: calc(100% - 10px) center;
       background-repeat: no-repeat;
       background-color: $input-bgcolor;
       select {
         width: 110%;
-        background-image: url("assets/images/select-arrow.png");
+        background-image: url("/static/assets/images/select-arrow.png");
         background-position: 88% center;
         background-repeat: no-repeat;
       }
@@ -237,7 +237,7 @@ input[disabled] {
   }
   select {
     background-color: $select-bgcolor;
-    background-image: url("assets/images/select-arrow.png");
+    background-image: url("/static/assets/images/select-arrow.png");
     background-position: calc(100% - 10px) center;
     background-repeat: no-repeat;
     box-sizing: border-box;

@@ -1,6 +1,6 @@
 <template lang="pug">
   .weatherimg(v-bind:style="attributes")
-    img(v-bind:src="attr.src")
+    img(v-bind:src="attr.toObject().src")
 </template>
 
 <script>
@@ -10,7 +10,8 @@ export default {
     return {
     }
   },
-  created () {
+  mounted () {
+    console.log(this.attr.toObject().src)
   },
   props: ['attr'],
   methods: {

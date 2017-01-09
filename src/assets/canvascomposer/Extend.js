@@ -10,7 +10,7 @@ fabric.Object.prototype.interaction = {
     appEscape: '',
     appEscapeTime: '',
     appEscapeButton: '',
-    appEscapeButtonPost: '',
+    appEscapeButtonPos: '',
     appEscapeButtonSize: ''
   },
   link: {

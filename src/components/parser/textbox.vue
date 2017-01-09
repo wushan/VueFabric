@@ -45,5 +45,9 @@ export default {
 @import "../../../bower_components/susy/sass/susy";
 @import "../../../bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "../../assets/scss/var";
-
+.textbox {
+  span {
+    white-space: pre;
+  }
+}
 </style>

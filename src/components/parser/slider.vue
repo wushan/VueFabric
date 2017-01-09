@@ -1,6 +1,6 @@
 <template lang="pug">
   .slider(v-bind:style="attributes")
-    .slide(v-for="slide in attr.slides", v-bind:style="'background-size:' + slide.imgWidth * attr.scaleX + 'px ' + slide.imgHeight * attr.scaleY + 'px' + ';background-image: url(' + slide.url + '); background-position:' + slide.offsetX + 'px ' + slide.offsetY + 'px; opacity: 0;'")
+    .slide(v-for="slide in attr.slides", v-bind:style="'background-size:' + slide.imgWidth * attr.scaleX + 'px ' + slide.imgHeight * attr.scaleY + 'px' + ';background-image: url(' + slide.url + '); background-position:' + slide.offsetX + 'px ' + slide.offsetY + 'px; opacity: 1;'")
       .video-wrapper(v-if="slide.video")
         video(autoplay, loop)
           source(v-bind:src="slide.video")
@@ -25,8 +25,12 @@ export default {
   methods: {
     slider (object) {
       var context = this.$el.children
+      console.log(context)
+      console.log(this.attr.slides)
       var i = 0
-      this.transition(i, context, object)
+      setTimeout(() => {
+        this.transition(i, context, object)
+      }, object[0].leastTime * 1000)
     },
     transition (i, context, object) {
       context[i].style.transitionProperty = 'all'

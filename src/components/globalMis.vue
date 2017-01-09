@@ -5,7 +5,9 @@
         .block
           button.basic.btn.delete 放棄編輯
         .block
-          .resolution Program Name / Resolution: {{width}} x {{height}} / etc.
+          .resolution
+            span Program Name
+            span  / {{width}} x {{height}}
         .block
           //- .programname Program Name: 'some php string'
           //- button.basic.btn.edit 加入群組
@@ -57,22 +59,44 @@ export default {
 #globalMis {
   height: 50px;
   line-height: 50px;
-  padding: 0 1em;
+  padding: 0 .5em;
   background-color: $black;
 }
 .globalMis-inner {
+  display: flex;
   &:before, &:after {
     content: '';
     display: block;
     clear: both;
   }
   .block {
-    @include gallery(4 of 12);
-    &:last-child {
-      text-align: right;
-    }
+    flex: 1;
+    text-align: center;
+    margin-right: .5em;
     .btn {
       padding: .7em 1em;
+    }
+    &:first-child {
+      flex: initial;
+    }
+    &:nth-child(2) {
+      display: none;
+      @include breakpoint(768px) {
+        display: block;
+      }
+    }
+    &:last-child {
+      flex: 1;
+      text-align: right;
+      margin-right: 0;
+    }
+  }
+  .resolution {
+    // padding: 5px 0;
+    span {
+      // display: block;
+      font-size: 12px;
+      // line-height: 20px;
     }
   }
 }

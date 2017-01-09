@@ -160,37 +160,37 @@
               transition(name="fade", mode="out-in")
                 programlist(v-if="programlist", v-bind:currentObject="currentObject")
               transition(name="fade", mode="out-in")
-                form.application(v-if="currentObject.interaction.type === 'apps'", @submit.stop.prevent="updateInteraction")
+                .application(v-if="currentObject.interaction.type === 'apps'")
                   .controlgroup
                     label 套件名稱
                     .controls.rich-control
-                      input#appName(:value="currentObject.interaction.app.appName", type='text', name="appName")
+                      input#appName(:value="currentObject.interaction.app.appName", type='text', name="appName", @keyup="updateInteraction")
                   .controlgroup
                     label 退出方式
                     .controls.rich-control
                       .select-wrapper
-                        select#appEscape(:value="currentObject.interaction.app.appEscape")
+                        select#appEscape(:value="currentObject.interaction.app.appEscape", @change="updateInteraction", name="appEscape")
                           option(value="Manual") 手動退出
                           option(value="Force") 強制關閉
                   .controlgroup(v-if="currentObject.interaction.app.appEscape === 'Force'")
                     .controls.rich-control
                       .row
                         .grid.g-6-12
-                          input#appEscapeTime(type='number', :value="currentObject.interaction.app.appEscapeTime")
+                          input#appEscapeTime(type='number', :value="currentObject.interaction.app.appEscapeTime", @keyup="updateInteraction", name="appEscapeTime")
                         .grid.g-6-12
                           label 秒強制關閉
                   .controlgroup
                     label 懸浮按鈕
                     .controls.rich-control
                       .select-wrapper
-                        select#appEscapeButton(:value="currentObject.interaction.app.appEscapeButton")
+                        select#appEscapeButton(:value="currentObject.interaction.app.appEscapeButton", @change="updateInteraction", name="appEscapeButton")
                           option(value="ON") 啟用
                           option(value="OFF") 不啟用
                   .controlgroup
                     label 按鈕位置
                     .controls.rich-control
                       .select-wrapper
-                        select#appEscapeButtonPos(:value="currentObject.interaction.app.appEscapeButtonPost")
+                        select#appEscapeButtonPos(:value="currentObject.interaction.app.appEscapeButtonPos", @change="updateInteraction", name="appEscapeButtonPos")
                           option(value="lefttop") 左上
                           option(value="leftcenter") 左中
                           option(value="leftbottom") 左下
@@ -204,11 +204,10 @@
                     label 按鈕尺寸
                     .controls.rich-control
                       .select-wrapper
-                        select#appEscapeButtonSize(:value="currentObject.interaction.app.appEscapeButtonSize")
+                        select#appEscapeButtonSize(:value="currentObject.interaction.app.appEscapeButtonSize", @change="updateInteraction", name="appEscapeButtonSize")
                           option(value="L") 大
                           option(value="M") 中
                           option(value="S") 小
-                  button.btn.basic.full(type="submit") 儲存設定
 
           .attribution-group.webview(v-if="webview")
             .attr-head
@@ -558,7 +557,7 @@ export default {
           appEscape: '',
           appEscapeTime: '',
           appEscapeButton: '',
-          appEscapeButtonPost: '',
+          appEscapeButtonPos: '',
           appEscapeButtonSize: ''
         },
         link: {
@@ -681,7 +680,7 @@ export default {
           appEscape: '',
           appEscapeTime: '',
           appEscapeButton: '',
-          appEscapeButtonPost: '',
+          appEscapeButtonPos: '',
           appEscapeButtonSize: ''
         },
         link: {
@@ -946,7 +945,7 @@ export default {
           appEscape: '',
           appEscapeTime: '',
           appEscapeButton: '',
-          appEscapeButtonPost: '',
+          appEscapeButtonPos: '',
           appEscapeButtonSize: ''
         },
         link: {
@@ -963,23 +962,51 @@ export default {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
       // Construct this !
-      var interactionSetting = {
-        type: this.currentObject.interaction.type,
-        app: {
-          appName: e.target.elements.appName.value,
-          appEscape: e.target.elements.appEscape.value,
-          appEscapeTime: e.target.elements.appEscapeTime.value,
-          appEscapeButton: e.target.elements.appEscapeButton.value,
-          appEscapeButtonPost: e.target.elements.appEscapeButtonPos.value,
-          appEscapeButtonSize: e.target.elements.appEscapeButtonSize.value
-        },
-        link: {
-          url: ''
-        }
+      var currentSetting = obj.get('interaction')
+      console.log(currentSetting)
+      switch (e.target.name) {
+        case 'appName':
+          currentSetting.app.appName = e.target.value
+          obj.set('interaction', currentSetting)
+          break
+        case 'appEscape':
+          currentSetting.app.appEscape = e.target.value
+          obj.set('interaction', currentSetting)
+          break
+        case 'appEscapeTime':
+          currentSetting.app.appEscapeTime = e.target.value
+          obj.set('interaction', currentSetting)
+          break
+        case 'appEscapeButton':
+          currentSetting.app.appEscapeButton = e.target.value
+          obj.set('interaction', currentSetting)
+          break
+        case 'appEscapeButtonPos':
+          currentSetting.app.appEscapeButtonPos = e.target.value
+          obj.set('interaction', currentSetting)
+          break
+        case 'appEscapeButtonSize':
+          currentSetting.app.appEscapeButtonSize = e.target.value
+          obj.set('interaction', currentSetting)
+          break
       }
-      console.log(e.target.elements.appName.value)
-      obj.set('interaction', interactionSetting)
-      canvas.renderAll()
+      // var interactionSetting = {
+      //   type: this.currentObject.interaction.type,
+      //   app: {
+      //     appName: e.target.elements.appName.value,
+      //     appEscape: e.target.elements.appEscape.value,
+      //     appEscapeTime: e.target.elements.appEscapeTime.value,
+      //     appEscapeButton: e.target.elements.appEscapeButton.value,
+      //     appEscapeButtonPost: e.target.elements.appEscapeButtonPos.value,
+      //     appEscapeButtonSize: e.target.elements.appEscapeButtonSize.value
+      //   },
+      //   link: {
+      //     url: ''
+      //   }
+      // }
+      // console.log(e.target.elements.appName.value)
+      // obj.set('interaction', interactionSetting)
+      // canvas.renderAll()
     },
     triggerLayerGroupSetting () {
       if (this.layerGroupSetting) {
@@ -1024,7 +1051,7 @@ export default {
           appEscape: '',
           appEscapeTime: '',
           appEscapeButton: '',
-          appEscapeButtonPost: '',
+          appEscapeButtonPos: '',
           appEscapeButtonSize: ''
         },
         link: {

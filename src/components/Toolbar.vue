@@ -16,7 +16,7 @@
         a.full.btn.basic(href="javascript:;" title="新增天氣", @click="updateSub('weatherpanel')", :class="{ active: currentView=='weatherpanel' }")
           i.fa.fa-cloud.fa-lg
       li
-        a.full.btn.basic.marquee(href="javascript:;" title="新增跑馬燈", @click="updateSub('marqueepanel')", :class="{ active: currentView=='marqueepanel' }")
+        a.full.btn.basic.marquee(href="javascript:;" title="新增跑馬燈", @click="addMarquee")
           i.fa.fa-text-width.fa-lg
       li
         a.full.btn.basic.rss(href="javascript:;" title="新增RSS", @click="updateSub('rsspanel')", :class="{ active: currentView=='rsspanel' }") RSS
@@ -54,7 +54,6 @@ import Timepanel from './panels/TimePanel'
 import Weatherpanel from './panels/WeatherPanel'
 import Presetpanel from './panels/PresetPanel'
 import Savepanel from './panels/SavePanel'
-import Marqueepanel from './panels/MarqueePanel'
 import Rsspanel from './panels/RssPanel'
 import Shapepanel from './panels/ShapePanel'
 // UUID
@@ -67,7 +66,6 @@ export default {
     Weatherpanel,
     Presetpanel,
     Savepanel,
-    Marqueepanel,
     Rsspanel,
     Shapepanel
   },
@@ -78,9 +76,6 @@ export default {
   created () {
     this.$on('addRss', function (src) {
       this.addRss(src)
-    })
-    this.$on('addMarquee', function (src) {
-      this.addMarquee(src)
     })
     this.$on('addMedia', () => {
       this.addMedia()
@@ -343,7 +338,7 @@ export default {
       canvas.setActiveObject(bg)
       // Refresh log
     },
-    addMarquee (marqueesource) {
+    addMarquee () {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var bg = new fabric.Marquee({
@@ -356,13 +351,7 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'Marquee',
-        marquee: {
-          source: marqueesource.source,
-          leastTime: marqueesource.leastTime,
-          transitionType: marqueesource.transitionType,
-          transitionPeriod: marqueesource.transitionPeriod
-        }
+        name: 'Marquee'
       })
       canvas.add(bg)
       // Bind

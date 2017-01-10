@@ -263,28 +263,86 @@
             .attr-head
               .title MARQUEE
             .attr-content
-              form(@submit.stop.prevent="updateMarquee")
-                .controlgroup
-                  label 內容
+              .controlgroup
+                label 內容
+                .controls
+                  textarea#rssSource.full(type="text", v-bind:value="currentObject.marquee.source", name="source", @keyup="updateMarquee")
+              .controlgroup
+                label 切換特效
+                .controls
+                  .select-wrapper
+                    select.marquee-type(v-bind:value="currentObject.marquee.transitionType", name="transitionType", @change="updateMarquee")
+                      option(value="horizontal") 水平(預設)
+                      option(value="vertical") 垂直
+              .controlgroup
+                label 速度
+                .controls
+                  input.marquee-transitionperiod(v-bind:value="currentObject.marquee.speed", type='number', name="marqueeSpeed", @keyup="updateMarquee")
+              h4 MARQUEE TYPOGRAPHY
+              .controlgroup.fontfamily
+                label 字體
+                .controls
+                  .select-wrapper
+                    select#objectFontFamily(v-bind:value="currentObject.marquee.fontface", @change="updateMarquee", name="fontFamily")
+                      option(value="Open Sans") 預設 (Open Sans)
+                      option(value="DFYa-W3-WIN-BF") 華康雅風體
+                      option(value="DFHuaZong-W5-WIN-BF") 華綜體體
+                      option(value="DFJinWen-W3-WIN-BF") 華康金文體
+                      option(value="DFXingShu-W5-WIN-BF") 華康行書體
+                      option(value="DFYingHeiU-W7-WIN-BF") 華康硬黑體
+                      option(value="DFYanKai-W5-WIN-BF") 華康正顏楷體
+                      option(value="DFOYangXun-W5-WIN-BF") 華康歐陽詢體
+                      option(value="DFFangYuan-W7-WIN-BF") 華康方圓體
+                      option(value="DFWaWa-W5-WIN-BF") 娃娃體
+                      option(value="DFLiHei-W5-WIN-BF") 華康儷中黑體
+                      option(value="Verdana") Verdana
+                      option(value="Times") Times
+                      option(value="Times New Roman") Times New Roman
+                      option(value="Strasua") Strasua
+                      option(value="SegoeScript") Segoe Script
+                      option(value="OratorStd") Orator Std
+                      option(value="MicrosoftJhengHeiLight") 微軟正黑 Light
+                      option(value="MicrosoftJhengHeiBold") 微軟正黑 Bold
+                      option(value="Serif") 細明體
+                      option(value="CopperplateGothic-Light") Copperplate Gothic Light
+                      option(value="ComicSansMS") Comic Sans MS
+                      option(value="BerlinSansFBDemi-Bold") Berlin Sans FB Demi-Bold
+                      option(value="Arial") Arial
+                      option(value="ARBERKLEY") ARBERKLEY
+                      option(value="FuturaBT-Book") FuturaBT Book
+              .row
+                .controlgroup.color
+                  label 顏色
                   .controls
-                    textarea#rssSource.full(type="text", v-bind:value="currentObject.marquee.source", name="source")
-                .controlgroup
-                  label 持續時間
+                    colorpicker(v-bind:currentObject="currentObject", v-bind:initialColor="currentObject.marquee.fontcolor", v-bind:separator="'text'")
+                    //- input#rssTextColor(type='text')
+                .controlgroup.color
+                  label 背景
                   .controls
-                    input.marquee-leasttime(v-bind:value="currentObject.marquee.leastTime", type='number', name="leastTime")
-                
-                .controlgroup
-                  label 切換特效
+                    colorpicker(v-bind:currentObject="currentObject", v-bind:initialColor="currentObject.marquee.backgroundColor", v-bind:separator="'background'")
+                    //- input#rssBackgroundColor(type='text')
+                .controlgroup.fontsize
+                  label 尺寸
                   .controls
                     .select-wrapper
-                      select.marquee-type(v-bind:value="currentObject.marquee.transitionType", name="transitionType")
-                        option(v-for="type in marqueedata.transitionType", :value="type.value") {{type.name}}
-              
-                .controlgroup
-                  label 特效時間
-                  .controls
-                    input.marquee-transitionperiod(v-bind:value="currentObject.marquee.transitionPeriod", type='number', name="transitionPeriod")
-                button.btn.basic.full(type="submit") 更新跑馬燈
+                      select#objectFontSize(v-bind:value="currentObject.marquee.size", @change="updateMarquee", name="fontSize")
+                        option(value='14') 14
+                        option(value='18') 18
+                        option(value='24') 24
+                        option(value='30') 30
+                        option(value='36') 36
+                        option(value='40') 40
+                        option(value='44') 44
+                        option(value='48') 48
+                        option(value='56') 56
+                        option(value='64') 64
+                        option(value='72') 72
+                        option(value='84') 84
+                        option(value='96') 96
+                        option(value='128') 128
+                        option(value='144') 144
+                        option(value='168') 168
+                        option(value='192') 192
           .attribution-group(v-if="usb")
             .attr-head
               .title USB FRAME
@@ -529,6 +587,7 @@ import Events from '../assets/cc.objectEvents'
 import Slider from '../assets/canvascomposer/Slider'
 import Programlist from './Programlist'
 import Attr from '../assets/canvascomposer/Attributes'
+import Colorpicker from './ColorPicker'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
@@ -540,7 +599,8 @@ export default {
   components: {
     Library,
     Programlist,
-    draggable
+    draggable,
+    Colorpicker
   },
   created () {
     window.bus.$on('updateSpectrum', (res) => {
@@ -572,6 +632,28 @@ export default {
   },
   data () {
     return {
+      colors: {
+        hex: '#194d33',
+        hsl: {
+          h: 150,
+          s: 0.5,
+          l: 0.2,
+          a: 1
+        },
+        hsv: {
+          h: 150,
+          s: 0.66,
+          v: 0.30,
+          a: 1
+        },
+        rgba: {
+          r: 25,
+          g: 77,
+          b: 51,
+          a: 1
+        },
+        a: 1
+      },
       enableToolbox: false,
       libraryOn: false,
       layerlist: [],
@@ -661,18 +743,6 @@ export default {
           }
         ]
       },
-      marqueedata: {
-        transitionType: [
-          {
-            value: 'horizontal',
-            name: '單行(水平)'
-          },
-          {
-            value: 'vertical',
-            name: '多行(垂直)'
-          }
-        ]
-      },
       interactionSetting: {
         type: 'none',
         app: {
@@ -728,7 +798,6 @@ export default {
     },
     rss () {
       if (this.currentObject.type === 'rss') {
-        this.initialSpectrumRSS()
         return true
       } else {
         return false
@@ -903,15 +972,29 @@ export default {
     updateMarquee (e) {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
-      var marqueeSetting = {
-        source: e.target.elements.source.value,
-        leastTime: e.target.elements.leastTime.value,
-        transitionType: e.target.elements.transitionType.value,
-        transitionPeriod: e.target.elements.transitionPeriod.value
+      var currentSettings = obj.get('marquee')
+      switch (e.target.name) {
+        case 'source':
+          currentSettings.source = e.target.value
+          obj.set('marquee', currentSettings)
+          break
+        case 'transitionType':
+          currentSettings.transitionType = e.target.value
+          obj.set('marquee', currentSettings)
+          break
+        case 'marqueeSpeed':
+          currentSettings.speed = e.target.value
+          obj.set('marquee', currentSettings)
+          break
+        case 'fontSize':
+          currentSettings.size = e.target.value
+          obj.set('marquee', currentSettings)
+          break
+        case 'fontFamily':
+          currentSettings.fontface = e.target.value
+          obj.set('marquee', currentSettings)
+          break
       }
-      console.log(marqueeSetting)
-      console.log(obj.marquee)
-      obj.set('marquee', marqueeSetting)
       canvas.setActiveObject(obj)
       console.log(obj.marquee)
     },
@@ -952,11 +1035,9 @@ export default {
           url: ''
         }
       }
-      // console.log(obj.interaction)
       obj.set('interaction', interactionSetting)
       canvas.renderAll()
       this.$forceUpdate()
-      // console.log('updateType Done')
     },
     updateInteraction (e) {
       var canvas = window['canvas']
@@ -1226,107 +1307,6 @@ export default {
           ]
         })
         $('#objectTextColor').spectrum('set', this.currentObject.fill)
-      })
-    },
-    initialSpectrumRSS () {
-      var instance = this
-      this.$nextTick(function () {
-        // RSS TEXT Color
-        $('#rssTextColor').spectrum({
-          showInput: false,
-          className: 'full-spectrum',
-          showInitial: true,
-          showPalette: true,
-          showAlpha: true,
-          showSelectionPalette: true,
-          maxSelectionSize: 10,
-          localStorageKey: 'spectrum.demo',
-          move: function (color) {
-          },
-          show: function () {
-          },
-          beforeShow: function () {
-          },
-          hide: function () {
-          },
-          change: function (color) {
-            var canvas = window['canvas']
-            var obj = canvas.getActiveObject()
-            // Turn the Spectrum Object to Hex String
-            color = color.toRgbString()
-            var currentTypography = obj.get('rssmarquee')
-            currentTypography.fontcolor = color
-            obj.set('rssmarquee', currentTypography)
-            canvas.renderAll()
-            instance.$root.$children[0].$emit('updateHistory')
-            $('#rssTextColor').spectrum('hide')
-          },
-          palette: [
-            ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
-              'rgb(204, 204, 204)', 'rgb(217, 217, 217)', 'rgb(255, 255, 255)'],
-            ['rgb(152, 0, 0)', 'rgb(255, 0, 0)', 'rgb(255, 153, 0)', 'rgb(255, 255, 0)', 'rgb(0, 255, 0)',
-              'rgb(0, 255, 255)', 'rgb(74, 134, 232)', 'rgb(0, 0, 255)', 'rgb(153, 0, 255)', 'rgb(255, 0, 255)'],
-            ['rgb(230, 184, 175)', 'rgb(244, 204, 204)', 'rgb(252, 229, 205)', 'rgb(255, 242, 204)', 'rgb(217,234, 211)',
-              'rgb(208, 224, 227)', 'rgb(201, 218, 248)', 'rgb(207, 226, 243)', 'rgb(217, 210, 233)', 'rgb(234, 209, 220)',
-              'rgb(221, 126, 107)', 'rgb(234, 153, 153)', 'rgb(249, 203, 156)', 'rgb(255, 229, 153)', 'rgb(182, 215, 168)',
-              'rgb(162, 196, 201)', 'rgb(164, 194, 244)', 'rgb(159, 197, 232)', 'rgb(180, 167, 214)', 'rgb(213, 166, 189)',
-              'rgb(204, 65, 37)', 'rgb(224, 102, 102)', 'rgb(246, 178, 107)', 'rgb(255, 217, 102)', 'rgb(147, 196, 125)',
-              'rgb(118, 165, 175)', 'rgb(109, 158, 235)', 'rgb(111, 168, 220)', 'rgb(142, 124, 195)', 'rgb(194, 123, 160)',
-              'rgb(166, 28, 0)', 'rgb(204, 0, 0)', 'rgb(230, 145, 56)', 'rgb(241, 194, 50)', 'rgb(106, 168, 79)',
-              'rgb(69, 129, 142)', 'rgb(60, 120, 216)', 'rgb(61, 133, 198)', 'rgb(103, 78, 167)', 'rgb(166, 77, 121)',
-              'rgb(91, 15, 0)', 'rgb(102, 0, 0)', 'rgb(120, 63, 4)', 'rgb(127, 96, 0)', 'rgb(39, 78, 19)',
-              'rgb(12, 52, 61)', 'rgb(28, 69, 135)', 'rgb(7, 55, 99)', 'rgb(32, 18, 77)', 'rgb(76, 17, 48)']
-          ]
-        })
-        $('#rssTextColor').spectrum('set', this.currentObject.rssmarquee.fontcolor)
-        // RSS TEXT Color
-        $('#rssBackgroundColor').spectrum({
-          showInput: false,
-          className: 'full-spectrum',
-          showInitial: true,
-          showPalette: true,
-          showAlpha: true,
-          showSelectionPalette: true,
-          maxSelectionSize: 10,
-          localStorageKey: 'spectrum.demo',
-          move: function (color) {
-          },
-          show: function () {
-          },
-          beforeShow: function () {
-          },
-          hide: function () {
-          },
-          change: function (color) {
-            var canvas = window['canvas']
-            var obj = canvas.getActiveObject()
-            // Turn the Spectrum Object to Hex String
-            color = color.toRgbString()
-            var currentTypography = obj.get('rssmarquee')
-            currentTypography.backgroundColor = color
-            obj.set('rssmarquee', currentTypography)
-            canvas.renderAll()
-            instance.$root.$children[0].$emit('updateHistory')
-            $('#rssBackgroundColor').spectrum('hide')
-          },
-          palette: [
-            ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
-              'rgb(204, 204, 204)', 'rgb(217, 217, 217)', 'rgb(255, 255, 255)'],
-            ['rgb(152, 0, 0)', 'rgb(255, 0, 0)', 'rgb(255, 153, 0)', 'rgb(255, 255, 0)', 'rgb(0, 255, 0)',
-              'rgb(0, 255, 255)', 'rgb(74, 134, 232)', 'rgb(0, 0, 255)', 'rgb(153, 0, 255)', 'rgb(255, 0, 255)'],
-            ['rgb(230, 184, 175)', 'rgb(244, 204, 204)', 'rgb(252, 229, 205)', 'rgb(255, 242, 204)', 'rgb(217,234, 211)',
-              'rgb(208, 224, 227)', 'rgb(201, 218, 248)', 'rgb(207, 226, 243)', 'rgb(217, 210, 233)', 'rgb(234, 209, 220)',
-              'rgb(221, 126, 107)', 'rgb(234, 153, 153)', 'rgb(249, 203, 156)', 'rgb(255, 229, 153)', 'rgb(182, 215, 168)',
-              'rgb(162, 196, 201)', 'rgb(164, 194, 244)', 'rgb(159, 197, 232)', 'rgb(180, 167, 214)', 'rgb(213, 166, 189)',
-              'rgb(204, 65, 37)', 'rgb(224, 102, 102)', 'rgb(246, 178, 107)', 'rgb(255, 217, 102)', 'rgb(147, 196, 125)',
-              'rgb(118, 165, 175)', 'rgb(109, 158, 235)', 'rgb(111, 168, 220)', 'rgb(142, 124, 195)', 'rgb(194, 123, 160)',
-              'rgb(166, 28, 0)', 'rgb(204, 0, 0)', 'rgb(230, 145, 56)', 'rgb(241, 194, 50)', 'rgb(106, 168, 79)',
-              'rgb(69, 129, 142)', 'rgb(60, 120, 216)', 'rgb(61, 133, 198)', 'rgb(103, 78, 167)', 'rgb(166, 77, 121)',
-              'rgb(91, 15, 0)', 'rgb(102, 0, 0)', 'rgb(120, 63, 4)', 'rgb(127, 96, 0)', 'rgb(39, 78, 19)',
-              'rgb(12, 52, 61)', 'rgb(28, 69, 135)', 'rgb(7, 55, 99)', 'rgb(32, 18, 77)', 'rgb(76, 17, 48)']
-          ]
-        })
-        $('#rssBackgroundColor').spectrum('set', this.currentObject.rssmarquee.backgroundColor)
       })
     },
     selectLayer (id, callback) {

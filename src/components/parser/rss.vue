@@ -1,49 +1,71 @@
 <template lang="pug">
   .rssobj(v-bind:style="attributes")
-    h4 RSS FRAME
-    .attributes
-      ul
-        li
-          span type:
-          span {{attr.rssmarquee.type}}
-        li
-          span url:
-          span {{attr.rssmarquee.source}}
-        li
-          span transitionType:
-          span {{attr.rssmarquee.transitionType}}
-        li
-          span leastTime:
-          span {{attr.rssmarquee.leastTime}}s
-        li
-          span transitionTime:
-          span {{attr.rssmarquee.transitionTime}}s
-        li
-          span backgroundColor:
-          span {{attr.rssmarquee.backgroundColor}}
-        li
-          span fontcolor:
-          span {{attr.rssmarquee.fontcolor}}
-        li
-          span fontface:
-          span {{attr.rssmarquee.fontface}}
-        li
-          span size:
-          span {{attr.rssmarquee.size}}
-    .attention IS affected by style.
+    .context
+      .paragraph
+        span(v-for="item in items") {{item.title}}
 </template>
 
 <script>
+import request from 'superagent'
 import Css from 'object-to-css'
+var parser
+var xmlDoc
+
 export default {
   data () {
     return {
+      items: []
     }
   },
+  beforeDestroy () {
+    this.items = []
+  },
   created () {
+    console.log(this.attr.rssmarquee.source)
+    request.get('https://crossorigin.me/' + this.attr.rssmarquee.source)
+    .accept('xml')
+    .end((err, res) => {
+      if (err) {
+        console.log(err)
+      } else {
+        if (window.DOMParser) {
+          parser = new window.DOMParser()
+          xmlDoc = parser.parseFromString(res.text, 'text/xml')
+        } else {
+          xmlDoc = new window.ActiveXObject('Microsoft.XMLDOM')
+          xmlDoc.async = false
+          xmlDoc.loadXML(res.text)
+        }
+        // xmlDoc = [].slice.call(xmlDoc.getElementsByTagName('item'))
+        // this.items = xmlDoc
+        this.parseXML(xmlDoc)
+      }
+    })
   },
   props: ['attr'],
   methods: {
+    parseXML (data) {
+      var itemArray = []
+      // Parsing Results
+      var context = data.getElementsByTagName('item')
+      var i = 0
+      for (var item of context) {
+        var singleItem = {
+          title: item.childNodes[0].innerHTML.replace('<![CDATA[', '').replace(']]>', '')
+        }
+        itemArray.push(singleItem)
+        i++
+        console.log(i)
+        if (i >= 10) {
+          break
+        }
+      }
+      this.items = itemArray
+      // var item = {
+      //   title: xmlDoc.getElementsByTagName('item').childNodes.title
+      // }
+      // console.log(item)
+    }
   },
   computed: {
     attributes () {
@@ -77,38 +99,10 @@ export default {
   h4 {
     margin: 0;
   }
-  .attributes {
-    ul {
-      display: block;
-      margin: 1em 0;
-      padding: 0;
-      list-style-type: none;
-      font-size: 12px;
-      opacity: .8;
-      color: $white;
-      font-family: $sans-serif;
-      li {
-        border-bottom: 1px solid $white;
-        display: block;
-        padding: .5em 0;
-        span {
-          &:first-child {
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-right: 1em;
-          }
-        }
-      }
+  .paragraph {
+    span {
+      white-space: nowrap;
     }
-  }
-  .attention {
-    background-color: $black;
-    color: $yellow;
-    font-weight: 600;
-    font-size: 12px;
-    position: absolute;
-    top: .5em;
-    right: .5em;
   }
 }
 </style>

@@ -14,66 +14,74 @@ import Css from 'object-to-css'
 export default {
   data () {
     return {
+      timer: null
     }
   },
   created () {
+    // if (this.$el.children[0].children[0].clientWidth)
   },
   mounted () {
+    if (this.$el.children[0].clientWidth < this.$el.clientWidth) {
+      this.$el.children[0].style.width = this.$el.clientWidth + 'px'
+    }
+    if (this.$el.children[0].clientHeight < this.$el.clientHeight) {
+      this.$el.children[0].style.height = this.$el.clientHeight + 'px'
+    }
     this.marquee(this.attr.marquee.transitionType, this.attr.marquee.leastTime, this.attr.marquee.transitionPeriod)
   },
   props: ['attr'],
   methods: {
     marquee (direction, leastTime, transitionPeriod) {
       var context = this.$el.children[0]
-      var paragraph = this.$el.children[0].children[0]
-      var timegap = paragraph.clientWidth / (transitionPeriod * 1000)
       // Initial Position
       if (direction === 'horizontal') {
+        // 起始點
         context.style.transform = 'translateX(' + this.$el.clientWidth + 'px)'
-        this.moveHorizontal(context, this.$el.clientWidth, timegap)
+        this.moveHorizontal(context, this.$el.clientWidth, this.$el.clientWidth)
       } else {
         context.style.transform = 'translateY(' + this.$el.clientHeight + 'px)'
-        this.moveVertical(context, this.$el.clientHeight, timegap)
+        this.moveVertical(context, this.$el.clientHeight, this.$el.clientHeight)
       }
     },
-    moveHorizontal (context, position, timegap) {
-      var timer
-      if (position <= context.children[0].clientWidth * -1) {
-        clearTimeout(timer)
+    moveHorizontal (context, position, startpoint) {
+      // 起始點
+      if (position <= (startpoint + context.clientWidth) * -1) {
         context.style.transitionDuration = '0ms'
-        context.style.transform = 'translateX(' + this.$el.clientWidth + 'px)'
-        this.moveHorizontal(context, this.$el.clientWidth, timegap)
-      } else {
-        clearTimeout(timer)
-        position = position - timegap * 100
-        context.style.transitionProperty = 'all'
-        context.style.transitionDuration = '100ms'
-        context.style.transitionTimingFunction = 'linear'
-        context.style.transform = 'translateX(' + position + 'px)'
-        timer = setTimeout(() => {
-          this.moveHorizontal(context, position, timegap)
-        }, 100)
+        context.style.transform = 'translateX(' + startpoint + 'px)'
+        position = startpoint
+        clearTimeout(this.timer)
+        this.moveHorizontal(context, position, startpoint)
       }
+      position = position - 100
+      context.style.transitionProperty = 'all'
+      context.style.transitionDuration = this.attr.marquee.speed * 100 + 'ms'
+      context.style.transitionTimingFunction = 'linear'
+      context.style.transform = 'translateX(' + position + 'px)'
+      this.timer = setTimeout(() => {
+        this.moveHorizontal(context, position, startpoint)
+      }, this.attr.marquee.speed * 100)
     },
-    moveVertical (context, position, timegap) {
-      var timer
-      if (position <= context.children[0].clientHeight * -1) {
-        clearTimeout(timer)
+    moveVertical (context, position, startpoint) {
+      // 起始點
+      if (position <= (startpoint + context.clientHeight) * -1) {
         context.style.transitionDuration = '0ms'
-        context.style.transform = 'translateY(' + this.$el.clientHeight + 'px)'
-        this.moveVertical(context, this.$el.clientHeight, timegap)
-      } else {
-        clearTimeout(timer)
-        position = position - timegap * 100
-        context.style.transitionProperty = 'all'
-        context.style.transitionDuration = '100ms'
-        context.style.transitionTimingFunction = 'linear'
-        context.style.transform = 'translateY(' + position + 'px)'
-        timer = setTimeout(() => {
-          this.moveVertical(context, position, timegap)
-        }, 100)
+        context.style.transform = 'translateY(' + startpoint + 'px)'
+        position = startpoint
+        clearTimeout(this.timer)
+        this.moveVertical(context, position, startpoint)
       }
+      position = position - 100
+      context.style.transitionProperty = 'all'
+      context.style.transitionDuration = this.attr.marquee.speed * 100 + 'ms'
+      context.style.transitionTimingFunction = 'linear'
+      context.style.transform = 'translateY(' + position + 'px)'
+      this.timer = setTimeout(() => {
+        this.moveVertical(context, position, startpoint)
+      }, this.attr.marquee.speed * 100)
     }
+  },
+  beforeDestroy () {
+    clearTimeout(this.timer)
   },
   computed: {
     attributes () {
@@ -82,7 +90,11 @@ export default {
         height: this.attr.height * this.attr.scaleY + 'px',
         top: this.attr.top + 'px',
         left: this.attr.left + 'px',
-        transform: 'rotate(' + this.attr.angle + 'deg)'
+        transform: 'rotate(' + this.attr.angle + 'deg)',
+        'background-color': this.attr.marquee.backgroundColor,
+        'font-family': this.attr.marquee.fontface,
+        'font-size': this.attr.marquee.size + 'px',
+        color: this.attr.marquee.fontcolor
       }
       return Css(style)
     }

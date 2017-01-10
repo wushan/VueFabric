@@ -318,6 +318,15 @@ fabric.Marquee.fromObject = function (options) {
   options.fill = '#63513d'
   return new fabric.Marquee(options)
 }
+fabric.Marquee.prototype.marquee = {
+  source: '跑馬燈預設文字',
+  transitionType: 'horizontal',
+  speed: '5',
+  size: 14,
+  fontface: 'Open Sans',
+  fontcolor: 'rgba(0,0,0,1)',
+  backgroundColor: 'transparent'
+}
 // Create Fabric Rss Class
 // http://stackoverflow.com/questions/20407546/scale-some-object-but-not-others-in-a-fabric-group
 fabric.Rss = fabric.util.createClass(fabric.Rect, {

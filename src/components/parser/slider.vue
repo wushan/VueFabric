@@ -1,8 +1,8 @@
 <template lang="pug">
   .slider(v-bind:style="attributes")
     .slide(v-for="slide in attr.slides", v-bind:style="'background-size:' + slide.imgWidth * attr.scaleX + 'px ' + slide.imgHeight * attr.scaleY + 'px' + ';background-image: url(' + slide.url + '); background-position:' + slide.offsetX + 'px ' + slide.offsetY + 'px; opacity: 0;'")
-      .video-wrapper(v-if="slide.video")
-        video(autoplay, loop)
+      .video-wrapper(v-if="slide.video", v-bind:style="'width:' + slide.imgWidth * attr.scaleX + 'px; height:' + slide.imgHeight * attr.scaleY + 'px' + '; left:' + slide.offsetX + 'px; top:' + slide.offsetY + 'px;'")
+        video(autoplay, loop, v-bind:style="styleObj", @loadedmetadata="loaded")
           source(v-bind:src="slide.video")
 
 </template>
@@ -12,7 +12,8 @@ import Css from 'object-to-css'
 export default {
   data () {
     return {
-      timer: null
+      timer: null,
+      styleObj: null
     }
   },
   props: ['attr'],
@@ -30,6 +31,31 @@ export default {
     }
   },
   methods: {
+    loaded (e) {
+      console.log(e)
+      console.log(e.target.clientHeight)
+      this.videoSizing(e.target.parentElement.clientWidth, e.target.parentElement.clientHeight, e.target.clientHeight)
+      this.$nextTick(() => {
+        this.videoSizing(e.target.parentElement.clientWidth, e.target.parentElement.clientHeight, e.target.clientHeight)
+      })
+      // console.log(e.target.clientHeight)
+      // this.videoScale(e.target.clientHeight)
+    },
+    videoSizing (ww, wh, h) {
+      console.log(wh, h)
+      var style = {
+        width: ww + 'px',
+        transform: 'scaleY(' + wh / h + ')'
+      }
+      console.log(Css(style))
+      this.styleObj = Css(style)
+    },
+    videoScale (h) {
+      // var style = {
+      //   transform: scaleY()
+      // }
+      // return Css(style)
+    },
     slider (object) { // 從 0 開始
       var context = this.$el.children
       if (object[0].leastTime === 0) {
@@ -40,15 +66,44 @@ export default {
         context[0].style.opacity = 1
       } else {
         // 顯示最後一張
-        context[context.length - 1].style.transitionProperty = 'all'
-        context[context.length - 1].style.transitionDuration = object[object.length - 1].transitionTime + 's'
-        context[context.length - 1].style.transitionTimingFunction = 'linear'
-        context[context.length - 1].style.opacity = 1
-        var i = 0
+        context[0].style.transitionProperty = 'all'
+        context[0].style.transitionDuration = object[0].transitionTime + 's'
+        context[0].style.transitionTimingFunction = 'linear'
+        context[0].style.opacity = 1
+        var i = 1
         this.timer = setTimeout(() => {
-          this.transition(i, context, object)
+          this.firstRun(i, context, object)
         }, object[0].leastTime * 1000)
       }
+    },
+    firstRun (i, context, object) {
+      context[i].style.transitionProperty = 'all'
+      context[i].style.transitionDuration = object[i].transitionTime + 's'
+      context[i].style.transitionTimingFunction = 'linear'
+      context[i].style.opacity = 1
+      // Fade everything out
+      for (var item of context) {
+        if (context[i] !== item) {
+          item.style.opacity = 0
+        }
+      }
+      if (this.timer) {
+        clearTimeout(this.timer)
+        console.log('clearTimeout')
+        console.log(i)
+        if (object[i].leastTime === 0) {
+          console.log('stop')
+          return
+        }
+      }
+      if (i === object.length - 1) {
+        i = 0
+      } else {
+        i++
+      }
+      this.timer = setTimeout(() => {
+        this.transition(i, context, object)
+      }, object[i].leastTime * 1000 + object[i].transitionTime * 1000)
     },
     transition (i, context, object) {
       context[i].style.transitionProperty = 'all'
@@ -111,14 +166,17 @@ export default {
     bottom: 0;
     background-repeat: no-repeat;
     .video-wrapper {
+      position: absolute;
       background-color: $white;
       height: 100%;
       width: 100%;
     }
     video {
       display: block;
-      height: 100%;
-      width: 100%;
+      position: absolute;
+      transform-origin: left top;
+      top: 0;
+      left: 0;
     }
   }
 }

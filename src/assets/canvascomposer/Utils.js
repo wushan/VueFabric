@@ -151,6 +151,7 @@ export default {
         return
       }
       window.vue.$children[0].$emit('updateHistory')
+      window.bus.$emit('updateScene')
       window.vue.$children[0].$emit('closeContextMenu')
       window.vue.$swal(
         '已刪除',

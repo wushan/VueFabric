@@ -192,27 +192,44 @@ export default {
     addUsb () {
       var fabric = window['fabric']
       var canvas = window['canvas']
-      var bg = new fabric.Usbframe({
-        id: uuid.v4(),
-        fill: '#bba60c',
-        width: 200,
-        height: 200,
-        left: canvas.getWidth() / 2,
-        top: canvas.getHeight() / 2,
-        padding: 0,
-        originX: 'center',
-        originY: 'center',
-        name: 'Usb Frame',
-        ratio: {w: 'free', h: 'free'}
-      })
-      canvas.add(bg)
-      canvas.renderAll()
-      // CanvasComposer.History.Update()
-      // Bind
-      this.bindEvents(bg)
-      // Programmatically Select Newly Added Object
-      canvas.setActiveObject(bg)
-      // Refresh log
+      var exam = false
+      var createUSB = () => {
+        if (!exam) {
+          var bg = new fabric.Usbframe({
+            id: uuid.v4(),
+            fill: '#bba60c',
+            width: 200,
+            height: 200,
+            left: canvas.getWidth() / 2,
+            top: canvas.getHeight() / 2,
+            padding: 0,
+            originX: 'center',
+            originY: 'center',
+            name: 'Usb Frame',
+            ratio: {w: 'free', h: 'free'}
+          })
+          canvas.add(bg)
+          canvas.renderAll()
+          // CanvasComposer.History.Update()
+          // Bind
+          this.bindEvents(bg)
+          // Programmatically Select Newly Added Object
+          canvas.setActiveObject(bg)
+          // Refresh log
+        }
+      }
+      if (canvas._objects.length > 0) {
+        for (var object of canvas._objects) {
+          if (object.type === 'usbframe') {
+            this.$parent.$emit('globalError', '節目中已有 USB 框架，請勿重複加入。')
+            exam = true
+            break
+          }
+        }
+        createUSB()
+      } else {
+        createUSB()
+      }
     },
     addWeb () {
       var fabric = window['fabric']

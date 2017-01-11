@@ -38,15 +38,44 @@ export default {
         context[0].style.opacity = 1
       } else {
         // 顯示最後一張
-        context[context.length - 1].style.transitionProperty = 'all'
-        context[context.length - 1].style.transitionDuration = object[object.length - 1].transitionTime + 's'
-        context[context.length - 1].style.transitionTimingFunction = 'linear'
-        context[context.length - 1].style.opacity = 1
-        var i = 0
+        context[0].style.transitionProperty = 'all'
+        context[0].style.transitionDuration = object[0].transitionTime + 's'
+        context[0].style.transitionTimingFunction = 'linear'
+        context[0].style.opacity = 1
+        var i = 1
         this.timer = setTimeout(() => {
-          this.transition(i, context, object)
+          this.firstRun(i, context, object)
         }, object[0].leastTime * 1000)
       }
+    },
+    firstRun (i, context, object) {
+      context[i].style.transitionProperty = 'all'
+      context[i].style.transitionDuration = object[i].transitionTime + 's'
+      context[i].style.transitionTimingFunction = 'linear'
+      context[i].style.opacity = 1
+      // Fade everything out
+      for (var item of context) {
+        if (context[i] !== item) {
+          item.style.opacity = 0
+        }
+      }
+      if (this.timer) {
+        clearTimeout(this.timer)
+        console.log('clearTimeout')
+        console.log(i)
+        if (object[i].leastTime === 0) {
+          console.log('stop')
+          return
+        }
+      }
+      if (i === object.length - 1) {
+        i = 0
+      } else {
+        i++
+      }
+      this.timer = setTimeout(() => {
+        this.transition(i, context, object)
+      }, object[i].leastTime * 1000 + object[i].transitionTime * 1000)
     },
     transition (i, context, object) {
       context[i].style.transitionProperty = 'all'

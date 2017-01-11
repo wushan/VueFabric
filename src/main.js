@@ -10,6 +10,11 @@ import CanvasComposer from './assets/canvascomposer/CanvasComposer.js'
 Vue.use(VueSweetAlert)
 var vue = new Vue({
   el: '#app',
+  events: { 
+    'loadedmetadata': function(res) { 
+      alert(res)
+    } 
+  },
   render: h => h(App)
 })
 var bus = new Vue()

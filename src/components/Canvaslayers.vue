@@ -81,8 +81,15 @@ export default {
     }
   },
   created () {
-    this.$nextTick(() => {
-      window.bus.$on('updateScene', () => {
+    // this.$nextTick(() => {
+    //   window.bus.$on('updateScene', () => {
+    //     console.log('sceneupdate')
+    //     this.updateScene()
+    //   })
+    // })
+    window.bus.$on('updateScene', () => {
+      console.log('sceneupdate')
+      this.$nextTick(() => {
         this.updateScene()
       })
     })
@@ -99,6 +106,7 @@ export default {
   props: ['currentObject'],
   computed: {
     viewLayers () {
+      console.log('computed')
       return this.layers.slice().reverse()
     }
   },
@@ -127,6 +135,7 @@ export default {
       if (canvas) {
         // a shallow copy
         this.layers = canvas._objects.slice()
+        this.$forceUpdate()
       }
     },
     getItem (id) {

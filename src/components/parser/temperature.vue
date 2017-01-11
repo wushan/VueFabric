@@ -22,7 +22,7 @@ export default {
         height: this.attr.height * this.attr.scaleY + 'px',
         top: this.attr.top + 'px',
         left: this.attr.left + 'px',
-        transform: 'rotate(' + this.attr.angle + 'deg)'
+        transform: 'rotate(' + this.attr.angle + 'deg) scaleX(' + this.attr.scaleX + ') scaleY(' + this.attr.scaleY + ');'
       }
       // Get rid Brace
       var cssString = JSON.stringify(style).replace(/[{}]/g, '')

@@ -44,5 +44,9 @@ export default {
 @import "../../../bower_components/susy/sass/susy";
 @import "../../../bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "../../assets/scss/var";
-
+.eclock {
+  span {
+    white-space: nowrap;
+  }
+}
 </style>

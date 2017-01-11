@@ -70,7 +70,7 @@ textarea {
   }
 }
 
-input[type=color], input[type=time],input[type=datetime],input[type=time],input[type=date],input[type=tel],input[type=url],input[type=week],input[type=text],input[type=email],input[type=password],input[type=search], input[type=number] {
+input[type=color], input[type=time],input[type=datetime],input[type=time],input[type=date],input[type=tel],input[type=url],input[type=week],input[type=text],input[type=email],input[type=password],input[type=search], input[type=number], .color-ticket {
   width: 100%;
   display: inline-block;
   vertical-align: middle;
@@ -108,6 +108,30 @@ input[type=color], input[type=time],input[type=datetime],input[type=time],input[
     }
   }
 }
+.color-ticket {
+  overflow: hidden;
+  line-height: 25px;
+  pointer-events: none;
+}
+// .colorpicker {
+//   position: relative;
+//   .color-ticket {
+//     line-height: 25px;
+//     width: 100%;
+//     display: block;
+//     overflow: hidden;
+//     pointer-events: none;
+//   }
+//   .vue-color__chrome {
+//     display: none;
+//   }
+//   &.active {
+//     .vue-color__chrome {
+//       display: block;
+//       margin: 1em 0;
+//     }
+//   }
+// }
 //Date
 input.pick-date, input.pick-time {
   cursor: pointer;

@@ -87,7 +87,8 @@ export default {
         left: this.attr.left + 'px',
         transform: 'rotate(' + this.attr.angle + 'deg)',
         'background-color': this.attr.fill,
-        'clip-path': 'polygon(50% 0%, 0% 100%, 100% 100%)'
+        'clip-path': 'polygon(50% 0%, 0% 100%, 100% 100%)',
+        '-webkit-clip-path': 'polygon(50% 0%, 0% 100%, 100% 100%)'
       }
       return Css(style)
     }

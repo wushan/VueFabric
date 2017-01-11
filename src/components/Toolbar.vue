@@ -19,7 +19,7 @@
         a.full.btn.basic.marquee(href="javascript:;" title="新增跑馬燈", @click="addMarquee")
           i.fa.fa-text-width.fa-lg
       li
-        a.full.btn.basic.rss(href="javascript:;" title="新增RSS", @click="updateSub('rsspanel')", :class="{ active: currentView=='rsspanel' }") RSS
+        a.full.btn.basic.rss(href="javascript:;" title="新增RSS", @click="addRss") RSS
       li
         a.full.btn.basic.usb(href="javascript:;" title="USB", @click="addUsb") USB
       li
@@ -54,7 +54,6 @@ import Timepanel from './panels/TimePanel'
 import Weatherpanel from './panels/WeatherPanel'
 import Presetpanel from './panels/PresetPanel'
 import Savepanel from './panels/SavePanel'
-import Rsspanel from './panels/RssPanel'
 import Shapepanel from './panels/ShapePanel'
 // UUID
 import uuid from 'node-uuid'
@@ -66,7 +65,6 @@ export default {
     Weatherpanel,
     Presetpanel,
     Savepanel,
-    Rsspanel,
     Shapepanel
   },
   data () {
@@ -74,9 +72,6 @@ export default {
     }
   },
   created () {
-    this.$on('addRss', function (src) {
-      this.addRss(src)
-    })
     this.$on('addMedia', () => {
       this.addMedia()
     })
@@ -233,7 +228,17 @@ export default {
         originX: 'center',
         originY: 'center',
         name: 'Webview',
-        ratio: {w: 'free', h: 'free'}
+        ratio: {w: 'free', h: 'free'},
+        webview: {
+          url: '',
+          placeholder: '',
+          refreshRate: ''
+        },
+        toolbox: {
+          enable: false,
+          position: 'lefttop',
+          size: 'medium'
+        }
       })
       bg.toObject = (function (toObject) {
         return function () {
@@ -313,20 +318,21 @@ export default {
         fill: '#508590',
         width: 200,
         height: 200,
-        left: canvas.getWidth() / 2,
-        top: canvas.getHeight() / 2,
+        left: canvas.getWidth() / 2 - 100,
+        top: canvas.getHeight() / 2 - 100,
         padding: 0,
         originX: 'center',
         originY: 'center',
         name: 'RSS',
         rssmarquee: {
-          type: rsssource.type,
-          source: rsssource.source,
-          leastTime: rsssource.leastTime,
-          transitionType: rsssource.transitionType,
-          transitionPeriod: rsssource.transitionPeriod,
+          type: 'custom',
+          source: '',
+          leastTime: '10',
+          transitionType: 'random',
+          transitionPeriod: '3',
           fontface: 'Open Sans',
           size: 14,
+          speed: 5,
           fontcolor: 'rgba(0,0,0,1)',
           backgroundColor: 'transparent'
         }
@@ -351,7 +357,16 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'Marquee'
+        name: 'Marquee',
+        marquee: {
+          source: '跑馬燈預設文字',
+          transitionType: 'horizontal',
+          speed: '5',
+          size: 14,
+          fontface: 'Open Sans',
+          fontcolor: 'rgba(0,0,0,1)',
+          backgroundColor: 'transparent'
+        }
       })
       canvas.add(bg)
       // Bind

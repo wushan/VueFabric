@@ -156,6 +156,7 @@ export default {
           var mask = currentObject.clone()
           // Lets remember your Z-index Level
           zindex = canvas.getObjects().indexOf(currentObject)
+          console.log(zindex)
           canvas.remove(currentObject)
           // First Slide
           var leastTime

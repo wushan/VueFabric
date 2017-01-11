@@ -359,6 +359,7 @@ fabric.Rss.prototype.rssmarquee = {
   transitionPeriod: '3',
   fontface: 'Open Sans',
   size: 14,
+  speed: 5,
   fontcolor: 'rgba(0,0,0,1)',
   backgroundColor: 'transparent'
 }

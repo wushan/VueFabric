@@ -1,8 +1,8 @@
 <template lang="pug">
   .rssobj(v-bind:style="attributes")
-    .context
-      .paragraph
-        span(v-for="item in items") {{item.title}}
+    .context(style="left: 0; top: 0; transform: translateX(0px)")
+      .paragraph {{combineStrings}}
+        //- span(v-for="item in items") {{item.title}}
 </template>
 
 <script>
@@ -14,15 +14,22 @@ var xmlDoc
 export default {
   data () {
     return {
-      items: []
+      items: [],
+      timer: null
     }
   },
   beforeDestroy () {
     this.items = []
+    clearTimeout(this.timer)
   },
   created () {
-    console.log(this.attr.rssmarquee.source)
-    request.get('https://crossorigin.me/' + this.attr.rssmarquee.source)
+    var source = this.attr.rssmarquee.source
+    if (source) {
+      console.log(source)
+    } else {
+      source = 'http://www.appledaily.com.tw/rss/newcreate/kind/rnews/type/new'
+    }
+    request.get('https://crossorigin.me/' + source)
     .accept('xml')
     .end((err, res) => {
       if (err) {
@@ -42,8 +49,41 @@ export default {
       }
     })
   },
+  mounted () {
+  },
   props: ['attr'],
   methods: {
+    marquee (direction, leastTime, transitionPeriod) {
+      var context = this.$el.children[0]
+      console.log(context)
+      // Initial Position
+      if (direction === 'horizontal') {
+        // 起始點
+        context.style.transform = 'translateX(' + this.$el.clientWidth + 'px)'
+        this.moveHorizontal(context, this.$el.clientWidth, this.$el.clientWidth)
+      } else {
+        context.style.transform = 'translateY(' + this.$el.clientHeight + 'px)'
+        this.moveVertical(context, this.$el.clientHeight, this.$el.clientHeight)
+      }
+    },
+    moveHorizontal (context, position, startpoint) {
+      // 起始點
+      if (position <= (startpoint + context.clientWidth) * -1) {
+        context.style.transitionDuration = '0ms'
+        context.style.transform = 'translateX(' + startpoint + 'px)'
+        position = startpoint
+        clearTimeout(this.timer)
+        this.moveHorizontal(context, position, startpoint)
+      }
+      position = position - 100
+      context.style.transitionProperty = 'all'
+      context.style.transitionDuration = this.attr.rssmarquee.speed * 100 + 'ms'
+      context.style.transitionTimingFunction = 'linear'
+      context.style.transform = 'translateX(' + position + 'px)'
+      this.timer = setTimeout(() => {
+        this.moveHorizontal(context, position, startpoint)
+      }, this.attr.rssmarquee.speed * 100)
+    },
     parseXML (data) {
       var itemArray = []
       // Parsing Results
@@ -61,6 +101,9 @@ export default {
         }
       }
       this.items = itemArray
+      this.$nextTick(() => {
+        this.marquee('horizontal', this.attr.rssmarquee.leastTime, this.attr.rssmarquee.transitionPeriod)
+      })
       // var item = {
       //   title: xmlDoc.getElementsByTagName('item').childNodes.title
       // }
@@ -77,10 +120,17 @@ export default {
         transform: 'rotate(' + this.attr.angle + 'deg)',
         'background-color': this.attr.rssmarquee.backgroundColor,
         'font-family': this.attr.rssmarquee.fontface,
-        // 'font-size': this.attr.typography.size + 'px',
+        'font-size': this.attr.rssmarquee.size + 'px',
         color: this.attr.rssmarquee.fontcolor
       }
       return Css(style)
+    },
+    combineStrings () {
+      var concatString = ''
+      for (var item of this.items) {
+        concatString = concatString + item.title
+      }
+      return concatString
     }
   }
 }
@@ -94,15 +144,21 @@ export default {
 .rssobj {
   padding: 1em;
   box-sizing: border-box;
-  overflow-y: scroll;
+  overflow: hidden;
   border: 1px solid $white;
   h4 {
     margin: 0;
   }
-  .paragraph {
-    span {
-      white-space: nowrap;
+  .context {
+    white-space: nowrap;
+    position: absolute;
+    .paragraph {
+      display: inline-block;
+      vertical-align: middle;
     }
+    // span {
+    //   white-space: nowrap;
+    // }
   }
 }
 </style>

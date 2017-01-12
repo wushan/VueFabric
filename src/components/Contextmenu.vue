@@ -44,7 +44,7 @@
       li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="duplicate")
           i.fa.fa-times
-          |  Duplicate ( &#8963;&nbsp;D )
+          |  Duplicate ( &#8963;&nbsp;C )
       li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="lock")
           i.fa.fa-times

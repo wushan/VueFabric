@@ -137,12 +137,20 @@ export default {
   },
   computed: {
     attributes () {
+      var flipX
+      var flipY
+      if (this.attr.flipX) {
+        flipX = 'scaleX(-1)'
+      }
+      if (this.attr.flipY) {
+        flipY = 'scaleY(-1)'
+      }
       var style = {
         width: this.attr.width * this.attr.scaleX + 'px',
         height: this.attr.height * this.attr.scaleY + 'px',
         top: this.attr.top + 'px',
         left: this.attr.left + 'px',
-        transform: 'rotate(' + this.attr.angle + 'deg)',
+        transform: 'rotate(' + this.attr.angle + 'deg)' + flipX + flipY,
         'background-color': this.attr.fill
       }
       return Css(style)

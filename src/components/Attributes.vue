@@ -398,12 +398,7 @@
                 label 速度
                 .controls
                   input.marquee-leasttime(v-bind:value="currentObject.rssmarquee.speed", type='number', name="speed", @keyup="updateRssFrame")
-              .controlgroup
-                label 切換特效
-                .controls
-                  .select-wrapper
-                    select.marquee-type(v-bind:value="currentObject.rssmarquee.transitionType", name="transitionType", @change="updateRssFrame")
-                      option(v-for="type in rssdata.transitionType", :value="type.value") {{type.name}}
+
               h4 RSS TYPOGRAPHY
               .controlgroup.fontfamily
                 label 字體

@@ -69,6 +69,8 @@ export default {
           window.vue.$children[0].$emit('updateHistory')
           window.vue.$children[0].$emit('closeContextMenu')
         }
+      } else if (obj.type === 'usbframe') {
+        window.vue.$children[0].$emit('globalError', '畫布已含有 USB 框架。')
       } else {
         // Normal Clone
         newObject = obj.clone()

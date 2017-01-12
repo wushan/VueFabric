@@ -35,6 +35,7 @@ export default {
       if (err) {
         console.log(err)
       } else {
+        console.log(res.text)
         if (window.DOMParser) {
           parser = new window.DOMParser()
           xmlDoc = parser.parseFromString(res.text, 'text/xml')
@@ -53,18 +54,11 @@ export default {
   },
   props: ['attr'],
   methods: {
-    marquee (direction, leastTime, transitionPeriod) {
+    marquee () {
       var context = this.$el.children[0]
-      console.log(context)
-      // Initial Position
-      if (direction === 'horizontal') {
-        // 起始點
-        context.style.transform = 'translateX(' + this.$el.clientWidth + 'px)'
-        this.moveHorizontal(context, this.$el.clientWidth, this.$el.clientWidth)
-      } else {
-        context.style.transform = 'translateY(' + this.$el.clientHeight + 'px)'
-        this.moveVertical(context, this.$el.clientHeight, this.$el.clientHeight)
-      }
+      // 起始點
+      context.style.transform = 'translateX(' + this.$el.clientWidth + 'px)'
+      this.moveHorizontal(context, this.$el.clientWidth, this.$el.clientWidth)
     },
     moveHorizontal (context, position, startpoint) {
       // 起始點
@@ -90,19 +84,22 @@ export default {
       var context = data.getElementsByTagName('item')
       var i = 0
       for (var item of context) {
-        var singleItem = {
-          title: item.childNodes[0].innerHTML.replace('<![CDATA[', '').replace(']]>', '')
-        }
-        itemArray.push(singleItem)
-        i++
-        console.log(i)
-        if (i >= 10) {
-          break
+        var title = item.getElementsByTagName('title')
+        for (var titleText of title) {
+          var singleItem = {
+            title: titleText.innerHTML.replace('<![CDATA[', '').replace(']]>', '')
+          }
+          itemArray.push(singleItem)
+          i++
+          console.log(i)
+          if (i >= 10) {
+            break
+          }
         }
       }
       this.items = itemArray
       this.$nextTick(() => {
-        this.marquee('horizontal', this.attr.rssmarquee.leastTime, this.attr.rssmarquee.transitionPeriod)
+        this.marquee()
       })
       // var item = {
       //   title: xmlDoc.getElementsByTagName('item').childNodes.title

@@ -344,9 +344,6 @@ export default {
         rssmarquee: {
           type: 'custom',
           source: '',
-          leastTime: '10',
-          transitionType: 'random',
-          transitionPeriod: '3',
           fontface: 'Open Sans',
           size: 14,
           speed: 5,

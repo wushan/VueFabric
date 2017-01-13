@@ -1,8 +1,8 @@
 <template lang="pug">
   .slider(v-bind:style="attributes")
     .slide(v-for="slide in attr.slides", v-bind:style="'background-size:' + slide.imgWidth * attr.scaleX + 'px ' + slide.imgHeight * attr.scaleY + 'px' + ';background-image: url(' + slide.url + '); background-position:' + slide.offsetX + 'px ' + slide.offsetY + 'px; opacity: 0;'")
-      .video-wrapper(v-if="slide.video", v-bind:style="'width:' + slide.imgWidth * attr.scaleX + 'px; height:' + slide.imgHeight * attr.scaleY + 'px' + '; left:' + slide.offsetX + 'px; top:' + slide.offsetY + 'px;'")
-        video(autoplay, loop, v-bind:style="styleObj", @loadedmetadata="loaded")
+      .video-wrapper(v-if="slide.video")
+        video(autoplay, loop)
           source(v-bind:src="slide.video")
 
 </template>
@@ -65,12 +65,12 @@ export default {
         context[0].style.transitionTimingFunction = 'linear'
         context[0].style.opacity = 1
       } else {
-        // 顯示最後一張
+        // 顯示第一張
         context[0].style.transitionProperty = 'all'
         context[0].style.transitionDuration = object[0].transitionTime + 's'
         context[0].style.transitionTimingFunction = 'linear'
         context[0].style.opacity = 1
-        var i = 1
+        var i = 0
         this.timer = setTimeout(() => {
           this.firstRun(i, context, object)
         }, object[0].leastTime * 1000)
@@ -137,20 +137,12 @@ export default {
   },
   computed: {
     attributes () {
-      var flipX
-      var flipY
-      if (this.attr.flipX) {
-        flipX = 'scaleX(-1)'
-      }
-      if (this.attr.flipY) {
-        flipY = 'scaleY(-1)'
-      }
       var style = {
         width: this.attr.width * this.attr.scaleX + 'px',
         height: this.attr.height * this.attr.scaleY + 'px',
         top: this.attr.top + 'px',
         left: this.attr.left + 'px',
-        transform: 'rotate(' + this.attr.angle + 'deg)' + flipX + flipY,
+        transform: 'rotate(' + this.attr.angle + 'deg)',
         'background-color': this.attr.fill
       }
       return Css(style)

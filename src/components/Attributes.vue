@@ -1416,6 +1416,7 @@ export default {
               maskWidth: targetSlide.maskWidth,
               maskHeight: targetSlide.maskHeight,
               url: targetSlide.url,
+              video: targetSlide.video,
               // Default Transition Settings
               leastTime: targetSlide.leastTime,
               transitionType: targetSlide.transitionType,
@@ -1473,21 +1474,23 @@ export default {
     deleteSlide (id) {
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
+      var slidesArray = currentObject.get('slides')
       var targetSlide
-      for (var i = 0; i < currentObject.slides.length; i++) {
-        if (currentObject.slides[i].id === id) {
-          targetSlide = currentObject.slides[i]
+      for (var i = 0; i < slidesArray.length; i++) {
+        if (slidesArray[i].id === id) {
+          targetSlide = slidesArray[i]
         }
       }
       var index = currentObject.slides.indexOf(targetSlide)
       // Switch to next slide Before deleting it
       // if we've got siblings
-      if (currentObject.slides[index + 1]) {
-        this.selectLayer(currentObject.slides[index + 1].id, () => {
+      if (slidesArray[index + 1]) {
+        this.selectLayer(slidesArray[index + 1].id, () => {
           // Delete
           console.log('selected')
           if (index > -1) {
-            currentObject.slides.splice(index, 1)
+            slidesArray.splice(index, 1)
+            currentObject.set('slides', slidesArray)
             // Capture current state
             this.$root.$children[0].$emit('updateHistory')
             console.log('saved')
@@ -1495,12 +1498,13 @@ export default {
             console.log('none')
           }
         })
-      } else if (currentObject.slides[index - 1]) {
-        this.selectLayer(currentObject.slides[index - 1].id, () => {
+      } else if (slidesArray[index - 1]) {
+        this.selectLayer(slidesArray[index - 1].id, () => {
           // Delete
           console.log('selected')
           if (index > -1) {
-            currentObject.slides.splice(index, 1)
+            slidesArray.splice(index, 1)
+            currentObject.set('slides', slidesArray)
             // Capture current state
             this.$root.$children[0].$emit('updateHistory')
             console.log('saved')

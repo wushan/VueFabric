@@ -175,6 +175,7 @@ export default {
             maskWidth: mask.width * mask.scaleX,
             maskHeight: mask.height * mask.scaleY,
             url: url,
+            video: null,
             // Default Transition Settings
             leastTime: leastTime,
             transitionType: 'random',
@@ -253,6 +254,7 @@ export default {
             maskWidth: mask.width * mask.scaleX,
             maskHeight: mask.height * mask.scaleY,
             url: url,
+            video: null,
             // Default Transition Settings
             leastTime: leastTime,
             transitionType: 'random',

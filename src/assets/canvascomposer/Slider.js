@@ -4,7 +4,7 @@ export default {
     // var fabric = window['fabric']
     var canvas = window['canvas']
     var currentObject = canvas.getActiveObject()
-    var targetObj = currentObject.visibleslide
+    var targetObj = currentObject.get('visibleslide')
     var index
     for (var i = 0; i < canvas._objects.length; i++) {
       if (mask.id === canvas._objects[i].id) {
@@ -49,6 +49,7 @@ export default {
     var fabric = window['fabric']
     var canvas = window['canvas']
     console.log('Flattened')
+    console.log(targetObj)
     console.log(targetObj.id)
     // Unbind Events
     image.off('object:dblclick')
@@ -111,6 +112,7 @@ export default {
       newMask.visibleslide.imgHeight = image.getHeight()
       newMask.visibleslide.id = targetObj.id
       newMask.visibleslide.url = targetObj.url
+      newMask.visibleslide.video = targetObj.video
       console.log(newMask.visibleslide)
       // Find slide in slides
       if (newMask.slides) {
@@ -141,6 +143,7 @@ export default {
       newMask.visibleslide.imgHeight = image.getHeight()
       newMask.visibleslide.id = targetObj.id
       newMask.visibleslide.url = targetObj.url
+      newMask.visibleslide.video = targetObj.video
       console.log(newMask.visibleslide)
       // Find slide in slides
       if (newMask.slides) {

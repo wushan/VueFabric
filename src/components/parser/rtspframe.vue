@@ -1,7 +1,7 @@
 <template lang="pug">
-  .rtsp(v-bind:style="attributes")
+  .rtsppreview(v-bind:style="attributes")
     h4 RTSP RESOURCE
-    p {{attr.rtsp}}
+    p {{attr.rtsp}})
 </template>
 
 <script>
@@ -28,8 +28,7 @@ export default {
         height: this.attr.height * this.attr.scaleY + 'px',
         top: this.attr.top + 'px',
         left: this.attr.left + 'px',
-        transform: 'rotate(' + this.attr.angle + 'deg)',
-        'background-color': this.attr.fill
+        transform: 'rotate(' + this.attr.angle + 'deg)'
       }
       return Css(style)
     }
@@ -42,8 +41,12 @@ export default {
 @import "../../../bower_components/susy/sass/susy";
 @import "../../../bower_components/breakpoint-sass/stylesheets/breakpoint";
 @import "../../assets/scss/var";
-.rtsp {
+.rtsppreview {
   padding: 1em;
   box-sizing: border-box;
+  background-color: rgba($smokygray, .66);
+  p {
+    word-break: break-all;
+  }
 }
 </style>

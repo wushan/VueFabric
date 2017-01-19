@@ -32,11 +32,11 @@
       li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="layerup")
           i.fa.fa-angle-up
-          |  上移一層 ( &#8984;&nbsp;+ )
+          |  上移一層 ( &#8984;&nbsp;] )
       li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="layerdown")
           i.fa.fa-angle-down
-          |  下移一層 ( &#8984;&nbsp;- )
+          |  下移一層 ( &#8984;&nbsp;[ )
       li.context-menu__item(v-if="!isImage")
         a.context-menu__link(href='#', @click="layerbottom")
           i.fa.fa-angle-double-down

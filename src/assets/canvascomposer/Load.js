@@ -4,6 +4,7 @@ export default {
   fromJSON (data, callback) {
     var fabric = window['fabric']
     var canvas = window['canvas']
+    console.log(data)
     canvas.loadFromJSON(data, canvas.renderAll.bind(canvas), function (o, object) {
       console.log('解析 ------ v')
       console.log(object)
@@ -57,9 +58,8 @@ export default {
           }
         }
       })
-
       canvas.renderAll()
     })
-    callback && callback('ddd')
+    // callback && callback('ddd')
   }
 }

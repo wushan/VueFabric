@@ -1,5 +1,6 @@
 // import Slider from './Slider'
 var fabric = window.fabric
+fabric.Object.prototype.lockScalingFlip = true
 // var canvas = window.canvas
 // fabric.Object.prototype.stroke = '#333333'
 fabric.Object.prototype.strokeWidth = 0
@@ -313,11 +314,6 @@ fabric.Marquee = fabric.util.createClass(fabric.Rect, {
     this.callSuper('_render', ctx)
   }
 })
-fabric.Marquee.fromObject = function (options) {
-  console.log(options)
-  options.fill = '#63513d'
-  return new fabric.Marquee(options)
-}
 fabric.Marquee.prototype.marquee = {
   source: '跑馬燈預設文字',
   transitionType: 'horizontal',
@@ -326,6 +322,11 @@ fabric.Marquee.prototype.marquee = {
   fontface: 'Open Sans',
   fontcolor: 'rgba(0,0,0,1)',
   backgroundColor: 'transparent'
+}
+fabric.Marquee.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#63513d'
+  return new fabric.Marquee(options)
 }
 // Create Fabric Rss Class
 // http://stackoverflow.com/questions/20407546/scale-some-object-but-not-others-in-a-fabric-group
@@ -479,6 +480,7 @@ fabric.Temperature = fabric.util.createClass(fabric.Text, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       interaction: this.interaction,
       location: this.location,
       name: this.name,
@@ -501,6 +503,7 @@ fabric.Location = fabric.util.createClass(fabric.Text, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       interaction: this.interaction,
       location: this.location,
       name: this.name,
@@ -524,6 +527,7 @@ fabric.Weatherimg = fabric.util.createClass(fabric.Image, {
   },
   toObject: function () {
     return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
       interaction: this.interaction,
       location: this.location,
       name: this.name,

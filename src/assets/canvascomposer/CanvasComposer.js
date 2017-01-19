@@ -10,6 +10,8 @@ export default {
     } else if (data === 'new') {
       initCanvas.init(options, function (res) {
         window.vue.$children[0].updateCanvasSize()
+        // Initial State
+        window.vue.$children[0].updateHistory()
       })
     }
   },

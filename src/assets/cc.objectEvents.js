@@ -3,6 +3,7 @@ export default{
   bindEvents (instance, obj) {
     obj.on('selected', function () {
       instance.currentObject = obj.toObject()
+      console.log('SELECTED')
       window.bus.$emit('updateSpectrum')
     })
     obj.on('deselected', function () {

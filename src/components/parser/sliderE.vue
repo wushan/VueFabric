@@ -30,80 +30,43 @@ export default {
   methods: {
     slider (object) { // 從 0 開始
       var context = this.$el.children
-      if (object[0].leastTime === 0) {
-        // Stop When first slide is infinity.
-        context[0].style.transitionProperty = 'all'
-        context[0].style.transitionDuration = object[0].transitionTime + 's'
-        context[0].style.transitionTimingFunction = 'linear'
-        context[0].style.opacity = 1
-      } else {
-        // 顯示最後一張
-        context[0].style.transitionProperty = 'all'
-        context[0].style.transitionDuration = object[0].transitionTime + 's'
-        context[0].style.transitionTimingFunction = 'linear'
-        context[0].style.opacity = 1
-        var i = 1
-        this.timer = setTimeout(() => {
-          this.firstRun(i, context, object)
-        }, object[0].leastTime * 1000)
+      // 全部設定
+      for (var index = 0; index < object.length; index++) {
+        context[index].style.transitionProperty = 'all'
+        context[index].style.transitionDuration = object[index].transitionTime + 's'
+        context[index].style.transitionTimingFunction = 'linear'
+        context[index].style.opacity = 0
       }
-    },
-    firstRun (i, context, object) {
-      context[i].style.transitionProperty = 'all'
-      context[i].style.transitionDuration = object[i].transitionTime + 's'
-      context[i].style.transitionTimingFunction = 'linear'
-      context[i].style.opacity = 1
-      // Fade everything out
-      for (var item of context) {
-        if (context[i] !== item) {
-          item.style.opacity = 0
-        }
-      }
-      if (this.timer) {
-        clearTimeout(this.timer)
-        console.log('clearTimeout')
-        console.log(i)
-        if (object[i].leastTime === 0) {
-          console.log('stop')
+      var i = 0
+      setTimeout(() => {
+        // 顯示第一張
+        if (object[0].leastTime === 0) {
+          context[0].style.opacity = 1
           return
+        } else {
+          this.exeSlide(i, context, object)
         }
-      }
-      if (i === object.length - 1) {
-        i = 0
-      } else {
-        i++
-      }
-      this.timer = setTimeout(() => {
-        this.transition(i, context, object)
-      }, object[i].leastTime * 1000 + object[i].transitionTime * 1000)
+      }, 1100)
     },
-    transition (i, context, object) {
-      context[i].style.transitionProperty = 'all'
-      context[i].style.transitionDuration = object[i].transitionTime + 's'
-      context[i].style.transitionTimingFunction = 'linear'
+    exeSlide (i, context, object) {
       context[i].style.opacity = 1
-      // Fade everything out
-      for (var item of context) {
-        if (context[i] !== item) {
-          item.style.opacity = 0
-        }
-      }
-      if (this.timer) {
-        clearTimeout(this.timer)
-        console.log('clearTimeout')
-        console.log(i)
+      setTimeout(() => {
+        // 準備淡出
+        context[i].style.opacity = 0
+        // 淡出完畢跳下一則
         if (object[i].leastTime === 0) {
-          console.log('stop')
+          context[i].style.opacity = 1
           return
+        } else {
+          setTimeout(() => {
+            if (i === context.length - 1) {
+              i = 0
+            } else {
+              i++
+            }
+            this.exeSlide(i, context, object)
+          }, object[i].transitionTime * 1000)
         }
-      }
-      if (i === object.length - 1) {
-        i = 0
-      } else {
-        i++
-      }
-      this.timer = setTimeout(() => {
-        this.transition(i, context, object)
       }, object[i].leastTime * 1000 + object[i].transitionTime * 1000)
     }
   },

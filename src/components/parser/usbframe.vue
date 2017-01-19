@@ -57,8 +57,7 @@ export default {
   padding: 1em;
   box-sizing: border-box;
   overflow: hidden;
-  background-color: rgba($smokygray, .66);
-  border: 1px solid $white;
+  background-color: rgba($smokygray, .66);  
   h4 {
     margin: 0;
   }

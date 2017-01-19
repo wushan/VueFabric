@@ -125,7 +125,7 @@ export default {
     combineStrings () {
       var concatString = ''
       for (var item of this.items) {
-        concatString = concatString + item.title
+        concatString = concatString + item.title + '   /   '
       }
       return concatString
     }
@@ -142,7 +142,6 @@ export default {
   padding: 1em;
   box-sizing: border-box;
   overflow: hidden;
-  border: 1px solid $white;
   h4 {
     margin: 0;
   }
@@ -152,6 +151,7 @@ export default {
     .paragraph {
       display: inline-block;
       vertical-align: middle;
+      white-space: pre;
     }
     // span {
     //   white-space: nowrap;

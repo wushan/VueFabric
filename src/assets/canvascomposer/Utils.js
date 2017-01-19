@@ -1,5 +1,6 @@
 // UUID
 import uuid from 'node-uuid'
+import Events from '../cc.objectEvents'
 export default {
   // Global
   layertop () {
@@ -71,15 +72,63 @@ export default {
         }
       } else if (obj.type === 'usbframe') {
         window.vue.$children[0].$emit('globalError', '畫布已含有 USB 框架。')
+      } else if (obj.type === 'weatherimg') {
+        // Normal Clone
+        newObject = obj.clone((o) => {
+          // Move New Object
+          o.set('left', o.left + 10)
+          o.set('top', o.top + 10)
+          // Assign a new id for new Object
+          o.set('id', uuid.v4())
+          canvas.add(o)
+          Events.bindEvents(window.vue.$children[0], o)
+          canvas.setActiveObject(o)
+          canvas.renderAll()
+          window.vue.$children[0].$emit('updateHistory')
+          window.vue.$children[0].$emit('closeContextMenu')
+        })
       } else {
         // Normal Clone
         newObject = obj.clone()
         // Move New Object
-        newObject.left = newObject.left + 10
-        newObject.top = newObject.top + 10
+        newObject.set('left', newObject.left + 10)
+        newObject.set('top', newObject.top + 10)
         // Assign a new id for new Object
-        newObject.id = uuid.v4()
+        newObject.set('id', uuid.v4())
+        if (newObject.type === 'marquee') {
+          newObject.set('marquee', {
+            source: obj.marquee.source,
+            transitionType: obj.marquee.transitionType,
+            speed: obj.marquee.speed,
+            size: obj.marquee.size,
+            fontface: obj.marquee.fontface,
+            fontcolor: obj.marquee.fontcolor,
+            backgroundColor: obj.marquee.backgroundColor
+          })
+        } else if (newObject.type === 'rss') {
+          newObject.set('rssmarquee', {
+            type: obj.rssmarquee.type,
+            source: obj.rssmarquee.source,
+            fontface: obj.rssmarquee.fontface,
+            size: obj.rssmarquee.size,
+            speed: obj.rssmarquee.speed,
+            fontcolor: obj.rssmarquee.fontcolor,
+            backgroundColor: obj.rssmarquee.backgroundColor
+          })
+        } else if (newObject.type === 'webview') {
+          newObject.set('webview', {
+            url: obj.webview.url,
+            placeholder: obj.webview.placeholder,
+            refreshRate: obj.webview.refreshRate
+          })
+          newObject.set('toolbox', {
+            enable: obj.toolbox.enable,
+            position: obj.toolbox.position,
+            size: obj.toolbox.size
+          })
+        }
         canvas.add(newObject)
+        Events.bindEvents(window.vue.$children[0], newObject)
         canvas.setActiveObject(newObject)
         canvas.renderAll()
         window.vue.$children[0].$emit('updateHistory')

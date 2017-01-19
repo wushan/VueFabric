@@ -118,6 +118,10 @@ export default {
         display: inline-block;
         vertical-align: middle;
       }
+      .paragraph {
+        line-height: 1.6;
+        white-space: pre;
+      }
     }
     &.vertical {
       white-space: pre-wrap;

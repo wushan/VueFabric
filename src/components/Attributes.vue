@@ -208,7 +208,14 @@
                           option(value="L") 大
                           option(value="M") 中
                           option(value="S") 小
-
+          .attribution-group.weather(v-if="weathers")
+            .attr-head
+              .title 天氣 ID
+            .attr-content
+              .controlgroup.webview
+                label ID
+                .controls
+                  input(v-bind:value="currentObject.location", type="text", disabled)
           .attribution-group.webview(v-if="webview")
             .attr-head
               .title WEBVIEW
@@ -225,9 +232,9 @@
                 label 工具列
                 .controls.check-group
                   .check-item
-                    input#toolbox(type="checkbox", v-bind:value="currentObject.toolbox.enable", @change="toolbox")
+                    input#toolbox(type="checkbox", v-bind:checked="currentObject.toolbox.enable", @change="toolbox")
                     label(for="toolbox") 啟用工具列
-              .controlgroup.webview(v-if="enableToolbox")
+              .controlgroup.webview(v-if="currentObject.toolbox.enable")
                 label 位置
                 .controls
                   .select-wrapper
@@ -242,7 +249,7 @@
                       option(value="rightcenter") 右中
                       option(value="rightbottom") 右下
 
-              .controlgroup.webview(v-if="enableToolbox")
+              .controlgroup.webview(v-if="currentObject.toolbox.enable")
                 label 尺寸
                 .controls
                   .select-wrapper
@@ -754,6 +761,13 @@ export default {
         return false
       }
     },
+    weathers () {
+      if (this.currentObject.type === 'weatherimg' || this.currentObject.type === 'location' || this.currentObject.type === 'temperature') {
+        return true
+      } else {
+        return false
+      }
+    },
     typography () {
       if (this.currentObject.type === 'eclock' || this.currentObject.type === 'textbox' || this.currentObject.type === 'weather' || this.currentObject.type === 'location' || this.currentObject.type === 'temperature') {
         this.initialSpectrum()
@@ -912,12 +926,14 @@ export default {
         currentToolbox.position = 'lefttop'
         currentToolbox.size = 'medium'
         obj.set('toolbox', currentToolbox)
+        console.log('true')
       } else {
         this.enableToolbox = false
         currentToolbox.enable = false
         currentToolbox.position = 'lefttop'
         currentToolbox.size = 'medium'
         obj.set('toolbox', currentToolbox)
+        console.log('false')
       }
     },
     changeToolboxPosition (e) {
@@ -959,6 +975,7 @@ export default {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
       var currentSettings = obj.get('marquee')
+      console.log(currentSettings)
       switch (e.target.name) {
         case 'source':
           currentSettings.source = e.target.value

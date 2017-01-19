@@ -288,6 +288,8 @@ export default {
   pushObject (direction, gap) {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
+    var group = canvas.getActiveGroup()
+    var targetObj = obj || group
     switch (direction) {
       case 'left':
         // if (obj.left <= 0) {
@@ -297,8 +299,9 @@ export default {
         //   obj.left = obj.left - gap
         //   obj.setCoords()
         // }
-        obj.left = obj.left - gap
-        obj.setCoords()
+        targetObj.left = targetObj.left - gap
+        targetObj.setCoords()
+        window.vue.$children[0].$emit('updateHistory')
         break
       case 'right':
         // if (obj.left + obj.getWidth() >= obj.canvas.width) {
@@ -308,8 +311,9 @@ export default {
         //   obj.left = obj.left + gap
         //   obj.setCoords()
         // }
-        obj.left = obj.left + gap
-        obj.setCoords()
+        targetObj.left = targetObj.left + gap
+        targetObj.setCoords()
+        window.vue.$children[0].$emit('updateHistory')
         break
       case 'up':
         // if (obj.top <= 0) {
@@ -319,8 +323,9 @@ export default {
         //   obj.top = obj.top - gap
         //   obj.setCoords()
         // }
-        obj.top = obj.top - gap
-        obj.setCoords()
+        targetObj.top = targetObj.top - gap
+        targetObj.setCoords()
+        window.vue.$children[0].$emit('updateHistory')
         break
       case 'down':
         // if (obj.top + obj.getHeight() >= obj.canvas.height) {
@@ -330,8 +335,9 @@ export default {
         //   obj.top = obj.top + gap
         //   obj.setCoords()
         // }
-        obj.top = obj.top + gap
-        obj.setCoords()
+        targetObj.top = targetObj.top + gap
+        targetObj.setCoords()
+        window.vue.$children[0].$emit('updateHistory')
         break
     }
     canvas.renderAll()

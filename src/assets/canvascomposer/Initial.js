@@ -20,6 +20,12 @@ export default {
     canvas.preserveObjectStacking = true
     canvas.renderOnAddRemove = false
     canvas.on('object:moving', snapMoveToGrid)
+    // Selection Event
+    canvas.on('selection:created', (e) => {
+      canvas.getActiveGroup().on('modified', (e) => {
+        window.vue.$children[0].$emit('updateHistory')
+      })
+    })
     // canvas.on('object:scaling', snapScaleToGrid)
     // canvas.on('object:moving', fixBoundaries)
     // canvas.on('object:scaling', fixBoundaries)

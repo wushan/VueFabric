@@ -23,7 +23,7 @@ export default {
         height: this.attr.height * this.attr.scaleY,
         top: this.attr.top,
         left: this.attr.left,
-        transform: 'rotate(' + this.attr.angle + 'deg)'
+        transform: 'rotate(' + this.attr.angle + 'deg) scaleX(' + this.attr.scaleX + ') scaleY(' + this.attr.scaleY + ');'
       }
       return Css(style)
     },

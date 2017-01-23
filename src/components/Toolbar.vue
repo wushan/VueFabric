@@ -159,7 +159,7 @@ export default {
     addText: function () {
       var fabric = window['fabric']
       var canvas = window['canvas']
-      var text = new fabric.Textbox('Default Text', {
+      var text = new fabric.PlainText('Default Text', {
         // options
         id: uuid.v4(),
         left: 200,
@@ -170,14 +170,15 @@ export default {
         fontFamily: 'Open Sans',
         name: 'Text'
       })
-      text.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction,
-            id: this.id
-          })
-        }
-      })(text.toObject)
+      // text.toObject = (function (toObject) {
+      //   return function () {
+      //     return fabric.util.object.extend(toObject.call(this), {
+      //       interaction: this.interaction,
+      //       id: this.id,
+      //       name: this.name
+      //     })
+      //   }
+      // })(text.toObject)
       canvas.add(text)
       text.center()
       text.setCoords()

@@ -2,7 +2,7 @@
   .slider(v-bind:style="attributes")
     .slide(v-for="slide in attr.slides", v-bind:style="'background-size:' + slide.imgWidth * attr.scaleX + 'px ' + slide.imgHeight * attr.scaleY + 'px' + ';background-image: url(' + slide.url + '); background-position:' + slide.offsetX + 'px ' + slide.offsetY + 'px;'")
       .video-wrapper(v-if="slide.video")
-        video(autoplay, loop)
+        video(loop, v-bind:id="'video-' + slide.id")
           source(v-bind:src="slide.video")
 
 </template>
@@ -66,9 +66,12 @@ export default {
         context[index].style.opacity = 0
       }
       var i = 0
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         // 顯示第一張
         if (object[0].leastTime === 0) {
+          if (object[0].video) {
+            document.getElementById('video-' + object[i].id).play()
+          }
           context[0].style.opacity = 1
           return
         } else {
@@ -78,15 +81,26 @@ export default {
     },
     exeSlide (i, context, object) {
       context[i].style.opacity = 1
-      setTimeout(() => {
+      // 如果是影片
+      if (object[i].video) {
+        document.getElementById('video-' + object[i].id).load()
+        document.getElementById('video-' + object[i].id).play()
+      }
+      this.timer = setTimeout(() => {
         // 準備淡出
         context[i].style.opacity = 0
+        if (object[i].video) {
+          document.getElementById('video-' + object[i].id).pause()
+        }
         // 淡出完畢跳下一則
         if (object[i].leastTime === 0) {
           context[i].style.opacity = 1
+          if (object[i].video) {
+            document.getElementById('video-' + object[i].id).play()
+          }
           return
         } else {
-          setTimeout(() => {
+          this.timer = setTimeout(() => {
             if (i === context.length - 1) {
               i = 0
             } else {

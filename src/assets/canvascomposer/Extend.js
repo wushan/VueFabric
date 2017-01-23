@@ -19,6 +19,7 @@ fabric.Object.prototype.interaction = {
     name: ''
   }
 }
+
 // fabric.Object.prototype.toObject = (function (toObject) {
 //   return function () {
 //     return fabric.util.object.extend(toObject.call(this), {
@@ -71,7 +72,6 @@ fabric.Video.fromObject = function (object, callback) {
     })
   }, null, object.crossOrigin)
 }
-
 // Create Fabric Slider Class
 fabric.Slider = fabric.util.createClass(fabric.Rect, {
   type: 'slider',
@@ -230,6 +230,30 @@ fabric.Eclock.fromObject = function (object) {
 }
 
 fabric.Eclock.async = false
+
+// EClock Class
+fabric.PlainText = fabric.util.createClass(fabric.Textbox, {
+  type: 'plaintext',
+  initialize: function (element, options) {
+    options || (options = {})
+    this.callSuper('initialize', element, options)
+  },
+  toObject: function () {
+    return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
+      interaction: this.interaction,
+      name: this.name
+    })
+  },
+  _render: function (ctx) {
+    this.callSuper('_render', ctx)
+  }
+})
+fabric.PlainText.fromObject = function (object) {
+  return new fabric.PlainText(object.text, object)
+}
+
+fabric.PlainText.async = false
 
 // Create Fabric Clock Class
 fabric.Clock = fabric.util.createClass(fabric.Group, {

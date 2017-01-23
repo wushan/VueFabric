@@ -126,6 +126,9 @@ export default {
             position: obj.toolbox.position,
             size: obj.toolbox.size
           })
+        } else if (newObject.type === 'textbox') {
+          console.log(newObject)
+          console.log(newObject.toObject())
         }
         canvas.add(newObject)
         Events.bindEvents(window.vue.$children[0], newObject)

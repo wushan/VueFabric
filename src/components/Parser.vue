@@ -10,7 +10,7 @@
 import slider from './parser/slider'
 import sliderT from './parser/sliderT'
 import sliderE from './parser/sliderE'
-import textbox from './parser/textbox'
+import plaintext from './parser/textbox'
 import clock from './parser/clock'
 import eclock from './parser/eclock'
 import temperature from './parser/temperature'
@@ -25,7 +25,7 @@ import webview from './parser/webview'
 export default {
   components: {
     slider,
-    textbox,
+    plaintext,
     clock,
     eclock,
     weatherimg,

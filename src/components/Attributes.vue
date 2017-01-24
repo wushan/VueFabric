@@ -754,7 +754,7 @@ export default {
       return canvas._objects
     },
     allowBackground () {
-      if (this.currentObject.type === 'textbox' || this.currentObject.type === 'location' || this.currentObject.type === 'temperature' || this.currentObject.type === 'slider' || this.currentObject.type === 'sliderE' || this.currentObject.type === 'sliderT' || this.currentObject.type === 'eclock') {
+      if (this.currentObject.type === 'plaintext' || this.currentObject.type === 'location' || this.currentObject.type === 'temperature' || this.currentObject.type === 'slider' || this.currentObject.type === 'sliderE' || this.currentObject.type === 'sliderT' || this.currentObject.type === 'eclock') {
         this.initialSpectrum()
         return true
       } else {
@@ -769,7 +769,7 @@ export default {
       }
     },
     typography () {
-      if (this.currentObject.type === 'eclock' || this.currentObject.type === 'textbox' || this.currentObject.type === 'weather' || this.currentObject.type === 'location' || this.currentObject.type === 'temperature') {
+      if (this.currentObject.type === 'eclock' || this.currentObject.type === 'plaintext' || this.currentObject.type === 'weather' || this.currentObject.type === 'location' || this.currentObject.type === 'temperature') {
         this.initialSpectrum()
         return true
       } else {
@@ -1222,7 +1222,7 @@ export default {
             var canvas = window['canvas']
             var obj = canvas.getActiveObject()
             color = color.toRgbString()
-            if (obj.type === 'eclock' || obj.type === 'textbox' || obj.type === 'weather' || obj.type === 'location' || obj.type === 'temperature') {
+            if (obj.type === 'eclock' || obj.type === 'plaintext' || obj.type === 'weather' || obj.type === 'location' || obj.type === 'temperature') {
               obj.setTextBackgroundColor(color)
               console.log(color)
             } else {
@@ -1254,7 +1254,7 @@ export default {
             var obj = canvas.getActiveObject()
             // Turn the Spectrum Object to Hex String
             color = color.toRgbString()
-            if (obj.type === 'eclock' || obj.type === 'textbox' || obj.type === 'weather' || obj.type === 'location' || obj.type === 'temperature') {
+            if (obj.type === 'eclock' || obj.type === 'plaintext' || obj.type === 'weather' || obj.type === 'location' || obj.type === 'temperature') {
               obj.setColor(color)
             } else {
               //

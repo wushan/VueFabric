@@ -67,6 +67,7 @@ export default {
       text.center()
       text.setCoords()
       // Bind
+      this.$root.$children[0].$emit('updateHistory')
       Events.bindEvents(this.$parent.$parent, text)
       // Programmatically Select Newly Added Object
       canvas.setActiveObject(text)

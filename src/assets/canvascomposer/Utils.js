@@ -142,7 +142,9 @@ export default {
   lock () {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
-    if (obj) {
+    var group = canvas.getActiveGroup()
+    var targetObj = obj || group
+    if (!targetObj._objects) {
       if (obj.lockMovementY === true) {
         obj.lockMovementY = false
         obj.lockMovementX = false
@@ -166,7 +168,32 @@ export default {
       window.vue.$children[0].$emit('updateHistory')
       window.vue.$children[0].$emit('closeContextMenu')
     } else {
-      window.vue.$children[0].$emit('globalError', '錯誤')
+      for (var inGroupObj of targetObj._objects) {
+        if (inGroupObj.lockMovementY === true) {
+          inGroupObj.lockMovementY = false
+          inGroupObj.lockMovementX = false
+          inGroupObj.lockRotation = false
+          inGroupObj.lockScalingX = false
+          inGroupObj.lockScalingY = false
+          inGroupObj.selectable = true
+          inGroupObj.stroke = ''
+          inGroupObj.strokeWidth = 0
+          canvas.renderAll()
+        } else {
+          inGroupObj.lockMovementY = true
+          inGroupObj.lockMovementX = true
+          inGroupObj.lockRotation = true
+          inGroupObj.lockScalingX = true
+          inGroupObj.lockScalingY = true
+          inGroupObj.selectable = false
+          canvas.deactivateAllWithDispatch()
+          canvas.renderAll()
+        }
+      }
+      window.vue.$children[0].$emit('updateHistory')
+      window.vue.$children[0].$emit('closeContextMenu')
+      window.bus.$emit('updateScene')
+      // window.vue.$children[0].$emit('globalError', '錯誤')
     }
   },
   removeObject (cb) {

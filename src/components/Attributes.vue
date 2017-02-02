@@ -652,6 +652,7 @@ export default {
         leastTime: '0',
         transitionTypeSelected: 'random',
         transitionType: [
+          {value: 'none', text: '無特效'},
           {value: 'random', text: '隨機'},
           {value: 'slidedown', text: '向下切入'},
           {value: 'slideup', text: '向上切入'},
@@ -1194,13 +1195,20 @@ export default {
     changeTimeZone () {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()
+      var index
+      for (var i = 0; i < canvas._objects.length; i++) {
+        if (obj.id === canvas._objects[i].id) {
+          index = i
+        }
+      }
       if (obj) {
         var newVal = this.currentObject.gmt
         obj.set('gmt', newVal)
         var newObj = obj.clone()
-        canvas.add(newObj)
-        Events.bindEvents(this.$parent.$parent, newObj)
         canvas.remove(obj)
+        canvas.add(newObj)
+        newObj.moveTo(index)
+        Events.bindEvents(this.$parent.$parent, newObj)
         // Programmatically Select Newly Added Object
         canvas.setActiveObject(newObj)
         canvas.renderAll()

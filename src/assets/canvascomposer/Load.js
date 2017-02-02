@@ -8,6 +8,7 @@ export default {
     canvas.loadFromJSON(data, canvas.renderAll.bind(canvas), function (o, object) {
       console.log('解析 ------ v')
       console.log(object)
+      console.log(o)
       console.log('^ ---------- ')
       // When object is slider
       if (object.type === 'slider' || object.type === 'sliderE' || object.type === 'sliderT') {

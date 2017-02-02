@@ -159,7 +159,7 @@ export default {
     addText: function () {
       var fabric = window['fabric']
       var canvas = window['canvas']
-      var text = new fabric.PlainText('Default Text', {
+      var text = new fabric.Plaintext('Default Text', {
         // options
         id: uuid.v4(),
         left: 200,
@@ -179,6 +179,8 @@ export default {
       //     })
       //   }
       // })(text.toObject)
+      console.log(text)
+      console.log(text.toObject())
       canvas.add(text)
       text.center()
       text.setCoords()

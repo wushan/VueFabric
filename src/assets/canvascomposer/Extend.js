@@ -232,7 +232,7 @@ fabric.Eclock.fromObject = function (object) {
 fabric.Eclock.async = false
 
 // EClock Class
-fabric.PlainText = fabric.util.createClass(fabric.Textbox, {
+fabric.Plaintext = fabric.util.createClass(fabric.Textbox, {
   type: 'plaintext',
   initialize: function (element, options) {
     options || (options = {})
@@ -249,11 +249,10 @@ fabric.PlainText = fabric.util.createClass(fabric.Textbox, {
     this.callSuper('_render', ctx)
   }
 })
-fabric.PlainText.fromObject = function (object) {
-  return new fabric.PlainText(object.text, object)
+fabric.Plaintext.fromObject = function (object) {
+  console.log(object)
+  return new fabric.Plaintext(object.text, object)
 }
-
-fabric.PlainText.async = false
 
 // Create Fabric Clock Class
 fabric.Clock = fabric.util.createClass(fabric.Group, {

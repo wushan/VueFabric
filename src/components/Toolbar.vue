@@ -86,39 +86,11 @@ export default {
   },
   props: ['currentObject', 'initialRadius', 'baseUrl', 'currentView', 'width', 'height'],
   methods: {
-    addRect () {
-      var fabric = window['fabric']
-      var canvas = window['canvas']
-      var rect = new fabric.Rect({
-        id: uuid.v4(),
-        fill: '#' + Math.floor(Math.random() * 16777215).toString(16),
-        left: canvas.getWidth() / 2 - 100 / 2,
-        top: canvas.getHeight() / 2 - 100 / 2,
-        width: this.initialRadius,
-        height: this.initialRadius,
-        padding: 0
-      })
-      rect.toObject = (function (toObject) {
-        return function () {
-          return fabric.util.object.extend(toObject.call(this), {
-            interaction: this.interaction
-          })
-        }
-      })(rect.toObject)
-      rect.perPixelTargetFind = true
-      canvas.add(rect)
-      // CanvasComposer.History.Update()
-      canvas.renderAll()
-      // Bind
-      this.bindEvents(rect)
-      // Programmatically Select Newly Added Object
-      canvas.setActiveObject(rect)
-    },
     addCircle: function () {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.SliderE({
-        name: 'Slider Ellipse',
+        name: 'Slider Ellipse - ' + this.$store.state.objects.sliderE,
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100 / 2,
         top: canvas.getHeight() / 2 - 100 / 2,
@@ -130,6 +102,7 @@ export default {
       })
       canvas.add(slider)
       canvas.renderAll()
+      this.$store.commit('increment', 'sliderE')
       // Bind
       this.bindEvents(slider)
       // Programmatically Select Newly Added Object
@@ -139,7 +112,7 @@ export default {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.SliderT({
-        name: 'Slider Triangle',
+        name: 'Slider Triangle - ' + this.$store.state.objects.sliderT,
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100 / 2,
         top: canvas.getHeight() / 2 - 100 / 2,
@@ -151,6 +124,7 @@ export default {
       })
       canvas.add(slider)
       canvas.renderAll()
+      this.$store.commit('increment', 'sliderT')
       // Bind
       this.bindEvents(slider)
       // Programmatically Select Newly Added Object
@@ -168,7 +142,7 @@ export default {
         height: 300,
         fontSize: 24,
         fontFamily: 'Open Sans',
-        name: 'Text'
+        name: 'Text - ' + this.$store.state.objects.plaintext
       })
       // text.toObject = (function (toObject) {
       //   return function () {
@@ -182,6 +156,7 @@ export default {
       console.log(text)
       console.log(text.toObject())
       canvas.add(text)
+      this.$store.commit('increment', 'plaintext')
       text.center()
       text.setCoords()
       // Bind
@@ -208,10 +183,11 @@ export default {
             padding: 0,
             originX: 'center',
             originY: 'center',
-            name: 'Usb Frame',
+            name: 'Usb Frame - ' + this.$store.state.objects.usbframe,
             ratio: {w: 'free', h: 'free'}
           })
           canvas.add(bg)
+          this.$store.commit('increment', 'usbframe')
           canvas.renderAll()
           // CanvasComposer.History.Update()
           // Bind
@@ -247,7 +223,7 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'Webview',
+        name: 'Webview -' + this.$store.state.objects.webview,
         ratio: {w: 'free', h: 'free'},
         webview: {
           url: '',
@@ -273,6 +249,7 @@ export default {
         }
       })(bg.toObject)
       canvas.add(bg)
+      this.$store.commit('increment', 'webview')
       // Bind
       this.bindEvents(bg)
       // Programmatically Select Newly Added Object
@@ -292,10 +269,11 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'RTSP',
+        name: 'RTSP - ' + this.$store.state.objects.rtspframe,
         ratio: {w: 'free', h: 'free'}
       })
       canvas.add(bg)
+      this.$store.commit('increment', 'rtspframe')
       // Bind
       this.bindEvents(bg)
       // Programmatically Select Newly Added Object
@@ -313,7 +291,7 @@ export default {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.Slider({
-        name: 'Slider Rect',
+        name: 'Slider Rect - ' + this.$store.state.objects.slider,
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100 / 2,
         top: canvas.getHeight() / 2 - 100 / 2,
@@ -324,6 +302,8 @@ export default {
         ratio: {w: 'free', h: 'free'}
       })
       canvas.add(slider)
+      // Add Count to Store
+      this.$store.commit('increment', 'slider')
       canvas.renderAll()
       // Bind
       this.bindEvents(slider)
@@ -343,7 +323,7 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'RSS',
+        name: 'RSS - ' + this.$store.state.objects.rss,
         rssmarquee: {
           type: 'custom',
           source: '',
@@ -355,6 +335,7 @@ export default {
         }
       })
       canvas.add(bg)
+      this.$store.commit('increment', 'rss')
       // Bind
       this.bindEvents(bg)
       // Programmatically Select Newly Added Object
@@ -374,7 +355,7 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'Marquee',
+        name: 'Marquee - ' + this.$store.state.objects.marquee,
         marquee: {
           source: '跑馬燈預設文字',
           transitionType: 'horizontal',
@@ -386,6 +367,7 @@ export default {
         }
       })
       canvas.add(bg)
+      this.$store.commit('increment', 'marquee')
       // Bind
       this.bindEvents(bg)
       // Programmatically Select Newly Added Object

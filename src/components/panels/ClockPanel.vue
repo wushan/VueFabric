@@ -67,6 +67,7 @@ export default {
           console.log(data)
           Utils.loadClock(data, function (o) {
             instance.bindEvents(o)
+            instance.$store.commit('increment', 'clock')
           })
           this.$root.$children[0].$emit('updateSubmenu', null)
         }

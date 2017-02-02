@@ -48,7 +48,7 @@ export default {
         format: format,
         fontFamily: 'Times New Roman',
         gmt: _settings.gmt,
-        name: 'Time',
+        name: 'EClock - ' + this.$store.state.objects.eclock,
         id: uuid.v4(),
         locale: options.locale
       })
@@ -64,6 +64,7 @@ export default {
       //   }
       // })(text.toObject)
       canvas.add(text)
+      this.$store.commit('increment', 'eclock')
       text.center()
       text.setCoords()
       // Bind

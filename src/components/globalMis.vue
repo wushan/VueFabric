@@ -22,6 +22,17 @@
           button.edit.btn.basic(@click="triggerInteraction") 互動設定
           button.basic.btn.basic(@click="triggerArrangement") 排程發佈
           button.basic.btn.basic(@click="triggerPreview") 預覽
+      //- .globalCounter
+      //-   ul
+      //-     li
+      //-       span S
+      //-       span {{object.slider}}
+      //-     li
+      //-       span ST
+      //-       span {{object.sliderT}}
+      //-     li
+      //-       span SE
+      //-       span {{object.sliderE}}
 </template>
 
 <script>
@@ -47,6 +58,11 @@ export default {
     triggerPreview () {
       this.$root.$children[0].$emit('triggerPreview')
     }
+  },
+  computed: {
+    object () {
+      return this.$store.state.objects
+    }
   }
 }
 </script>
@@ -60,6 +76,7 @@ export default {
   height: 50px;
   line-height: 50px;
   padding: 0 .5em;
+  position: relative;
   background-color: $black;
 }
 .globalMis-inner {
@@ -144,6 +161,34 @@ export default {
     // color: $white;
     .handle {
       // background-color: rgba(#535353, 1);
+    }
+  }
+}
+.globalCounter {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  max-width: 300px;
+  background-color: $pureblack;
+  right: 0;
+  z-index: 9;
+  margin: auto;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    li {
+      margin: 0 .5em;
+      & > span {
+        &:first-child {
+          &:after {
+            content: ' : '
+          }
+        }
+      }
     }
   }
 }

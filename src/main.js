@@ -2,6 +2,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import store from './store'
 import App from './App'
 import Extend from './assets/canvascomposer/Extend'
 import VueSweetAlert from 'vue-sweetalert'
@@ -10,6 +11,7 @@ import CanvasComposer from './assets/canvascomposer/CanvasComposer.js'
 Vue.use(VueSweetAlert)
 var vue = new Vue({
   el: '#app',
+  store,
   events: { 
     'loadedmetadata': function(res) { 
       alert(res)

@@ -64,7 +64,9 @@ export default {
           newObject.top = newObject.top + 10
           // Assign a new id for new Object
           newObject.id = uuid.v4()
+          newObject.name = obj.type + ' - ' + window.vue.$store.state.objects[obj.type]
           canvas.add(newObject)
+          window.vue.$store.commit('increment', obj.type)
           canvas.setActiveObject(newObject)
           canvas.renderAll()
           window.vue.$children[0].$emit('updateHistory')
@@ -126,11 +128,11 @@ export default {
             position: obj.toolbox.position,
             size: obj.toolbox.size
           })
-        } else if (newObject.type === 'textbox') {
-          console.log(newObject)
-          console.log(newObject.toObject())
+          newObject.name = newObject.type + ' - ' + window.vue.$store.state.objects.webview
         }
+        newObject.name = newObject.type + ' - ' + window.vue.$store.state.objects[newObject.type]
         canvas.add(newObject)
+        window.vue.$store.commit('increment', newObject.type)
         Events.bindEvents(window.vue.$children[0], newObject)
         canvas.setActiveObject(newObject)
         canvas.renderAll()
@@ -256,7 +258,7 @@ export default {
       } else {
         var instance = klass.fromObject(objects[i])
         instance.id = uuid.v4()
-        instance.name = 'Clock'
+        instance.name = 'Clock - ' + window.vue.$store.state.objects.clock
         canvas.add(instance)
         canvas.setActiveObject(instance)
         cb && cb(instance)

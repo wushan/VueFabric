@@ -32,6 +32,9 @@
     
     ul.tools
       li
+        a.full.btn.basic(href="javascript:;" title="背景音樂", @click="updateSub('musicpanel')", :class="{ active: currentView=='musicpanel' }")
+          i.fa.fa-music.fa-lg
+      li
         a.full.btn.basic.js-setting(href="javascript:;" title="版面設定", @click="updateSub('presetpanel')", :class="{ active: currentView=='presetpanel' }")
           i.fa.fa-cogs.fa-lg
       li
@@ -55,6 +58,7 @@ import Weatherpanel from './panels/WeatherPanel'
 import Presetpanel from './panels/PresetPanel'
 import Savepanel from './panels/SavePanel'
 import Shapepanel from './panels/ShapePanel'
+import Musicpanel from './panels/MusicPanel'
 // UUID
 import uuid from 'node-uuid'
 export default {
@@ -65,7 +69,8 @@ export default {
     Weatherpanel,
     Presetpanel,
     Savepanel,
-    Shapepanel
+    Shapepanel,
+    Musicpanel
   },
   data () {
     return {
@@ -373,6 +378,9 @@ export default {
       // Programmatically Select Newly Added Object
       canvas.setActiveObject(bg)
       // Refresh log
+    },
+    toggleMusic () {
+      this.$parent.$emit('toggleMusic')
     }
   }
 }

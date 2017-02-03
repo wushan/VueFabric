@@ -32,6 +32,7 @@ import Parser from './components/Parser'
 // import Events from './assets/cc.objectEvents'
 import Load from './assets/canvascomposer/Load'
 import Keyboard from './assets/canvascomposer/Keyboard'
+import Utils from './assets/canvascomposer/Utils'
 export default {
   name: 'CanvasEditor',
   components: {
@@ -94,6 +95,7 @@ export default {
       console.log('redo')
     })
     this.$on('triggerPreview', function () {
+      Utils.deselectAll()
       this.preview = true
     })
     this.$on('triggerContextMenu', function (position) {

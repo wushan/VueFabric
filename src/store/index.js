@@ -15,6 +15,31 @@ export default new Vuex.Store({
       usbframe: 0,
       webview: 0,
       rtspframe: 0
+    },
+    music: {
+      sources: [
+        {
+          LId: '1',
+          name: 'abc.mp3',
+          time: '11:23'
+        },
+        {
+          LId: '2',
+          name: 'def.mp3',
+          time: '02:04'
+        },
+        {
+          LId: '3',
+          name: 'ghi.mp3',
+          time: '15:09'
+        },
+        {
+          LId: '4',
+          name: 'jlk.mp3',
+          time: '03:02'
+        }
+      ],
+      selected: []
     }
   },
   mutations: {
@@ -23,6 +48,15 @@ export default new Vuex.Store({
     },
     decrement (state, payload) {
       state.objects[payload] -= 1
+    },
+    addToMusicList (state, obj) {
+      state.music.selected.push(obj)
+    },
+    removeFromList (state, index) {
+      state.music.selected.splice(index, 1)
+    },
+    replaceSelectMusic (state, list) {
+      state.music.selected = list
     }
   },
   actions: {

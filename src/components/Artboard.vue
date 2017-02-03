@@ -3,11 +3,6 @@
     .canvas-wrapper(v-bind:class="{ pushed: currentObject || arrangement || interaction, double: canvasLayer}", @mousedown="deselectObject", @contextmenu.prevent="deselectObject")
       #canvas.task
         canvas#c
-        .objectControl
-          a.btn.js-reset(href='javascript:;', title="原始比例", data-action='reset')
-              i.fa.fa-crosshairs
-          a.btn.js-delete(href='javascript:;', title="刪除", data-action='delete')
-              i.fa.fa-trash
         .sizeTag
           .tag.width
               span 800

@@ -48,7 +48,7 @@ export default {
         format: format,
         fontFamily: 'Times New Roman',
         gmt: _settings.gmt,
-        name: 'EClock - ' + this.$store.state.objects.eclock,
+        name: '時間 - ' + this.$store.state.objects.eclock,
         id: uuid.v4(),
         locale: options.locale
       })

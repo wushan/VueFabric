@@ -95,7 +95,7 @@ export default {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.SliderE({
-        name: 'Slider Ellipse - ' + this.$store.state.objects.sliderE,
+        name: '圓形 - ' + this.$store.state.objects.sliderE,
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100 / 2,
         top: canvas.getHeight() / 2 - 100 / 2,
@@ -117,7 +117,7 @@ export default {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.SliderT({
-        name: 'Slider Triangle - ' + this.$store.state.objects.sliderT,
+        name: '三角形 - ' + this.$store.state.objects.sliderT,
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100 / 2,
         top: canvas.getHeight() / 2 - 100 / 2,
@@ -147,7 +147,7 @@ export default {
         height: 300,
         fontSize: 24,
         fontFamily: 'Open Sans',
-        name: 'Text - ' + this.$store.state.objects.plaintext
+        name: '靜態文字 - ' + this.$store.state.objects.plaintext
       })
       // text.toObject = (function (toObject) {
       //   return function () {
@@ -228,7 +228,7 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'Webview -' + this.$store.state.objects.webview,
+        name: '網頁 -' + this.$store.state.objects.webview,
         ratio: {w: 'free', h: 'free'},
         webview: {
           url: '',
@@ -274,7 +274,7 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'RTSP - ' + this.$store.state.objects.rtspframe,
+        name: '視訊 - ' + this.$store.state.objects.rtspframe,
         ratio: {w: 'free', h: 'free'}
       })
       canvas.add(bg)
@@ -296,7 +296,7 @@ export default {
       const fabric = window['fabric']
       const canvas = window['canvas']
       var slider = new fabric.Slider({
-        name: 'Slider Rect - ' + this.$store.state.objects.slider,
+        name: '矩形 - ' + this.$store.state.objects.slider,
         id: uuid.v4(),
         left: canvas.getWidth() / 2 - 100 / 2,
         top: canvas.getHeight() / 2 - 100 / 2,
@@ -360,7 +360,7 @@ export default {
         padding: 0,
         originX: 'center',
         originY: 'center',
-        name: 'Marquee - ' + this.$store.state.objects.marquee,
+        name: '跑馬燈文字 - ' + this.$store.state.objects.marquee,
         marquee: {
           source: '跑馬燈預設文字',
           transitionType: 'horizontal',

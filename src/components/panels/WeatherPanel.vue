@@ -109,7 +109,7 @@ export default {
             oImg.set({
               left: canvas.getWidth() / 2,
               top: canvas.getHeight() / 2,
-              name: 'Weather Image',
+              name: '天氣圖案',
               id: uuid.v4()
             })
             // 加入圖片
@@ -132,7 +132,7 @@ export default {
               fontSize: '64',
               fontFamily: 'Times New Roman',
               fontWeight: 300,
-              name: 'Temperature',
+              name: '天氣溫度',
               id: uuid.v4()
             })
             canvas.add(fTemp)
@@ -154,7 +154,7 @@ export default {
               top: canvas.getHeight() / 2,
               fontSize: '18',
               fontFamily: 'Times New Roman',
-              name: 'Weather Location',
+              name: '天氣地點',
               id: uuid.v4()
             })
             canvas.add(fLocation)

@@ -50,6 +50,48 @@ export default {
   duplicate () {
     var canvas = window['canvas']
     var obj = canvas.getActiveObject()
+    var sliderTranslate
+    switch (obj.type) {
+      case 'slider':
+        sliderTranslate = '矩形'
+        break
+      case 'sliderE':
+        sliderTranslate = '圓形'
+        break
+      case 'sliderT':
+        sliderTranslate = '三角形'
+        break
+      case 'plaintext':
+        sliderTranslate = '靜態文字'
+        break
+      case 'clock':
+        sliderTranslate = '時鐘'
+        break
+      case 'eclock':
+        sliderTranslate = '時間'
+        break
+      case 'marquee':
+        sliderTranslate = '跑馬燈文字'
+        break
+      case 'rss':
+        sliderTranslate = 'RSS'
+        break
+      case 'usbframe':
+        sliderTranslate = 'USB'
+        break
+      case 'webview':
+        sliderTranslate = '網頁'
+        break
+      case 'rtspframe':
+        sliderTranslate = '視訊'
+        break
+      case 'temperature':
+        sliderTranslate = '天氣溫度'
+        break
+      case 'location':
+        sliderTranslate = '天氣地點'
+        break
+    }
     var newObject
     if (obj) {
       // Slider Clone
@@ -64,7 +106,7 @@ export default {
           newObject.top = newObject.top + 10
           // Assign a new id for new Object
           newObject.id = uuid.v4()
-          newObject.name = obj.type + ' - ' + window.vue.$store.state.objects[obj.type]
+          newObject.name = sliderTranslate + ' - ' + window.vue.$store.state.objects[obj.type]
           canvas.add(newObject)
           window.vue.$store.commit('increment', obj.type)
           canvas.setActiveObject(newObject)
@@ -128,9 +170,12 @@ export default {
             position: obj.toolbox.position,
             size: obj.toolbox.size
           })
-          newObject.name = newObject.type + ' - ' + window.vue.$store.state.objects.webview
         }
-        newObject.name = newObject.type + ' - ' + window.vue.$store.state.objects[newObject.type]
+        if (window.vue.$store.state.objects[newObject.type]) {
+          newObject.name = sliderTranslate + ' - ' + window.vue.$store.state.objects[newObject.type]
+        } else {
+          newObject.name = sliderTranslate
+        }
         canvas.add(newObject)
         window.vue.$store.commit('increment', newObject.type)
         Events.bindEvents(window.vue.$children[0], newObject)
@@ -258,7 +303,7 @@ export default {
       } else {
         var instance = klass.fromObject(objects[i])
         instance.id = uuid.v4()
-        instance.name = 'Clock - ' + window.vue.$store.state.objects.clock
+        instance.name = '時鐘 - ' + window.vue.$store.state.objects.clock
         canvas.add(instance)
         canvas.setActiveObject(instance)
         cb && cb(instance)

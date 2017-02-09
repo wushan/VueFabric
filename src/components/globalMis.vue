@@ -6,8 +6,8 @@
           button.basic.btn.delete 放棄編輯
         .block
           .resolution
-            span Program Name
-            span  / {{width}} x {{height}}
+            span {{canvas.name}}
+            span  / {{canvas.width}} x {{canvas.height}}
         .block
           //- .programname Program Name: 'some php string'
           //- button.basic.btn.edit 加入群組
@@ -36,12 +36,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
     }
   },
-  props: ['width', 'height', 'canvasLayer', 'autoSelection'],
+  props: ['canvasLayer', 'autoSelection'],
   methods: {
     triggerArrangement () {
       this.$parent.$emit('triggerArrangement', true)
@@ -62,7 +63,17 @@ export default {
   computed: {
     object () {
       return this.$store.state.objects
-    }
+    },
+    // height () {
+    //   return this.$store.state.canvas.height
+    // },
+    // width () {
+    //   return this.$store.state.canvas.width
+    // }
+    ...mapState([
+    // ...
+      'canvas'
+    ])
   }
 }
 </script>

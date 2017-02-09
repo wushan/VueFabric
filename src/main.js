@@ -46,10 +46,7 @@ window.vue = vue
 if (CanvasInitData && CanvasInitOption) {
   CanvasComposer.init(CanvasInitData, CanvasInitOption)
 } else {
-  CanvasComposer.init('new', {
-    width: 1024,
-    height: 768
-  })
+  CanvasComposer.init('new', CanvasInitOption)
 }
 // Deselect
 canvas.on('selection:cleared', function () {

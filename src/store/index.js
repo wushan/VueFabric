@@ -4,6 +4,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     baseurl: 'http://radi.4webdemo.com/',
+    canvas: {},
     objects: {
       slider: 0,
       sliderT: 0,
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    set_canvas (state, options) {
+      state.canvas = options
+    },
     increment (state, payload) {
       state.objects[payload] += 1
     },

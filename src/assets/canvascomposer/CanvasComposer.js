@@ -1,5 +1,6 @@
 var canvas = window.canvas
 import initCanvas from './Initial'
+import store from '../../store'
 export default {
   init: function (data, options) {
     if (typeof data === 'object') {
@@ -14,6 +15,8 @@ export default {
         window.vue.$children[0].updateHistory()
       })
     }
+    console.log(options)
+    store.commit('set_canvas', options)
   },
   Save: {
     toObj: function () {

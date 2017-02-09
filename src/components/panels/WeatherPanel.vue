@@ -59,7 +59,6 @@ export default {
   created () {
     this.fetchData(this.defaultCateId, 1, true)
   },
-  props: ['baseUrl'],
   methods: {
     fetchData (cateId, isPublic, initial) {
       this.loading = true

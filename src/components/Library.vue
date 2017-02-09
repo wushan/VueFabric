@@ -27,7 +27,7 @@
           .materials-wrapper
             transition-group.materials-list(name="list-complete", tag="div")
               .material(v-for="item in items", :key="item.LId", @click="insertMedia(item.thumbnail, item.video_image, item.filepath)")
-                img(:src="baseUrl + item.thumbnail")
+                img(:src="$store.state.baseurl + item.thumbnail")
                 .type(v-if="item.video_image")
                   .fa.fa-play-circle.fa-lg
                 .overlay
@@ -66,7 +66,6 @@ export default {
       isPublic: true
     }
   },
-  props: ['baseUrl'],
   beforeCreate () {
   },
   created () {
@@ -124,11 +123,12 @@ export default {
       var canvas = window['canvas']
       var currentObject = canvas.getActiveObject()
       var instance = this.$parent.$parent.$parent
-      var siteurl = this.baseUrl
+      var siteurl = this.$store.state.baseurl
+      console.log('siteurl')
       var zindex
       // If Slider Rectangle
       if (currentObject.type === 'slider' || currentObject.type === 'sliderT') {
-        url = this.baseUrl + url
+        url = siteurl + url
 
         fabric.Image.fromURL(url, function (img) {
           // Default to Fit the Frame
@@ -209,7 +209,7 @@ export default {
         }, { crossOrigin: 'Anonymous' })
       } else if (currentObject.type === 'sliderE') {
         // slider Ellipse
-        url = this.baseUrl + url
+        url = this.$store.state.baseurl + url
         fabric.Image.fromURL(url, function (img) {
           // Default to Fit the Frame
           if (currentObject.width - img.width >= currentObject.height - img.height) {

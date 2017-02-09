@@ -26,7 +26,7 @@ export default {
   components: {
     Loader
   },
-  props: ['width', 'height', 'baseUrl'],
+  props: ['width', 'height'],
   data () {
     return {
       loading: true,
@@ -55,6 +55,11 @@ export default {
     loadPreset (data) {
       this.$parent.$parent.$emit('loadPreset', data)
       this.$root.$children[0].$emit('updateSubmenu', null)
+    }
+  },
+  computed: {
+    baseUrl () {
+      return this.$store.state.baseurl
     }
   }
 }

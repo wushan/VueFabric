@@ -1,7 +1,10 @@
+import store from '../../store'
 import request from 'superagent'
+let baseUrl = store.state.baseurl
+console.log(baseUrl)
 export default {
   getLibCategory (cateId, subId, num, limit, isPublic, cb) {
-    request.post('http://radi.4webdemo.com/index.php/framesapi/get_editor_library')
+    request.post(baseUrl + '/index.php/framesapi/get_editor_library')
     .type('form')
     .send({cateId: cateId})
     .send({subId: subId})
@@ -17,7 +20,7 @@ export default {
     })
   },
   getLibClock (cb) {
-    request('http://radi.4webdemo.com/index.php/framesapi/get_clock')
+    request(baseUrl + '/index.php/framesapi/get_clock')
     .end(function (err, res) {
       if (err) {
         console.log(err)
@@ -27,7 +30,7 @@ export default {
     })
   },
   getWeather (cateId, isPublic, cb) {
-    request.post('http://radi.4webdemo.com/index.php/framesapi/get_weather')
+    request.post(baseUrl + '/index.php/framesapi/get_weather')
     .type('form')
     .send({cateId: cateId})
     // .send({subId: subId})
@@ -53,7 +56,7 @@ export default {
     })
   },
   getClock (id, cb) {
-    request.post('http://radi.4webdemo.com/index.php/framesapi/get_clock_object')
+    request.post(baseUrl + 'index.php/framesapi/get_clock_object')
     .type('form')
     .send({ClockID: id})
     .end(function (err, res) {
@@ -65,7 +68,7 @@ export default {
     })
   },
   getPresets (num, limit, width, height, cb) {
-    request.post('http://radi.4webdemo.com/index.php/framesapi/get_frames')
+    request.post(baseUrl + '/index.php/framesapi/get_frames')
     .type('form')
     .send({num})
     .send({limit})
@@ -80,7 +83,7 @@ export default {
     })
   },
   saveProgram (data, cb) {
-    request.post('http://radi.4webdemo.com/index.php/framesapi/save')
+    request.post(baseUrl + '/index.php/framesapi/save')
     .type('form')
     .send({obj: data})
     .end(function (err, res) {
@@ -93,7 +96,7 @@ export default {
     })
   },
   getProgramList (num, limit, cb) {
-    request.post('http://radi.4webdemo.com/index.php/framesapi/get_editor_link')
+    request.post(baseUrl + '/index.php/framesapi/get_editor_link')
     .type('form')
     .send({num})
     .send({limit})

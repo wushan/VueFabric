@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
+    baseurl: 'http://radi.4webdemo.com/',
     objects: {
       slider: 0,
       sliderT: 0,

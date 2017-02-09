@@ -16,7 +16,7 @@
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
       arrangement(v-if="arrangement", v-bind:arrangement="arrangement")
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
-      attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:baseUrl="baseUrl")
+      attributes(v-if="currentObject", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius")
 </template>
 
 <script>
@@ -34,7 +34,7 @@ export default {
     Interaction,
     Canvaslayers
   },
-  props: ['canvasLayer', 'currentObject', 'initialRadius', 'baseUrl', 'arrangement', 'interaction'],
+  props: ['canvasLayer', 'currentObject', 'initialRadius', 'arrangement', 'interaction'],
   mounted () {
   },
   methods: {

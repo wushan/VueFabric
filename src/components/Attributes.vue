@@ -264,7 +264,7 @@
                 .controls.rich-control
                   span ( 請從下列素材庫選取 )
                   transition(name="fade", mode="out-in")
-                    img#webviewPlaceholderPreview(v-if="currentObject.webview.placeholder", :src="baseUrl + currentObject.webview.placeholder")
+                    img#webviewPlaceholderPreview(v-if="currentObject.webview.placeholder", :src="this.$store.state.baseurl + currentObject.webview.placeholder")
 
           .attribution-group(v-if="marquee")
             .attr-head
@@ -572,7 +572,7 @@
                         label 特效時間
                         .controls
                           input(type="number", v-model="slide.transitionTime")
-          library(v-if="slider || webview", v-bind:baseUrl="baseUrl")
+          library(v-if="slider || webview")
 </template>
 
 <script>
@@ -747,7 +747,7 @@ export default {
       }
     }
   },
-  props: ['canvasLayers', 'currentObject', 'initialRadius', 'baseUrl'],
+  props: ['canvasLayers', 'currentObject', 'initialRadius'],
   computed: {
     artboardEls () {
       var canvas = window['canvas']
@@ -847,7 +847,7 @@ export default {
     })
   },
   watch: {
-    'currentObject': ['syncData']
+    'this.currentObject': ['syncData']
   },
   methods: {
     updateUsbframe (e) {

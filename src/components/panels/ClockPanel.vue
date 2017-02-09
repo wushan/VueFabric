@@ -35,7 +35,6 @@ export default {
   created () {
     this.fetchData()
   },
-  props: ['baseUrl'],
   methods: {
     fetchData () {
       this.loading = true
@@ -72,6 +71,11 @@ export default {
           this.$root.$children[0].$emit('updateSubmenu', null)
         }
       })
+    }
+  },
+  computed: {
+    baseUrl () {
+      return this.$store.state.baseurl
     }
   }
 }

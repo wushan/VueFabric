@@ -47,7 +47,7 @@
         //-         a.btn.edit.full.js-save-svg(href='javascript:;', data-action='saveAsPreset') 儲存為版型
         //-         a.btn.edit.full.js-save-png(href='javascript:;', data-action='saveAsProgram') 儲存為節目
     transition(name="fly", mode="out-in")
-      component(v-bind:is="currentView", v-bind:baseUrl="baseUrl", v-bind:width="width", v-bind:height="height")
+      component(v-bind:is="currentView", v-bind:width="width", v-bind:height="height")
 </template>
 
 <script>
@@ -89,7 +89,7 @@ export default {
   },
   mounted () {
   },
-  props: ['currentObject', 'initialRadius', 'baseUrl', 'currentView', 'width', 'height'],
+  props: ['currentObject', 'initialRadius', 'currentView', 'width', 'height'],
   methods: {
     addCircle: function () {
       const fabric = window['fabric']

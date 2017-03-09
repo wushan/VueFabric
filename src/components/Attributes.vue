@@ -847,7 +847,7 @@ export default {
     })
   },
   watch: {
-    'this.currentObject': ['syncData']
+    'currentObject': 'syncData'
   },
   methods: {
     updateUsbframe (e) {
@@ -952,9 +952,11 @@ export default {
       obj.set('toolbox', currentToolbox)
     },
     startDragging () {
+      console.log('dragging')
       this.dragging = true
     },
     endDragging () {
+      console.log('dragged')
       this.dragging = false
       // Update Array back to object slides
       var canvas = window['canvas']
@@ -964,6 +966,7 @@ export default {
       }
     },
     syncData () {
+      console.log('sync')
       this.layerlist = this.currentObject.slides
     },
     updateText (e) {

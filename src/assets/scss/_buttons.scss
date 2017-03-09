@@ -119,6 +119,23 @@
         color: #b46b7b;
       }
     }
+    &.hdmi {
+      &:after {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: #7e6bb4;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        box-shadow: -1px -1px 0px $pureblack;
+      }
+      &:hover {
+        color: #b46b7b;
+      }
+    }
     &.rss {
       &:after {
         content: '';

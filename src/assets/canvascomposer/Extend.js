@@ -493,6 +493,33 @@ fabric.Rtspframe.fromObject = function (options) {
   options.fill = '#b46b7b'
   return new fabric.Rtspframe(options)
 }
+// HDMI-IN Class
+// Create Fabric USB Class
+fabric.Hdmi = fabric.util.createClass(fabric.Rect, {
+  type: 'hdmi',
+  initialize: function (options) {
+    options = options || { }
+    this.callSuper('initialize', options)
+    this.originX = 'left'
+    this.originY = 'top'
+  },
+  toObject: function () {
+    return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
+      name: this.name,
+      selectable: this.selectable,
+      ratio: this.ratio
+    })
+  },
+  _render: function (ctx) {
+    this.callSuper('_render', ctx)
+  }
+})
+fabric.Hdmi.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#7e6bb4'
+  return new fabric.Hdmi(options)
+}
 // 天氣系列
 // 溫度(Temperature - Text)
 fabric.Temperature = fabric.util.createClass(fabric.Text, {

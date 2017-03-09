@@ -18,6 +18,7 @@ import location from './parser/location'
 import rss from './parser/rss'
 import usbframe from './parser/usbframe'
 import rtspframe from './parser/rtspframe'
+import hdmi from './parser/hdmi'
 import weatherimg from './parser/weatherimg'
 import marquee from './parser/marquee'
 import webview from './parser/webview'
@@ -36,6 +37,7 @@ export default {
     rss,
     usbframe,
     rtspframe,
+    hdmi,
     marquee,
     webview
   },

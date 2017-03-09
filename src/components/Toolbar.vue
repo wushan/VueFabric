@@ -27,6 +27,8 @@
       li
         a.full.btn.basic.rtsp(href="javascript:;" title="RTSP", @click="addRtsp") RTSP
       li
+        a.full.btn.basic.hdmi(href="javascript:;" title="HDMI", @click="addHdmi") HDMI
+      li
         a.full.btn.basic.delete.js-dispose(href="javascript:;" title="清除所有物件", @click="disposeAll")
           i.fa.fa-eraser.fa-lg
     
@@ -279,6 +281,30 @@ export default {
       })
       canvas.add(bg)
       this.$store.commit('increment', 'rtspframe')
+      // Bind
+      this.bindEvents(bg)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(bg)
+      // Refresh log
+    },
+    addHdmi () {
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var bg = new fabric.Hdmi({
+        id: uuid.v4(),
+        fill: '#7e6bb4',
+        width: 200,
+        height: 200,
+        left: canvas.getWidth() / 2,
+        top: canvas.getHeight() / 2,
+        padding: 0,
+        originX: 'center',
+        originY: 'center',
+        name: 'HDMI 視訊 - ' + this.$store.state.objects.hdmi,
+        ratio: {w: 'free', h: 'free'}
+      })
+      canvas.add(bg)
+      this.$store.commit('increment', 'hdmi')
       // Bind
       this.bindEvents(bg)
       // Programmatically Select Newly Added Object

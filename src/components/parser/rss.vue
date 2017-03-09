@@ -1,7 +1,8 @@
 <template lang="pug">
   .rssobj(v-bind:style="attributes")
     .context(style="left: 0; top: 0; transform: translateX(0px)")
-      .paragraph {{combineStrings}}
+      .paragraph(v-if="combineStrings") {{combineStrings}}
+      .paragraph(v-else) RSS 資源擷取失敗
         //- span(v-for="item in items") {{item.title}}
 </template>
 

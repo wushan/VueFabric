@@ -270,9 +270,9 @@ export default {
 
 <style lang="scss">
 // @import "../node_modules/font-awesome/scss/font-awesome";
-@import "./bower_components/susy/sass/susy";
-@import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
-@import "./bower_components/normalize-css/normalize";
+@import "./node_modules/susy/sass/susy";
+@import "./node_modules/breakpoint-sass/stylesheets/breakpoint";
+@import "./node_modules/normalize-css/normalize";
 @import "./assets/scss/var";
 @import "./assets/scss/base";
 @import "./assets/scss/helpers";

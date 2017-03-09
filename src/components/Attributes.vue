@@ -585,9 +585,9 @@ import Attr from '../assets/canvascomposer/Attributes'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
-require('imports?$=jquery!../assets/vendor/jquery.mousewheel.js')
-require('imports?$=jquery!../assets/vendor/jquery.mCustomScrollbar.js')
-require('imports?$=jquery!../assets/vendor/spectrum.js')
+require('imports-loader?$=jquery!../assets/vendor/jquery.mousewheel.js')
+require('imports-loader?$=jquery!../assets/vendor/jquery.mCustomScrollbar.js')
+require('imports-loader?$=jquery!../assets/vendor/spectrum.js')
 var palette = [
   ['rgb(0, 0, 0)', 'rgb(67, 67, 67)', 'rgb(102, 102, 102)',
     'rgb(204, 204, 204)', 'rgb(217, 217, 217)', 'rgb(255, 255, 255)'],
@@ -1474,8 +1474,6 @@ export default {
             callback && callback(null)
           }, { crossOrigin: 'Anonymous' })
         }
-      } else {
-        return
       }
     },
     slideSetting (ref) {
@@ -1494,8 +1492,6 @@ export default {
             currentObject.slides[i].transitionTime = this.slideSettings.transitionTime
             currentObject.slides[i].leastTime = this.slideSettings.leastTime
           }
-        } else {
-          return
         }
       }
     },
@@ -1573,8 +1569,8 @@ export default {
 <style lang="scss">
 @import "../assets/scss/var";
 @import "../assets/scss/helpers";
-@import "./bower_components/susy/sass/susy";
-@import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
+@import "./node_modules/susy/sass/susy";
+@import "./node_modules/breakpoint-sass/stylesheets/breakpoint";
 // Transitions
 #attributes {
   box-sizing: border-box;

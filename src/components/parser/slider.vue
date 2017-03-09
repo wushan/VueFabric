@@ -73,7 +73,6 @@ export default {
             document.getElementById('video-' + object[i].id).play()
           }
           context[0].style.opacity = 1
-          return
         } else {
           this.exeSlide(i, context, object)
         }
@@ -98,7 +97,6 @@ export default {
           if (object[i].video) {
             document.getElementById('video-' + object[i].id).play()
           }
-          return
         } else {
           this.timer = setTimeout(() => {
             if (i === context.length - 1) {
@@ -130,8 +128,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-@import "../../../bower_components/susy/sass/susy";
-@import "../../../bower_components/breakpoint-sass/stylesheets/breakpoint";
+@import "../../../node_modules/susy/sass/susy";
+@import "../../../node_modules/breakpoint-sass/stylesheets/breakpoint";
 @import "../../assets/scss/var";
 .slider {
   overflow: hidden;

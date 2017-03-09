@@ -1,7 +1,7 @@
 <template lang="pug">
   #canvasParser
     .paintarea(:style="'width:' + paintarea.width + 'px; height:' + paintarea.height + 'px;'")
-      component.object(v-for="obj in objects", v-bind:is="obj.type", v-bind:attr="obj")
+      component.object(v-for="obj in objects", v-bind:is="obj.type", v-bind:attr="obj", :key="obj.id")
       .mode PLAYING
     a.fa.fa-lg.fa-times.close(@click="leavePreview")
 </template>
@@ -79,8 +79,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-@import "./bower_components/susy/sass/susy";
-@import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
+@import "./node_modules/susy/sass/susy";
+@import "./node_modules/breakpoint-sass/stylesheets/breakpoint";
 @import "../assets/scss/var";
 #canvasParser {
   position: fixed;

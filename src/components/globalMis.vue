@@ -80,8 +80,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-@import "./bower_components/susy/sass/susy";
-@import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
+@import "./node_modules/susy/sass/susy";
+@import "./node_modules/breakpoint-sass/stylesheets/breakpoint";
 @import "../assets/scss/var";
 #globalMis {
   height: 50px;

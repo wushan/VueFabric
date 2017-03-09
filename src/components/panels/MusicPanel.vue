@@ -38,8 +38,8 @@ import draggable from 'vuedraggable'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
-require('imports?$=jquery!../../assets/vendor/jquery.mousewheel.js')
-require('imports?$=jquery!../../assets/vendor/jquery.mCustomScrollbar.js')
+require('imports-loader?$=jquery!../../assets/vendor/jquery.mousewheel.js')
+require('imports-loader?$=jquery!../../assets/vendor/jquery.mCustomScrollbar.js')
 export default {
   components: {
     Loader,
@@ -102,8 +102,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-@import "./bower_components/susy/sass/susy";
-@import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
+@import "./node_modules/susy/sass/susy";
+@import "./node_modules/breakpoint-sass/stylesheets/breakpoint";
 @import "../../assets/scss/var";
 #musicPanel {
   position: absolute;

@@ -133,8 +133,8 @@ export default {
 <style lang="scss">
 @import "../assets/scss/var";
 @import "../assets/scss/helpers";
-@import "./bower_components/susy/sass/susy";
-@import "./bower_components/breakpoint-sass/stylesheets/breakpoint";
+@import "./node_modules/susy/sass/susy";
+@import "./node_modules/breakpoint-sass/stylesheets/breakpoint";
 #context-menu {
   position: fixed;
   top: 0;

@@ -66,8 +66,8 @@ import Utils from '../assets/canvascomposer/Utils'
 // Expose Jquery Globally.
 import $ from 'jquery'
 window.jQuery = window.$ = $
-require('imports?$=jquery!../assets/vendor/jquery.mousewheel.js')
-require('imports?$=jquery!../assets/vendor/jquery.mCustomScrollbar.js')
+require('imports-loader?$=jquery!../assets/vendor/jquery.mousewheel.js')
+require('imports-loader?$=jquery!../assets/vendor/jquery.mCustomScrollbar.js')
 export default {
   name: 'Layers',
   components: {

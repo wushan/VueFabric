@@ -61,6 +61,6 @@ export default {
       })
       canvas.renderAll()
     })
-    // callback && callback('ddd')
+    callback && callback('loaded')
   }
 }

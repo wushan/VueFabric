@@ -1,5 +1,8 @@
 <template lang="pug">
   #canvaseditor
+    transition(name="fade", mode="out-in")
+      #initializing(v-if="initializing")
+        img(src="/static/assets/images/ripple.svg")
     parser(v-if="preview")
     globalmis(v-bind:width="width", v-bind:height="height", v-bind:canvasLayer="canvasLayer")
     main
@@ -33,6 +36,7 @@ import Parser from './components/Parser'
 import Load from './assets/canvascomposer/Load'
 import Keyboard from './assets/canvascomposer/Keyboard'
 import Utils from './assets/canvascomposer/Utils'
+import CanvasComposer from './assets/canvascomposer/CanvasComposer.js'
 export default {
   name: 'CanvasEditor',
   components: {
@@ -44,6 +48,7 @@ export default {
   },
   data () {
     return {
+      initializing: true,
       preview: false,
       arrangement: false,
       interaction: false,
@@ -68,6 +73,10 @@ export default {
     }
   },
   created () {
+    this.initializing = true
+    this.$on('initialized', () => {
+      this.initializing = false
+    })
     this.$on('closePreview', () => {
       this.preview = false
     })
@@ -163,6 +172,9 @@ export default {
     })
   },
   mounted () {
+    this.$nextTick(() => {
+      this.initFabric()
+    })
     this.initial()
     // Global Close SubMenu
     var instance = this
@@ -175,6 +187,13 @@ export default {
     'currentObject': 'arrangementControl'
   },
   methods: {
+    initFabric () {
+      if (window.CanvasInitData && window.CanvasInitOption) {
+        CanvasComposer.init(window.CanvasInitData, window.CanvasInitOption)
+      } else {
+        CanvasComposer.init('new', window.CanvasInitOption)
+      }
+    },
     initial () {
       Keyboard.onBind()
     },
@@ -219,10 +238,9 @@ export default {
       }
     },
     loadFromPreset (data) {
-      var component = this
       this.globalLoader = true
-      Load.fromJSON(data, function (res) {
-        component.globalLoader = false
+      Load.fromJSON(data, (res) => {
+        this.globalLoader = false
       })
     },
     loadFromJSON (data) {
@@ -392,5 +410,16 @@ a {
     }
   }
 }
-
+#initializing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $white;
+  z-index: 99;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
 </style>

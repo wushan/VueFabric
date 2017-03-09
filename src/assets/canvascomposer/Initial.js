@@ -19,6 +19,8 @@ export default {
     canvas.uniScaleTransform = true
     canvas.preserveObjectStacking = true
     canvas.renderOnAddRemove = false
+    this.bindCanvasEvents()
+    window.vue.$children[0].$emit('initialized', true)
     canvas.on('object:moving', snapMoveToGrid)
     // Selection Event
     canvas.on('selection:created', (e) => {
@@ -91,7 +93,9 @@ export default {
     canvas.renderOnAddRemove = false
     canvas.on('object:moving', snapMoveToGrid)
     window.vue.$children[0].$emit('globalLoad', true)
-    Load.fromJSON(data, function (res) {
+    Load.fromJSON(data, (res) => {
+      this.bindCanvasEvents()
+      window.vue.$children[0].$emit('initialized', true)
       window.vue.$children[0].$emit('globalLoad', false)
     })
     this.fit()
@@ -219,5 +223,37 @@ export default {
       clearTimeout(doit)
       doit = setTimeout(resizedw, 100)
     }
+  },
+  bindCanvasEvents () {
+    var canvas = window['canvas']
+    // Deselect
+    canvas.on('selection:cleared', () => {
+      // console.log('Canvas Before Deselect')
+      window.vue.$children[0].currentObject = null
+      canvas.renderAll()
+    })
+
+    // After Rendered
+    canvas.on('after:render', () => {
+      var activeObj = canvas.getActiveObject()
+      if (activeObj) {
+        window.vue.$children[0].currentObject = activeObj.toObject()
+      } else {
+        window.vue.$children[0].currentObject = activeObj
+      }
+      // console.log('Canvas afterRender')
+    })
+
+    // var canvas = window['canvas']
+    canvas.on('mouse:move', (e) => {
+      window.vue.$children[0].mouseplace = [e.e.layerX, e.e.layerY]
+    })
+    // Canvas Events for Detecting objects
+    canvas.on('object:added', (e) => {
+      window.bus.$emit('updateScene')
+    })
+    canvas.on('object:modified', (e) => {
+      window.bus.$emit('updateScene')
+    })
   }
 }

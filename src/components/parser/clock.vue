@@ -2,13 +2,13 @@
   .clock(v-bind:style="attributes")
     .clock-object
       .frame
-        img(v-bind:src="'http://radi.4webdemo.com/assets/' + attr.frame")
+        img(v-bind:src="'/static/assets/' + attr.frame")
       .hour(v-bind:style="'transform: rotate(' + this.hour + 'deg);'")
-        img(v-bind:src="'http://radi.4webdemo.com/assets/' + attr.hour")
+        img(v-bind:src="'/static/assets/' + attr.hour")
       .minute(v-bind:style="'transform: rotate(' + this.minute + 'deg);'")
-        img(v-bind:src="'http://radi.4webdemo.com/assets/' + attr.minute")
+        img(v-bind:src="'/static/assets/' + attr.minute")
       .second(v-bind:style="'transform: rotate(' + this.second + 'deg);'")
-        img(v-bind:src="'http://radi.4webdemo.com/assets/' + attr.second")
+        img(v-bind:src="'/static/assets/' + attr.second")
 </template>
 
 <script>

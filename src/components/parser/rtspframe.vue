@@ -1,7 +1,7 @@
 <template lang="pug">
   .rtsppreview(v-bind:style="attributes")
     h4 RTSP RESOURCE
-    p {{attr.rtsp}})
+    p {{attr.rtsp}}
 </template>
 
 <script>

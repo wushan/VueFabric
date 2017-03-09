@@ -125,6 +125,7 @@ export default {
     }
     &.vertical {
       white-space: pre-wrap;
+      word-break: break-all;
       div {
         display: inline-block;
         vertical-align: middle;

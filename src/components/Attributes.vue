@@ -284,7 +284,8 @@
               .controlgroup
                 label 速度
                 .controls
-                  input.marquee-transitionperiod(v-bind:value="currentObject.marquee.speed", type='number', name="marqueeSpeed", @keyup="updateMarquee")
+                  input.marquee-transitionperiod(v-bind:value="currentObject.marquee.speed", type="range", min="1", max="15", step="1", name="marqueeSpeed", @input="updateMarquee")
+                  span {{currentObject.marquee.speed}}
               h4 MARQUEE TYPOGRAPHY
               .controlgroup.fontfamily
                 label 字體

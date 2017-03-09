@@ -270,6 +270,8 @@ export default {
           canvas.remove(singleObj)
         } else if (singleObj.type === 'image') {
           return window.vue.$children[0].$emit('globalError', '必須先離開編輯模式，才能刪除 Slider 物件中的圖片。')
+        } else if (singleObj.selectable === false) {
+          return window.vue.$children[0].$emit('globalError', '無法刪除已鎖定物件')
         } else {
           canvas.remove(singleObj)
         }

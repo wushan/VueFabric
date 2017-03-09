@@ -24,27 +24,7 @@ var vue = new Vue({
 var bus = new Vue()
 window.bus = bus
 window.vue = vue
-// // Register Canvas Globally
-// var canvas = new fabric.CanvasEx('c', {
-//   width: 500,
-//   height: 500,
-//   allowTouchScrolling: true
-// })
-// // Register to window.global
-// window.canvas = canvas
-// console.log(window.canvas)
-// console.log(vue)
-// // Canvas Events
-// canvas.on('before:selection:cleared', function () {
-//   vue.$children[0].currentObject = null
-// })
 
-// console.log(CanvasComposer)
-
-// CanvasComposer.init('new', {
-//   width: 1000,
-//   height: 500
-// })
 if (CanvasInitData && CanvasInitOption) {
   CanvasComposer.init(CanvasInitData, CanvasInitOption)
 } else {
@@ -72,58 +52,6 @@ canvas.on('after:render', function () {
 canvas.on('mouse:move', (e) => {
   vue.$children[0].mouseplace = [e.e.layerX, e.e.layerY]
 })
-
-// Prevent Object leaving the canvas
-// canvas.on('object:moving', function (e) {
-//   var obj = e.target;
-//    // if object is too big ignore
-//   if(obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width){
-//       return;
-//   }        
-//   obj.setCoords();        
-//   // top-left  corner
-//   if(obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0){
-//       obj.top = Math.max(obj.top, obj.top-obj.getBoundingRect().top);
-//       obj.left = Math.max(obj.left, obj.left-obj.getBoundingRect().left);
-//   }
-//   // bot-right corner
-//   if(obj.getBoundingRect().top+obj.getBoundingRect().height  > obj.canvas.height || obj.getBoundingRect().left+obj.getBoundingRect().width  > obj.canvas.width){
-//       obj.top = Math.min(obj.top, obj.canvas.height-obj.getBoundingRect().height+obj.top-obj.getBoundingRect().top);
-//       obj.left = Math.min(obj.left, obj.canvas.width-obj.getBoundingRect().width+obj.left-obj.getBoundingRect().left);
-//   }
-// });
-
-// canvas.on('object:scaling', function (e) {
-//   var obj = e.target;
-//   // 2 pixels for not losing control
-//   if (Math.floor(obj.getHeight()) >= obj.canvas.height && Math.floor(obj.getWidth()) >= obj.canvas.width) {
-//     obj.scaleY = obj.canvas.height / obj.height
-//     obj.scaleX = obj.canvas.width / obj.width
-//     obj.left = 0
-//     obj.top = 0
-//     console.log('limiteeeC')
-//   } else if (Math.floor(obj.getHeight()) >= obj.canvas.height && Math.floor(obj.getWidth()) < obj.canvas.width) {
-//     obj.scaleY = obj.canvas.height / obj.height
-//     console.log('limiteeeB')
-//   } else if (Math.floor(obj.getHeight()) < obj.canvas.height && Math.floor(obj.getWidth()) >= obj.canvas.width) {
-//     obj.scaleX = obj.canvas.width / obj.width
-//     console.log('limiteeeA')
-//   } else {
-//     return
-//   }
-//   obj.setCoords();        
-//   // top-left  corner
-//   if(obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0){
-//       obj.top = Math.max(obj.top, obj.top-obj.getBoundingRect().top);
-//       obj.left = Math.max(obj.left, obj.left-obj.getBoundingRect().left);
-//   }
-//   // bot-right corner
-//   if(obj.getBoundingRect().top+obj.getBoundingRect().height  > obj.canvas.height || obj.getBoundingRect().left+obj.getBoundingRect().width  > obj.canvas.width){
-//       obj.top = Math.min(obj.top, obj.canvas.height-obj.getBoundingRect().height+obj.top-obj.getBoundingRect().top);
-//       obj.left = Math.min(obj.left, obj.canvas.width-obj.getBoundingRect().width+obj.left-obj.getBoundingRect().left);
-//   }
-// });
-
 // Canvas Events for Detecting objects
 canvas.on('object:added', function (e) {
   window.bus.$emit('updateScene')
@@ -134,11 +62,3 @@ canvas.on('object:modified', function (e) {
 
 var end = performance.now();
 console.log('啟動時間' + (end - start) / 100)
-// (function(d) {
-//     var config = {
-//       kitId: 'daf4cqp',
-//       scriptTimeout: 3000,
-//       async: true
-//     },
-//     h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
-//   })(document);

@@ -8,6 +8,13 @@
               span 800
           .tag.height
               span 600
+        .steps-wrapper
+          button#undo.btn.basic(@click.prevent.stop="undo", v-bind:class="{disabled: history.undo.length === 0}")
+            i.fa.fa-arrow-left
+            | 復原 ({{history.undo.length}})
+          button#redo.btn.basic(@click.prevent.stop="redo", v-bind:class="{disabled: history.redo.length === 0}")
+            | 重做 ({{history.redo.length}})
+            i.fa.fa-arrow-right
       slot(name="mouseplace")
     //- transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
     transition(name="fade", mode="out-in", v-on:after-enter="fitWindow", v-on:after-leave="fitWindow")
@@ -34,7 +41,7 @@ export default {
     Interaction,
     Canvaslayers
   },
-  props: ['canvasLayer', 'currentObject', 'initialRadius', 'arrangement', 'interaction'],
+  props: ['canvasLayer', 'currentObject', 'initialRadius', 'arrangement', 'interaction', 'history'],
   mounted () {
   },
   methods: {
@@ -58,6 +65,12 @@ export default {
           canvas.renderAll()
         }
       }
+    },
+    undo () {
+      this.$parent.$emit('undo')
+    },
+    redo () {
+      this.$parent.$emit('redo')
     }
   }
 }
@@ -161,6 +174,23 @@ export default {
         position: absolute;
         top: -.9em;
         right: 0;
+      }
+    }
+  }
+  .steps-wrapper {
+    position: absolute;
+    left: .5em;
+    top: .5em;
+    button {
+      padding: .5em 1em;
+      i {
+        margin-right: .5em;
+      }
+      &:last-child {
+        i {
+          margin-left: .5em;
+          margin-right: 0;
+        }
       }
     }
   }

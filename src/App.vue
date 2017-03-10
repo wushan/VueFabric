@@ -7,7 +7,7 @@
     globalmis(v-bind:width="width", v-bind:height="height", v-bind:canvasLayer="canvasLayer")
     main
       toolbar(v-bind:initialRadius="initialRadius", v-bind:currentView="currentView", v-bind:width="width", v-bind:height="height")
-      artboard(v-bind:canvasLayer="canvasLayer", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:arrangement="arrangement", v-bind:interaction="interaction")
+      artboard(v-bind:canvasLayer="canvasLayer", v-bind:currentObject="currentObject", v-bind:initialRadius="initialRadius", v-bind:arrangement="arrangement", v-bind:interaction="interaction", v-bind:history="history")
         .mouseplace(slot="mouseplace") {{mouseplace}}
     transition(name="normal", mode="out-in")
       contextmenu(v-if="iscontextMenu", v-bind:position="contextMenuPosition", v-bind:currentObject="currentObject")

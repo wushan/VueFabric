@@ -17,7 +17,7 @@
         .list.arranged
           ul(is="draggable", element="ul", v-bind:list="selected", @start="startDragging", @end="endDragging")
             li(v-for="(song, index) in selected")
-              span.name {{index}}. {{song.name}} / {{song.time}}
+              span.name {{index + 1}}. {{song.name}} / {{song.time}}
               span.tools
                 a(href="javascript:;", @click="removeFromList(index)")
                   .fa.fa-times

@@ -520,6 +520,34 @@ fabric.Hdmi.fromObject = function (options) {
   options.fill = '#7e6bb4'
   return new fabric.Hdmi(options)
 }
+// TAG Class
+// Create Fabric USB Class
+fabric.Tag = fabric.util.createClass(fabric.Rect, {
+  type: 'tag',
+  initialize: function (options) {
+    options = options || { }
+    this.callSuper('initialize', options)
+    this.originX = 'left'
+    this.originY = 'top'
+  },
+  toObject: function () {
+    return fabric.util.object.extend(this.callSuper('toObject'), {
+      id: this.id,
+      name: this.name,
+      tag: this.tag,
+      selectable: this.selectable,
+      ratio: this.ratio
+    })
+  },
+  _render: function (ctx) {
+    this.callSuper('_render', ctx)
+  }
+})
+fabric.Tag.fromObject = function (options) {
+  console.log(options)
+  options.fill = '#98d23e'
+  return new fabric.Tag(options)
+}
 // 天氣系列
 // 溫度(Temperature - Text)
 fabric.Temperature = fabric.util.createClass(fabric.Text, {

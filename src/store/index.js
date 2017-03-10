@@ -17,7 +17,8 @@ export default new Vuex.Store({
       usbframe: 0,
       webview: 0,
       rtspframe: 0,
-      hdmi: 0
+      hdmi: 0,
+      tag: 0
     },
     music: {
       sources: [

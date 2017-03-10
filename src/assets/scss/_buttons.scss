@@ -136,6 +136,23 @@
         color: #b46b7b;
       }
     }
+    &.tag {
+      &:after {
+        content: '';
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: #98d23e;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        box-shadow: -1px -1px 0px $pureblack;
+      }
+      &:hover {
+        color: #98d23e;
+      }
+    }
     &.rss {
       &:after {
         content: '';
@@ -169,6 +186,9 @@
       &:hover {
         color: #63513d;
       }
+    }
+    &.disabled {
+      background-color: $gray;
     }
   }
   

@@ -27,6 +27,8 @@
       li
         a.full.btn.basic.rtsp(href="javascript:;" title="RTSP", @click="addRtsp") RTSP
       li
+        a.full.btn.basic.tag(href="javascript:;" title="TAG", @click="addTag") TAG
+      li
         a.full.btn.basic.hdmi(href="javascript:;" title="HDMI", @click="addHdmi") HDMI
       li
         a.full.btn.basic.delete.js-dispose(href="javascript:;" title="清除所有物件", @click="disposeAll")
@@ -305,6 +307,41 @@ export default {
       })
       canvas.add(bg)
       this.$store.commit('increment', 'hdmi')
+      // Bind
+      this.bindEvents(bg)
+      // Programmatically Select Newly Added Object
+      canvas.setActiveObject(bg)
+      // Refresh log
+    },
+    addTag () {
+      var fabric = window['fabric']
+      var canvas = window['canvas']
+      var bg = new fabric.Tag({
+        id: uuid.v4(),
+        fill: '#98d23e',
+        width: 200,
+        height: 200,
+        left: canvas.getWidth() / 2,
+        top: canvas.getHeight() / 2,
+        padding: 0,
+        originX: 'center',
+        originY: 'center',
+        name: '標籤 - ' + this.$store.state.objects.tag,
+        ratio: {w: 'free', h: 'free'},
+        tag: {
+          sourceid: '',
+          sourcetype: 'image',
+          sourceuri: '',
+          refreshrate: 1000,
+          fontface: 'Open Sans',
+          size: 14,
+          speed: 5,
+          fontcolor: 'rgba(0,0,0,1)',
+          backgroundColor: 'transparent'
+        }
+      })
+      canvas.add(bg)
+      this.$store.commit('increment', 'tag')
       // Bind
       this.bindEvents(bg)
       // Programmatically Select Newly Added Object

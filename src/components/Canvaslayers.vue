@@ -31,33 +31,11 @@
             input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
           .control
             .button
-              //- .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
-              //- .fa.fa-lg.fa-hand-pointer-o(v-else)
               .fa.fa-lg.fa-unlock(v-if="layer.selectable")
               .fa.fa-lg.fa-lock(v-else)
-          transition(name="slide", mode="out-in")
-            .additional(v-if="compare(layer.id)") {{layer.id}}
-        //- .obj-layer(v-for="layer in viewLayers", :key="layer.id", @click="getItem(layer.id)", :class="{active:compare(layer.id), usbframe:layer.type === 'usbframe', www:layer.type === 'webview', rtsp:layer.type === 'rtspframe', marquee:layer.type === 'marquee', rss:layer.type === 'rss'}", v-show="!isolated")
-        //-   .type
-        //-     .fa.fa-bars(title="layer.type")
-        //-   .name
-        //-     input(type='text', v-bind:value="layer.name || 'undefined'", readonly, @dblclick.prevent.stop="editable", @keyup.enter="confirmedInput")
-        //-   .control
-        //-     .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
-        //-     .fa.fa-lg.fa-hand-pointer-o(v-else)
-        //-   transition(name="slide", mode="out-in")
-        //-     .additional(v-if="compare(layer.id)") {{layer.id}}
-
-        //- v-show="layer.id === currentObject.id"
-        //- .button
-        //-   .fa.fa-lg.fa-compress(v-if="layer.lockUniScaling")
-        //-   .fa.fa-lg.fa-expand(v-else)
-        //- .button
-        //-   .fa.fa-lg.fa-unlock(v-if="layer.selectable")
-        //-   .fa.fa-lg.fa-lock(v-else)
-        //- .button
-        //-   .fa.fa-lg.fa-trash(v-if="compare(layer.id)", @click.prevent.stop="deleteObject")
-        //-   .fa.fa-lg.fa-hand-pointer-o(v-else)
+              .locktip 請先以圖層選取物件後，以快捷鍵(Ctrl + L)或右鍵選單解鎖物件。
+          //- transition(name="slide", mode="out-in")
+          //-   .additional(v-if="compare(layer.id)") {{layer.id}}
 </template>
 
 <script>
@@ -192,6 +170,9 @@ export default {
   position: relative;
   &.fade-enter-active, &.fade-leave-active {
     transition: .2s all ease;
+  }
+  .mCSB_container {
+    overflow: auto;
   }
   input[readonly] {
     background-color: #535353;
@@ -349,8 +330,26 @@ export default {
       padding: 0;
       color: $darkgray;
       position: relative;
+      &:hover {
+        .locktip {
+          display: block;
+        }
+      }
       .fa-lock, .fa-chain {
         color: $white;
+      }
+      .locktip {
+        display: none;
+        position: absolute;
+        width: 150px;
+        right: 100%;
+        top: 0;
+        // margin-left: -100px;
+        background-color: $darkgray;
+        color: $white;
+        z-index: 99;
+        white-space: initial;
+        padding: .5em;
       }
       .lockUniScaling {
        color: $white;
@@ -386,7 +385,7 @@ export default {
       padding: .5em;
       flex: initial;
       width: 45px; 
-      overflow: hidden;
+      // overflow: hidden;
       white-space: nowrap;
       align-self: center;
       .button {

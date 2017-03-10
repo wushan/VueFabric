@@ -223,7 +223,7 @@
               .controlgroup.webview
                 label 網址
                 .controls
-                  input#webviewUrl(v-bind:value="currentObject.webview.url", type="text", placeholder="http://google.com", name="url", @keyup="updateWebview")
+                  input#webviewUrl(v-bind:value="currentObject.webview.url", type="text", placeholder="http://", name="url", @keyup="updateWebview")
               .controlgroup.webview
                 label 更新週期
                 .controls
@@ -239,15 +239,8 @@
                 .controls
                   .select-wrapper
                     select(v-bind:value="currentObject.toolbox.position", @change="changeToolboxPosition")
-                      option(value="lefttop") 左上
-                      option(value="leftmiddle") 左中
-                      option(value="leftbottom") 左下
-                      option(value="centertop") 中上
-                      option(value="centercenter") 中中
-                      option(value="centerbottom") 中下
-                      option(value="righttop") 右上
-                      option(value="rightcenter") 右中
-                      option(value="rightbottom") 右下
+                      option(value="left") 左側
+                      option(value="right") 右側
 
               .controlgroup.webview(v-if="currentObject.toolbox.enable")
                 label 尺寸
@@ -365,6 +358,7 @@
                 .controls
                   .select-wrapper
                     select(v-bind:value="currentObject.usbframe.transitionType", name="transitionType", @change="updateUsbframe")
+                      option(value="none") 關閉
                       option(value="random") 隨機
                       option(value="leftright") 由左至右
                       option(value="rightleft") 由右至左
@@ -396,7 +390,6 @@
                 .controls
                   .select-wrapper
                     select(v-bind:value="currentObject.rssmarquee.type", @change="updateRssFrame", name="type")
-                      option(value="dynamic") 多媒體通道
                       option(value="custom") 自訂來源
               .controlgroup
                 label 網址
@@ -405,7 +398,8 @@
               .controlgroup
                 label 速度
                 .controls
-                  input.marquee-leasttime(v-bind:value="currentObject.rssmarquee.speed", type='number', name="speed", @keyup="updateRssFrame")
+                  input.marquee-transitionperiod(v-bind:value="currentObject.rssmarquee.speed", type="range", min="1", max="15", step="1", name="speed", @input="updateRssFrame")
+                  span {{currentObject.rssmarquee.speed}}
 
               h4 RSS TYPOGRAPHY
               .controlgroup.fontfamily
@@ -470,6 +464,32 @@
                         option(value='144') 144
                         option(value='168') 168
                         option(value='192') 192
+          .attribution-group(v-if="tag")
+            .attr-head
+              .title TAG FRAME
+            .attr-content
+              form(@submit.prevent.stop="updateTagAttr")
+                .controlgroup
+                  label 類型
+                  .controls
+                    .select-wrapper
+                      select#tagType(name="tagType", v-bind:value="currentObject.tag.sourcetype", @change="updateTagType")
+                        option(v-for="option in tagType", v-bind:value="option.type", v-if="option.type === 'image'") 圖片
+                        option(v-for="option in tagType", v-bind:value="option.type", v-if="option.type === 'video'") 影片
+                        option(v-for="option in tagType", v-bind:value="option.type", v-if="option.type === 'text'") 文字
+                .controlgroup
+                  label ID
+                  .controls
+                    .select-wrapper
+                      select#tagId(name="tagId")
+                        option(v-for="option in tagItems", v-bind:value="option.tagId") {{option.tagId}}
+                .controlgroup
+                  button.btn.basic.full(type="submit") 更新屬性
+              //- .controlgroup
+              //-   label 速度
+              //-   .controls
+              //-     input.marquee-transitionperiod(v-bind:value="currentObject.tag.speed", type="range", min="1", max="15", step="1", name="speed", @input="updateRssFrame")
+              //-     span {{currentObject.tag.speed}}
           .attribution-group.clock(v-if="clock")
             .attr-head
               .title CLOCKS
@@ -649,6 +669,22 @@ export default {
       layerGroupSetting: false,
       selectedType: 'none',
       programlist: false,
+      selectedtagType: 'image',
+      tags: [
+        {tagId: '00001', type: 'image', source: 'http://dummyimage.com/500x500'},
+        {tagId: '00002', type: 'image', source: 'http://dummyimage.com/500x500'},
+        {tagId: '00003', type: 'video', source: 'http://radi.4webdemo.com/assets/uploads/radi/5500/library/4/5829630a6382c.mp4'},
+        {tagId: '00004', type: 'text', source: 'some paragraph...'},
+        {tagId: '00005', type: 'video', source: 'http://radi.4webdemo.com/assets/uploads/radi/5500/library/4/5829630a6382c.mp4'},
+        {tagId: '00006', type: 'image', source: 'http://dummyimage.com/500x500'},
+        {tagId: '00007', type: 'video', source: 'http://radi.4webdemo.com/assets/uploads/radi/5500/library/4/5829630a6382c.mp4'},
+        {tagId: '00008', type: 'text', source: 'some paragraph...'},
+        {tagId: '00009', type: 'image', source: 'http://dummyimage.com/500x500'},
+        {tagId: '00010', type: 'video', source: 'http://radi.4webdemo.com/assets/uploads/radi/5500/library/4/5829630a6382c.mp4'},
+        {tagId: '00011', type: 'image', source: 'http://dummyimage.com/500x500'},
+        {tagId: '00012', type: 'text', source: 'some paragraph...'},
+        {tagId: '00013', type: 'text', source: 'some paragraph...'}
+      ],
       slideSettings: {
         leastTime: '0',
         transitionTypeSelected: 'random',
@@ -750,6 +786,24 @@ export default {
   },
   props: ['canvasLayers', 'currentObject', 'initialRadius'],
   computed: {
+    tagType () {
+      var types = []
+      for (var type of this.tags) {
+        types = types.concat(type)
+      }
+      return this.uniqueArray(types)
+    },
+    tagItems () {
+      var selectedItem = []
+      if (this.tagType) {
+        for (var item of this.tags) {
+          if (item.type === this.selectedtagType) {
+            selectedItem.push(item)
+          }
+        }
+        return selectedItem
+      }
+    },
     artboardEls () {
       var canvas = window['canvas']
       // var scene = canvas.toObject()
@@ -787,6 +841,13 @@ export default {
     },
     webview () {
       if (this.currentObject.type === 'webview') {
+        return true
+      } else {
+        return false
+      }
+    },
+    tag () {
+      if (this.currentObject.type === 'tag') {
         return true
       } else {
         return false
@@ -851,6 +912,50 @@ export default {
     'currentObject': 'syncData'
   },
   methods: {
+    updateTagType (e) {
+      this.selectedtagType = e.target.value
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var currentTagframe = obj.get('tag')
+      currentTagframe.sourcetype = this.selectedtagType
+      obj.set('tag', currentTagframe)
+    },
+    updateTagAttr (e) {
+      var canvas = window['canvas']
+      var obj = canvas.getActiveObject()
+      var currentTagframe = obj.get('tag')
+
+      console.log(e.target.tagId.value)
+      var selectedItem
+      for (var item of this.tags) {
+        if (item.tagId === e.target.tagId.value) {
+          selectedItem = item
+        }
+      }
+      currentTagframe.sourceid = selectedItem.tagId
+      obj.set('tag', currentTagframe)
+      // switch (e.target.name) {
+      //   case 'tagType':
+      //     console.log('type')
+      //     break
+      //   case 'tagId':
+      //     console.log('id')
+      //     break
+      // }
+      // console.log(e)
+    },
+    uniqueArray (array) {
+      var a = array.concat()
+      for (var i = 0; i < a.length; ++i) {
+        for (var j = i + 1; j < a.length; ++j) {
+          if (a[i].type === a[j].type) {
+            a.splice(j--, 1)
+          }
+        }
+      }
+      console.log(a)
+      return a
+    },
     updateUsbframe (e) {
       var canvas = window['canvas']
       var obj = canvas.getActiveObject()

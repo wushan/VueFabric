@@ -140,6 +140,123 @@ input.pick-date, input.pick-time {
 input[type=color] {
   
 }
+//Ranger
+// input[type=range] {
+//   display: inline-block;
+//   vertical-align: middle;
+//   & + span {
+//     display: inline-block;
+//     vertical-align: middle;
+//     margin-left: 5px;
+//   }
+// }
+input[type=range] {
+    /*removes default webkit styles*/
+    -webkit-appearance: none;
+    /*fix for FF unable to apply focus style bug */
+    // border: 1px solid white;
+    /*required for proper track sizing in FF*/
+    background: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 30px);
+    & + span {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 5px;
+      line-height: 1;
+    }
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: calc(100% - 30px);
+    height: 5px;
+    background: #eee;
+    border: none;
+    border-radius: 3px;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: $input-bgcolor;
+    margin-top: -6px;
+    box-shadow: 0 0 12px 0 rgba($black, 1);
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+
+input[type=range]::-moz-range-track {
+    // width: calc(100% - 30px);
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: $input-bgcolor;
+    box-shadow: 0 0 12px 0 rgba($black, 1);
+}
+
+/*hide the outline behind the border*/
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+input[type="range"]::-moz-range-progress{
+  height:5px;
+  border-radius: 3px;
+  background:#f22;
+}
+
+
+input[type=range]::-ms-track {
+    width: 300px;
+    height: 5px;
+    
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    background: transparent;
+    
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-color: transparent;
+    border-width: 6px 0;
+
+    /*remove default tick marks*/
+    color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+    background: #777;
+    border-radius: 10px;
+}
+input[type=range]::-ms-fill-upper {
+    background: #ddd;
+    border-radius: 10px;
+}
+input[type=range]::-ms-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: $input-bgcolor;
+    box-shadow: 0 0 12px 0 rgba($black, 1);
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: #888;
+}
+input[type=range]:focus::-ms-fill-upper {
+    background: #ccc;
+}
+
 //File
 input[type=file] {
   width: 0.1px;

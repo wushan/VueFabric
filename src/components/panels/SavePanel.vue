@@ -1,4 +1,4 @@
-<template lang="jade">
+<template lang="pug">
   #save-wrapper.floating-menu
     .save-wrapper-wrapper
       .save-wrapper-inner
